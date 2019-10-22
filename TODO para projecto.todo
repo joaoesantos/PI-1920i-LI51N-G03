@@ -1,0 +1,31 @@
+☐ obter lista dos jogos mais populares
+
+☐ Obter a lista dos jogos mais populares
+☐ Pesquisar jogos pelo nome
+☐ Criar grupo atribuindo-lhe um nome e descrição
+☐ Editar grupo, alterando o seu nome e descrição
+☐ Listar todos os grupos
+☐ Obter os detalhes de um grupo, com o seu nome, descrição e nomes dos jogos que o constituem.
+☐ Adicionar um jogo a um grupo
+☐ Remover um jogo de um grupo
+☐ Obter os jogos de um grupo que têm um tempo de duração máxima entre dois valores temporais (mínimo e máximo), sendo estes valores parametrizáveis no pedido. Os jogos vêm ordenados por ordem crescente do tempo de duração máxima dos jogos.
+
+
+
+integrar ficheiro de configurações com a aplicação
+documentar api's
+criar ponto de entrada da aplicação (ciborg-server.js)
+    - registar rotas
+implementacao dos rotas http (ciborg-web-api.js)
+    - validação formato
+    - header
+    - status code
+implementacao da logica de negocio (ciborg-service.js)
+    - logica por end point
+acesso a api externa (board-game-data,js)
+    - configurar api de acesso a "board games"
+acesso à base de dados (ciborg-db.js)
+criar coleção de postman por endpoint
+modelo de dados
+    - campos, tipos, relaçao entre entidades
+

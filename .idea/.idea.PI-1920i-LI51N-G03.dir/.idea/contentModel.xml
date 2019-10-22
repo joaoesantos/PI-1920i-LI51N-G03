@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\wolf_\.Rider2019.2\config\javascript\nodejs\10.16.3\core-modules" t="IncludeRecursive" />
+    <e p="C:\Users\wolf_\.Rider2019.2\config\javascript\nodejs\10.16.3\node-typings\node_modules\@types" t="IncludeRecursive" />
+    <e p="C:\Users\wolf_\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\wolf_\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_.19.00" t="ExcludeRecursive" />
+    <e p="D:\Repositorios\ISEL\PI\Projecto\ProjectoFinal\PI-1920i-LI51N-G03" t="IncludeFlat">
+      <e p="node_modules\debug" t="IncludeRecursive" />
+      <e p="node_modules\mocha" t="IncludeRecursive" />
+      <e p="node_modules\request" t="IncludeRecursive" />
+    </e>
+  </component>
+</project>
