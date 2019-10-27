@@ -1,0 +1,735 @@
+openapi: 3.0.0
+# Added by API Auto Mocking Plugin
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/mogarrio9/trabalhoPI/1.0.0
+info:
+  description: This is a simple API
+  version: "1.0.0"
+  title: CIBORG Api
+  contact:
+    email: you@your-company.com
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: games
+    description: Operations for games
+  - name: groups
+    description: Operations for groups
+paths:
+  /games:
+    get:
+      tags:
+        - games
+      summary: Gets list of games
+      operationId: gamesList
+      description: |
+        Gets the full list of games.
+            
+      responses:
+        '200':
+          description: List of games
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/game'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifyin the error.
+                        example: 658
+  /games/{name}:
+    get:
+      tags:
+        - games
+      summary: Gets a games by name
+      operationId: getGameByName
+      description: |
+        Gets a game by its name.
+      parameters:
+        - in: path
+          name: name
+          description: String representing the name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Returns a game
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    $ref: '#/components/schemas/game'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Game with id kPDxpJZ8PD does not exist.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: This game does not exist.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifyin the error.
+                        example: 658
+  /games/groups/{id}:
+    get:
+      tags:
+        - games
+      summary: Gets the games from a group
+      operationId: getGamesFromGroup
+      description: |
+        Gets a game by its name.
+      parameters:
+        - in: path
+          name: id
+          description: String representing the id of the group
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: name
+          description: String representing the name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/game'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group id must follow uuid standard format.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Invalid group id, please insert in the correct format.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group with id b6713dac-f8dc-11e9-8f0-362b9e155667 does not exist.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: This group does not exist.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifyin the error.
+                        example: 658
+  /games/{name}/groups/{id}:
+    put:
+      tags:
+        - games
+      summary: Adds a game to a group
+      operationId: addGameToGroup
+      description: |
+        Adds a game to a group.
+      parameters:
+        - in: path
+          name: name
+          description: String representing the name of the game
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          description: String representing the id of the group
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    $ref: '#/components/schemas/game'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group id must follow uuid standard format.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Invalid group id, please insert in the correct format.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group with id b6713dac-f8dc-11e9-8f0-362b9e155667 does not exist.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: This group does not exist.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifyin the error.
+                        example: 658
+    delete:
+      tags:
+        - games
+      summary: Removes a game from a group
+      operationId: RemoveGameFromGroup
+      description: |
+        Removes a game from a group.
+      parameters:
+        - in: path
+          name: name
+          description: String representing the name of the game
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: id
+          description: String representing the id of the group
+          required: true
+          schema:
+            type: string
+      responses:
+        '202':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group id must follow uuid standard format.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Invalid group id, please insert in the correct format.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group with id b6713dac-f8dc-11e9-8f0-362b9e155667 does not exist.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: This group does not exist.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifyin the error.
+                        example: 658
+  /groups:
+    get:
+      tags:
+        - groups
+      summary: Gets list of groups
+      operationId: groupsList
+      description: |
+        Gets the full list of groups.
+            
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/group'
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifyin the error.
+                        example: 658
+    post:
+      tags:
+        - groups
+      summary: Creates a new group
+      operationId: groupCreate
+      description: |
+        Creates a new group.
+            
+      responses:
+        '201':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    $ref: '#/components/schemas/group'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group id must follow uuid standard format.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Invalid group id, please insert in the correct format.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifyin the error.
+                        example: 658
+  /groups/{id}:
+    get:
+      tags:
+        - groups
+      summary: Gets a games by name
+      operationId: groupById
+      description: |
+        Gets a game by its name.
+      parameters:
+        - in: path
+          name: id
+          description: String representing the name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    $ref: '#/components/schemas/group'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group id must follow uuid standard format.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Invalid group id, please insert in the correct format.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group with id b6713dac-f8dc-11e9-8f0-362b9e155667 does not exist.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: This group does not exist.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifyin the error.
+                        example: 658
+    put:
+      tags:
+        - groups
+      summary: Gets a games by name
+      operationId: editGroupById
+      description: |
+        Gets a game by its name.
+      parameters:
+        - in: path
+          name: id
+          description: String representing the name
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    $ref: '#/components/schemas/group'
+        '400':
+          description: bad input parameter
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group with id b6713dac-f8dc-11e9-8f0-362b9e155667 does not exist.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: This group does not exist.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifying the error.
+                        example: 658
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+                      errorCode:
+                        type: integer
+                        description: Error code, uniquely identifyin the error.
+                        example: 658
+components:
+  schemas:
+    game:
+      type: object
+      required:
+        - id
+        - name
+        - min_playtime
+        - max_playtime
+      properties:
+        id:
+          type: string
+          example: 'kPDxpJZ8PD'
+        name:
+          type: string
+          example: 'Spirit Island'
+        min_playtime:
+          type: integer
+          example: 90
+        max_playtime:
+          type: integer
+          example: 120
+    group:
+      required:
+        - id
+        - name
+        - description
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 'e521406c-f84a-11e9-8f0b-362b9e155667'
+        name:
+          type: string
+          example: 'Group 1'
+        description:
+          type: string
+          example: 'This grou of the best players.'
+        games:
+          type: array
+          items:
+            $ref: '#/components/schemas/game'
+      type: object
