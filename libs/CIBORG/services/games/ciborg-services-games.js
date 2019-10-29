@@ -6,16 +6,24 @@ const request = require('request');
 async function createHttpRequest(options,resolved, rejected){
     //const config = require('ConfigFile');
     // Return new promise 
-    return new Promise(function() {
-        // Do async call
-        request.get(options, function(err, resp, body) {
-            if (err) {
-                rejected(err);
-            } else {
-                resolved(JSON.parse(body));
+    // return new Promise(function() {
+    //     // Do async call
+    //     request.get(options, function(err, resp, body) {
+    //         if (err) {
+    //             rejected(err);
+    //         } else {
+    //             resolved(JSON.parse(body));
+    //         }
+    //     })
+    // })
+    return new Promise(function(){
+        resolved(
+            {
+                id: 1,
+                name: 'Jogo1',
             }
-        })
-    })
+        );
+    });
 };
 
 async function searchGamesByGroup(id){
@@ -28,17 +36,15 @@ async function searchGamesByGroup(id){
     };
 
     function resolved(data){
-        return {
-            id: 1,
-            
-        }
+        console.log(data);
+        return data;
     };
 
     function rejected(err){
         console.log('id:' + id);
     };
 
-    return await createHttpRequest(options, resolved,rejected);
+    return await createHttpRequest(options, resolved, rejected);
         
 };
     

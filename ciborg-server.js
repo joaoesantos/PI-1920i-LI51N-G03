@@ -1,8 +1,12 @@
 'use strict';
 const http = require('http');
 
-const router = require('./CIBORG/webapi/router');
-const webapi = require('-/CIBORG/webapi/ciborg-web-api');
+const config = {
+    port: 8080,
+}
+
+const router = require('./libs/CIBORG/webapi/router');
+const webapi = require('./libs/CIBORG/webapi/ciborg-web-api');
 
 //Register routes
 //webApi.get('/',services.home());
@@ -18,5 +22,5 @@ router.get('/groups/:id/games', webapi.getGamesFromGroup);
 
 const server = http.createServer(router);
 // config variables
-const config = require('./shared/config.js');
+//const config = require('./shared/config.js');
 server.listen(config.port, () => console.log("Listening so port:", config.port));
