@@ -1,32 +1,23 @@
 'use strict';
-
-const https = require('https');
 const request = require('request');   
 
-async function createHttpRequest(options,resolved, rejected){
+function createHttpRequest(options,resolved, rejected){
     //const config = require('ConfigFile');
-    // Return new promise 
-    // return new Promise(function() {
-    //     // Do async call
-    //     request.get(options, function(err, resp, body) {
-    //         if (err) {
-    //             rejected(err);
-    //         } else {
-    //             resolved(JSON.parse(body));
-    //         }
-    //     })
+        // Do async call
+    // request.get(options, function(err, resp, body) {
+    //     if (err) {
+    //         rejected(err);
+    //     } else {
+    //         resolved(JSON.parse(body));
+    //     }
     // })
-    return new Promise(function(){
-        resolved(
-            {
-                id: 1,
-                name: 'Jogo1',
-            }
-        );
+    resolved({
+        id: 1,
+        name: 'Game1'
     });
 };
 
-async function searchGamesByGroup(id){
+function searchGamesByGroup(id, cb){
     // Setting URL and headers for request
     var options = {
         url: 'cenas',
@@ -36,19 +27,18 @@ async function searchGamesByGroup(id){
     };
 
     function resolved(data){
-        console.log(data);
-        return data;
+        return cb(data);
     };
 
     function rejected(err){
         console.log('id:' + id);
     };
 
-    return await createHttpRequest(options, resolved, rejected);
+    return createHttpRequest(options, resolved, rejected);
         
 };
     
-async function searchByName(gameName){
+function searchByName(gameName, cb){
     // Setting URL and headers for request
     var options = {
         url: 'https://api.github.com/users/narenaryan',
@@ -65,10 +55,10 @@ async function searchByName(gameName){
 
     };
 
-    return await createHttpRequest(options, resolved,rejected);
+    return createHttpRequest(options, resolved,rejected);
 };
 
-async function getAllGames(){
+function getAllGames(cb){
     // Setting URL and headers for request
     var options = {
         url: 'https://api.github.com/users/narenaryan',
@@ -85,7 +75,7 @@ async function getAllGames(){
 
     };
 
-    return await createHttpRequest(options, resolved,rejected);
+    return createHttpRequest(options, resolved,rejected);
 };
 
 let ciborgGamesServices = {
