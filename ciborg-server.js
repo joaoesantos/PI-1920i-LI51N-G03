@@ -2,7 +2,7 @@
 const http = require('http');
 
 const router = require('./CIBORG/webapi/router');
-const webapi = require('-/CIBORG/webapi/ciborg-web-api');
+const webapi = require('./CIBORG/webapi/ciborg-web-api');
 
 //Register routes
 //webApi.get('/',services.home());
