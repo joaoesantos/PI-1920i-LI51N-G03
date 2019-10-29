@@ -1,0 +1,17 @@
+{
+	"host" : "http://localhost:9200",
+	"index_name" : "pi",
+	"gameType" : "games",
+	"groupType" : "groups",
+	"search" : "_search",
+	"search": {
+		"url": "_search",
+		"searchQuery":{
+			"query": {
+				"span_term" : {}
+			}
+		}
+	}
+}
+
+///
