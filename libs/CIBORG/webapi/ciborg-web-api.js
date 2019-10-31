@@ -24,7 +24,7 @@ function getGame(req, rsp) {
     }
 }
 
-//
+////
 function createGroup(req, rsp) {
   services.createGroup(req.body.description, processCreateGroup)
   
