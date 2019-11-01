@@ -1,78 +1,78 @@
 "use strict";
 
 var GameDto = class GameDto {
-    #id;
-    #name;
-    #year_published;
-    #min_players;
-    #max_players;
-    #min_playtime;
-    #max_playtime;
-    #min_age;
-    #description;
-    #description_preview;
-    #price;
-    #primary_publisher;
-    #num_user_ratings;
-    #average_user_rating;
-    constructor(id, name, year_published, min_players, max_players, min_playtime, max_playtime, min_age, description, description_preview, price, primary_publisher) {
-        this.id = id;
-        this.name = name;
-        this.year_published = year_published;
-        this.min_players = min_players;
-        this.max_players = max_players;
-        this.min_playtime = min_playtime;
-        this.max_playtime = max_playtime;
-        this.min_age = min_age;
-        this.description = description;
-        this.description_preview = description_preview;
-        this.price = price;
-        this.primary_publisher = primary_publisher;
-        this.num_user_ratings = num_user_ratings;
-        this.average_user_rating = average_user_rating;
+    #_id;
+    #_name;
+    #_year_published;
+    #_min_players;
+    #_max_players;
+    #_min_playtime;
+    #_max_playtime;
+    #_min_age;
+    #_description;
+    #_description_preview;
+    #_price;
+    #_primary_publisher;
+    #_num_user_ratings;
+    #_average_user_rating;
+    constructor(id, name, year_published, min_players, max_players, min_playtime, max_playtime, min_age, description, description_preview, price, primary_publisher, num_user_ratings,average_user_rating) {
+        this._id = id;
+        this._name = name;
+        this._year_published = year_published;
+        this._min_players = min_players;
+        this._max_players = max_players;
+        this._min_playtime = min_playtime;
+        this._max_playtime = max_playtime;
+        this._min_age = min_age;
+        this._description = description;
+        this._description_preview = description_preview;
+        this._price = price;
+        this._primary_publisher = primary_publisher;
+        this._num_user_ratings = num_user_ratings;
+        this._average_user_rating = average_user_rating;
      }
 
     get id() {
-        return this.#id;
+        return this.#_id;
     };
     get name() {
-        return this.#name;
+        return this.#_name;
     };
     get year_published() {
-        return this.#year_published;
+        return this.#_year_published;
     };
     get min_players() {
-        return this.#min_players;
+        return this.#_min_players;
     };
     get max_players() {
-        return this.#max_players;
+        return this.#_max_players;
     };
     get min_playtime() {
-        return this.#min_playtime;
+        return this.#_min_playtime;
     };
     get max_playtime() {
-        return this.#max_playtime;
+        return this.#_max_playtime;
     };
     get min_age() {
-        return this.#min_age;
+        return this.#_min_age;
     };
     get description() {
-        return this.#description;
+        return this.#_description;
     };
     get description_preview() {
-        return this.#description_preview;
+        return this.#_description_preview;
     };
     get price() {
-        return this.#price;
+        return this.#_price;
     };
     get primary_publisher() {
-        return this.#primary_publisher;
+        return this.#_primary_publisher;
     };
     get num_user_ratings() {
-        return this.#num_user_ratings;
+        return this.#_num_user_ratings;
     };
     get average_user_rating() {
-        return this.#average_user_rating;
+        return this.#_average_user_rating;
     };
 };
-module.export = GameDto
+module.exports = GameDto

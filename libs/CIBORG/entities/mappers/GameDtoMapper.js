@@ -1,6 +1,6 @@
 "use strict";
 
-const Game = require('./entities/mappers/GameDtoMapper.js');
+const Game = require('../models/Game.js');
 
 var GamesDtoMapper = class GamesDtoMapper {
     entityToModel(gameDto) {
@@ -12,4 +12,4 @@ var GamesDtoMapper = class GamesDtoMapper {
         );
     }
 };
-module.export = GamesDtoMapper
+module.exports = GamesDtoMapper

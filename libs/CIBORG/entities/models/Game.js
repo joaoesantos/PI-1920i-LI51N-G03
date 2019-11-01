@@ -1,31 +1,31 @@
 "use strict";
 
 var Game = class Game {
-    #id;
-    #name;
-    #min_playtime;
-    #max_playtime;
+    #_id;
+    #_name;
+    #_min_playtime;
+    #_max_playtime;
     constructor(id, name, min_playtime, max_playtime) {
-        this.#id = id;
-        this.#name = name;
-        this.#min_playtime = min_playtime;
-        this.#max_playtime = max_playtime;
+        this.#_id = id;
+        this.#_name = name;
+        this.#_min_playtime = min_playtime;
+        this.#_max_playtime = max_playtime;
      }
 
      get id() {
-         return this.#id;
+         return this.#_id;
      }
 
      get name() {
-        return this.#name;
+        return this.#_name;
     }
 
     get min_playtime() {
-        return this.#min_playtime;
+        return this.#_min_playtime;
     }
 
     get max_playtime() {
-        return this.#max_playtime;
+        return this.#_max_playtime;
     }
 };
-module.export = Game
+module.exports = Game
