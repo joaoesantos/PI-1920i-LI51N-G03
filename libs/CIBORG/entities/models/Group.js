@@ -3,34 +3,34 @@
 const services = require('./services/ciborg-services.js');
 
 var Group = class Group {
-    #id;
-    #name;
-    #description;
-    #games;
+    #_id;
+    #_name;
+    #_description;
+    #_games;
     constructor(id, name, min_playtime, max_playtime) {
-        this.#id = id;
-        this.#name = name;
-        this.#description = min_playtime;
-        this.#games = null;
+        this.#_id = id;
+        this.#_name = name;
+        this.#_description = min_playtime;
+        this.#_games = null;
     }
 
     get id() {
-        return this.#id;
+        return this.#_id;
     }
 
     get name() {
-       return this.#name;
+        return this.#_name;
     }
 
     get description() {
-        return this.#description;
-     }
+        return this.#_description;
+    }
 
     get games() {
-        if(this.#games === null) {
-            this.#games = services.games.getGamesByGroupID(this.#id);
+        if (this.#_games === null) {
+            this.#_games = services.games.getGamesByGroupID(this.#_id);
         }
-        return this.#games;
+        return this.#_games;
     }
 };
 module.export = Group
