@@ -400,7 +400,7 @@ paths:
                         type: integer
                         description: Error code, uniquely identifyin the error.
                         example: 65
-  /games/groups/{id}:
+  /groups/{id}/games:
     get:
       tags:
         - groups
@@ -499,7 +499,7 @@ paths:
                         type: integer
                         description: Error code, uniquely identifyin the error.
                         example: 658
-  /games/{name}/groups/{id}:
+  /groups/{id}/games/{name}:
     put:
       tags:
         - groups
