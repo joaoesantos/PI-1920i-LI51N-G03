@@ -241,14 +241,14 @@ paths:
     get:
       tags:
         - groups
-      summary: Gets a games by name
+      summary: Gets a group by id
       operationId: groupById
       description: |
-        Gets a game by its name.
+        Gets a group by its id.
       parameters:
         - in: path
           name: id
-          description: String representing the name
+          description: String representing the id
           required: true
           schema:
             type: string
@@ -332,10 +332,10 @@ paths:
     put:
       tags:
         - groups
-      summary: Gets a games by name
+      summary: Updates a group
       operationId: editGroupById
       description: |
-        Gets a game by its name.
+        Updates a group.
       parameters:
         - in: path
           name: id
