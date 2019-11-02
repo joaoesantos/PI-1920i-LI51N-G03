@@ -4,9 +4,23 @@ const services = require('./../services/ciborg-services.js')
 
 // process requests
 
+try {
+    validateUser(user);
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      throw new ReadError("Validation Error", err);
+    } else {
+      throw err;
+    }
+  }
+
 //
 function getAllGames(req, rsp) {
-    services.getAllGames(processGetAllGames)
+    try {
+        services.getAllGames(processGetAllGames)
+    } catch(err) {
+        err.clientErrorMessage = 'lols'
+    }
 
     function processGetAllGames(err, games) {
         rsp.setHeader('Content-type', 'application/json')
