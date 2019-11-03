@@ -5,8 +5,8 @@ let request = require('request');
 
 let genricMethodCall = (method) => {
     return (options, resolved, rejected) => {
-        request[method.toLowerCase()](options, function(resp) {
-            if (false) { //verificar como detar erro, status code apenas?
+        request[method.toLowerCase()](options, function(err, resp) {
+            if (err) { //verificar como detar erro, status code apenas?
                 rejected(resp);
                 //rejected(new CustomError("E5001", 500, err.message, "Error acessing DB/API"));
             } else {
@@ -27,6 +27,7 @@ let HttpCall = {
 request.get({url:'http://localhost:9200/pi/_search', json : true, body: {query: {span_term : { id : "rth4eyrt" }}}}, function(err,httpResponse,body){
     console.log(httpResponse.body.hits.hits[0]);
 });*/
+/*
 console.log(HttpCall.get({ url: 'http://localhost:9200/games/_search' }, function(resp, cenas) {
         console.log("------------------------------------------------");
         console.log(resp);
@@ -36,5 +37,6 @@ console.log(HttpCall.get({ url: 'http://localhost:9200/games/_search' }, functio
     function(resp) {
 
     }
-));
-module.export = HttpCall;
+));*/
+
+module.exports = HttpCall;
