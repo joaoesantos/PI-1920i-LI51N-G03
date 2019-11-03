@@ -4,59 +4,36 @@ const ciborgError = require('./../errors/ciborg-error.js');
 const webapi = require('./ciborg-web-api.js');
 
 // navigates request to api method and gets response if possibel
-let router = function (request, response) {
-       // if a POST method, colects all data before processing request
-       if (request.method === 'POST') {
+let router = function (request, response) { 
+    // if a POST method, colects all data before processing request
+    if (request.method === 'POST') {
         let body = [];
         request.on('data', (chunk) => {
-          body.push(chunk);
+            body.push(chunk);
         }).on('end', () => {
-          body = Buffer.concat(body).toString();
-          processRouter;
+            body = Buffer.concat(body).toString();
+            navigate;
         });
-      } else {
+    } else {
         response.statusCode = '404';
         response.end();
-      }
-
+    };
 };
 
 // registered route templates
 router.routes = [];
 
-// process request and deals with errors
-function processRouter(req, rsp) {
-    try {
-        navigate(req, rsp, processRequest);
-    } catch(error) {
-        rsp.statusCode = error.statusCode;
-        rsp.statusMessage = error.statusMessage;
-        rsp.write(error.clientErrorMessage);
-        rsp.end();
-    }
-
-    function processRequest(err, req, rsp) {
-        if(err) {
-            rsp.statusCode = err.statusCode;
-            rsp.statusMessage = err.statusMessage;
-            rsp.write(err.clientErrorMessage);
-            rsp.end();
-        }   
-    }
-
-}
-
 // navigate url and calls web-api services if exists
-router.navigate = function(err, req, rsp) {
+router.navigate = function(req, rsp) {
     // find command by matching url with route templates
     if(router.routes.length == 0) {
-        err = new ciborgError(
+        let err = new ciborgError(
             'No routes implemented yet.',
             'Command does not exist.',
             'XXX',
             '404' // Not Found
         );
-        return;
+        ciborgError.resolveErrorResponse(err, rsp);
     }
     // matches url with templates
     router.routes.some(function(route) {
@@ -69,29 +46,16 @@ router.navigate = function(err, req, rsp) {
         if(matchObj != null) {
             // add parameters to request if there's any
             addParametersToRequest(req, route, matchObj);
-            try {
-                // call web-api
-                route.webapi;
-                if(err) {
-                    rsp.statusCode = err.statusCode;
-                    rsp.statusMessage = err.statusMessage;
-                    rsp.write(err.clientErrorMessage);
-                    rsp.json(rsp.body);
-                }     
-            } catch(error) {
-                rsp.statusCode = error.statusCode;
-                rsp.statusMessage = error.statusMessage;
-                rsp.write(error.clientErrorMessage);
-                rsp.end();
-            }
+            route.webapi; // call web-api
             return true;
         } else {
-            err = new ciborgError(
+            let err = new ciborgError(
                 'Template does not match with url.',
                 'Command does not exist.',
                 'XXX',
                 '400' // Bad Request
             );
+            ciborgError.resolveErrorResponse(err, rsp);
         }
     });
 
