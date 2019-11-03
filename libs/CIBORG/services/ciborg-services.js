@@ -8,7 +8,6 @@ let ciborgServices = (function(){
 
     const getGroupsServices  = function(req, res){
         return require('./groups/ciborg-services-group');
-
     };
 
     let services = {
