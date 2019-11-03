@@ -10,13 +10,13 @@ describe('Service-games test:', function() {
     
   });
 
-  it('Should return list of games with Monopoly in the name', function(done) {
-    service.searchByName("Monopoly",function(res){
-      console.log(res.length);
-      assert.notEqual(0,res.name);
-      done();
-    });
+  // it('Should return list of games with Monopoly in the name', function(done) {
+  //   service.searchByName("Monopoly",function(res){
+  //     console.log(res.length);
+  //     assert.notEqual(0,res.name);
+  //     done();
+  //   });
     
-  });
+  // });
 
 });

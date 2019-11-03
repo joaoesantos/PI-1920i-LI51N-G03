@@ -16,20 +16,20 @@ var GameDto = class GameDto {
     #_num_user_ratings;
     #_average_user_rating;
     constructor(id, name, year_published, min_players, max_players, min_playtime, max_playtime, min_age, description, description_preview, price, primary_publisher, num_user_ratings,average_user_rating) {
-        this._id = id;
-        this._name = name;
-        this._year_published = year_published;
-        this._min_players = min_players;
-        this._max_players = max_players;
-        this._min_playtime = min_playtime;
-        this._max_playtime = max_playtime;
-        this._min_age = min_age;
-        this._description = description;
-        this._description_preview = description_preview;
-        this._price = price;
-        this._primary_publisher = primary_publisher;
-        this._num_user_ratings = num_user_ratings;
-        this._average_user_rating = average_user_rating;
+        this.#_id = id;
+        this.#_name = name;
+        this.#_year_published = year_published;
+        this.#_min_players = min_players;
+        this.#_max_players = max_players;
+        this.#_min_playtime = min_playtime;
+        this.#_max_playtime = max_playtime;
+        this.#_min_age = min_age;
+        this.#_description = description;
+        this.#_description_preview = description_preview;
+        this.#_price = price;
+        this.#_primary_publisher = primary_publisher;
+        this.#_num_user_ratings = num_user_ratings;
+        this.#_average_user_rating = average_user_rating;
      }
 
     get id() {

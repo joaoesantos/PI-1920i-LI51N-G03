@@ -3,13 +3,15 @@ const request = require('request');
 //const config = require('../../shared/Config.js');
 const client_id = 'rFMyVCTRWP';
 const GameDto = require('../../entities/dtos/GameDto.js');
-const GameMapper = require('../../entities/mappers/GameDtoMapper.js');
+const GamesDtoMapper = require('../../entities/mappers/GameDtoMapper.js');
+
+const Game = require('../../entities/models/Game');
 
 let options
 function createHttpRequest(options,resolved, rejected){
     request.get(options, function(err, resp, body) {
         if (err) {
-            rejected(err);
+            rejected(JSON.parse(err));
         } else {
             resolved(JSON.parse(body));
         }
@@ -17,7 +19,10 @@ function createHttpRequest(options,resolved, rejected){
 };
 
 function searchGamesByGroup(id, cb){
-    // Setting URL and headers for request
+    
+    //call elasticsearch to get gamesIds for a group
+
+
     let gamesIds = 'kPDxpJZ8PD'
 
     options = {
@@ -46,13 +51,31 @@ function searchGamesByGroup(id, cb){
                 g.num_user_ratings,
                 g.average_user_rating,
                 );
-                return new GameMapper().entityToModel(dto);
+    
+                // console.log(
+                //     'id:',
+                //     dto.id,
+                //     ',name:',
+                //     dto.name,
+                //     ',min_playtime:',
+                //     dto.min_playtime,
+                //     ',max_playtime:',
+                //     dto.max_playtime
+                // );
+
+                let gamesMapper = new GamesDtoMapper();
+                console.log('entity:', gamesMapper.entityToModel(dto));
+                return new GamesDtoMapper().entityToModel(dto);
             });
 
-        
-        console.log(arr);
+            // let gamesMapper = new GamesDtoMapper();
+            // console.log('gamesMapper',gamesMapper)
+            // for(let prop in gamesMapper){
+            //     console.log('prop:',prop);
+            // }
+       // console.log('array',arr);
 
-        cb(arr[0]);
+        cb(arr);
     };
 
     function rejected(err){
@@ -91,7 +114,25 @@ function searchByName(gameName, cb){
             g.num_user_ratings,
             g.average_user_rating,
             );
-            return new GameMapper().entityToModel(dto);
+
+            for(prop in dto){
+                console.log('dtoProp:', prop)
+            }
+
+            // console.log(
+            //     'id:',
+            //     dto.id,
+            //     ',name:',
+            //     dto.name,
+            //     ',min_playtime:',
+            //     dto.min_playtime,
+            //     ',max_playtime:',
+            //     dto.max_playtime
+            // );
+
+            let gamesMapper = new GamesDtoMapper();
+
+            return new GamesDtoMapper().entityToModel(dto);
         });
 
         
