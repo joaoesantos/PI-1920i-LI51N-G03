@@ -1,7 +1,7 @@
 "use strict";
 
-const ciborgError = require('./../errors/ciborg-error.js');
-const webapi = require('./ciborg-web-api.js');
+const CiborgError = require('./../errors/ciborg-error.js');
+//const webapi = require('./ciborg-web-api.js');
 
 // navigates request to api method and gets response if possibel
 let router = function (request, response) { 
@@ -33,7 +33,7 @@ router.navigate = function(req, rsp) {
             'XXX',
             '404' // Not Found
         );
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     }
     // matches url with templates
     router.routes.some(function(route) {
@@ -55,7 +55,7 @@ router.navigate = function(req, rsp) {
                 'XXX',
                 '400' // Bad Request
             );
-            ciborgError.resolveErrorResponse(err, rsp);
+            CiborgError.resolveErrorResponse(err, rsp);
         }
     });
 

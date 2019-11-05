@@ -1,17 +1,17 @@
 "use strict";
 
-const ciborgError = require('./../errors/ciborg-error.js');
+const CiborgError = require('./../errors/ciborg-error.js');
 const services = require('./../services/ciborg-services.js')
 
 // constructs response with data from service
 function resolveServiceResponse(data, rsp) {
     rsp.header("Content-type:application/json");
-    rsp.json(data);
+    rsp.end(JSON.stringify(data));
 }
 // callback
 function serviceCallback(err, data) {
     if(err) {
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     } else {
         resolveServiceResponse(data, rsp);
     } 
@@ -20,7 +20,7 @@ function serviceCallback(err, data) {
 // get popular games
 function getAllGames(err, req, rsp) {
     try {
-        services.getAllGames(serviceCallback)
+        services.games.getAllGames(serviceCallback)
     } catch(error) {
         err = new ciborgError(
             'Error in service: getAllGames.',
@@ -28,14 +28,14 @@ function getAllGames(err, req, rsp) {
             '0000',
             'XXX'
         );
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     }
 }
 
 // search game by name
 function getGame(err, req, rsp) {
     try {
-        services.getGame(req.body.name, serviceCallback)
+        services.games.getGame(req.body.name, serviceCallback)
     } catch(error) {
         err = new ciborgError(
             'Error in service: getGame.',
@@ -43,14 +43,14 @@ function getGame(err, req, rsp) {
             '0000',
             'XXX'
         );
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     }
 }
 
 // create group
 function createGroup(err, req, rsp) {
     try {
-        services.createGroup(req.body.description, serviceCallback)
+        services.groups.createGroup(req.body.description, serviceCallback)
     } catch(error) {
         err = new ciborgError(
             'Error in service: createGroup.',
@@ -58,14 +58,14 @@ function createGroup(err, req, rsp) {
             '0000',
             'XXX'
         );
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     }
 }
 
 // edit group
 function updateGroup(err, req, rsp) {
     try {
-        services.updateGroup(req.body.id, req.body.description, serviceCallback);
+        services.groups.updateGroup(req.body.id, req.body.description, serviceCallback);
     } catch(error) {
         err = new ciborgError(
             'Error in service: updateGroup.',
@@ -73,14 +73,14 @@ function updateGroup(err, req, rsp) {
             '0000',
             'XXX'
         );
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     }
 }
 
 // list all groups
 function getAllGroups(err, req, rsp) {
     try {
-        services.getAllGroups(serviceCallback);
+        services.groups.getAllGroups(serviceCallback);
     } catch(error) {
         err = new ciborgError(
             'Error in service: getAllGroups.',
@@ -88,14 +88,14 @@ function getAllGroups(err, req, rsp) {
             '0000',
             'XXX'
         );
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     }
 }
 
 // get group details
 function getGroup(err, req, rsp) {
     try {
-        services.getGroupById(req.body.id, serviceCallback);
+        services.groups.getGroupById(req.body.id, serviceCallback);
     } catch(error) {
         err = new ciborgError(
             'Error in service: getGroupById.',
@@ -103,14 +103,14 @@ function getGroup(err, req, rsp) {
             '0000',
             'XXX'
         );
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     }
 }
 
 // add game to group
 function addGameToGroup(err, req, rsp) {
     try {
-        services.addGameToGroup(req.body.id, req.body.name, serviceCallback);
+        services.groups.addGameToGroup(req.body.id, req.body.name, serviceCallback);
     } catch(error) {
         err = new ciborgError(
             'Error in service: addGameToGroup.',
@@ -118,14 +118,14 @@ function addGameToGroup(err, req, rsp) {
             '0000',
             'XXX'
         );
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     }
 }
 
 // remove game from group
 function removeGameFromGroup(err, req, rsp) {
     try {
-        services.removeGameFromGroup(req.body.id, req.body.name, serviceCallback);
+        services.groups.removeGameFromGroup(req.body.id, req.body.name, serviceCallback);
     } catch(error) {
         err = new ciborgError(
             'Error in service: removeGameFromGroup.',
@@ -133,14 +133,14 @@ function removeGameFromGroup(err, req, rsp) {
             '0000',
             'XXX'
         );
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     }
 }
 
 // get all games froum a group
 function getGamesFromGroup(req, rsp) {
     try {
-        services.getGamesByGroupID(req.body.id, serviceCallback);
+        services.groups.getGamesByGroupID(req.body.id, serviceCallback);
     } catch (error) {
         let err = new ciborgError(
             'Error in service: getGamesByGroupID.',
@@ -148,7 +148,7 @@ function getGamesFromGroup(req, rsp) {
             '0000',
             'XXX'
         );
-        ciborgError.resolveErrorResponse(err, rsp);
+        CiborgError.resolveErrorResponse(err, rsp);
     }
 }
 
