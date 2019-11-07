@@ -3,7 +3,7 @@
 module.exports = function(services) {
 
     const CiborgError = require('./../errors/ciborg-error.js');
-    const CiborgValidator = require('./validator.js')
+    const CiborgValidator = require('./validator.js');
     //const services = require('./../services/ciborg-services.js')
 
     return {
