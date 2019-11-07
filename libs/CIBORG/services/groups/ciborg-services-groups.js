@@ -107,6 +107,7 @@ let GroupService = {
     "description": "Group for testing creation"
 });*/
 //GroupService.getGamesFromGroup("e521406cf84a11e98f0b362b9e155667");
+//
 GroupService.addGameToGroup("e521406cf84a11e98f0b362b9e155667", "kPDxhJwePW");
 
 

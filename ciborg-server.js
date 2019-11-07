@@ -5,11 +5,14 @@ const config = {
     port: 8080,
 }
 
-const router = require('./libs/CIBORG/webapi/router');
-const webapi = require('./libs/CIBORG/webapi/ciborg-web-api');
+// CIBORG modules dependencies
+const games = require('./libs/CIBORG/services/groups/ciborg-services-games.js');
+const groups = require('./libs/CIBORG/services/groups/ciborg-services-groups.js');
+const service = require('./libs/CIBORG/services/ciborg-services.js')(games)(groups);
+const webapi = require('./libs/CIBORG/webapi/ciborg-web-api.js')(service);
+const router = require('./libs/CIBORG/webapi/router.js');
 
 //Register routes
-//webApi.get('/',services.home());
 router.get('/games', webapi.getAllGames);
 router.get('/games/:name', webapi.getGame);
 router.post('/games', webapi.createGroup);
