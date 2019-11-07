@@ -1,11 +1,9 @@
-
-let ciborgError =
+let CiborgError =
 
 class CiborgError extends Error {
-    constructor(apiErrorMessage, clientErrorMessage, errorCode, statusCode){
+    constructor(apiErrorMessage, clientErrorMessage, statusCode){
         super(apiErrorMessage);
         this.clientErrorMessage = clientErrorMessage;
-        this.errorCode = errorCode;
         this.statusCode = statusCode;
     }
     resolveErrorResponse(err, rsp) {
@@ -16,4 +14,4 @@ class CiborgError extends Error {
     }
 }
 
-module.exports = ciborgError;
+module.exports = CiborgError;

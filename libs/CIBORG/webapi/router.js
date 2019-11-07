@@ -1,7 +1,6 @@
 "use strict";
 
 const CiborgError = require('./../errors/ciborg-error.js');
-//const webapi = require('./ciborg-web-api.js');
 
 // navigates request to api method and gets response if possibel
 let router = function (request, response) { 
@@ -27,10 +26,9 @@ router.routes = [];
 router.navigate = function(req, rsp) {
     // find command by matching url with route templates
     if(router.routes.length == 0) {
-        let err = new ciborgError(
+        let err = new CiborgError(
             'No routes implemented yet.',
             'Command does not exist.',
-            'XXX',
             '404' // Not Found
         );
         CiborgError.resolveErrorResponse(err, rsp);
@@ -49,10 +47,9 @@ router.navigate = function(req, rsp) {
             route.webapi; // call web-api
             return true;
         } else {
-            let err = new ciborgError(
+            let err = new CiborgError(
                 'Template does not match with url.',
                 'Command does not exist.',
-                'XXX',
                 '400' // Bad Request
             );
             CiborgError.resolveErrorResponse(err, rsp);
