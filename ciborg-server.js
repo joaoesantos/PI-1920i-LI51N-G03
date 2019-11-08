@@ -14,9 +14,11 @@ const httpCall = require('./libs/CIBORG/request/HttpCall');
 const gamesService = require('./libs/CIBORG/services/games/ciborg-services-games')(gamesDto,gamesDtoMapper,httpCall);
 const groupService = require('./libs/CIBORG/services/groups/ciborg-services-group');
 const services = require('./libs/CIBORG/services/games/ciborg-services-games')(gamesService, groupService);
+const webapi = require('./libs/CIBORG/webapi/ciborg-web-api.js')(services);
+const router = require('./libs/CIBORG/webapi/router.js');
+
 
 //Register routes
-//webApi.get('/',services.home());
 router.get('/games', webapi.getAllGames);
 router.get('/games/:name', webapi.getGame);
 router.post('/games', webapi.createGroup);
