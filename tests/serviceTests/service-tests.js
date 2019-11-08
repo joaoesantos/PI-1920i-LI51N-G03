@@ -1,9 +1,16 @@
 var assert = require('assert');
-var service = require('../../libs/CIBORG/services/games/ciborg-services-games.js');
+var gameDto = require('../../libs/CIBORG/entities/dtos/GameDto');
+var game = require('../../libs/CIBORG/entities/models/Game');
+
+console.log('game2', Object.keys(game(1,2,3,4)));
+
+var gameMapper = require('../../libs/CIBORG/entities/mappers/GameDtoMapper')(game);
+var httpCall = require('./httpCall-mock');
+var service = require('../../libs/CIBORG/services/games/ciborg-services-games.js')(gameDto, gameMapper, httpCall);
 
 describe('Service-games test:', function() {
   it('Should return game which name is Spirit Island', function(done) {
-    service.getGamesByGroupID('kPDxpJZ8PD',function(res){
+    service.getGameByID('kPDxpJZ8PD',function(res){
       assert.equal("Spirit Island",res.name);
       done();
     });
