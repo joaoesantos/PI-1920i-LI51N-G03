@@ -99,7 +99,18 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 } else {
                     let game = response.body;
                     group.games = group.games.filter(g => g.id !== game.id);
-                    this.updateGroup(group,cb);
+                    let groupId = group.id;
+                    delete group.id;
+                    let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
+                    let opts = { url: fullUrl, json: true, body: group};
+                    let errorHanldler = (err) => { cb(err) };
+                    let sucessHanldler = (payload) => {
+                        cb(null, {
+                            statusCode: 202,
+                            body: {}
+                        });
+                    };
+                    HttpCall.put(opts, sucessHanldler, errorHanldler);
                 }
             };
             GameServices.getGamesById([gameId], handleGameByName);
