@@ -29,6 +29,4 @@ router.get('/groups/:id/games', webapi.getGamesFromGroup);
 
 const server = http.createServer(router);
 
-// config variables
-//const config = require('./shared/config.js');
 server.listen(config.port, () => console.log("Listening so port:", config.port));
