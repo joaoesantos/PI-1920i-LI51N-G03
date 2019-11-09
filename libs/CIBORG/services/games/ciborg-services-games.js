@@ -47,19 +47,19 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall){
                     return GamesDtoMapper.entityToModel(dto);
                 });
 
-            cb({
+            cb(null,{
                 statusCode: 201,
                 statusMessage: "accepted",
-                data: {games}
+                body: {games}
                 });
         };
     
         function rejected(err){
-            cb({
-                statusCode: 501,
-                statusMessage: "rejected",
-                data: {games}
-                });
+            cb(new CiborgError(
+                'Error in service: getAllGames.',
+                'Unable to get popular games.',
+                '503' //Service Unavailable
+            ));
         };
 
         return HttpCall.get(options, resolved, rejected);
@@ -97,19 +97,19 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall){
                     return GamesDtoMapper.entityToModel(dto);
                 });
 
-            cb({
+            cb(null,{
                 statusCode: 201,
                 statusMessage: "accepted",
-                data: {games}
+                body: {games}
                 });
         };
     
         function rejected(err){
-            cb({
-                statusCode: 501,
-                statusMessage: "rejected",
-                data: {games}
-                });
+            cb(new CiborgError(
+                'Error in service: getAllGames.',
+                'Unable to get popular games.',
+                '503' //Service Unavailable
+            ));
         };
     
         return HttpCall.get(options, resolved, rejected);
@@ -147,19 +147,19 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall){
             });
     
             
-            cb({
+            cb(null,{
                 statusCode: 201,
                 statusMessage: "accepted",
-                data: {games}
+                body: {games}
                 });
         };
     
         function rejected(err){
-            cb({
-                statusCode: 501,
-                statusMessage: "rejected",
-                data: {games}
-                });
+            cb(new CiborgError(
+                'Error in service: getAllGames.',
+                'Unable to get popular games.',
+                '503' //Service Unavailable
+            ));
         };
     
         return HttpCall.get(options, resolved,rejected);
