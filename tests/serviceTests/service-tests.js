@@ -4,6 +4,8 @@ let game = require('../../libs/CIBORG/entities/models/Game');
 let gameMapper = require('../../libs/CIBORG/entities/mappers/GameDtoMapper')(game);
 let httpCallGetGameByID = require('./mocks/getGameByID-httpCall-mock');
 let serviceGetGameByID = require('../../libs/CIBORG/services/games/ciborg-services-games.js')(gameDto, gameMapper, httpCallGetGameByID);
+let httpCallGetGameByIDError = require('./mocks/getGameByIDError-httpCall');
+let serviceGetGameByIDError = require('../../libs/CIBORG/services/games/ciborg-services-games.js')(gameDto, gameMapper, httpCallGetGameByIDError);
 let httpCallsearchByName = require('./mocks/searchByName-httpCall-mock');
 let serviceSearchByName = require('../../libs/CIBORG/services/games/ciborg-services-games.js')(gameDto, gameMapper, httpCallsearchByName);
 let httpCallGetMostPopularGames = require('./mocks/getMostPopularGames-httpCall-mock');
@@ -25,15 +27,15 @@ describe('Service-games test:', function() {
     });
   });
 
-  it('Should return a list with the 100 most popular games', function(done) {
+  it('Should return a list with the 2 most popular games', function(done) {
     serviceGetMostPopularGames.getMostPopularGames(function(err,res){
-      assert.equal(100,res.body.games.length);
+      assert.equal(2,res.body.games.length);
       done();
     });
   });
 
   it('Should return an error', function(done) {
-    serviceGetMostPopularGames.getMostPopularGames(2,function(err,res){
+    serviceGetGameByIDError.getGameByID('kPDxpJZ8PD',function(err,res){
       assert.notEqual(null,err);
       done();
     });
