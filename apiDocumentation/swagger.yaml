@@ -713,6 +713,7 @@ components:
           type: integer
           example: 120
     group:
+      type: object
       required:
         - id
         - name
@@ -731,8 +732,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/game'
-      type: object
     groupWithNoGames:
+      type: object
       required:
         - name
         - description
