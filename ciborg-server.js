@@ -9,12 +9,14 @@ const gamesDto = require('./libs/CIBORG/entities/dtos/GameDto');
 const gamesEntity = require('./libs/CIBORG/entities/models/Game');
 const gamesDtoMapper = require('./libs/CIBORG/entities/mappers/GameDtoMapper')(gamesEntity);
 const httpCall = require('./libs/CIBORG/request/HttpCall');
+const CiborgError = require('./libs/CIBORG/errors/ciborg-error');
+const Props = require('./libs/CIBORG/shared/Config');
+const CiborgValidator = require('./libs/CIBORG/webapi/validator')(CiborgError);
 const gamesService = require('./libs/CIBORG/services/games/ciborg-services-games')(gamesDto,gamesDtoMapper,httpCall);
-const groupService = require('./libs/CIBORG/services/groups/ciborg-services-groups');
+const groupService = require('./libs/CIBORG/services/groups/ciborg-services-groups')(Props, httpCall, gamesService, CiborgError);
 const services = require('./libs/CIBORG/services/games/ciborg-services-games')(gamesService, groupService);
-const webapi = require('./libs/CIBORG/webapi/ciborg-web-api.js')(services);
-const router = require('./libs/CIBORG/webapi/router.js');
-
+const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(services, CiborgError, CiborgValidator);
+const router = require('./libs/CIBORG/webapi/router')(CiborgError);
 
 //Register routes
 router.get('/games', webapi.getAllGames);
