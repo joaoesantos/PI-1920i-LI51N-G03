@@ -1,10 +1,6 @@
 "use strict";
 
-module.exports = function(services) {
-
-    const CiborgError = require('./../errors/ciborg-error.js');
-    const CiborgValidator = require('./validator.js');
-
+let webApi = function(services, CiborgError, CiborgValidator) {
     return {
         getAllGames : getAllGames,
         getGame : getGame,
@@ -58,7 +54,7 @@ module.exports = function(services) {
             // service call
             services.games.getGame(req.body.name, serviceCallback)
         } catch(error) {
-            err = new CiborgError(
+            let err = new CiborgError(
                 'Error in service: getGame.',
                 'Unable to for game.',
                 '500' // Internal Server Error
@@ -78,7 +74,7 @@ module.exports = function(services) {
             // service call
             services.groups.createGroup(req.body.description, serviceCallback)
         } catch(error) {
-            err = new CiborgError(
+            let err = new CiborgError(
                 'Error in service: createGroup.',
                 'Unable to create group.',
                 '500' // Internal Server Error
@@ -102,7 +98,7 @@ module.exports = function(services) {
             // service call
             services.groups.updateGroup(req.body.id, req.body.description, serviceCallback);
         } catch(error) {
-            err = new CiborgError(
+            let err = new CiborgError(
                 'Error in service: updateGroup.',
                 'Unable to update group.',
                 '500' // Internal Server Error
@@ -117,7 +113,7 @@ module.exports = function(services) {
             // service call
             services.groups.getAllGroups(serviceCallback);
         } catch(error) {
-            err = new CiborgError(
+            let err = new CiborgError(
                 'Error in service: getAllGroups.',
                 'Unable to get popular groups.',
                 '500' // Internal Server Error
@@ -137,7 +133,7 @@ module.exports = function(services) {
             // service call
             services.groups.getGroupById(req.body.id, serviceCallback);
         } catch(error) {
-            err = new CiborgError(
+            let err = new CiborgError(
                 'Error in service: getGroupById.',
                 'Unable to get group details.',
                 '500' // Internal Server Error
@@ -152,7 +148,7 @@ module.exports = function(services) {
             // service call
             services.groups.addGameToGroup(req.body.id, req.body.name, serviceCallback);
         } catch(error) {
-            err = new CiborgError(
+            let err = new CiborgError(
                 'Error in service: addGameToGroup.',
                 'Unable to add game to group.',
                 '500' // Internal Server Error
@@ -176,7 +172,7 @@ module.exports = function(services) {
             // service call
             services.groups.removeGameFromGroup(req.body.id, req.body.name, serviceCallback);
         } catch(error) {
-            err = new CiborgError(
+            let err = new CiborgError(
                 'Error in service: removeGameFromGroup.',
                 'Unable to remove game from group.',
                 '500' // Internal Server Error
@@ -204,5 +200,6 @@ module.exports = function(services) {
             CiborgError.resolveErrorResponse(err, rsp);
         }
     }
-
 }
+
+module.exports = webApi;

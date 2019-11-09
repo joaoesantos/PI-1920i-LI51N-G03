@@ -1,5 +1,3 @@
-let CiborgError =
-
 class CiborgError extends Error {
     constructor(apiErrorMessage, clientErrorMessage, statusCode){
         super(apiErrorMessage);
