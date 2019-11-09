@@ -15,10 +15,10 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall){
         return options;
     }
 
-    function getMostPopularGames(number,cb){
+    function getMostPopularGames(cb){
         // Setting URL and headers for request
         var options = {
-            url: `https://www.boardgameatlas.com/api/search?limit=${number}&client_id=${client_id}&order_by=popularity&ascending=false`,
+            url: `https://www.boardgameatlas.com/api/search?client_id=${client_id}&order_by=popularity&ascending=false`,
             headers: {
                 'User-Agent': 'request'
             }
@@ -178,7 +178,7 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall){
                     'Error calling external service:: searchByName.',
                     'Unable to search games.',
                     '500' //Service Unavailable
-                )
+                ));
             }
             
         };

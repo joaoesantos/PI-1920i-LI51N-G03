@@ -25,9 +25,16 @@ describe('Service-games test:', function() {
     });
   });
 
-  it('Should return a list with the 2 most popular games', function(done) {
+  it('Should return a list with the 100 most popular games', function(done) {
+    serviceGetMostPopularGames.getMostPopularGames(function(err,res){
+      assert.equal(100,res.body.games.length);
+      done();
+    });
+  });
+
+  it('Should return an error', function(done) {
     serviceGetMostPopularGames.getMostPopularGames(2,function(err,res){
-      assert.equal(2,res.body.games.length);
+      assert.notEqual(null,err);
       done();
     });
   });
