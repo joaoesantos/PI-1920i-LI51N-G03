@@ -1,17 +1,23 @@
 "use strict";
 
-const Game = require('./Game');
+//const Game = require('./Game');
 
+function GamesDtoMapper(game){
 
-var GamesDtoMapper = class GamesDtoMapper {
-    entityToModel(gameDto) {
+    function entityToModel(gameDto){
+        
+        let gameEntity = game(
+                gameDto.id,
+                gameDto.name,
+                gameDto.min_playtime,
+                gameDto.max_playtime
+            );
+        
+        return gameEntity;
+    };
 
-        return new Game(
-            gameDto.id,
-            gameDto.name,
-            gameDto.min_playtime,
-            gameDto.max_playtime
-        );
-    }
-};
+    return {
+        entityToModel: entityToModel
+    };
+}
 module.exports = GamesDtoMapper

@@ -1,13 +1,13 @@
 'use strict';
 
-let ciborgServices = (function(){
+let ciborgServices = function(gamesService, groupsService){
 
     const getGamesServices  = function(req, res){
-        return require('./games/ciborg-services-games');
+        return gamesService;
     };
 
     const getGroupsServices  = function(req, res){
-        return require('./groups/ciborg-services-group');
+        return groupsService;
     };
 
     let services = {
@@ -16,6 +16,6 @@ let ciborgServices = (function(){
     };
 
     return services;
-});
+};
 
 module.exports = ciborgServices;

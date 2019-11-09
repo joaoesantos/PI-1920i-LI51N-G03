@@ -3,7 +3,7 @@
 let request = require('request');
 //const CustomError = require
 
-let genricMethodCall = (method) => {
+let genericMethodCall = (method) => {
     return (options, resolved, rejected) => {
         request[method.toLowerCase()](options, function(err, resp) {
             if (err) { //verificar como detar erro, status code apenas?
@@ -17,10 +17,10 @@ let genricMethodCall = (method) => {
 }
 
 let HttpCall = {
-    get: genricMethodCall("GET"),
-    post: genricMethodCall("POST"),
-    put: genricMethodCall("PUT"),
-    delete: genricMethodCall("DELETE")
+    get: genericMethodCall("GET"),
+    post: genericMethodCall("POST"),
+    put: genericMethodCall("PUT"),
+    delete: genericMethodCall("DELETE")
 }
 
 /*
