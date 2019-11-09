@@ -9,8 +9,7 @@ class CiborgError extends Error {
     resolveErrorResponse(err, rsp) {
         rsp.statusCode = err.statusCode;
         rsp.statusMessage = err.statusMessage;
-        rsp.write(err.clientErrorMessage);
-        rsp.end();
+        rsp.end(err.clientErrorMessage);
     }
 }
 
