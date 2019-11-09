@@ -1,0 +1,19 @@
+{
+    "host": "http://localhost:9200",
+    "gameIndex": "games",
+    "groupIndex": "groups",
+    "groupGameRel": "group_game_rel",
+    "ops": {
+        "search": {
+            "url": "_search",
+            "body": { "query": { "term": {} } }
+        },
+        "delete": {
+            "url": "_delete_by_query",
+            "body": { "query": { "match": { "_id": "" } } }
+        },
+        "doc": {
+            "url": "_doc"
+        }
+    }
+}

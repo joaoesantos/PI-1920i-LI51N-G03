@@ -1,7 +1,5 @@
 "use strict";
 
-const services = require('./services/ciborg-services.js');
-
 var Group = class Group {
     #_id;
     #_name;
@@ -11,7 +9,7 @@ var Group = class Group {
         this.#_id = id;
         this.#_name = name;
         this.#_description = min_playtime;
-        this.#_games = null;
+        this.#_games = [];
     }
 
     get id() {
@@ -27,9 +25,6 @@ var Group = class Group {
     }
 
     get games() {
-        if (this.#_games === null) {
-            this.#_games = services.games.getGamesByGroupID(this.#_id);
-        }
         return this.#_games;
     }
 };
