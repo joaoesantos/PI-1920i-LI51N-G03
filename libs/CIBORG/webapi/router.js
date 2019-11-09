@@ -4,28 +4,29 @@ const CiborgError = require('./../errors/ciborg-error.js');
 
 // navigates request to api method and gets response if possibel
 let router = function (request, response) { 
-    // if a POST method, colects all data before processing request
-    if (request.method === 'POST') {
-        let body = [];
-        request.on('data', (chunk) => {
-            body.push(chunk);
-        }).on('end', () => {
-            body = Buffer.concat(body).toString();
-            navigate;
-        });
-    } else {
-        response.statusCode = '404';
-        response.end();
-    };
+    // colects all data before processing request
+    let body = [];
+    request.on('data', (chunk) => {
+        body.push(chunk);
+    }).on('end', () => {
+        body = Buffer.concat(body).toString();
+        router.navigate(request, response);
+    });
 };
 
 // registered route templates
-router.routes = [];
+router.routes = {
+    GET : [],
+    POST : [],
+    PUT : [],
+    DELETE : [],
+}
 
 // navigate url and calls web-api services if exists
 router.navigate = function(req, rsp) {
     // find command by matching url with route templates
-    if(router.routes.length == 0) {
+    let routes = router.routes[req.method.toUpperCase()];
+    if(routes.length == 0) {
         let err = new CiborgError(
             'No routes implemented yet.',
             'Command does not exist.',
@@ -33,8 +34,9 @@ router.navigate = function(req, rsp) {
         );
         CiborgError.resolveErrorResponse(err, rsp);
     }
+    
     // matches url with templates
-    router.routes.some(function(route) {
+    let isMatched = routes.some(function(route) {
         // finds parameters and replace them with regex
         let template = route.template.replace(/:\w+/g, `([^/]+)`);
         // convert to regex and only match from start to end
@@ -44,17 +46,18 @@ router.navigate = function(req, rsp) {
         if(matchObj != null) {
             // add parameters to request if there's any
             addParametersToRequest(req, route, matchObj);
-            route.webapi; // call web-api
+            route.handler(req,rsp); // call web-api
             return true;
-        } else {
-            let err = new CiborgError(
-                'Template does not match with url.',
-                'Command does not exist.',
-                '400' // Bad Request
-            );
-            CiborgError.resolveErrorResponse(err, rsp);
-        }
+        } 
     });
+    if(!isMatched) {
+        let err = new CiborgError(
+            'Template does not match with url.',
+            'Command does not exist.',
+            '404' // Not Found
+        );
+        CiborgError.resolveErrorResponse(err, rsp);
+    }
 
 };
 
@@ -71,9 +74,10 @@ function addParametersToRequest(req, route, matchObj) {
 }
 
 // check for duplicated routes
-function hasRoute(url) {
+function hasRoute(method, url) {
     let hasDuplicate = false;
-    router.routes.forEach(function(route) {
+    let routes = router.routes[method];
+    routes.forEach(function(route) {
     if(url === route.url)
         hasDuplicate = true;
     });
@@ -81,25 +85,25 @@ function hasRoute(url) {
 };
 
 // add new template to routes
-function add(template, webapi) {
-    if(!hasRoute(template))
-        router.routes.push({ template : template, webapi : webapi });
+router.get = function(template, handler) { 
+    if(!hasRoute('GET', template))
+        router.routes['GET'].push({ template : template, handler : handler });
+    //return 'Received a GET HTTP method';
 };
-router.get = function(template, webapi) { 
-    add('GET ' + template, webapi);
-    return 'Received a GET HTTP method';
+router.post = function(template, handler) {        
+    if(!hasRoute('POST', template))
+        router.routes['POST'].push({ template : template, handler : handler });
+    //return 'Received a POST HTTP method';
 };
-router.post = function(template, webapi) {        
-    add('POST ' + template, webapi);
-    return 'Received a POST HTTP method';
+router.put = function(template, handler) {
+    if(!hasRoute('PUT', template))
+        router.routes['PUT'].push({ template : template, handler : handler });
+    //return 'Received a PUT HTTP method';
 };
-router.put = function(template, webapi) {
-    add('PUT ' + template, webapi);
-    return 'Received a PUT HTTP method';
-};
-router.delete = function(template, webapi) {
-    add('DELETE ' + template, webapi);
-    return 'Received a DELETE HTTP method';
+router.delete = function(template, handler) {
+    if(!hasRoute('DELETE', template))
+        router.routes['DELETE'].push({ template : template, handler : handler });
+    //return 'Received a DELETE HTTP method';
 };
 
 module.exports = router;

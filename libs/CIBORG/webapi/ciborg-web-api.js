@@ -4,7 +4,6 @@ module.exports = function(services) {
 
     const CiborgError = require('./../errors/ciborg-error.js');
     const CiborgValidator = require('./validator.js');
-    //const services = require('./../services/ciborg-services.js')
 
     return {
         getAllGames : getAllGames,
@@ -20,7 +19,7 @@ module.exports = function(services) {
 
     // constructs response with data from service
     function resolveServiceResponse(data, rsp) {
-        rsp.header("Content-type:application/json");
+        rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = data.statusCode;
         rsp.end(JSON.stringify(data.body));
     }
@@ -34,7 +33,7 @@ module.exports = function(services) {
     }
 
     // get popular games
-    function getAllGames(err, req, rsp) {
+    function getAllGames(req, rsp) {
         try {
             // service call
             services.games.getAllGames(serviceCallback)
@@ -42,14 +41,14 @@ module.exports = function(services) {
             err = new CiborgError(
                 'Error in service: getAllGames.',
                 'Unable to get popular games.',
-                '503' //Service Unavailable
+                '500' // Internal Server Error
             );
             CiborgError.resolveErrorResponse(err, rsp);
         }
     }
 
     // search game by name
-    function getGame(err, req, rsp) {
+    function getGame(req, rsp) {
         try {
             // ciborg validator
             let validatorErr = CiborgValidator.validateAlfanumeric(req.body.name);
@@ -62,14 +61,14 @@ module.exports = function(services) {
             err = new CiborgError(
                 'Error in service: getGame.',
                 'Unable to for game.',
-                '503' //Service Unavailable
+                '500' // Internal Server Error
             );
             CiborgError.resolveErrorResponse(err, rsp);
         }
     }
 
     // create group
-    function createGroup(err, req, rsp) {
+    function createGroup(req, rsp) {
         try {
             // ciborg validator
             let validatorErr = CiborgValidator.validateAlfanumeric(req.body.description);
@@ -82,14 +81,14 @@ module.exports = function(services) {
             err = new CiborgError(
                 'Error in service: createGroup.',
                 'Unable to create group.',
-                '503' //Service Unavailable
+                '500' // Internal Server Error
             );
             CiborgError.resolveErrorResponse(err, rsp);
         }
     }
 
     // edit group
-    function updateGroup(err, req, rsp) {
+    function updateGroup(req, rsp) {
         try {
             // ciborg validator
             let validatorErr = CiborgValidator.validateAlfanumeric(req.body.id);
@@ -106,14 +105,14 @@ module.exports = function(services) {
             err = new CiborgError(
                 'Error in service: updateGroup.',
                 'Unable to update group.',
-                '503' //Service Unavailable
+                '500' // Internal Server Error
             );
             CiborgError.resolveErrorResponse(err, rsp);
         }
     }
 
     // list all groups
-    function getAllGroups(err, req, rsp) {
+    function getAllGroups(req, rsp) {
         try {
             // service call
             services.groups.getAllGroups(serviceCallback);
@@ -121,14 +120,14 @@ module.exports = function(services) {
             err = new CiborgError(
                 'Error in service: getAllGroups.',
                 'Unable to get popular groups.',
-                '503' //Service Unavailable
+                '500' // Internal Server Error
             );
             CiborgError.resolveErrorResponse(err, rsp);
         }
     }
 
     // get group details
-    function getGroup(err, req, rsp) {
+    function getGroup(req, rsp) {
         try {
             // ciborg validator
             let validatorErr = CiborgValidator.validateAlfanumeric(req.body.id);
@@ -141,14 +140,14 @@ module.exports = function(services) {
             err = new CiborgError(
                 'Error in service: getGroupById.',
                 'Unable to get group details.',
-                '503' //Service Unavailable
+                '500' // Internal Server Error
             );
             CiborgError.resolveErrorResponse(err, rsp);
         }
     }
 
     // add game to group
-    function addGameToGroup(err, req, rsp) {
+    function addGameToGroup(req, rsp) {
         try {
             // service call
             services.groups.addGameToGroup(req.body.id, req.body.name, serviceCallback);
@@ -156,14 +155,14 @@ module.exports = function(services) {
             err = new CiborgError(
                 'Error in service: addGameToGroup.',
                 'Unable to add game to group.',
-                '503' //Service Unavailable
+                '500' // Internal Server Error
             );
             CiborgError.resolveErrorResponse(err, rsp);
         }
     }
 
     // remove game from group
-    function removeGameFromGroup(err, req, rsp) {
+    function removeGameFromGroup(req, rsp) {
         try {
             // ciborg validator
             let validatorErr = CiborgValidator.validateAlfanumeric(req.body.id);
@@ -180,14 +179,14 @@ module.exports = function(services) {
             err = new CiborgError(
                 'Error in service: removeGameFromGroup.',
                 'Unable to remove game from group.',
-                '503' //Service Unavailable
+                '500' // Internal Server Error
             );
             CiborgError.resolveErrorResponse(err, rsp);
         }
     }
 
     // get all games froum a group
-    function getGamesFromGroup(req, rsp) {
+    function getGamesFromGroup(rsp, rsp) {
         try {
             // ciborg validator
             let validatorErr = CiborgValidator.validateAlfanumeric(req.body.id);
@@ -200,7 +199,7 @@ module.exports = function(services) {
             let err = new CiborgError(
                 'Error in service: getGamesByGroupID.',
                 'Unable to get games from group.',
-                '503' //Service Unavailable
+                '500' // Internal Server Error
             );
             CiborgError.resolveErrorResponse(err, rsp);
         }
