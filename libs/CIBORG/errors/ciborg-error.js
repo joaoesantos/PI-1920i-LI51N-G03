@@ -4,11 +4,9 @@ class CiborgError extends Error {
         this.clientErrorMessage = clientErrorMessage;
         this.statusCode = statusCode;
     }
-    resolveErrorResponse(err, rsp) {
-        rsp.statusCode = err.statusCode;
-        rsp.statusMessage = err.statusMessage;
-        rsp.end(err.clientErrorMessage);
+    resolveErrorResponse(rsp) {
+        rsp.statusCode = this.statusCode;
+        rsp.end(JSON.stringify({ payload : this.clientErrorMessage }));
     }
 }
-
-module.exports = CiborgError;
+module.exports =  CiborgError;

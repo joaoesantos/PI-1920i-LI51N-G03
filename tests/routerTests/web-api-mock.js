@@ -16,55 +16,55 @@ module.exports = function() {
     function getAllGames(req, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = '200';
-        rsp.end('getAllGames');
+        rsp.end(JSON.stringify({ payload : 'getAllGames' }));
     }
 
     function getGame(req, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = '200';
-        rsp.end('getGame');
+        rsp.end(JSON.stringify({ payload : 'getGame' }));
     }
 
     function createGroup(req, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = '200';
-        rsp.end('createGroup');
+        rsp.end(JSON.stringify({ payload :'createGroup' }));
     }
 
     function updateGroup(req, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = '200';
-        rsp.end('updateGroup');
+        rsp.end(JSON.stringify({ payload : 'updateGroup'}));
     }
 
     function getAllGroups(req, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = '200';
-        rsp.end('getAllGroups');
+        rsp.end(JSON.stringify({ payload : 'getAllGroups'}));
     }
 
     function getGroup(req, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = '200';
-        rsp.end('getGroup');
+        rsp.end(JSON.stringify({ payload : 'getGroup'}));
     }
 
     function addGameToGroup(req, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = '200';
-        rsp.end('addGameToGroup');
+        rsp.end(JSON.stringify({ payload : 'addGameToGroup'}));
     }
 
     function removeGameFromGroup(req, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = '200';
-        rsp.end('removeGameFromGroup');
+        rsp.end(JSON.stringify({ payload : 'removeGameFromGroup'}));
     }
 
     function getGamesFromGroup(req, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = '200';
-        rsp.end('getGamesFromGroup');
+        rsp.end(JSON.stringify({ payload : 'getGamesFromGroup'}));
     }
 
 }

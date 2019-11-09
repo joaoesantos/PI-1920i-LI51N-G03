@@ -1,10 +1,11 @@
 "use strict";
 
 let assert = require('assert');
+const CiborgError = require('../../libs/CIBORG/errors/ciborg-error');
 const http = require('http');
 const httpCall = require('../../libs/CIBORG/request/HttpCall');
 const webapi = require('./web-api-mock.js')();
-const router = require('./../../libs/CIBORG/webapi/router');
+const router = require('./../../libs/CIBORG/webapi/router')(CiborgError);
 
 const config = {
     port: 9200,
@@ -33,9 +34,9 @@ describe('Router test:', function() {
             headers: { 'User-Agent': 'request'}
         };
         httpCall.get(options,(rsp) => {
-            assert.equal('No routes implemented yet.',rsp.body);
+            assert.equal('Command does not exist.', JSON.parse(rsp.body).payload);
+            done();            
         },() => {}); // (err) => {console.log(err)}
-        done();
     });
 
     it('Should return getAllGames', function(done) {
@@ -44,20 +45,21 @@ describe('Router test:', function() {
             headers: { 'User-Agent': 'request'}
         };
         httpCall.get(options,(rsp) => {
-            assert.equal('getAllGames',rsp.body);
+            assert.equal('getAllGames', JSON.parse(rsp.body).payload);
+            done();
         },() => {}); // (err) => {console.log(err)}
-        done();
     });
 
+    
     it('Should return getGame', function(done) {
         let options = {
             url: 'http://localhost:9200/games/:name',
             headers: { 'User-Agent': 'request'}
         };
         httpCall.get(options,(rsp) => {
-            assert.equal('getGame',rsp.body);
+            assert.equal('getGame', JSON.parse(rsp.body).payload);
+            done();
         },() => {})
-        done();
     });
 
     it('Should return createGroup', function(done) {
@@ -66,9 +68,9 @@ describe('Router test:', function() {
             headers: { 'User-Agent': 'request'}
         };
         httpCall.post(options,(rsp) => {
-            assert.equal('createGroup',rsp.body);
+            assert.equal('createGroup', JSON.parse(rsp.body).payload);
+            done();
         },() => {})
-        done();
     });
 
     it('Should return updateGroup', function(done) {
@@ -77,9 +79,9 @@ describe('Router test:', function() {
             headers: { 'User-Agent': 'request'}
         };
         httpCall.put(options,(rsp) => {
-            assert.equal('updateGroup',rsp.body);
+            assert.equal('updateGroup', JSON.parse(rsp.body).payload);
+            done();
         },() => {})
-        done();
     });
 
     it('Should return getAllGroups', function(done) {
@@ -88,9 +90,9 @@ describe('Router test:', function() {
             headers: { 'User-Agent': 'request'}
         };
         httpCall.get(options,(rsp) => {
-            assert.equal('getAllGroups',rsp.body);
+            assert.equal('getAllGroups', JSON.parse(rsp.body).payload);
+            done();
         },() => {})
-        done();
     });
 
     it('Should return getGroup', function(done) {
@@ -99,9 +101,9 @@ describe('Router test:', function() {
             headers: { 'User-Agent': 'request'}
         };
         httpCall.get(options,(rsp) => {
-            assert.equal('getGroup',rsp.body);
+            assert.equal('getGroup', JSON.parse(rsp.body).payload);
+            done();
         },() => {})
-        done();
     });
 
     it('Should return addGameToGroup', function(done) {
@@ -110,9 +112,9 @@ describe('Router test:', function() {
             headers: { 'User-Agent': 'request'}
         };
         httpCall.put(options,(rsp) => {
-            assert.equal('addGameToGroup',rsp.body);
+            assert.equal('addGameToGroup', JSON.parse(rsp.body).payload);
+            done();
         },() => {});
-        done();
     });
 
     it('Should return removeGameFromGroup', function(done) {
@@ -121,9 +123,9 @@ describe('Router test:', function() {
             headers: { 'User-Agent': 'request'}
         };
         httpCall.delete(options,(rsp) => {
-            assert.equal('removeGameFromGroup',rsp.body);
+            assert.equal('removeGameFromGroup', JSON.parse(rsp.body).payload);
+            done();
         },() => {});
-        done();
     });
 
     it('Should return getGamesFromGroup', function(done) {
@@ -132,13 +134,11 @@ describe('Router test:', function() {
             headers: { 'User-Agent': 'request'}
         };
         httpCall.get(options,(rsp) => {
-            assert.equal('getGamesFromGroup',rsp.body);
+            assert.equal('getGamesFromGroup', JSON.parse(rsp.body).payload);
+            done();
         },() => {});
-        done();
     });
 
 });
 
-server.close();
-
-
+//server.setTimeout(2000, () => server.close());

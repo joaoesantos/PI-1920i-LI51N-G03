@@ -32,7 +32,7 @@ let routerFunction = function(CiborgError) {
                 'Command does not exist.',
                 '404' // Not Found
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
         
         // matches url with templates
@@ -46,7 +46,7 @@ let routerFunction = function(CiborgError) {
             if(matchObj != null) {
                 // add parameters to request if there's any
                 addParametersToRequest(req, route, matchObj);
-                route.handler(req,rsp); // call web-api
+                route.handler(req, rsp); // call web-api
                 return true;
             } 
         });
@@ -56,7 +56,7 @@ let routerFunction = function(CiborgError) {
                 'Command does not exist.',
                 '404' // Not Found
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
 
     };
