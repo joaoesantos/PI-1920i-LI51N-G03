@@ -1,7 +1,7 @@
 'use strict';
 const request = require('request');   
 const client_id = 'rFMyVCTRWP';
-
+const CiborgError = require('../../errors/ciborg-error');
 module.exports = function(GamesDto, GamesDtoMapper, HttpCall){
 
     function createOptionsForGamesOrderedByField(number,field,ascending){
@@ -25,33 +25,44 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall){
         };
     
         function resolved(data){
-            let games = data.games.map(function(g) {
+            try{
+                let games = data.games.map(function(g) {
     
-                let dto = GamesDto(
-                    g.id,
-                    g.name,
-                    g.year_published,
-                    g.min_players,
-                    g.max_players,
-                    g.min_playtime,
-                    g.max_playtime,
-                    g.min_age,
-                    g.description,
-                    g.description_preview,
-                    g.price,
-                    g.primary_publisher,
-                    g.num_user_ratings,
-                    g.average_user_rating,
-                    );
+                    let dto = GamesDto(
+                        g.id,
+                        g.name,
+                        g.year_published,
+                        g.min_players,
+                        g.max_players,
+                        g.min_playtime,
+                        g.max_playtime,
+                        g.min_age,
+                        g.description,
+                        g.description_preview,
+                        g.price,
+                        g.primary_publisher,
+                        g.num_user_ratings,
+                        g.average_user_rating,
+                        );
+    
+                        return GamesDtoMapper.entityToModel(dto);
+                    });
 
-                    return GamesDtoMapper.entityToModel(dto);
-                });
+                    cb(null,{
+                        statusCode: 201,
+                        statusMessage: "accepted",
+                        body: {games}
+                        });
+            }catch(e){
+                cb(
+                    new CiborgError(
+                    'Error calling external service: getMostPopularGames.',
+                    'Unable to get popular games.',
+                    '500'));
+            }
+            
 
-            cb(null,{
-                statusCode: 201,
-                statusMessage: "accepted",
-                body: {games}
-                });
+            
         };
     
         function rejected(err){
@@ -75,39 +86,48 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall){
         };
     
         function resolved(data){
-            let games = data.games.map(function(g) {
+            try{
+                let games = data.games.map(function(g) {
     
-                let dto = GamesDto(
-                    g.id,
-                    g.name,
-                    g.year_published,
-                    g.min_players,
-                    g.max_players,
-                    g.min_playtime,
-                    g.max_playtime,
-                    g.min_age,
-                    g.description,
-                    g.description_preview,
-                    g.price,
-                    g.primary_publisher,
-                    g.num_user_ratings,
-                    g.average_user_rating,
-                    );
-
-                    return GamesDtoMapper.entityToModel(dto);
-                });
-
-            cb(null,{
-                statusCode: 201,
-                statusMessage: "accepted",
-                body: {games}
-                });
+                    let dto = GamesDto(
+                        g.id,
+                        g.name,
+                        g.year_published,
+                        g.min_players,
+                        g.max_players,
+                        g.min_playtime,
+                        g.max_playtime,
+                        g.min_age,
+                        g.description,
+                        g.description_preview,
+                        g.price,
+                        g.primary_publisher,
+                        g.num_user_ratings,
+                        g.average_user_rating,
+                        );
+    
+                        return GamesDtoMapper.entityToModel(dto);
+                    });
+    
+                cb(null,{
+                    statusCode: 201,
+                    statusMessage: "accepted",
+                    body: {games}
+                    });
+            }catch(e){
+                cb(new CiborgError(
+                    'Error calling external service: getGameByID.',
+                    'Unable to get game.',
+                    '500' //Service Unavailable
+                ));
+            }
+            
         };
     
         function rejected(err){
             cb(new CiborgError(
-                'Error in service: getAllGames.',
-                'Unable to get popular games.',
+                'Error in service: getGameByID.',
+                'Unable to get game.',
                 '503' //Service Unavailable
             ));
         };
@@ -124,39 +144,48 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall){
         };
     
         function resolved(data){
-            let games = data.games.map(function(g) {
+            try{
+                let games = data.games.map(function(g) {
     
-            let dto = GamesDto(
-                g.id,
-                g.name,
-                g.year_published,
-                g.min_players,
-                g.max_players,
-                g.min_playtime,
-                g.max_playtime,
-                g.min_age,
-                g.description,
-                g.description_preview,
-                g.price,
-                g.primary_publisher,
-                g.num_user_ratings,
-                g.average_user_rating,
-                );
-    
-                return GamesDtoMapper.entityToModel(dto);
-            });
-    
+                    let dto = GamesDto(
+                        g.id,
+                        g.name,
+                        g.year_published,
+                        g.min_players,
+                        g.max_players,
+                        g.min_playtime,
+                        g.max_playtime,
+                        g.min_age,
+                        g.description,
+                        g.description_preview,
+                        g.price,
+                        g.primary_publisher,
+                        g.num_user_ratings,
+                        g.average_user_rating,
+                        );
             
-            cb(null,{
-                statusCode: 201,
-                statusMessage: "accepted",
-                body: {games}
-                });
+                        return GamesDtoMapper.entityToModel(dto);
+                    });
+            
+                    
+                    cb(null,{
+                        statusCode: 201,
+                        statusMessage: "accepted",
+                        body: {games}
+                        });
+            }catch(e){
+                cb(new CiborgError(
+                    'Error calling external service:: searchByName.',
+                    'Unable to search games.',
+                    '500' //Service Unavailable
+                )
+            }
+            
         };
     
         function rejected(err){
             cb(new CiborgError(
-                'Error in service: getAllGames.',
+                'Error in service: searchByName.',
                 'Unable to get popular games.',
                 '503' //Service Unavailable
             ));

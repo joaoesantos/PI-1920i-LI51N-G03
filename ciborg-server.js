@@ -5,8 +5,6 @@ const config = {
     port: 8080,
 }
 
-const router = require('./libs/CIBORG/webapi/router');
-const webapi = require('./libs/CIBORG/webapi/ciborg-web-api');
 const gamesDto = require('./libs/CIBORG/entities/dtos/GameDto');
 const gamesEntity = require('./libs/CIBORG/entities/models/Game');
 const gamesDtoMapper = require('./libs/CIBORG/entities/mappers/GameDtoMapper')(gamesEntity);

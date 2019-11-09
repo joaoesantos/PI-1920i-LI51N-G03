@@ -2,11 +2,11 @@ let assert = require('assert');
 let gameDto = require('../../libs/CIBORG/entities/dtos/GameDto');
 let game = require('../../libs/CIBORG/entities/models/Game');
 let gameMapper = require('../../libs/CIBORG/entities/mappers/GameDtoMapper')(game);
-let httpCallGetGameByID = require('./mocks/getGameByID-httpCall-mock');
+let httpCallGetGameByID = require('./getGameByID-httpCall-mock');
 let serviceGetGameByID = require('../../libs/CIBORG/services/games/ciborg-services-games.js')(gameDto, gameMapper, httpCallGetGameByID);
-let httpCallsearchByName = require('./mocks/searchByName-httpCall-mock');
+let httpCallsearchByName = require('./searchByName-httpCall-mock');
 let serviceSearchByName = require('../../libs/CIBORG/services/games/ciborg-services-games.js')(gameDto, gameMapper, httpCallsearchByName);
-let httpCallGetMostPopularGames = require('./mocks/getMostPopularGames-httpCall-mock');
+let httpCallGetMostPopularGames = require('./getMostPopularGames-httpCall-mock');
 let serviceGetMostPopularGames = require('../../libs/CIBORG/services/games/ciborg-services-games.js')(gameDto, gameMapper, httpCallGetMostPopularGames);
 
 describe('Service-games test:', function() {
