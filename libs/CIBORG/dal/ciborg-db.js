@@ -1,6 +1,5 @@
 'use strict';
-var debug = require('debug')('board-games-data');
-
+var debug = require('debug')('ciborg-db');
 
 let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
     if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
@@ -206,7 +205,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                             HttpCall.put(opts, handler);
                         }
                     } catch(err) {
-                        debug.extend('updateGroupWithNoGames').extend('handleGroupById')(error);
+                        debug.extend('updateGroupWithNoGames').extend('handleGroupById')(err);
                         cb( new CiborgError(
                             'Error in service: addGameToGroup.',
                             'Unable to get group for adding the game.',
@@ -231,7 +230,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     debug.extend('getGamesFromGroup').extend('handdleGroupById')("Handling getGroupById: " + groupId);
                     try {
                         if(error) {
-                            debug.extend('getGamesFromGroup').extend('handdleGroupById')(err);
+                            debug.extend('getGamesFromGroup').extend('handdleGroupById')(error);
                             cb(error);
                         } else {
                             let group = response.body;
@@ -266,7 +265,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     debug.extend('addGameToGroup').extend('handleGroupById')("Handling getGroupById: " + groupId);
                     try {
                         if(error) {
-                            debug.extend('addGameToGroup').extend('handleGroupById')(err);
+                            debug.extend('addGameToGroup').extend('handleGroupById')(error);
                             cb(error);
                         } else {
                             let group = response.body;
@@ -275,7 +274,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                                 debug.extend('addGameToGroup').extend('handleGroupById').extend('handleGameByName')("Handling searchByName: " + gameName);
                                 try {
                                     if(error) {
-                                        debug.extend('addGameToGroup').extend('handleGroupById').extend('handleGameByName')(err);
+                                        debug.extend('addGameToGroup').extend('handleGroupById').extend('handleGameByName')(error);
                                         cb(error);
                                     } else {
                                         let games = response.body;
@@ -392,7 +391,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                                         }                                    
                                     }
                                 } catch(err) {
-                                    debug.extend('removeGameFromGroup').extend('handleGroupById').extend('handleGameByName')(error);
+                                    debug.extend('removeGameFromGroup').extend('handleGroupById').extend('handleGameByName')(err);
                                     cb( new CiborgError(
                                         'Error in service: addGameToGroup.',
                                         'Unable to get group for adding the game.',

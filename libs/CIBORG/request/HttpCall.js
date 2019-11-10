@@ -1,7 +1,7 @@
 'use strict';
 
 let request = require('request');
-var debug = require('debug')('board-games-data');
+var debug = require('debug')('http-call');
     
 let httpCall = (Props, CiborgError) => {
     if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {

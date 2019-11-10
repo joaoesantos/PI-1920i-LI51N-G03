@@ -1,11 +1,13 @@
 "use strict";
 
 let assert = require('assert');
+const Props = require('../../libs/CIBORG/shared/Config')("../../libs/CIBORG/shared/files");
 const CiborgError = require('../../libs/CIBORG/errors/ciborg-error');
+const CiborgValidator = require('../../libs/CIBORG/validators/ciborg-validator');
 const http = require('http');
 const httpCall = require('../../libs/CIBORG/request/HttpCall')(CiborgError);
 const webapi = require('./web-api-mock.js')();
-const router = require('./../../libs/CIBORG/webapi/router')(CiborgError);
+const router = require('./../../libs/CIBORG/webapi/router')(Props, CiborgError, CiborgValidator);
 
 // registered routes
 router.get('/games', webapi.getAllGames);

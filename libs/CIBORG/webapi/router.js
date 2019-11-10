@@ -1,7 +1,10 @@
 "use strict";
+var debug = require('debug')('router');
 
-let routerFunction = function(CiborgError) {
-
+let routerFunction = function(Props, CiborgError, CiborgValidator) {
+    if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
+        debug.disable();
+    }
     // navigates request to api method and gets response if possibel
     let router = function (request, response) {
         // colects all data before processing request
@@ -20,6 +23,7 @@ let routerFunction = function(CiborgError) {
                 }
                 request.body = (body.length === 0) ? {} :JSON.parse(body);
             }
+            debug("REQUEST RECEIVED");
             router.navigate(request, response);
         });
     };
@@ -42,6 +46,7 @@ let routerFunction = function(CiborgError) {
                 'Command does not exist.',
                 '404' // Not Found
             );
+            debug.extend("navigate")(err);
             err.resolveErrorResponse(rsp);
         }
         
@@ -66,9 +71,11 @@ let routerFunction = function(CiborgError) {
                 'Command does not exist.',
                 '404' // Not Found
             );
+            debug.extend("navigate")(err);
             err.resolveErrorResponse(rsp);
+        } else {
+            debug.extend("navigate")("REQUEST MATCHED");
         }
-
     };
 
     // add parameteres to request body

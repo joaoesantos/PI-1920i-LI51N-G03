@@ -11,8 +11,8 @@ const CiborgValidator = require('./libs/CIBORG/validators/ciborg-validator')(Cib
 const gamesService = require('./libs/CIBORG/dal/board-games-data')(Props, gamesDto, gamesDtoMapper, httpCall, CiborgError);
 const groupService = require('./libs/CIBORG/dal/ciborg-db')(Props, httpCall, gamesService, CiborgError);
 const services = require('./libs/CIBORG/services/ciborg-services')(gamesService, groupService);
-const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(services, CiborgError, CiborgValidator);
-const router = require('./libs/CIBORG/webapi/router')(CiborgError, CiborgValidator);
+const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(Props, services, CiborgError, CiborgValidator);
+const router = require('./libs/CIBORG/webapi/router')(Props, CiborgError, CiborgValidator);
 
 //Register routes
 router.get('/games', webapi.getMostPopularGames);

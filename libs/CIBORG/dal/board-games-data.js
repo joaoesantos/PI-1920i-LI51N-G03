@@ -9,7 +9,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         return pairArray.map(e => e.key + keyValueSeparator + e.value).reduce((accum, currVal) => accum + pairSeparator + currVal, "").substr(1);
     }
 
-    function createOptionsForGamesOrderedByField(number,field,ascending){
+    function createOptionsForGamesOrderedByField(number,field,ascending) {
         let query = queryBuilder([
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "limit", value: number},
