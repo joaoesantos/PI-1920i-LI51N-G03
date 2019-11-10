@@ -14,7 +14,6 @@ let httpCall = (CiborgError) => {
                         '500' // Internal Server Error
                     );
                     handler(error);
-                    //rejected(new CustomError("E5001", 500, err.message, "Error acessing DB/API"));
                 } else {
                     handler(null, resp);
                 }

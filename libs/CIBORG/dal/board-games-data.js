@@ -12,7 +12,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: "limit", value: number},
             {key: "order_by", value: field},
             {key: "ascending", value: ascending},
-        ]);
+        ], "=", "&");
         let options = {
             url: Props.api.base_url + Props.api.search_api + "?" + query,
             headers: {
@@ -28,20 +28,21 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "order_by", value: "popularity"},
             {key: "ascending", value: "false"}
-        ]);
+        ], "=", "&");
         // Setting URL and headers for request
         let options = {
             url: Props.api.base_url + Props.api.search_api + "?" + query,
             headers: {
                 'User-Agent': 'request'
-            }
+            },
+            json: true
         };
         function handler(err, data) {
             try {
                 if(err) {
                     cb(err);
                 } else {
-                    let games = data.games.map(function(g) {
+                    let games = data.body.games.map(function(g) {
         
                         let dto = GamesDto(
                             g.id,
@@ -83,19 +84,20 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         let query = queryBuilder([
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "ids", value: id}
-        ]);
+        ], "=", "&");
         let options = {
             url: Props.api.base_url + Props.api.search_api + "?" + query,
             headers: {
                 'User-Agent': 'request'
-            }
+            },
+            json: true
         };
         function handler(err, data){
             try {
                 if(err) {
                     cb(err);
                 } else {
-                    let games = data.games.map(function(g) {
+                    let games = data.body.games.map(function(g) {
         
                         let dto = GamesDto(
                             g.id,
@@ -136,19 +138,22 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         let query = queryBuilder([
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "name", value: gameName}
-        ]);
+        ], "=", "&");
         let options = {
             url: Props.api.base_url + Props.api.search_api + "?" + query,
             headers: {
                 'User-Agent': 'request'
-            }
+            },
+            json: true
         };
         function handler(err, data) {
             try {
+                console.log("err1")
+                console.log(err)
                 if(err) {
                     cb(err);
                 } else {
-                    let games = data.games.map(function(g) {
+                    let games = data.body.games.map(function(g) {
                         let dto = GamesDto(
                             g.id,
                             g.name,
@@ -167,13 +172,15 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                             );
                             return GamesDtoMapper.entityToModel(dto);
                 });
+                console.log(games)
                 cb(null,{
                     statusCode: 201,
-                    statusMessage: "accepted",
-                    body: {games}
+                    body: games
                     });
                 }
             } catch(err) {
+                console.log("err2")
+                console.log(err)
                 cb(new CiborgError(
                     'Error calling external service:: searchByName.',
                     'Unable to search games.',
@@ -181,6 +188,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                 ));
             }  
         };
+        console.log("GETTING GAME")
         HttpCall.get(options, handler);
     };
 

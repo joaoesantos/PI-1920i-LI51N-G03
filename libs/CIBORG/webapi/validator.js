@@ -18,7 +18,7 @@ let validator = function (CiborgError) {
 
     //Validates if data is an alphanumeric
     function validateAlfanumeric(data) {
-        if (!data.match(/^[0-9a-z]+$/)) {
+        if (!data.match(/^[0-9a-zA-Z]+$/)) {
             let err = new CiborgError(
                 'Error in validator:  ' + data + ' is not alphanumeric.',
                 'Parameter is not alphanumeric',

@@ -6,7 +6,9 @@ class CiborgError extends Error {
     }
     resolveErrorResponse(rsp) {
         rsp.statusCode = this.statusCode;
-        rsp.end(JSON.stringify({ payload : this.clientErrorMessage }));
+        let errorResponsePayload = { payload : this };
+        errorResponsePayload.payload.apiErrorMessage = this.message;
+        rsp.end(JSON.stringify(errorResponsePayload));
     }
 }
 module.exports =  CiborgError;
