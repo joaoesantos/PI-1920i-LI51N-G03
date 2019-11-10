@@ -139,20 +139,17 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             try {
                 let handleGroupById = (error, response) => {
                     try {
-                        console.log("handleGroupById")
                         if(error) {
                             cb(error);
                         } else {
                             let group = response.body;
                             
                             let handleGameByName = (error, response) => {
-                                console.log("handleGameByName")
                                 if(error) {
                                     cb(error);
                                 } else {
                                     let games = response.body;
                                     let wasGameAdded = false;
-                                    console.log(games)
                                     games.forEach(el => {
                                         if(!group.games.find(game => game.name === el.name)) {
                                             group.games.push(el);
@@ -171,10 +168,8 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                                 }
                             };
                             GameServices.searchByName(gameName, handleGameByName);
-                            console.log("after search")
                         }
                     } catch(err) {
-                        console.log(err)
                         cb( new CiborgError(
                             'Error in service: addGameToGroup.',
                             'Unable to get group for adding the game.',
@@ -192,32 +187,72 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             }
         },
         
-        removeGameFromGroup: function (group, gameId, cb) {
+        removeGameFromGroup: function (groupId, gameName, cb) {
             try {
-                let handleGameByName = (error, response) => {
-                    if(error) {
-                        cb(error);
-                    } else {
-                        let game = response.body;
-                        group.games = group.games.filter(g => g.id !== game.id);
-                        let groupId = group.id;
-                        delete group.id;
-                        let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
-                        let opts = { url: fullUrl, json: true, body: group};
-                        let handler = (err, payload) => {
-                            if(err) {
-                                cb(err);
-                            } else {
-                                cb(null, {
-                                    statusCode: 202,
-                                    body: {}
-                                });
-                            }
-                        };
-                        HttpCall.put(opts, handler);
+                let handleGroupById = (error, response) => {
+                    try {
+                        if(error) {
+                            cb(error);
+                        } else {
+                            let group = response.body;
+                            console.log("I HAVE THE GAME")
+                            let handleGameByName = (error, response) => {
+                                if(error) {
+                                    cb(error);
+                                } else {
+                                    let games = response.body;
+                                    let wereGamesRemoved = false;
+                                    games.forEach(el => {
+                                        group.games = group.games.filter(game => {
+                                            let isFiltered = game.name === el.name;
+                                            if(isFiltered) {
+                                                wereGamesRemoved = true;
+                                            }
+                                            return isFiltered;
+                                        });
+                                        /*
+                                        if(group.games.find(game => game.name === el.name)) {
+                                            group.games.remove(el);
+                                            wereGamesRemoved = true;
+                                        }*/
+                                    });
+                                    if(!wereGamesRemoved) {
+                                        cb( new CiborgError(
+                                            'Error in service: removeGameFromGroup. The game does not exist or is not in this group.',
+                                            'Unable to remove game from group. Either the game does not exist or is is not related to this group.',
+                                            '500' // Internal Server Error
+                                        ));
+                                    } else {
+                                        console.log("UPDATING GAME AFTER REMOVAL")
+                                        delete group.id;
+                                        let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
+                                        let opts = { url: fullUrl, json: true, body: group};
+                                        let handler = (err, payload) => {
+                                            if(err) {
+                                                cb(err);
+                                            } else {
+                                                cb(null, {
+                                                    statusCode: 202,
+                                                    body: {}
+                                                });
+                                            }
+                                        }; 
+                                        HttpCall.put(opts, handler); 
+                                    }                                    
+                                }
+                            };
+                            GameServices.searchByName(gameName, handleGameByName);
+                        }
+                    } catch(err) {
+                        console.log(err)
+                        cb( new CiborgError(
+                            'Error in service: removeGameFromGroup.',
+                            'Unable to get group to remove from game.',
+                            '500' // Internal Server Error
+                        ));
                     }
-                };
-                GameServices.getGamesById([gameId], handleGameByName);
+                }
+                this.getGroupById(groupId, handleGroupById);
             } catch(err) {
                 cb( new CiborgError(
                     'Error in service: removeGameFromGroup.',
