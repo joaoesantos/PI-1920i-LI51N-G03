@@ -7,12 +7,12 @@ const gamesDtoMapper = require('./libs/CIBORG/entities/mappers/GameDtoMapper')(g
 const CiborgError = require('./libs/CIBORG/errors/ciborg-error');
 const httpCall = require('./libs/CIBORG/request/HttpCall')(CiborgError);
 const Props = require('./libs/CIBORG/shared/Config')("./libs/CIBORG/shared/files");
-const CiborgValidator = require('./libs/CIBORG/webapi/validator')(CiborgError);
+const CiborgValidator = require('./libs/CIBORG/validators/ciborg-validator')(CiborgError);
 const gamesService = require('./libs/CIBORG/dal/board-games-data')(Props, gamesDto, gamesDtoMapper, httpCall, CiborgError);
 const groupService = require('./libs/CIBORG/dal/ciborg-db')(Props, httpCall, gamesService, CiborgError);
 const services = require('./libs/CIBORG/services/ciborg-services')(gamesService, groupService);
 const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(services, CiborgError, CiborgValidator);
-const router = require('./libs/CIBORG/webapi/router')(CiborgError);
+const router = require('./libs/CIBORG/webapi/router')(CiborgError, CiborgValidator);
 
 //Register routes
 router.get('/games', webapi.getMostPopularGames);

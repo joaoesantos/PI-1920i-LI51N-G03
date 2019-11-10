@@ -7,11 +7,7 @@ const httpCall = require('../../libs/CIBORG/request/HttpCall')(CiborgError);
 const webapi = require('./web-api-mock.js')();
 const router = require('./../../libs/CIBORG/webapi/router')(CiborgError);
 
-const config = {
-    port: 9200,
-}
-
-// regist routes
+// registered routes
 router.get('/games', webapi.getAllGames);
 router.get('/games/:name', webapi.getGame);
 router.post('/groups', webapi.createGroup);
@@ -23,6 +19,9 @@ router.delete('/groups/games', webapi.removeGameFromGroup);
 router.get('/groups/:id/games', webapi.getGamesFromGroup);
 //console.log(router.routes);
 
+const config = {
+    port: 9200,
+}
 const server = http.createServer(router);
 server.listen(config.port);
 
@@ -143,4 +142,4 @@ describe('Router test:', function() {
 
 setTimeout((function() {
     return process.exit();
-}), 1000);
+}), 500);
