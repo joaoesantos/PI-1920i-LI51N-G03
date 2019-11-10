@@ -3,7 +3,7 @@
 let assert = require('assert');
 const CiborgError = require('../../libs/CIBORG/errors/ciborg-error');
 const http = require('http');
-const httpCall = require('../../libs/CIBORG/request/HttpCall');
+const httpCall = require('../../libs/CIBORG/request/HttpCall')(CiborgError);
 const webapi = require('./web-api-mock.js')();
 const router = require('./../../libs/CIBORG/webapi/router')(CiborgError);
 

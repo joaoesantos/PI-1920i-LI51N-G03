@@ -1,8 +1,7 @@
 'use strict';
 const request = require('request');   
 const client_id = 'rFMyVCTRWP';
-const CiborgError = require('../../errors/ciborg-error');
-module.exports = function(GamesDto, GamesDtoMapper, HttpCall){
+module.exports = function(GamesDto, GamesDtoMapper, HttpCall, CiborgError){
 
     function createOptionsForGamesOrderedByField(number,field,ascending){
         let options = {
