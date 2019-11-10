@@ -12,9 +12,9 @@ const CiborgError = require('./libs/CIBORG/errors/ciborg-error');
 const httpCall = require('./libs/CIBORG/request/HttpCall')(CiborgError);
 const Props = require('./libs/CIBORG/shared/Config');
 const CiborgValidator = require('./libs/CIBORG/webapi/validator')(CiborgError);
-const gamesService = require('./libs/CIBORG/services/games/ciborg-services-games')(gamesDto,gamesDtoMapper,httpCall);
-const groupService = require('./libs/CIBORG/services/groups/ciborg-services-groups')(Props, httpCall, gamesService, CiborgError);
-const services = require('./libs/CIBORG/services/games/ciborg-services-games')(gamesService, groupService);
+const gamesService = require('./libs/CIBORG/dal/board-games-data')(gamesDto, gamesDtoMapper, httpCall, CiborgError);
+const groupService = require('./libs/CIBORG/dal/ciborg-db')(Props, httpCall, gamesService, CiborgError);
+const services = require('./libs/CIBORG/services/ciborg-services')(gamesService, groupService);
 const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(services, CiborgError, CiborgValidator);
 const router = require('./libs/CIBORG/webapi/router')(CiborgError);
 
