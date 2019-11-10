@@ -96,7 +96,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 validatorErr.resolveErrorResponse(rsp);
             }
             // service call
-            services.groups.updateGroup(req.body, serviceCallback);
+            services.groups.updateGroupWithNoGames(req.body, serviceCallback);
         } catch(error) {
             let err = new CiborgError(
                 'Error in service: updateGroup.',
