@@ -7,7 +7,7 @@ let httpCall = (CiborgError) => {
     let genericMethodCall = (method) => {
         return (options, handler) => {
             request[method.toLowerCase()](options, function(err, resp) {
-                if (err) { //verificar como detar erro, status code apenas?
+                if (err) { 
                     let error = new CiborgError(
                         'Error accessiing external service.',
                         'Unable to add game to group.',
@@ -27,7 +27,6 @@ let httpCall = (CiborgError) => {
         put: genericMethodCall("PUT"),
         delete: genericMethodCall("DELETE")
     }
-
     return HttpCall;
 }
 

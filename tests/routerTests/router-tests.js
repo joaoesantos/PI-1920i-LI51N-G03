@@ -15,11 +15,11 @@ const config = {
 router.get('/games', webapi.getAllGames);
 router.get('/games/:name', webapi.getGame);
 router.post('/groups', webapi.createGroup);
-router.put('/groups/:id', webapi.updateGroup);
+router.put('/groups', webapi.updateGroup);
 router.get('/groups', webapi.getAllGroups);
 router.get('/groups/:id', webapi.getGroup);
-router.put('/groups/:id/games/:name', webapi.addGameToGroup);
-router.delete('/groups/:id/games/:name', webapi.removeGameFromGroup);
+router.put('/groups/games', webapi.addGameToGroup);
+router.delete('/groups/games', webapi.removeGameFromGroup);
 router.get('/groups/:id/games', webapi.getGamesFromGroup);
 //console.log(router.routes);
 
@@ -33,8 +33,8 @@ describe('Router test:', function() {
             url: 'http://localhost:9200/error',
             headers: { 'User-Agent': 'request'}
         };
-        httpCall.get(options,(rsp) => {
-            assert.equal('Command does not exist.', JSON.parse(rsp.body).payload);
+        httpCall.get(options,(err, rsp) => {
+            assert.equal('Command does not exist.', JSON.parse(rsp.body).payload.clientErrorMessage);
             done();            
         },() => {}); // (err) => {console.log(err)}
     });
@@ -44,7 +44,7 @@ describe('Router test:', function() {
             url: 'http://localhost:9200/games',
             headers: { 'User-Agent': 'request'}
         };
-        httpCall.get(options,(rsp) => {
+        httpCall.get(options,(err, rsp) => {
             assert.equal('getAllGames', JSON.parse(rsp.body).payload);
             done();
         },() => {}); // (err) => {console.log(err)}
@@ -56,7 +56,7 @@ describe('Router test:', function() {
             url: 'http://localhost:9200/games/:name',
             headers: { 'User-Agent': 'request'}
         };
-        httpCall.get(options,(rsp) => {
+        httpCall.get(options,(err, rsp) => {
             assert.equal('getGame', JSON.parse(rsp.body).payload);
             done();
         },() => {})
@@ -67,7 +67,7 @@ describe('Router test:', function() {
             url: 'http://localhost:9200/groups',
             headers: { 'User-Agent': 'request'}
         };
-        httpCall.post(options,(rsp) => {
+        httpCall.post(options,(err, rsp) => {
             assert.equal('createGroup', JSON.parse(rsp.body).payload);
             done();
         },() => {})
@@ -75,10 +75,10 @@ describe('Router test:', function() {
 
     it('Should return updateGroup', function(done) {
         let options = {
-            url: 'http://localhost:9200/groups/:id',
+            url: 'http://localhost:9200/groups',
             headers: { 'User-Agent': 'request'}
         };
-        httpCall.put(options,(rsp) => {
+        httpCall.put(options,(err, rsp) => {
             assert.equal('updateGroup', JSON.parse(rsp.body).payload);
             done();
         },() => {})
@@ -89,7 +89,7 @@ describe('Router test:', function() {
             url: 'http://localhost:9200/groups',
             headers: { 'User-Agent': 'request'}
         };
-        httpCall.get(options,(rsp) => {
+        httpCall.get(options,(err, rsp) => {
             assert.equal('getAllGroups', JSON.parse(rsp.body).payload);
             done();
         },() => {})
@@ -100,7 +100,7 @@ describe('Router test:', function() {
             url: 'http://localhost:9200/groups/:id',
             headers: { 'User-Agent': 'request'}
         };
-        httpCall.get(options,(rsp) => {
+        httpCall.get(options,(err, rsp) => {
             assert.equal('getGroup', JSON.parse(rsp.body).payload);
             done();
         },() => {})
@@ -108,10 +108,10 @@ describe('Router test:', function() {
 
     it('Should return addGameToGroup', function(done) {
         let options = {
-            url: 'http://localhost:9200/groups/:id/games/:name',
+            url: 'http://localhost:9200/groups/games',
             headers: { 'User-Agent': 'request'}
         };
-        httpCall.put(options,(rsp) => {
+        httpCall.put(options,(err, rsp) => {
             assert.equal('addGameToGroup', JSON.parse(rsp.body).payload);
             done();
         },() => {});
@@ -119,10 +119,10 @@ describe('Router test:', function() {
 
     it('Should return removeGameFromGroup', function(done) {
         let options = {
-            url: 'http://localhost:9200/groups/:id/games/:name',
+            url: 'http://localhost:9200/groups/games',
             headers: { 'User-Agent': 'request'}
         };
-        httpCall.delete(options,(rsp) => {
+        httpCall.delete(options,(err, rsp) => {
             assert.equal('removeGameFromGroup', JSON.parse(rsp.body).payload);
             done();
         },() => {});
@@ -133,7 +133,7 @@ describe('Router test:', function() {
             url: 'http://localhost:9200/groups/:id/games',
             headers: { 'User-Agent': 'request'}
         };
-        httpCall.get(options,(rsp) => {
+        httpCall.get(options,(err, rsp) => {
             assert.equal('getGamesFromGroup', JSON.parse(rsp.body).payload);
             done();
         },() => {});
@@ -141,4 +141,6 @@ describe('Router test:', function() {
 
 });
 
-//server.setTimeout(2000, () => server.close());
+setTimeout((function() {
+    return process.exit();
+}), 1000);

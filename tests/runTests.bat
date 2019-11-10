@@ -1,0 +1,1 @@
+call npx mocha'*.-tests.js'
