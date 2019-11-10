@@ -99,23 +99,23 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                 } else {
                     let games = data.body.games.map(function(g) {
         
-                        let dto = GamesDto(
-                            g.id,
-                            g.name,
-                            g.year_published,
-                            g.min_players,
-                            g.max_players,
-                            g.min_playtime,
-                            g.max_playtime,
-                            g.min_age,
-                            g.description,
-                            g.description_preview,
-                            g.price,
-                            g.primary_publisher,
-                            g.num_user_ratings,
-                            g.average_user_rating,
-                            );
-                            return GamesDtoMapper.entityToModel(dto);
+                    let dto = GamesDto(
+                        g.id,
+                        g.name,
+                        g.year_published,
+                        g.min_players,
+                        g.max_players,
+                        g.min_playtime,
+                        g.max_playtime,
+                        g.min_age,
+                        g.description,
+                        g.description_preview,
+                        g.price,
+                        g.primary_publisher,
+                        g.num_user_ratings,
+                        g.average_user_rating,
+                        );
+                        return GamesDtoMapper.entityToModel(dto);
                     });
                     cb(null,{
                         statusCode: 201,

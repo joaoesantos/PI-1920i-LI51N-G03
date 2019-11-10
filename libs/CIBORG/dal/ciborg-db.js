@@ -210,6 +210,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                                         });
                                     });
                                     if(!wereGamesRemoved) {
+
                                         cb( new CiborgError(
                                             'Error in service: removeGameFromGroup. The game does not exist or is not in this group.',
                                             'Unable to remove game from group. Either the game does not exist or is is not related to this group.',
@@ -236,6 +237,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                             GameServices.searchByName(gameName, handleGameByName);
                         }
                     } catch(err) {
+                        
                         cb( new CiborgError(
                             'Error in service: removeGameFromGroup.',
                             'Unable to get group to remove from game.',
