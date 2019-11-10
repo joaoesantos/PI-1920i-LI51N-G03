@@ -1,13 +1,13 @@
 "use strict";
-
+try {
 let assert = require('assert');
 const Props = require('../../libs/CIBORG/shared/Config')("../../libs/CIBORG/shared/files");
 const CiborgError = require('../../libs/CIBORG/errors/ciborg-error');
 const CiborgValidator = require('../../libs/CIBORG/validators/ciborg-validator');
 const http = require('http');
-const httpCall = require('../../libs/CIBORG/request/HttpCall')(CiborgError);
+const httpCall = require('../../libs/CIBORG/request/HttpCall')(Props, CiborgError);
 const webapi = require('./web-api-mock.js')();
-const router = require('./../../libs/CIBORG/webapi/router')(Props, CiborgError, CiborgValidator);
+const router = require('../../libs/CIBORG/webapi/router')(Props, CiborgError, CiborgValidator);
 
 // registered routes
 router.get('/games', webapi.getAllGames);
@@ -34,6 +34,7 @@ describe('Router test:', function() {
             headers: { 'User-Agent': 'request'}
         };
         httpCall.get(options,(err, rsp) => {
+            console.log(JSON.parse(rsp.body));
             assert.equal('Command does not exist.', JSON.parse(rsp.body).payload.clientErrorMessage);
             done();            
         },() => {});
@@ -144,3 +145,7 @@ describe('Router test:', function() {
 setTimeout((function() {
     return process.exit();
 }), 500);
+
+} catch(e) {
+    console.log(e.stack)
+}
