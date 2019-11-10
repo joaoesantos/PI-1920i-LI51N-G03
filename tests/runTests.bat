@@ -1,0 +1,1 @@
+call npx mocha --recursive "./**/*.-test.js"

@@ -107,8 +107,8 @@ describe('Service-groups tests:', function() {
     }]
     };
     groupService.addGameToGroup(group, "levMwXaCM6", function(err, res) {
-        assert.equal("A_lAR24BzWeGhLBFL1VJ",res.body.id);
-        assert.equal(2,res.body.games.length);
+      assert.equal("A_lAR24BzWeGhLBFL1VJ",res.body.id);
+        assert.equal(3,res.body.games.length);
         assert.equal("fG5Ax8PA7n",res.body.games[0].id);
         assert.equal("levMwXaCM6",res.body.games[1].id);
         done();
@@ -135,9 +135,9 @@ describe('Service-groups tests:', function() {
       max_playtime:120
   }]
     };
-    groupService.removeGameFromGroup(group, "levMwXaCM6", function(err, res) {
-        assert.deepEqual({},res.body);
-        done();
+    groupService.removeGameFromGroup(group.id, "Monopoly Deal Card Game", function(err, res) {
+      assert.deepEqual({},res.body);
+      done();
     });
   });
 

@@ -172,7 +172,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                 });
                 cb(null,{
                     statusCode: 201,
-                    body: games
+                    body : games
                     });
                 }
             } catch(err) {

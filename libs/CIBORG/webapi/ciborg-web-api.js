@@ -17,7 +17,8 @@ let webApi = function(services, CiborgError, CiborgValidator) {
     function resolveServiceResponse(data, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = data.statusCode;
-        rsp.end(JSON.stringify(data.body));
+        let payload = { payload : data.body };
+        rsp.end(JSON.stringify(payload));
     }
 
     // get popular games
@@ -25,7 +26,6 @@ let webApi = function(services, CiborgError, CiborgValidator) {
         try {
             // service call
             services.games.getMostPopularGames(serviceCallback);
-            
         } catch(error) {
             let err = new CiborgError(
                 'Error in service: getAllGames.',

@@ -1,6 +1,8 @@
 let genericMethodCall = (method) => {
     return (options, handler) => {
-        let game = {games:[{
+        let game = {body: {
+                games:
+            [{
             id:"kPDxpJZ8PD",
             name:"Spirit Island",
             year_published:2016,
@@ -33,7 +35,7 @@ let genericMethodCall = (method) => {
             average_user_rating:3.639784946236558,
         },
     
-    ]};
+    ]}};
     handler(null, game);
     };
 }

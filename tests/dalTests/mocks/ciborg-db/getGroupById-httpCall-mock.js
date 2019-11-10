@@ -1,3 +1,5 @@
+'use strict';
+
 let genericMethodCall = (method) => {
     return (options, handler) => {
         let groups = {body: {
@@ -19,7 +21,7 @@ let genericMethodCall = (method) => {
           },
           {
               id:"levMwXaCM6",
-              name:"Monopoly Deal Card Game",
+              name:"Monopoly NOT Deal Card Game",
               min_playtime:90,
               max_playtime:120
           }]

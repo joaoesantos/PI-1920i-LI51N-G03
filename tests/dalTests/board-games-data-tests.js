@@ -24,7 +24,7 @@ describe('Service-games test:', function() {
 
   it('Should return list of games with Monopoly in the name', function(done) {
     serviceSearchByName.searchByName("Monopoly",function(err,res){
-      assert.notEqual(0,res.body.games.length);
+      assert.notEqual(0,res.body.length);
       done();
     });
   });

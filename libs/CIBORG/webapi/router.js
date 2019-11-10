@@ -10,7 +10,16 @@ let routerFunction = function(CiborgError) {
             body.push(chunk);
         }).on('end', () => {
             body = Buffer.concat(body).toString();
-            request.body = (body.length === 0) ? {} :JSON.parse(body);
+            if(body.length === 0) {
+                request.body = {}
+            } else {
+                // ciborg validator
+                let validatorErr = CiborgValidator.validateJson(body);
+                if(validatorErr)  {
+                    validatorErr.resolveErrorResponse(rsp);
+                }
+                request.body = (body.length === 0) ? {} :JSON.parse(body);
+            }
             router.navigate(request, response);
         });
     };
