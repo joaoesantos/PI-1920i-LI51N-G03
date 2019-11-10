@@ -40,6 +40,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     if(err) {
                         cb(err);
                     } else {
+                        console.log(payload.body)
                         let group = payload.body._source;
                         group.id = payload.body._id;
                         cb(null, {
@@ -66,6 +67,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     if(err) {
                         cb(err);
                     } else {
+                        console.log(group);
                         group.id = payload.body._id;
                         cb(null, {
                             statusCode: payload.statusCode,
@@ -133,18 +135,54 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             }
         },
     
-        addGameToGroup: function (group, gameId, cb) {
+        addGameToGroup: function (groupId, gameName, cb) {
             try {
-                let handleGameByName = (error, response) => {
-                    if(error) {
-                        cb(error);
-                    } else {
-                        let game = response.body;
-                        group.games.push(game);
-                        this.updateGroup(group,cb);
+                let handleGroupById = (error, response) => {
+                    try {
+                        console.log("handleGroupById")
+                        if(error) {
+                            cb(error);
+                        } else {
+                            let group = response.body;
+                            
+                            let handleGameByName = (error, response) => {
+                                console.log("handleGameByName")
+                                if(error) {
+                                    cb(error);
+                                } else {
+                                    let games = response.body;
+                                    let wasGameAdded = false;
+                                    console.log(games)
+                                    games.forEach(el => {
+                                        if(!group.games.find(game => game.name === el.name)) {
+                                            group.games.push(el);
+                                            wasGameAdded = true;
+                                        }
+                                    });
+                                    if(!wasGameAdded){
+                                        cb( new CiborgError(
+                                            'Error in service: addGameToGroup. The game does not exist or was already added.',
+                                            'Unable to add game to group. Either the game does not exist or was already added.',
+                                            '500' // Internal Server Error
+                                        ));
+                                    } else {
+                                        this.updateGroup(group,cb);
+                                    }
+                                }
+                            };
+                            GameServices.searchByName(gameName, handleGameByName);
+                            console.log("after search")
+                        }
+                    } catch(err) {
+                        console.log(err)
+                        cb( new CiborgError(
+                            'Error in service: addGameToGroup.',
+                            'Unable to get group for adding the game.',
+                            '500' // Internal Server Error
+                        ));
                     }
                 };
-                GameServices.getGamesById([gameId], handleGameByName);
+                this.getGroupById(groupId, handleGroupById);
             } catch(err) {
                 cb( new CiborgError(
                     'Error in service: addGameToGroup.',

@@ -10,6 +10,7 @@ let routerFunction = function(CiborgError) {
             body.push(chunk);
         }).on('end', () => {
             body = Buffer.concat(body).toString();
+            request.body = (body.length === 0) ? {} :JSON.parse(body);
             router.navigate(request, response);
         });
     };
@@ -63,13 +64,13 @@ let routerFunction = function(CiborgError) {
 
     // add parameteres to request body
     function addParametersToRequest(req, route, matchObj) {
-        let body = {};
+        let parameters = {};
         let params = route.template.match(/:\w+/g);
         if(params != null) { // has more parameters
             for(let i = 0; i <params.length; i++) {
-                body[params[i].substring(1)] = matchObj[i+1];
+                parameters[params[i].substring(1)] = matchObj[i+1];
             }
-            req['body'] = body;
+            req.urlParameters = parameters;
         }
     }
 
