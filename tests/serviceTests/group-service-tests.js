@@ -1,7 +1,7 @@
 let assert = require('assert');
 let gameService = require('./mocks/groups/gameServiceMock.js');
 
-let CiborgError = require('../../libs/CIBORG/error/ciborg-error');
+let CiborgError = require('../../libs/CIBORG/errors/ciborg-error');
 
 let props = require('../../libs/CIBORG/shared/Config')("../../libs/CIBORG/shared/files");
 
@@ -12,7 +12,6 @@ describe('Service-groups tests:', function() {
     let groupsdHttpCall = require('./mocks/groups/getGroups-httpCall-mock');
     let groupService = require('../../libs/CIBORG/services/groups/ciborg-services-group')(props, groupsdHttpCall, gameService, CiborgError);//tirar o null
     groupService.getAllGroups(function(err, res) {
-      console.log(res)
       assert.equal(3,res.body.length);
       done();
     });
@@ -135,9 +134,7 @@ describe('Service-groups tests:', function() {
   }]
     };
     groupService.removeGameFromGroup(group, "levMwXaCM6", function(err, res) {
-        assert.equal("A_lAR24BzWeGhLBFL1VJ",res.body.id);
-        assert.equal(1,res.body.games.length);
-        assert.equal("fG5Ax8PA7n",res.body.games[0].id);
+        assert.deepEqual({},res.body);
         done();
     });
   });
