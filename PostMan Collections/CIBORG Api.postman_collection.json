@@ -18,9 +18,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/games",
+							"raw": "{{CiborgBaseUrl}}/games",
 							"host": [
-								"{{baseUrl}}"
+								"{{CiborgBaseUrl}}"
 							],
 							"path": [
 								"games"
@@ -94,9 +94,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/games/:name",
+							"raw": "{{CiborgBaseUrl}}/games/:name",
 							"host": [
-								"{{baseUrl}}"
+								"{{CiborgBaseUrl}}"
 							],
 							"path": [
 								"games",
@@ -105,7 +105,7 @@
 							"variable": [
 								{
 									"key": "name",
-									"value": "<string>",
+									"value": "Spirit",
 									"description": "String representing the name"
 								}
 							]
@@ -222,28 +222,18 @@
 												},
 												"method": "PUT",
 												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n\t\"groupId\" : \"GslhV24BWT9pWYbrQ4rp\",\n\t\"gameName\": \"Spirit Island\"\n}"
+												},
 												"url": {
-													"raw": "{{baseUrl}}/groups/:id/games/:name",
+													"raw": "{{CiborgBaseUrl}}/groups/games",
 													"host": [
-														"{{baseUrl}}"
+														"{{CiborgBaseUrl}}"
 													],
 													"path": [
 														"groups",
-														":id",
-														"games",
-														":name"
-													],
-													"variable": [
-														{
-															"key": "name",
-															"value": "<string>",
-															"description": "String representing the name of the game"
-														},
-														{
-															"key": "id",
-															"value": "<string>",
-															"description": "String representing the id of the group"
-														}
+														"games"
 													]
 												},
 												"description": "Adds a game to a group.\n"
@@ -379,28 +369,18 @@
 												},
 												"method": "DELETE",
 												"header": [],
+												"body": {
+													"mode": "raw",
+													"raw": "{\n\t\"groupId\" : \"GslhV24BWT9pWYbrQ4rp\",\n\t\"gameName\": \"Spirit Island\"\n}"
+												},
 												"url": {
-													"raw": "{{baseUrl}}/groups/:id/games/:name",
+													"raw": "{{CiborgBaseUrl}}/groups/games",
 													"host": [
-														"{{baseUrl}}"
+														"{{CiborgBaseUrl}}"
 													],
 													"path": [
 														"groups",
-														":id",
-														"games",
-														":name"
-													],
-													"variable": [
-														{
-															"key": "name",
-															"value": "<string>",
-															"description": "String representing the name of the game"
-														},
-														{
-															"key": "id",
-															"value": "<string>",
-															"description": "String representing the id of the group"
-														}
+														"games"
 													]
 												},
 												"description": "Removes a game from a group.\n"
@@ -541,9 +521,9 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{baseUrl}}/groups/:id/games",
+											"raw": "{{CiborgBaseUrl}}/groups/:id/games",
 											"host": [
-												"{{baseUrl}}"
+												"{{CiborgBaseUrl}}"
 											],
 											"path": [
 												"groups",
@@ -553,13 +533,8 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "<string>",
+													"value": "GslhV2444BWT9pWYbrQ4rp",
 													"description": "String representing the id of the group"
-												},
-												{
-													"key": "name",
-													"value": "<string>",
-													"description": "String representing the name"
 												}
 											]
 										},
@@ -697,9 +672,9 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{baseUrl}}/groups/:id",
+									"raw": "{{CiborgBaseUrl}}/groups/:id",
 									"host": [
-										"{{baseUrl}}"
+										"{{CiborgBaseUrl}}"
 									],
 									"path": [
 										"groups",
@@ -708,7 +683,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "<string>",
+											"value": "G8lrV24BWT9pWYbrr4qmrrr",
 											"description": "String representing the id"
 										}
 									]
@@ -838,21 +813,17 @@
 								},
 								"method": "PUT",
 								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n\t\"id\" : \"G8lrV24BWT9pWYbrr4qm\",\r\n\t\"name\": \"Group 45644444\",\r\n\t\"description\": \"This grou of the twwwwwwwwwwwwwwwwwww\"\r\n}"
+								},
 								"url": {
-									"raw": "{{baseUrl}}/groups/:id",
+									"raw": "{{CiborgBaseUrl}}/groups",
 									"host": [
-										"{{baseUrl}}"
+										"{{CiborgBaseUrl}}"
 									],
 									"path": [
-										"groups",
-										":id"
-									],
-									"variable": [
-										{
-											"key": "id",
-											"value": "<string>",
-											"description": "String representing the name"
-										}
+										"groups"
 									]
 								},
 								"description": "Updates a group.\n"
@@ -985,9 +956,9 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{baseUrl}}/groups",
+							"raw": "{{CiborgBaseUrl}}/groups",
 							"host": [
-								"{{baseUrl}}"
+								"{{CiborgBaseUrl}}"
 							],
 							"path": [
 								"groups"
@@ -1060,10 +1031,14 @@
 						},
 						"method": "POST",
 						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Group 1\",\r\n\t\"description\": \"This grou of the best players.\"\r\n}"
+						},
 						"url": {
-							"raw": "{{baseUrl}}/groups",
+							"raw": "{{CiborgBaseUrl}}/groups",
 							"host": [
-								"{{baseUrl}}"
+								"{{CiborgBaseUrl}}"
 							],
 							"path": [
 								"groups"
