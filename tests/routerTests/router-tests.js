@@ -19,7 +19,6 @@ router.get('/groups/:id', webapi.getGroup);
 router.put('/groups/games', webapi.addGameToGroup);
 router.delete('/groups/games', webapi.removeGameFromGroup);
 router.get('/groups/:id/games', webapi.getGamesFromGroup);
-//console.log(router.routes);
 
 const config = {
     port: 9200,
@@ -37,7 +36,7 @@ describe('Router test:', function() {
         httpCall.get(options,(err, rsp) => {
             assert.equal('Command does not exist.', JSON.parse(rsp.body).payload.clientErrorMessage);
             done();            
-        },() => {}); // (err) => {console.log(err)}
+        },() => {});
     });
 
     it('Should return getAllGames', function(done) {
@@ -48,7 +47,7 @@ describe('Router test:', function() {
         httpCall.get(options,(err, rsp) => {
             assert.equal('getAllGames', JSON.parse(rsp.body).payload);
             done();
-        },() => {}); // (err) => {console.log(err)}
+        },() => {});
     });
 
     

@@ -1,10 +1,12 @@
 "use strict";
-var debug = require('debug')('router');
+let debug = require('debug')('router');
+debug.enabled = true;
 
 let routerFunction = function(Props, CiborgError, CiborgValidator) {
     if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
         debug.disable();
     }
+
     // navigates request to api method and gets response if possibel
     let router = function (request, response) {
         // colects all data before processing request
@@ -19,7 +21,9 @@ let routerFunction = function(Props, CiborgError, CiborgValidator) {
                 // ciborg validator
                 let validatorErr = CiborgValidator.validateJson(body);
                 if(validatorErr)  {
-                    validatorErr.resolveErrorResponse(rsp);
+                    debug(validatorErr);
+                    validatorErr.resolveErrorResponse(response);
+                    return;
                 }
                 request.body = (body.length === 0) ? {} :JSON.parse(body);
             }

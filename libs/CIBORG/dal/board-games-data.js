@@ -1,5 +1,6 @@
 'use strict';
 var debug = require('debug')('board-games-data');
+debug.enabled = true;
 
 module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError) {
     if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
@@ -16,12 +17,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: "order_by", value: field},
             {key: "ascending", value: ascending},
         ], "=", "&");
-        let options = {
-            url: Props.api.base_url + Props.api.search_api + "?" + query,
-            headers: {
-                'User-Agent': 'request'
-            }
-        };
+        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query };
 
         return options;
     }
@@ -33,13 +29,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: "ascending", value: "false"}
         ], "=", "&");
         // Setting URL and headers for request
-        let options = {
-            url: Props.api.base_url + Props.api.search_api + "?" + query,
-            headers: {
-                'User-Agent': 'request'
-            },
-            json: true
-        };
+        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
         function handler(err, data) {
             debug.extend('getMostPopularGames').extend('handler')("Handling HTTP GET");
             try {
@@ -91,13 +81,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "ids", value: id}
         ], "=", "&");
-        let options = {
-            url: Props.api.base_url + Props.api.search_api + "?" + query,
-            headers: {
-                'User-Agent': 'request'
-            },
-            json: true
-        };
+        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
         function handler(err, data){
             debug.extend('getGameByID').extend('handler')("Handling HTTP GET");
             try {
@@ -148,13 +132,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "name", value: gameName}
         ], "=", "&");
-        let options = {
-            url: Props.api.base_url + Props.api.search_api + "?" + query,
-            headers: {
-                'User-Agent': 'request'
-            },
-            json: true
-        };
+        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
         function handler(err, data) {
             debug.extend('getGameByID').extend('handler')("Handling HTTP GET");
             try {

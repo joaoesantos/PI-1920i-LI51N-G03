@@ -131,23 +131,23 @@ let validator = function (CiborgError) {
             );
             return err;
         };
-        if(!data.hasOwnProperty('name')) {
+        if(!data.hasOwnProperty('gameName')) {
             let err = new CiborgError(
-                'Error in validator: data does not have "name" field.',
-                'Failed to update group, missing "name" field.',
+                'Error in validator: data does not have "gameName" field.',
+                'Failed to update group, missing "gameName" field.',
                 '400' // Bad Request
             );
             return err;
         };
-        if(!data.hasOwnProperty('id')) {
+        if(!data.hasOwnProperty('groupId')) {
             let err = new CiborgError(
-                'Error in validator: data does not have "id" field.',
-                'Failed to create group, missing "id" field.',
+                'Error in validator: data does not have "groupId" field.',
+                'Failed to create group, missing "groupId" field.',
                 '400' // Bad Request
             );
             return err;
         };
-        return validateAlfanumeric(data.id);
+        return validateAlfanumeric(data.groupId);
     }
 
     // Validates if group data is in right format for post command
@@ -160,23 +160,23 @@ let validator = function (CiborgError) {
             );
             return err;
         };
-        if(!data.hasOwnProperty('name')) {
+        if(!data.hasOwnProperty('gameName')) {
             let err = new CiborgError(
-                'Error in validator: data does not have "name" field.',
-                'Failed to delete group, missing "name" field.',
+                'Error in validator: data does not have "gameName" field.',
+                'Failed to delete group, missing "gameName" field.',
                 '400' // Bad Request
             );
             return err;
         };
-        if(!data.hasOwnProperty('id')) {
+        if(!data.hasOwnProperty('groupId')) {
             let err = new CiborgError(
-                'Error in validator: data does not have "id" field.',
-                'Failed to delete group, missing "id" field.',
+                'Error in validator: data does not have "groupId" field.',
+                'Failed to delete group, missing "groupId" field.',
                 '400' // Bad Request
             );
             return err;
         };
-        return validateAlfanumeric(data.id);
+        return validateAlfanumeric(data.groupId);
     }
 
 }

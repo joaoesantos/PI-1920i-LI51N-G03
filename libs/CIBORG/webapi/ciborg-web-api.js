@@ -1,5 +1,6 @@
 "use strict";
-var debug = require('debug')('ciborg-web-api');
+let debug = require('debug')('ciborg-web-api');
+debug.enabled = true;
 
 let webApi = function(Props, services, CiborgError, CiborgValidator) {
     if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
@@ -114,7 +115,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             if(validatorErr)  {
                 debug.extend("updateGroup")(validatorErr);
                 validatorErr.resolveErrorResponse(rsp);
-            }
+            }            
             // service call
             services.groups.updateGroupWithNoGames(req.body, serviceCallback);
         } catch(error) {

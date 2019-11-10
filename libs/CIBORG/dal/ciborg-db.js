@@ -1,5 +1,6 @@
 'use strict';
-var debug = require('debug')('ciborg-db');
+let debug = require('debug')('ciborg-db');
+debug.enabled = true;
 
 let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
     if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
@@ -58,12 +59,20 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                             debug.extend('getGroupById').extend('handler')(err);
                             cb(err);
                         } else {
-                            let group = payload.body._source;
-                            group.id = payload.body._id;
-                            cb(null, {
-                                statusCode: payload.statusCode,
-                                body: group
-                            });
+                            if(payload.body.found) {
+                                let group = payload.body._source;
+                                group.id = payload.body._id;
+                                cb(null, {
+                                    statusCode: payload.statusCode,
+                                    body: group
+                                });
+                            } else {
+                                cb( new CiborgError(
+                                    'Error in service: groupt with id ' + groupId + ' not found.',
+                                    'Unable to get group.',
+                                    '404' // Internal Server Error
+                                ));
+                            }
                         }
                     } catch(err) {
                         debug.extend('getGroupById').extend('handler')(err);
@@ -166,10 +175,10 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
         /**
          * Updating a group object considering the argument object does not contain a games array, as such this array must first be retrieved from the db.
          */
-        updateGroupWithNoGames: (group, cb) => {
+        updateGroupWithNoGames: function(group, cb) {
             try {
                 let handleGroupById = (error, response) => {
-                    debug.extend('updateGroupWithNoGames').extend('handleGroupById')("Handling getGroupById: " + groupId);
+                    debug.extend('updateGroupWithNoGames').extend('handleGroupById')("Handling getGroupById: " + group.id);
                     try {
                         if(error) {
                             debug.extend('updateGroupWithNoGames').extend('handleGroupById')(error);
@@ -177,8 +186,8 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                         } else {
                             let groupWithGames = response.body;
                             group.games = groupWithGames.games;
+                            let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + group.id;
                             delete group.id;
-                            let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                             let opts = { url: fullUrl, json: true, body: group};
                             let handler = (err, payload) => {
                                 debug.extend('updateGroupWithNoGames').extend('handleGroupById').extend('handler')("Handling HTTP PUT");
@@ -213,7 +222,8 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                         ));
                     }
                 };
-                this.getGroupById(groupId, handleGroupById);
+                debug.extend('updateGroup').extend('handler')("Handling HTTP PUT");
+                this.getGroupById(group.id, handleGroupById);
             } catch(err) {
                 debug.extend('updateGroupWithNoGames')(err);
                 cb( new CiborgError(
