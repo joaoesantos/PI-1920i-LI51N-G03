@@ -61,6 +61,8 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
         createGroup: (group, cb) => {
             try {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex;
+                //add empty game array
+                group.games = [];
                 let opts = { url: fullUrl, json: true, body: group };
                 let handler = (err, payload) => {
                     if(err) {
@@ -101,6 +103,52 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     }
                 };
                 HttpCall.put(opts, handler);
+            } catch(err) {
+                cb( new CiborgError(
+                    'Error in service: updateGroup.',
+                    'Unable to update group.',
+                    '500' // Internal Server Error
+                ));
+            }
+        },
+
+        /**
+         * Updating a group object considering the argument object does not contain a games array, as such this array must first be retrieved from the db.
+         */
+        updateGroupWithNoGames: (group, cb) => {
+            try {
+                let handleGroupById = (error, response) => {
+                    try {
+                        if(error) {
+                            cb(error);
+                        } else {
+                            let groupWithGames = response.body;
+                            group.games = groupWithGames.games;
+                            delete group.id;
+                            let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
+                            let opts = { url: fullUrl, json: true, body: group};
+                            let handler = (err, payload) => {
+                                if(err) {
+                                    cb(err);
+                                } else {
+                                    group.id = payload.body._id;
+                                    cb(null, {
+                                        statusCode: payload.statusCode,
+                                        body: group
+                                    });
+                                }
+                            };
+                            HttpCall.put(opts, handler);
+                        }
+                    } catch(err) {
+                        cb( new CiborgError(
+                            'Error in service: addGameToGroup.',
+                            'Unable to get group for adding the game.',
+                            '500' // Internal Server Error
+                        ));
+                    }
+                };
+                this.getGroupById(groupId, handleGroupById);
             } catch(err) {
                 cb( new CiborgError(
                     'Error in service: updateGroup.',
@@ -236,7 +284,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                             GameServices.searchByName(gameName, handleGameByName);
                         }
                     } catch(err) {
-                        
+
                         cb( new CiborgError(
                             'Error in service: removeGameFromGroup.',
                             'Unable to get group to remove from game.',
