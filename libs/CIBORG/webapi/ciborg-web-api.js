@@ -190,12 +190,12 @@ let webApi = function(services, CiborgError, CiborgValidator) {
     function removeGameFromGroup(req, rsp) {
         try {
             // ciborg validator
-            let validatorErr = CiborgValidator.validateAlfanumeric(req.urlParameters.id);
+            /*let validatorErr = CiborgValidator.validateAlfanumeric(req.urlParameters.id);
             if(validatorErr) {
                 validatorErr.resolveErrorResponse(rsp);
-            }
+            }*/
             // service call
-            services.groups.removeGameFromGroup(req.urlParameters.id, req.urlParameters.name, serviceCallback);
+            services.groups.removeGameFromGroup(req.body.groupId, req.body.gameName, serviceCallback);
         } catch(error) {
             let err = new CiborgError(
                 'Error in service: removeGameFromGroup.',
@@ -222,7 +222,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 validatorErr.resolveErrorResponse(rsp);
             }
             // service call
-            services.groups.getGamesByGroupID(req.urlParameters.id, serviceCallback);
+            services.groups.getGamesFromGroup(req.urlParameters.id, serviceCallback);
         } catch (error) {
             let err = new CiborgError(
                 'Error in service: getGamesByGroupID.',

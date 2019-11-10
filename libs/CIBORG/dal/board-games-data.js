@@ -134,7 +134,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         HttpCall.get(options, handler);
     }
 
-    function searchByName(gameName, cb){
+    function searchByName(gameName, cb) {
         let query = queryBuilder([
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "name", value: gameName}
@@ -148,8 +148,6 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         };
         function handler(err, data) {
             try {
-                console.log("err1")
-                console.log(err)
                 if(err) {
                     cb(err);
                 } else {
@@ -172,15 +170,12 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                             );
                             return GamesDtoMapper.entityToModel(dto);
                 });
-                console.log(games)
                 cb(null,{
                     statusCode: 201,
                     body: games
                     });
                 }
             } catch(err) {
-                console.log("err2")
-                console.log(err)
                 cb(new CiborgError(
                     'Error calling external service:: searchByName.',
                     'Unable to search games.',
@@ -188,7 +183,6 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                 ));
             }  
         };
-        console.log("GETTING GAME")
         HttpCall.get(options, handler);
     };
 
