@@ -1,15 +1,17 @@
+
+
 let GameServices = {
-    getGamesById : function(gameId, cb) {
-        let reponse = {
+    searchByName : function(gameName, cb) {
+        let response = {
             statusCode: 202,
-            body: {
+            body: [{
                 id:"levMwXaCM6",
                 name:"Monopoly Deal Card Game",
                 min_playtime:90,
                 max_playtime:120
-            }
+            }]
         }
-        cb(null ,reponse);
+        cb(null ,response);
     }
 }
 module.exports = GameServices

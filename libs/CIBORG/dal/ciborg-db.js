@@ -66,7 +66,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     if(err) {
                         cb(err);
                     } else {
-                        console.log(group);
                         group.id = payload.body._id;
                         cb(null, {
                             statusCode: payload.statusCode,
@@ -142,7 +141,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                             cb(error);
                         } else {
                             let group = response.body;
-                            
+    
                             let handleGameByName = (error, response) => {
                                 if(error) {
                                     cb(error);
