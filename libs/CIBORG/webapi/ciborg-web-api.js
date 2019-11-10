@@ -22,7 +22,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
     // callback
     function serviceCallback(err, data) {
         if(err) {
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         } else {
             resolveServiceResponse(data, rsp);
         } 
@@ -39,7 +39,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 'Unable to get popular games.',
                 '500' // Internal Server Error
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
     }
 
@@ -59,7 +59,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 'Unable to for game.',
                 '500' // Internal Server Error
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
     }
 
@@ -79,7 +79,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 'Unable to create group.',
                 '500' // Internal Server Error
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
     }
 
@@ -103,7 +103,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 'Unable to update group.',
                 '500' // Internal Server Error
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
     }
 
@@ -118,7 +118,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 'Unable to get popular groups.',
                 '500' // Internal Server Error
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
     }
 
@@ -138,7 +138,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 'Unable to get group details.',
                 '500' // Internal Server Error
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
     }
 
@@ -153,7 +153,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 'Unable to add game to group.',
                 '500' // Internal Server Error
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
     }
 
@@ -177,7 +177,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 'Unable to remove game from group.',
                 '500' // Internal Server Error
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
     }
 
@@ -197,7 +197,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 'Unable to get games from group.',
                 '500' // Internal Server Error
             );
-            CiborgError.resolveErrorResponse(err, rsp);
+            err.resolveErrorResponse(rsp);
         }
     }
 }
