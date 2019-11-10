@@ -1,6 +1,7 @@
 "use strict";
 
 let webApi = function(services, CiborgError, CiborgValidator) {
+
     return {
         getMostPopularGames : getMostPopularGames,
         getGameByName : getGameByName,
@@ -68,6 +69,11 @@ let webApi = function(services, CiborgError, CiborgValidator) {
     // create group
     function createGroup(req, rsp) {
         try {
+            // ciborg validator
+            let validatorErr = CiborgValidator.validateCreateGroupFormat(req.body);
+            if(validatorErr)  {
+                validatorErr.resolveErrorResponse(rsp);
+            }
             // service call
             services.groups.createGroup(req.body, serviceCallback)
         } catch(error) {
@@ -91,7 +97,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
     function updateGroup(req, rsp) {
         try {
             // ciborg validator
-            let validatorErr = CiborgValidator.validateAlfanumeric(req.body.id);
+            let validatorErr = CiborgValidator.validateUpdateGroupFormat(req.body);
             if(validatorErr)  {
                 validatorErr.resolveErrorResponse(rsp);
             }
@@ -139,12 +145,6 @@ let webApi = function(services, CiborgError, CiborgValidator) {
     // get group details
     function getGroup(req, rsp) {
         try {
-            // ciborg validator
-            /*
-            let validatorErr = CiborgValidator.validateAlfanumeric(req.urlParameters.id);
-            if(validatorErr) {
-                validatorErr.resolveErrorResponse(rsp);
-            }*/
             // service call
             services.groups.getGroupById(req.urlParameters.id, serviceCallback);
         } catch(error) {
@@ -167,6 +167,11 @@ let webApi = function(services, CiborgError, CiborgValidator) {
     // add game to group
     function addGameToGroup(req, rsp) {
         try {
+            // ciborg validator
+            let validatorErr = CiborgValidator.validateAddGameToGroupFormat(req.body);
+            if(validatorErr)  {
+                validatorErr.resolveErrorResponse(rsp);
+            }
             // service call
             services.groups.addGameToGroup(req.body.groupId, req.body.gameName, serviceCallback);
         } catch(error) {
@@ -189,11 +194,11 @@ let webApi = function(services, CiborgError, CiborgValidator) {
     // remove game from group
     function removeGameFromGroup(req, rsp) {
         try {
-            // ciborg validator
-            /*let validatorErr = CiborgValidator.validateAlfanumeric(req.urlParameters.id);
-            if(validatorErr) {
-                validatorErr.resolveErrorResponse(rsp);
-            }*/
+           // ciborg validator
+           let validatorErr = CiborgValidator.validateRemoveGameFromGroupFormat(req.body);
+           if(validatorErr)  {
+               validatorErr.resolveErrorResponse(rsp);
+           }
             // service call
             services.groups.removeGameFromGroup(req.body.groupId, req.body.gameName, serviceCallback);
         } catch(error) {
