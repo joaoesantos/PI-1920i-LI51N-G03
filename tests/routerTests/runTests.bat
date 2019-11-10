@@ -1,2 +1,1 @@
-call mocha --recursive "./spec/*.js"
-pause
+call npx mocha --recursive "*.js"
