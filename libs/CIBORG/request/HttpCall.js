@@ -1,13 +1,17 @@
 'use strict';
 
 let request = require('request');
-
-let httpCall = (CiborgError) => {
-
+var debug = require('debug')('board-games-data');
+    
+let httpCall = (Props, CiborgError) => {
+    if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
+        debug.disable();
+    }
     let genericMethodCall = (method) => {
         return (options, handler) => {
             request[method.toLowerCase()](options, function(err, resp) {
                 if (err) { 
+                    debug.extend('genericMethodCall')(err);
                     let error = new CiborgError(
                         'Error accessing external service.',
                         'Unable to add game to group.',
@@ -15,6 +19,7 @@ let httpCall = (CiborgError) => {
                     );
                     handler(error);
                 } else {
+                    debug.extend('genericMethodCall')("RECEIVED HTTP RESPONSE");
                     handler(null, resp);
                 }
             })
