@@ -6,116 +6,32 @@
 	},
 	"item": [
 		{
-			"name": "Create Game Index",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{elasticBaseUrl}}/games",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"games"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Games",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{elasticBaseUrl}}/games/games/_search",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"games",
-						"games",
-						"_search"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Insert Game",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"id\" : \"kPDerfgePW\",\n\t\"name\" : \"Cenas\",\n\t\"min_playtime\" : 120,\n\t\"max_playtime\" : 180\n}"
-				},
-				"url": {
-					"raw": "{{elasticBaseUrl}}/games/games",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"games",
-						"games"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Game",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"query\": {\n\t\"term\" : { \"min_playtime\" : \"120\" }\n\t}\n}"
-				},
-				"url": {
-					"raw": "{{elasticBaseUrl}}/games/_search",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"games",
-						"_search"
-					]
-				}
-			},
-			"response": []
-		},
-		{
 			"name": "Create Group Index",
 			"request": {
 				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"url": {
+					"raw": "{{elasticBaseUrl}}/groups",
+					"host": [
+						"{{elasticBaseUrl}}"
+					],
+					"path": [
+						"groups"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Group Index",
+			"request": {
+				"method": "DELETE",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -173,7 +89,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"id\" : \"e521406cf84a11e98f0b362b9e155667\",\n\t\"name\" : \"Wild group\",\n\t\"description\" : \"Group of wild gamers\"\n}"
+					"raw": "{\n\t\"description\" : \"Group of wild gamers\",\n\t\"games\": []\n}"
 				},
 				"url": {
 					"raw": "{{elasticBaseUrl}}/groups/groups",
@@ -204,16 +120,23 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"query\": {\n\t\"span_term\" : { \"id\" : \"e521406cf84a11e98f0b362b9e155667\" }\n\t}\n}"
+					"raw": ""
 				},
 				"url": {
-					"raw": "{{elasticBaseUrl}}/groups/_search",
+					"raw": "{{elasticBaseUrl}}/groups/_doc/:id",
 					"host": [
 						"{{elasticBaseUrl}}"
 					],
 					"path": [
 						"groups",
-						"_search"
+						"_doc",
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "A_lAR24BzWeGhLBFL1VJ"
+						}
 					]
 				}
 			},
@@ -235,150 +158,20 @@
 					"raw": "{\n\t\"id\" : \"kPDxhJwePW\",\n\t\"name\" : \"Cenas\",\n\t\"min_playtime\" : 120,\n\t\"max_playtime\" : 180\n}"
 				},
 				"url": {
-					"raw": "{{elasticBaseUrl}}/groups/groups",
+					"raw": "{{elasticBaseUrl}}/groups/_doc/:id",
 					"host": [
 						"{{elasticBaseUrl}}"
 					],
 					"path": [
 						"groups",
-						"groups"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Create GroupGameRel Index",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{elasticBaseUrl}}/group_game_rel",
-					"host": [
-						"{{elasticBaseUrl}}"
+						"_doc",
+						":id"
 					],
-					"path": [
-						"group_game_rel"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All GroupGameRel",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{elasticBaseUrl}}/group_game_rel/group_game_rel/_search",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"group_game_rel",
-						"group_game_rel",
-						"_search"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Insert GroupGameRel",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"groupId\" : \"e521406cf84a11e98f0b362b9e155667\",\n\t\"gameId\" : \"kPDxhJwePW\"\n}"
-				},
-				"url": {
-					"raw": "{{elasticBaseUrl}}/group_game_rel/group_game_rel",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"group_game_rel",
-						"group_game_rel"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete GroupGameRel",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"query\": {\n\t\"match\" : { \"_id\" : \"wHIAKW4B9-6pAQG6K47m\" }\n\t}\n}"
-				},
-				"url": {
-					"raw": "{{elasticBaseUrl}}/group_game_rel/group_game_rel/_delete_by_query",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"group_game_rel",
-						"group_game_rel",
-						"_delete_by_query"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Games From Group",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\"query\": {\n\t\"term\" : { \"groupId\" : \"e521406cf84a11e98f0b362b9e155667\" }\n\t}\n}"
-				},
-				"url": {
-					"raw": "{{elasticBaseUrl}}/group_game_rel/group_game_rel/_search",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"group_game_rel",
-						"group_game_rel",
-						"_search"
+					"variable": [
+						{
+							"key": "id",
+							"value": "BXCTT24B48xg3O5SuPev"
+						}
 					]
 				}
 			},

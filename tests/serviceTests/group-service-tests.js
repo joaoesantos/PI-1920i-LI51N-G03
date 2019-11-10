@@ -135,9 +135,7 @@ describe('Service-groups tests:', function() {
   }]
     };
     groupService.removeGameFromGroup(group, "levMwXaCM6", function(err, res) {
-        assert.equal("A_lAR24BzWeGhLBFL1VJ",res.body.id);
-        assert.equal(1,res.body.games.length);
-        assert.equal("fG5Ax8PA7n",res.body.games[0].id);
+        assert.equal(Object.keys({}).length,Object.keys(res.body).length);
         done();
     });
   });
