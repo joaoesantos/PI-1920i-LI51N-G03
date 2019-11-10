@@ -40,7 +40,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     if(err) {
                         cb(err);
                     } else {
-                        console.log(payload.body)
                         let group = payload.body._source;
                         group.id = payload.body._id;
                         cb(null, {
@@ -195,7 +194,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                             cb(error);
                         } else {
                             let group = response.body;
-                            console.log("I HAVE THE GAME")
                             let handleGameByName = (error, response) => {
                                 if(error) {
                                     cb(error);
@@ -210,11 +208,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                                             }
                                             return isFiltered;
                                         });
-                                        /*
-                                        if(group.games.find(game => game.name === el.name)) {
-                                            group.games.remove(el);
-                                            wereGamesRemoved = true;
-                                        }*/
                                     });
                                     if(!wereGamesRemoved) {
                                         cb( new CiborgError(
@@ -223,7 +216,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                                             '500' // Internal Server Error
                                         ));
                                     } else {
-                                        console.log("UPDATING GAME AFTER REMOVAL")
                                         delete group.id;
                                         let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                                         let opts = { url: fullUrl, json: true, body: group};
@@ -244,7 +236,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                             GameServices.searchByName(gameName, handleGameByName);
                         }
                     } catch(err) {
-                        console.log(err)
                         cb( new CiborgError(
                             'Error in service: removeGameFromGroup.',
                             'Unable to get group to remove from game.',

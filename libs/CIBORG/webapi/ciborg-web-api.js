@@ -222,7 +222,7 @@ let webApi = function(services, CiborgError, CiborgValidator) {
                 validatorErr.resolveErrorResponse(rsp);
             }
             // service call
-            services.groups.getGamesByGroupID(req.urlParameters.id, serviceCallback);
+            services.groups.getGamesFromGroup(req.urlParameters.id, serviceCallback);
         } catch (error) {
             let err = new CiborgError(
                 'Error in service: getGamesByGroupID.',

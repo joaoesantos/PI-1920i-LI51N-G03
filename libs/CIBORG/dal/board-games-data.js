@@ -135,7 +135,6 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
     }
 
     function searchByName(gameName, cb) {
-        console.log("searchByName")
         let query = queryBuilder([
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "name", value: gameName}
@@ -149,7 +148,6 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         };
         function handler(err, data) {
             try {
-                console.log("handler")
                 if(err) {
                     cb(err);
                 } else {
@@ -178,7 +176,6 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     });
                 }
             } catch(err) {
-                console.log(err)
                 cb(new CiborgError(
                     'Error calling external service:: searchByName.',
                     'Unable to search games.',
