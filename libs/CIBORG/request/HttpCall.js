@@ -9,7 +9,7 @@ let httpCall = (CiborgError) => {
             request[method.toLowerCase()](options, function(err, resp) {
                 if (err) { 
                     let error = new CiborgError(
-                        'Error accessiing external service.',
+                        'Error accessing external service.',
                         'Unable to add game to group.',
                         '500' // Internal Server Error
                     );

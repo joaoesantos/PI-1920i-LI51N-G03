@@ -8,18 +8,26 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.search.url;
                 let opts = { url: fullUrl, json: true };
                 let handler = (err, payload) => {
-                    if(err) {
-                        cb(err);
-                    } else {
-                        let groupsList = payload.body.hits.hits.map(e => {
-                            let group = e._source;
-                            group.id = e._id;
-                            return group;
-                        });
-                        cb(null, {
-                            statusCode: payload.statusCode,
-                            body: groupsList
-                        });
+                    try {
+                        if(err) {
+                            cb(err);
+                        } else {
+                            let groupsList = payload.body.hits.hits.map(e => {
+                                let group = e._source;
+                                group.id = e._id;
+                                return group;
+                            });
+                            cb(null, {
+                                statusCode: payload.statusCode,
+                                body: groupsList
+                            });
+                        }
+                    } catch(err) {
+                        cb(new CiborgError(
+                            'Error in service: getAllGroups.',
+                            'Unable to get groups.',
+                            '500' // Internal Server Error
+                        ));
                     }
                 };
                 HttpCall.get(opts, handler);
@@ -37,15 +45,23 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                 let opts = { url: fullUrl, json: true};
                 let handler = (err, payload) => {
-                    if(err) {
-                        cb(err);
-                    } else {
-                        let group = payload.body._source;
-                        group.id = payload.body._id;
-                        cb(null, {
-                            statusCode: payload.statusCode,
-                            body: group
-                        });
+                    try {
+                        if(err) {
+                            cb(err);
+                        } else {
+                            let group = payload.body._source;
+                            group.id = payload.body._id;
+                            cb(null, {
+                                statusCode: payload.statusCode,
+                                body: group
+                            });
+                        }
+                    } catch(err) {
+                        cb( new CiborgError(
+                            'Error in service: getGroupById.',
+                            'Unable to get group.',
+                            '500' // Internal Server Error
+                        ));
                     }
                 };
                 HttpCall.get(opts, handler);
@@ -65,14 +81,22 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 group.games = [];
                 let opts = { url: fullUrl, json: true, body: group };
                 let handler = (err, payload) => {
-                    if(err) {
-                        cb(err);
-                    } else {
-                        group.id = payload.body._id;
-                        cb(null, {
-                            statusCode: payload.statusCode,
-                            body: group
-                        });
+                    try {
+                        if(err) {
+                            cb(err);
+                        } else {
+                            group.id = payload.body._id;
+                            cb(null, {
+                                statusCode: payload.statusCode,
+                                body: group
+                            });
+                        }
+                    } catch(err) {
+                        cb( new CiborgError(
+                            'Error in service: createGroup.',
+                            'Unable to create group.',
+                            '500' // Internal Server Error
+                        ));
                     }
                 };
                 HttpCall.post(opts, handler);
@@ -92,14 +116,22 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                 let opts = { url: fullUrl, json: true, body: group};
                 let handler = (err, payload) => {
-                    if(err) {
-                        cb(err);
-                    } else {
-                        group.id = payload.body._id;
-                        cb(null, {
-                            statusCode: payload.statusCode,
-                            body: group
-                        });
+                    try {
+                        if(err) {
+                            cb(err);
+                        } else {
+                            group.id = payload.body._id;
+                            cb(null, {
+                                statusCode: payload.statusCode,
+                                body: group
+                            });
+                        }
+                    } catch(err) {
+                        cb( new CiborgError(
+                            'Error in service: updateGroup.',
+                            'Unable to update group.',
+                            '500' // Internal Server Error
+                        ));
                     }
                 };
                 HttpCall.put(opts, handler);
@@ -128,14 +160,22 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                             let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                             let opts = { url: fullUrl, json: true, body: group};
                             let handler = (err, payload) => {
-                                if(err) {
-                                    cb(err);
-                                } else {
-                                    group.id = payload.body._id;
-                                    cb(null, {
-                                        statusCode: payload.statusCode,
-                                        body: group
-                                    });
+                                try {
+                                    if(err) {
+                                        cb(err);
+                                    } else {
+                                        group.id = payload.body._id;
+                                        cb(null, {
+                                            statusCode: payload.statusCode,
+                                            body: group
+                                        });
+                                    }
+                                } catch(err) {
+                                    cb( new CiborgError(
+                                        'Error in service: updateGroup.',
+                                        'Unable to update group.',
+                                        '500' // Internal Server Error
+                                    ));
                                 }
                             };
                             HttpCall.put(opts, handler);
@@ -161,14 +201,22 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
         getGamesFromGroup: function(groupId, cb) {
             try {
                 let handdleGroupById = (error, response) => {
-                    if(error) {
-                        cb(error);
-                    } else {
-                        let group = response.body;
-                        cb(null, {
-                            statusCode: response.statusCode,
-                            body: group.games
-                        });
+                    try {
+                        if(error) {
+                            cb(error);
+                        } else {
+                            let group = response.body;
+                            cb(null, {
+                                statusCode: response.statusCode,
+                                body: group.games
+                            });
+                        }
+                    } catch(err) {
+                        cb( new CiborgError(
+                            'Error in service: getGamesFromGroup.',
+                            'Unable to get games from group.',
+                            '500' // Internal Server Error
+                        ));
                     }
                 };
                 this.getGroupById(groupId, handdleGroupById);
@@ -191,26 +239,34 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                             let group = response.body;
     
                             let handleGameByName = (error, response) => {
-                                if(error) {
-                                    cb(error);
-                                } else {
-                                    let games = response.body;
-                                    let wasGameAdded = false;
-                                    games.forEach(el => {
-                                        if(!group.games.find(game => game.name === el.name)) {
-                                            group.games.push(el);
-                                            wasGameAdded = true;
-                                        }
-                                    });
-                                    if(!wasGameAdded){
-                                        cb( new CiborgError(
-                                            'Error in service: addGameToGroup. The game does not exist or was already added.',
-                                            'Unable to add game to group. Either the game does not exist or was already added.',
-                                            '500' // Internal Server Error
-                                        ));
+                                try {
+                                    if(error) {
+                                        cb(error);
                                     } else {
-                                        this.updateGroup(group,cb);
+                                        let games = response.body;
+                                        let wasGameAdded = false;
+                                        games.forEach(el => {
+                                            if(!group.games.find(game => game.name === el.name)) {
+                                                group.games.push(el);
+                                                wasGameAdded = true;
+                                            }
+                                        });
+                                        if(!wasGameAdded){
+                                            cb( new CiborgError(
+                                                'Error in service: addGameToGroup. The game does not exist or was already added.',
+                                                'Unable to add game to group. Either the game does not exist or was already added.',
+                                                '500' // Internal Server Error
+                                            ));
+                                        } else {
+                                            this.updateGroup(group,cb);
+                                        }
                                     }
+                                } catch(err) {
+                                    cb( new CiborgError(
+                                        'Error in service: addGameToGroup.',
+                                        'Unable to get group for adding the game.',
+                                        '500' // Internal Server Error
+                                    ));
                                 }
                             };
                             GameServices.searchByName(gameName, handleGameByName);
@@ -268,13 +324,21 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                                         let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                                         let opts = { url: fullUrl, json: true, body: group};
                                         let handler = (err, payload) => {
-                                            if(err) {
-                                                cb(err);
-                                            } else {
-                                                cb(null, {
-                                                    statusCode: 202,
-                                                    body: {}
-                                                });
+                                            try {
+                                                if(err) {
+                                                    cb(err);
+                                                } else {
+                                                    cb(null, {
+                                                        statusCode: 202,
+                                                        body: {}
+                                                    });
+                                                }
+                                            } catch(err) {
+                                                cb( new CiborgError(
+                                                    'Error in service: addGameToGroup.',
+                                                    'Unable to get group for adding the game.',
+                                                    '500' // Internal Server Error
+                                                ));
                                             }
                                         }; 
                                         HttpCall.put(opts, handler); 
