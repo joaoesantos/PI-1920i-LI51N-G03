@@ -1,12 +1,12 @@
 'use strict';
 const http = require('http');
 
+const Props = require('./libs/CIBORG/shared/Config')("./libs/CIBORG/shared/files");
 const gamesDto = require('./libs/CIBORG/entities/dtos/GameDto');
 const gamesEntity = require('./libs/CIBORG/entities/models/Game');
 const gamesDtoMapper = require('./libs/CIBORG/entities/mappers/GameDtoMapper')(gamesEntity);
 const CiborgError = require('./libs/CIBORG/errors/ciborg-error');
-const httpCall = require('./libs/CIBORG/request/HttpCall')(CiborgError);
-const Props = require('./libs/CIBORG/shared/Config')("./libs/CIBORG/shared/files");
+const httpCall = require('./libs/CIBORG/request/HttpCall')(Props, CiborgError);
 const CiborgValidator = require('./libs/CIBORG/validators/ciborg-validator')(CiborgError);
 const gamesService = require('./libs/CIBORG/dal/board-games-data')(Props, gamesDto, gamesDtoMapper, httpCall, CiborgError);
 const groupService = require('./libs/CIBORG/dal/ciborg-db')(Props, httpCall, gamesService, CiborgError);

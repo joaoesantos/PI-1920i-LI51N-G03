@@ -1,7 +1,10 @@
 'use strict';
+var debug = require('debug')('board-games-data');
 
 module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError) {
-
+    if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
+        debug.disable();
+    }
     function queryBuilder(pairArray, keyValueSeparator, pairSeparator) {
         return pairArray.map(e => e.key + keyValueSeparator + e.value).reduce((accum, currVal) => accum + pairSeparator + currVal, "").substr(1);
     }
@@ -38,8 +41,10 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             json: true
         };
         function handler(err, data) {
+            debug.extend('getMostPopularGames').extend('handler')("Handling HTTP GET");
             try {
                 if(err) {
+                    debug.extend('getMostPopularGames').extend('handler')(err);
                     cb(err);
                 } else {
                     let games = data.body.games.map(function(g) {
@@ -69,6 +74,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                         });
                 }
             } catch(err) {
+                debug.extend('getMostPopularGames').extend('handler')(err);
                 cb(
                     new CiborgError(
                     'Error calling external service: getMostPopularGames.',
@@ -93,8 +99,10 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             json: true
         };
         function handler(err, data){
+            debug.extend('getGameByID').extend('handler')("Handling HTTP GET");
             try {
                 if(err) {
+                    debug.extend('getGameByID').extend('handler')(err);
                     cb(err);
                 } else {
                     let games = data.body.games.map(function(g) {
@@ -124,6 +132,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                         });
                 }
             } catch(err){
+                debug.extend('getGameByID').extend('handler')(err);
                 cb(new CiborgError(
                     'Error calling external service: getGameByID.',
                     'Unable to get game.',
@@ -147,8 +156,10 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             json: true
         };
         function handler(err, data) {
+            debug.extend('getGameByID').extend('handler')("Handling HTTP GET");
             try {
                 if(err) {
+                    debug.extend('getGameByID').extend('handler')(err);
                     cb(err);
                 } else {
                     let games = data.body.games.map(function(g) {
@@ -176,6 +187,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     });
                 }
             } catch(err) {
+                debug.extend('getGameByID').extend('handler')(err);
                 cb(new CiborgError(
                     'Error calling external service:: searchByName.',
                     'Unable to search games.',
