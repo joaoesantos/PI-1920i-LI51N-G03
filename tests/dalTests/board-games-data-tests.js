@@ -1,16 +1,17 @@
 let assert = require('assert');
+let Props = require('../../libs/CIBORG/shared/Config')("../../libs/CIBORG/shared/files");
 let CiborgError = require('../../libs/CIBORG/errors/ciborg-error')
 let gameDto = require('../../libs/CIBORG/entities/dtos/GameDto');
 let game = require('../../libs/CIBORG/entities/models/Game');
 let gameMapper = require('../../libs/CIBORG/entities/mappers/GameDtoMapper')(game);
 let httpCallGetGameByID = require('./mocks/board-game-data/getGameByID-httpCall-mock');
-let serviceGetGameByID = require('../../libs/CIBORG/dal/board-games-data')(gameDto, gameMapper, httpCallGetGameByID, CiborgError);
+let serviceGetGameByID = require('../../libs/CIBORG/dal/board-games-data')(Props, gameDto, gameMapper, httpCallGetGameByID, CiborgError);
 let httpCallGetGameByIDError = require('./mocks/board-game-data/getGameByIDError-httpCall');
-let serviceGetGameByIDError = require('../../libs/CIBORG/dal/board-games-data')(gameDto, gameMapper, httpCallGetGameByIDError, CiborgError);
+let serviceGetGameByIDError = require('../../libs/CIBORG/dal/board-games-data')(Props, gameDto, gameMapper, httpCallGetGameByIDError, CiborgError);
 let httpCallsearchByName = require('./mocks/board-game-data/searchByName-httpCall-mock');
-let serviceSearchByName = require('../../libs/CIBORG/dal/board-games-data')(gameDto, gameMapper, httpCallsearchByName, CiborgError);
+let serviceSearchByName = require('../../libs/CIBORG/dal/board-games-data')(Props, gameDto, gameMapper, httpCallsearchByName, CiborgError);
 let httpCallGetMostPopularGames = require('./mocks/board-game-data/getMostPopularGames-httpCall-mock');
-let serviceGetMostPopularGames = require('../../libs/CIBORG/dal/board-games-data')(gameDto, gameMapper, httpCallGetMostPopularGames, CiborgError);
+let serviceGetMostPopularGames = require('../../libs/CIBORG/dal/board-games-data')(Props, gameDto, gameMapper, httpCallGetMostPopularGames, CiborgError);
 
 describe('Service-games test:', function() {
   it('Should return game which name is Spirit Island', function(done) {

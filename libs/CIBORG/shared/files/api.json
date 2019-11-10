@@ -1,0 +1,6 @@
+{
+    "client_id_param" : "client_id",
+    "client_id_value" : "rFMyVCTRWP",
+	"base_url" : "https://www.boardgameatlas.com",
+	"search_api" : "/api/search"
+}
