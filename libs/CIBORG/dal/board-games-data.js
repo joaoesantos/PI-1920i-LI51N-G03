@@ -1,10 +1,20 @@
 'use strict';
-const client_id = 'rFMyVCTRWP';
-module.exports = function(GamesDto, GamesDtoMapper, HttpCall, CiborgError){
+
+module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError) {
+
+    function queryBuilder(pairArray, keyValueSeparator, pairSeparator) {
+        return pairArray.map(e => e.key + keyValueSeparator + e.value).reduce((accum, currVal) => accum + pairSeparator + currVal, "").substr(1);
+    }
 
     function createOptionsForGamesOrderedByField(number,field,ascending){
+        let query = queryBuilder([
+            {key: Props.api.client_id_param, value: Props.api.client_id_value},
+            {key: "limit", value: number},
+            {key: "order_by", value: field},
+            {key: "ascending", value: ascending},
+        ]);
         let options = {
-            url: `https://www.boardgameatlas.com/api/search?limit=${number}&client_id=${client_id}&order_by=${field}&ascending=${ascending}`,
+            url: Props.api.base_url + Props.api.search_api + "?" + query,
             headers: {
                 'User-Agent': 'request'
             }
@@ -14,9 +24,14 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall, CiborgError){
     }
 
     function getMostPopularGames(cb) {
+        let query = queryBuilder([
+            {key: Props.api.client_id_param, value: Props.api.client_id_value},
+            {key: "order_by", value: "popularity"},
+            {key: "ascending", value: "false"}
+        ]);
         // Setting URL and headers for request
         let options = {
-            url: `https://www.boardgameatlas.com/api/search?client_id=${client_id}&order_by=popularity&ascending=false`,
+            url: Props.api.base_url + Props.api.search_api + "?" + query,
             headers: {
                 'User-Agent': 'request'
             }
@@ -65,8 +80,12 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall, CiborgError){
     }
 
     function getGameByID(id, cb){
+        let query = queryBuilder([
+            {key: Props.api.client_id_param, value: Props.api.client_id_value},
+            {key: "ids", value: id}
+        ]);
         let options = {
-            url: `https://www.boardgameatlas.com/api/search?ids=${id}&client_id=${client_id}`,
+            url: Props.api.base_url + Props.api.search_api + "?" + query,
             headers: {
                 'User-Agent': 'request'
             }
@@ -114,8 +133,12 @@ module.exports = function(GamesDto, GamesDtoMapper, HttpCall, CiborgError){
     }
 
     function searchByName(gameName, cb){
+        let query = queryBuilder([
+            {key: Props.api.client_id_param, value: Props.api.client_id_value},
+            {key: "name", value: gameName}
+        ]);
         let options = {
-            url: `https://www.boardgameatlas.com/api/search?name=${gameName}&client_id=${client_id}`,
+            url: Props.api.base_url + Props.api.search_api + "?" + query,
             headers: {
                 'User-Agent': 'request'
             }

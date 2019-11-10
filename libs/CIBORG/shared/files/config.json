@@ -1,13 +1,3 @@
 {
-	"client_id" : "ruWQtzilJq",
-	"url" : "https://www.boardgameatlas.com",
-	"searchByPopularity" : "search?order_by=popularity",
-	"port" : "8080",
-	"database" : "pi",
-	"atlasRequestOptions": {
-		"url": "",
-		"headers":{
-			"User-Agent": "request"
-		}
-	}
+	"port" : "8080"
 }
