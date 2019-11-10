@@ -3,8 +3,6 @@ let debug = require('debug')('router');
 debug.enabled = true;
 
 let routerFunction = function(Props, CiborgError, CiborgValidator) {
-
-    console.log(1)
     if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
         debug.disable();
     }
@@ -55,7 +53,6 @@ let routerFunction = function(Props, CiborgError, CiborgValidator) {
             debug.extend("navigate")(err);
             err.resolveErrorResponse(rsp);
         }
-        
         // matches url with templates
         let isMatched = routes.some(function(route) {
             // finds parameters and replace them with regex
@@ -77,7 +74,6 @@ let routerFunction = function(Props, CiborgError, CiborgValidator) {
                 'Command does not exist.',
                 '404' // Not Found
             );
-            console.log(err)
             debug.extend("navigate")(err);
             err.resolveErrorResponse(rsp);
         } else {
