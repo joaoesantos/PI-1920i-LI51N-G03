@@ -4,48 +4,57 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
         getAllGroups: (cb) => {
             let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.search.url;
             let opts = { url: fullUrl, json: true };
-            let errorHanldler = (err) => { cb(err) };
-            let sucessHanldler = (payload) => {
-                let groupsList = payload.body.hits.hits.map(e => {
-                    let group = e._source;
-                    group.id = e._id;
-                    return group;
-                });
-                cb(null, {
-                    statusCode: payload.statusCode,
-                    body: groupsList
-                });
+            let handler = (err, payload) => {
+                if(err) {
+                    cb(err);
+                } else {
+                    let groupsList = payload.body.hits.hits.map(e => {
+                        let group = e._source;
+                        group.id = e._id;
+                        return group;
+                    });
+                    cb(null, {
+                        statusCode: payload.statusCode,
+                        body: groupsList
+                    });
+                }
             };
-            HttpCall.get(opts, sucessHanldler, errorHanldler);
+            HttpCall.get(opts, handler);
         },
     
         getGroupById: (groupId, cb) => {
             let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
             let opts = { url: fullUrl, json: true};
-            let errorHanldler = (err) => { cb(err) };
-            let sucessHanldler = (payload) => {
-                let group = payload.body._source;
-                group.id = payload.body._id;
-                cb(null, {
-                    statusCode: payload.statusCode,
-                    body: group
-                });
+            let handler = (err, payload) => {
+                if(err) {
+                    cb(err);
+                } else {
+                    let group = payload.body._source;
+                    group.id = payload.body._id;
+                    cb(null, {
+                        statusCode: payload.statusCode,
+                        body: group
+                    });
+                }
             };
-            HttpCall.get(opts, sucessHanldler, errorHanldler);
+            HttpCall.get(opts, handler);
         },
     
         createGroup: (group, cb) => {
             let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex;
             let opts = { url: fullUrl, json: true, body: group };
-            let errorHanldler = (err) => { cb(err) };
-            let sucessHanldler = (payload) => {
-                group.id = payload.body._id;
-                cb(null, {
-                    statusCode: payload.statusCode,
-                    body: group
-                });
+            let handler = (err, payload) => {
+                if(err) {
+                    cb(err);
+                } else {
+                    group.id = payload.body._id;
+                    cb(null, {
+                        statusCode: payload.statusCode,
+                        body: group
+                    });
+                }
             };
-            HttpCall.post(opts, sucessHanldler, errorHanldler);
+            HttpCall.post(opts, handler);
         },
     
         updateGroup: (group, cb) => {
@@ -53,18 +62,21 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             delete group.id;
             let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
             let opts = { url: fullUrl, json: true, body: group};
-            let errorHanldler = (err) => { cb(err) };
-            let sucessHanldler = (payload) => {
-                group.id = payload.body._id;
-                cb(null, {
-                    statusCode: payload.statusCode,
-                    body: group
-                });
+            let handler = (err, payload) => {
+                if(err) {
+                    cb(err);
+                } else {
+                    group.id = payload.body._id;
+                    cb(null, {
+                        statusCode: payload.statusCode,
+                        body: group
+                    });
+                }
             };
-            HttpCall.put(opts, sucessHanldler, errorHanldler);
+            HttpCall.put(opts, handler);
         },
     
-        getGamesFromGroup: function (groupId, cb) {
+        getGamesFromGroup: function(groupId, cb) {
             let handdleGroupById = (error, response) => {
                 if(error) {
                     cb(error);
@@ -103,14 +115,17 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     delete group.id;
                     let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                     let opts = { url: fullUrl, json: true, body: group};
-                    let errorHanldler = (err) => { cb(err) };
-                    let sucessHanldler = (payload) => {
-                        cb(null, {
-                            statusCode: 202,
-                            body: {}
-                        });
+                    let handler = (err, payload) => {
+                        if(err) {
+                            cb(err);
+                        } else {
+                            cb(null, {
+                                statusCode: 202,
+                                body: {}
+                            });
+                        }
                     };
-                    HttpCall.put(opts, sucessHanldler, errorHanldler);
+                    HttpCall.put(opts, handler);
                 }
             };
             GameServices.getGamesById([gameId], handleGameByName);

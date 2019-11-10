@@ -5,7 +5,7 @@ let request = require('request');
 let httpCall = (CiborgError) => {
 
     let genericMethodCall = (method) => {
-        return (options, resolved, rejected) => {
+        return (options, handler) => {
             request[method.toLowerCase()](options, function(err, resp) {
                 if (err) { //verificar como detar erro, status code apenas?
                     let error = new CiborgError(
@@ -13,11 +13,10 @@ let httpCall = (CiborgError) => {
                         'Unable to add game to group.',
                         '500' // Internal Server Error
                     );
-                    rejected(resp);
-
+                    handler(error);
                     //rejected(new CustomError("E5001", 500, err.message, "Error acessing DB/API"));
                 } else {
-                    resolved(resp);
+                    handler(null, resp);
                 }
             })
         };

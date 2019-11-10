@@ -1,5 +1,5 @@
 let genericMethodCall = (method) => {
-    return (options, resolved, rejected) => {
+    return (options, handler) => {
         let groups = {body: {
             "_index": "groups",
             "_type": "_doc",
@@ -14,7 +14,7 @@ let genericMethodCall = (method) => {
             "_seq_no": 3,
             "_primary_term": 2
         }};
-        resolved(groups);
+        handler(null, groups);
     };
 };
 

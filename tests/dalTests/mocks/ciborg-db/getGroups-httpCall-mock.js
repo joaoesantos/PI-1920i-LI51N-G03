@@ -1,5 +1,5 @@
 let genericMethodCall = (method) => {
-    return (options, resolved, rejected) => {
+    return (options, handler) => {
         let groups = {body: {
             took: 16,
             timed_out: false,
@@ -52,7 +52,7 @@ let genericMethodCall = (method) => {
               ]
             }
           }};
-        resolved(groups);
+          handler(null, groups);
     };
 };
 

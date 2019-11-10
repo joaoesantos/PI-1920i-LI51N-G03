@@ -1,5 +1,5 @@
 let genericMethodCall = (method) => {
-    return (options, resolved, rejected) => {
+    return (options, handler) => {
         let game = {games:[{
             id:"fG5Ax8PA7n",
             name:"Monopoly",
@@ -34,7 +34,7 @@ let genericMethodCall = (method) => {
         },
     
     ]};
-        resolved(game);
+    handler(null, game);
     };
 }
 

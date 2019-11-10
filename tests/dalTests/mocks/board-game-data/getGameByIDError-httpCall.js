@@ -1,5 +1,5 @@
 let genericMethodCall = (method) => {
-    return (options, resolved, rejected) => {
+    return (options, handler) => {
         let game = {games:[{
             id:"kPDxpJZ8PD",
             name:"Spirit Island",
@@ -16,7 +16,7 @@ let genericMethodCall = (method) => {
             num_user_ratings:114,
             average_user_rating:3.956140350877194,
         }]};
-        rejected({error: 'err'});
+        handler({error: 'err'});
     };
 };
 
