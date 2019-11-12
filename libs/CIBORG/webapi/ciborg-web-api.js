@@ -55,7 +55,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     function getGameByName(req, rsp) {
         try {
             // service call
-            services.games.searchByName(req.urlParameters.name, serviceCallback)
+            services.games.searchByName(req.params.name, serviceCallback)
         } catch(error) {
             debug.extend("getGameByName")(error);
             let err = new CiborgError(
@@ -79,6 +79,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     // create group
     function createGroup(req, rsp) {
         try {
+            console.log('createGroup handler');
+            console.log('CreateGroup req body',req.body);
             // ciborg validator
             let validatorErr = CiborgValidator.validateCreateGroupFormat(req.body);
             if(validatorErr)  {
@@ -167,7 +169,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     function getGroup(req, rsp) {
         try {
             // service call
-            services.groups.getGroupById(req.urlParameters.id, serviceCallback);
+            services.groups.getGroupById(req.params.id, serviceCallback);
         } catch(error) {
             debug.extend("getGroup")(error);
             let err = new CiborgError(
@@ -254,13 +256,13 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     function getGamesFromGroup(req, rsp) {
         try {
             // ciborg validator
-            let validatorErr = CiborgValidator.validateAlfanumeric(req.urlParameters.id);
+            let validatorErr = CiborgValidator.validateAlfanumeric(req.params.id);
             if(validatorErr) {
                 debug.extend("getGamesFromGroup")(validatorErr);
                 validatorErr.resolveErrorResponse(rsp);
             }
             // service call
-            services.groups.getGamesFromGroup(req.urlParameters.id, serviceCallback);
+            services.groups.getGamesFromGroup(req.params.id, serviceCallback);
         } catch (error) {
             debug.extend("getGamesFromGroup")(error);
             let err = new CiborgError(
