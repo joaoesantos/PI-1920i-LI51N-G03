@@ -24,6 +24,7 @@
   "homepage": "https://github.com/joaoesantos/PI-1920i-LI51N-G03#readme",
   "dependencies": {
     "debug": "^4.1.1",
+    "express": "^4.17.1",
     "request": "^2.88.0"
   },
   "devDependencies": {
