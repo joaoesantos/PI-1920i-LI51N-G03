@@ -17,21 +17,18 @@ const groupService = require('./libs/CIBORG/dal/ciborg-db')(props, httpCall, gam
 const services = require('./libs/CIBORG/services/ciborg-services')(gamesService, groupService);
 const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, ciborgError, ciborgValidator);
 
-const authentication = require('./libs/CIBORG/middleware/authentication')(props, ciborgError);
+//const authentication = require('./libs/CIBORG/middleware/authentication')(props, ciborgError);
+
+const router = require('./libs/CIBORG/middleware/router')(express.Router(), webapi);
+
+
 
 server.use(express.json()) // for parsing application/json
 server.use(express.urlencoded({ extended: true }))
-server.use(authentication);
+//server.use(authentication);
+server.use(router);
 //Register routes
-server.get('/games', webapi.getMostPopularGames);
-server.get('/games/:name', webapi.getGameByName);
-server.post('/groups', webapi.createGroup);
-server.put('/groups', webapi.updateGroup);
-server.get('/groups', webapi.getAllGroups);
-server.get('/groups/:id', webapi.getGroup);
-server.put('/groups/games', webapi.addGameToGroup);
-server.delete('/groups/games', webapi.removeGameFromGroup);
-server.get('/groups/:id/games', webapi.getGamesFromGroup);
+
 //server.get('/');
 
 server.use(function (req, res, next) {
