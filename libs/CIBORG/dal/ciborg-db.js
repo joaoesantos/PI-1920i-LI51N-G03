@@ -34,49 +34,50 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             }
         },
 
-        getGroupById: (groupId, cb) => {
+        getGroupById: async(groupId) => {
             try {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                 let opts = { url: fullUrl, json: true };
-                let handler = (err, payload) => {
-                    debug.extend('getGroupById').extend('handler')("Handling HTTP GET");
-                    try {
-                        if (err) {
-                            debug.extend('getGroupById').extend('handler')(err);
-                            cb(err);
-                        } else {
-                            if (payload.body.found) {
-                                let group = payload.body._source;
-                                group.id = payload.body._id;
-                                cb(null, {
-                                    statusCode: payload.statusCode,
-                                    body: group
-                                });
-                            } else {
-                                cb(new CiborgError(
-                                    'Error in service: groupt with id ' + groupId + ' not found.',
-                                    'Unable to get group.',
-                                    '404' // Internal Server Error
-                                ));
-                            }
-                        }
-                    } catch (err) {
+                let payload = await HttpCall.get(opts);
+                
+                //let handler = (err, payload) => {
+                //debug.extend('getGroupById').extend('handler')("Handling HTTP GET");
+                //try {
+                /*if (err) {
+                    debug.extend('getGroupById').extend('handler')(err);
+                    cb(err);
+                } else {*/
+                if (payload.body.found) {
+                    let group = payload.body._source;
+                    group.id = payload.body._id;
+                    return {
+                        statusCode: payload.statusCode,
+                        body: group
+                    };
+                } else {
+                    throw new CiborgError(
+                        'Error in service: groupt with id ' + groupId + ' not found.',
+                        'Unable to get group.',
+                        '404' // Internal Server Error
+                    );
+                }
+                //}
+                    /*} catch (err) {
                         debug.extend('getGroupById').extend('handler')(err);
                         cb(new CiborgError(
                             'Error in service: getGroupById.',
                             'Unable to get group.',
                             '500' // Internal Server Error
                         ));
-                    }
-                };
-                HttpCall.get(opts, handler);
+                    }*/
+                //};
             } catch (err) {
                 debug.extend('getGroupById')(err);
-                cb(new CiborgError(
+                throw new CiborgError(
                     'Error in service: getGroupById.',
                     'Unable to get group.',
                     '500' // Internal Server Error
-                ));
+                );
             }
         },
 

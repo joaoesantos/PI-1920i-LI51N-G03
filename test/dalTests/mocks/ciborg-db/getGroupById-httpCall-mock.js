@@ -1,8 +1,8 @@
 'use strict';
 
 let genericMethodCall = (method) => {
-    return (options, handler) => {
-        let groups = {body: {
+    return async (options, handler) => {
+        let group = {body: {
           _index : "groups",
           _type : "_doc",
           _id : "A_lAR24BzWeGhLBFL1VJ",
@@ -27,7 +27,7 @@ let genericMethodCall = (method) => {
           }]
           }
         }};
-        handler(null, groups);
+        return Promise.resolve(group);
     };
 };
 

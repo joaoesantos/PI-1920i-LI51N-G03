@@ -10,30 +10,29 @@ let props = require('../../libs/CIBORG/shared/Config')("../../libs/CIBORG/shared
 let group = require('../../libs/CIBORG/entities/models/Group');
 
 describe('Service-groups tests:', function() {
-    it('Should return list with 3 groups', function(done) {
+    /*it('Should return list with 3 groups', function(done) {
         let groupsdHttpCall = require('./mocks/ciborg-db/getGroups-httpCall-mock');
         let groupService = require('../../libs/CIBORG/dal/ciborg-db')(props, groupsdHttpCall, gameService, CiborgError);
         let resP = groupService.getAllGroups();
         resP.then((res) => {
-            console.log("test");
-            console.log(res);
             assert.equal(3, res.body.length);
             done();
         });
 
-    });
-    /*
+    });*/
+    
         it('Should return a specific group:', function(done) {
             let groupByIdHttpCall = require('./mocks/ciborg-db/getGroupById-httpCall-mock');
             let groupService = require('../../libs/CIBORG/dal/ciborg-db')(props, groupByIdHttpCall, gameService, CiborgError);
-            groupService.getGroupById("A_lAR24BzWeGhLBFL1VJ", function(err, res) {
+            let resP = groupService.getGroupById("A_lAR24BzWeGhLBFL1VJ");
+            resP.then((res) => {
                 assert.equal("A_lAR24BzWeGhLBFL1VJ", res.body.id);
                 assert.equal("Test Group", res.body.name);
                 assert.equal("Group of wild gamers", res.body.description);
                 done();
             });
         });
-
+/*
         it('Should return the created group', function(done) {
             let createGroupHttpCall = require('./mocks/ciborg-db/createGroup-httpCall-mock');
             let groupService = require('../../libs/CIBORG/dal/ciborg-db')(props, createGroupHttpCall, gameService, CiborgError);
