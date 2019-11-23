@@ -1,17 +1,15 @@
-
-
 let GameServices = {
-    searchByName : function(gameName, cb) {
-        let response = {
+    searchByName: async function(gameName) {
+        let game = {
             statusCode: 202,
             body: [{
-                id:"levMwXaCM6",
-                name:"Monopoly Deal Card Game",
-                min_playtime:90,
-                max_playtime:120
+                id: "levMwXaCM6",
+                name: "Monopoly Deal Card Game",
+                min_playtime: 90,
+                max_playtime: 120
             }]
         }
-        cb(null ,response);
+        return Promise.resolve(game);
     }
 }
-module.exports = GameServices
+module.exports = GameServices;

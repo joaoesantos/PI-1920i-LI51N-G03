@@ -1,20 +1,22 @@
 let genericMethodCall = (method) => {
-    return (options, handler) => {
-        let groups = {body: {
-            "_index": "groups",
-            "_type": "_doc",
-            "_id": "BXCTT24B48xg3O5SuPev",
-            "_version": 2,
-            "result": "updated",
-            "_shards": {
-                "total": 2,
-                "successful": 1,
-                "failed": 0
-            },
-            "_seq_no": 3,
-            "_primary_term": 2
-        }};
-        handler(null, groups);
+    return async(options) => {
+        let group = {
+            body: {
+                "_index": "groups",
+                "_type": "_doc",
+                "_id": "BXCTT24B48xg3O5SuPev",
+                "_version": 2,
+                "result": "updated",
+                "_shards": {
+                    "total": 2,
+                    "successful": 1,
+                    "failed": 0
+                },
+                "_seq_no": 3,
+                "_primary_term": 2
+            }
+        };
+        return Promise.resolve(group);
     };
 };
 
