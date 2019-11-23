@@ -22,7 +22,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         return options;
     }
 
-    function getMostPopularGames(cb) {
+    async function getMostPopularGames() {
         let query = queryBuilder([
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "order_by", value: "popularity"},
@@ -30,50 +30,86 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         ], "=", "&");
         // Setting URL and headers for request
         let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
-        function handler(err, data) {
-            debug.extend('getMostPopularGames').extend('handler')("Handling HTTP GET");
-            try {
-                if(err) {
-                    debug.extend('getMostPopularGames').extend('handler')(err);
-                    cb(err);
-                } else {
-                    let games = data.body.games.map(function(g) {
+
+        let data = await HttpCall.get(options);
+        debug.extend('getMostPopularGames').extend('handler')("Handling HTTP GET");
+
+        return data.then((d) => {
+            d.body.games.map(function(g) {
         
-                        let dto = GamesDto(
-                            g.id,
-                            g.name,
-                            g.year_published,
-                            g.min_players,
-                            g.max_players,
-                            g.min_playtime,
-                            g.max_playtime,
-                            g.min_age,
-                            g.description,
-                            g.description_preview,
-                            g.price,
-                            g.primary_publisher,
-                            g.num_user_ratings,
-                            g.average_user_rating,
-                            );
-                            return GamesDtoMapper.entityToModel(dto);
-                    });
-                    cb(null, {
-                        statusCode: 201,
-                        statusMessage: "accepted",
-                        body: {games}
-                        });
-                }
-            } catch(err) {
-                debug.extend('getMostPopularGames').extend('handler')(err);
+                let dto = GamesDto(
+                    g.id,
+                    g.name,
+                    g.year_published,
+                    g.min_players,
+                    g.max_players,
+                    g.min_playtime,
+                    g.max_playtime,
+                    g.min_age,
+                    g.description,
+                    g.description_preview,
+                    g.price,
+                    g.primary_publisher,
+                    g.num_user_ratings,
+                    g.average_user_rating,
+                    );
+                    return GamesDtoMapper.entityToModel(dto);
+        })})
+        .catch((err)=>{
+            debug.extend('getMostPopularGames').extend('handler')(err);
                 cb(
                     new CiborgError(
                     'Error calling external service: getMostPopularGames.',
                     'Unable to get popular games.',
                     '500' //Service Unavailable
-                ));
-            }
-        }
-        HttpCall.get(options, handler);
+                ));        
+        });
+
+        // function handler(err, data) {
+        //     debug.extend('getMostPopularGames').extend('handler')("Handling HTTP GET");
+        //     try {
+        //         if(err) {
+        //             debug.extend('getMostPopularGames').extend('handler')(err);
+        //             cb(err);
+        //         } else {
+        //             let games = data.body.games.map(function(g) {
+        
+        //                 let dto = GamesDto(
+        //                     g.id,
+        //                     g.name,
+        //                     g.year_published,
+        //                     g.min_players,
+        //                     g.max_players,
+        //                     g.min_playtime,
+        //                     g.max_playtime,
+        //                     g.min_age,
+        //                     g.description,
+        //                     g.description_preview,
+        //                     g.price,
+        //                     g.primary_publisher,
+        //                     g.num_user_ratings,
+        //                     g.average_user_rating,
+        //                     );
+        //                     return GamesDtoMapper.entityToModel(dto);
+        //             });
+        //             cb(null, {
+        //                 statusCode: 201,
+        //                 statusMessage: "accepted",
+        //                 body: {games}
+        //                 });
+        //         }
+        //     } catch(err) {
+        //         debug.extend('getMostPopularGames').extend('handler')(err);
+        //         cb(
+        //             new CiborgError(
+        //             'Error calling external service: getMostPopularGames.',
+        //             'Unable to get popular games.',
+        //             '500' //Service Unavailable
+        //         ));
+        //     }
+        // }
+        
+        
     }
 
     function getGameByID(id, cb){
