@@ -31,11 +31,99 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         // Setting URL and headers for request
         let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
 
-        let data = await HttpCall.get(options);
-        debug.extend('getMostPopularGames').extend('handler')("Handling HTTP GET");
+        try{
+            let data = await HttpCall.get(options);
+            debug.extend('getMostPopularGames').extend('handler')("Handling HTTP GET");
 
-        return data.then((d) => {
-            d.body.games.map(function(g) {
+            let games = data.body.games.map(function(g) {
+        
+                let dto = GamesDto(
+                    g.id,
+                    g.name,
+                    g.year_published,
+                    g.min_players,
+                    g.max_players,
+                    g.min_playtime,
+                    g.max_playtime,
+                    g.min_age,
+                    g.description,
+                    g.description_preview,
+                    g.price,
+                    g.primary_publisher,
+                    g.num_user_ratings,
+                    g.average_user_rating,
+                    );
+                return GamesDtoMapper.entityToModel(dto);
+            });
+            return {
+                statusCode: 201,
+                statusMessage: "accepted",
+                body: {games:games}
+            };
+        }catch(err){
+            throw new CiborgError(
+                'Error calling external service: getMostPopularGames.',
+                'Unable to get popular games.',
+                '500' //Service Unavailable
+            );
+        }
+        
+    }
+
+    async function getGameByID(id){
+        let query = queryBuilder([
+            {key: Props.api.client_id_param, value: Props.api.client_id_value},
+            {key: "ids", value: id}
+        ], "=", "&");
+        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
+        try{
+            let data = await HttpCall.get(options);
+            debug.extend('getGameByID').extend('handler')("Handling HTTP GET");
+            let games = data.body.games.map(function(g) {
+        
+                let dto = GamesDto(
+                    g.id,
+                    g.name,
+                    g.year_published,
+                    g.min_players,
+                    g.max_players,
+                    g.min_playtime,
+                    g.max_playtime,
+                    g.min_age,
+                    g.description,
+                    g.description_preview,
+                    g.price,
+                    g.primary_publisher,
+                    g.num_user_ratings,
+                    g.average_user_rating,
+                    );
+                    return GamesDtoMapper.entityToModel(dto)});
+
+            return {
+                statusCode: 201,
+                statusMessage: "accepted",
+                body: {games:games}
+            };
+        }catch(err){
+            throw new CiborgError(
+                'Error calling external service: getGameByID.',
+                'Unable to get game.',
+                '500' //Service Unavailable
+            );
+        }
+    }
+
+    async function searchByName(gameName) {
+        let query = queryBuilder([
+            {key: Props.api.client_id_param, value: Props.api.client_id_value},
+            {key: "name", value: gameName}
+        ], "=", "&");
+        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
+
+        try{
+            debug.extend('getGameByID').extend('handler')("Handling HTTP GET");
+            let data = await HttpCall.get(options);
+            let games = data.body.games.map(function(g) {
         
                 let dto = GamesDto(
                     g.id,
@@ -54,162 +142,20 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     g.average_user_rating,
                     );
                     return GamesDtoMapper.entityToModel(dto);
-        })})
-        .catch((err)=>{
-            debug.extend('getMostPopularGames').extend('handler')(err);
-                cb(
-                    new CiborgError(
-                    'Error calling external service: getMostPopularGames.',
-                    'Unable to get popular games.',
-                    '500' //Service Unavailable
-                ));        
-        });
+            })
 
-        // function handler(err, data) {
-        //     debug.extend('getMostPopularGames').extend('handler')("Handling HTTP GET");
-        //     try {
-        //         if(err) {
-        //             debug.extend('getMostPopularGames').extend('handler')(err);
-        //             cb(err);
-        //         } else {
-        //             let games = data.body.games.map(function(g) {
-        
-        //                 let dto = GamesDto(
-        //                     g.id,
-        //                     g.name,
-        //                     g.year_published,
-        //                     g.min_players,
-        //                     g.max_players,
-        //                     g.min_playtime,
-        //                     g.max_playtime,
-        //                     g.min_age,
-        //                     g.description,
-        //                     g.description_preview,
-        //                     g.price,
-        //                     g.primary_publisher,
-        //                     g.num_user_ratings,
-        //                     g.average_user_rating,
-        //                     );
-        //                     return GamesDtoMapper.entityToModel(dto);
-        //             });
-        //             cb(null, {
-        //                 statusCode: 201,
-        //                 statusMessage: "accepted",
-        //                 body: {games}
-        //                 });
-        //         }
-        //     } catch(err) {
-        //         debug.extend('getMostPopularGames').extend('handler')(err);
-        //         cb(
-        //             new CiborgError(
-        //             'Error calling external service: getMostPopularGames.',
-        //             'Unable to get popular games.',
-        //             '500' //Service Unavailable
-        //         ));
-        //     }
-        // }
-        
-        
-    }
-
-    function getGameByID(id, cb){
-        let query = queryBuilder([
-            {key: Props.api.client_id_param, value: Props.api.client_id_value},
-            {key: "ids", value: id}
-        ], "=", "&");
-        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
-        function handler(err, data){
-            debug.extend('getGameByID').extend('handler')("Handling HTTP GET");
-            try {
-                if(err) {
-                    debug.extend('getGameByID').extend('handler')(err);
-                    cb(err);
-                } else {
-                    let games = data.body.games.map(function(g) {
-        
-                    let dto = GamesDto(
-                        g.id,
-                        g.name,
-                        g.year_published,
-                        g.min_players,
-                        g.max_players,
-                        g.min_playtime,
-                        g.max_playtime,
-                        g.min_age,
-                        g.description,
-                        g.description_preview,
-                        g.price,
-                        g.primary_publisher,
-                        g.num_user_ratings,
-                        g.average_user_rating,
-                        );
-                        return GamesDtoMapper.entityToModel(dto);
-                    });
-                    cb(null,{
-                        statusCode: 201,
-                        statusMessage: "accepted",
-                        body: {games}
-                        });
-                }
-            } catch(err){
-                debug.extend('getGameByID').extend('handler')(err);
-                cb(new CiborgError(
-                    'Error calling external service: getGameByID.',
-                    'Unable to get game.',
-                    '500' //Service Unavailable
-                ));
-            } 
-        };
-        HttpCall.get(options, handler);
-    }
-
-    function searchByName(gameName, cb) {
-        let query = queryBuilder([
-            {key: Props.api.client_id_param, value: Props.api.client_id_value},
-            {key: "name", value: gameName}
-        ], "=", "&");
-        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
-        function handler(err, data) {
-            debug.extend('getGameByID').extend('handler')("Handling HTTP GET");
-            try {
-                if(err) {
-                    debug.extend('getGameByID').extend('handler')(err);
-                    cb(err);
-                } else {
-                    let games = data.body.games.map(function(g) {
-                        let dto = GamesDto(
-                            g.id,
-                            g.name,
-                            g.year_published,
-                            g.min_players,
-                            g.max_players,
-                            g.min_playtime,
-                            g.max_playtime,
-                            g.min_age,
-                            g.description,
-                            g.description_preview,
-                            g.price,
-                            g.primary_publisher,
-                            g.num_user_ratings,
-                            g.average_user_rating,
-                            );
-                            return GamesDtoMapper.entityToModel(dto);
-                });
-                cb(null,{
-                    statusCode: 201,
-                    body : games
-                    });
-                }
-            } catch(err) {
-                debug.extend('getGameByID').extend('handler')(err);
-                cb(new CiborgError(
-                    'Error calling external service:: searchByName.',
-                    'Unable to search games.',
-                    '500' //Service Unavailable
-                ));
-            }  
-        };
-        HttpCall.get(options, handler);
+            return {
+                statusCode: 201,
+                statusMessage: "accepted",
+                body: {games:games}
+            }
+        }catch(err){
+            throw new CiborgError(
+                'Error calling external service:: searchByName.',
+                'Unable to search games.',
+                '500' //Service Unavailable
+            )  
+        }
     };
 
     return {

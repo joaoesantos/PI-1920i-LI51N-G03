@@ -1,5 +1,5 @@
 let assert = require('assert');
-let Props = require('../../libs/CIBORG/shared/Config')("../../libs/CIBORG/shared/files");
+let Props = require('../../libs/CIBORG/shared/Config')("../../libs/CIBORG/shared/files"); //../../libs/CIBORG/shared/files
 let CiborgError = require('../../libs/CIBORG/errors/ciborg-error')
 let gameDto = require('../../libs/CIBORG/entities/dtos/GameDto');
 let game = require('../../libs/CIBORG/entities/models/Game');
@@ -15,32 +15,44 @@ let serviceGetMostPopularGames = require('../../libs/CIBORG/dal/board-games-data
 
 describe('Service-games test:', function() {
   it('Should return game which name is Spirit Island', function(done) {
-    serviceGetGameByID.getGameByID('kPDxpJZ8PD',function(err,res){
-      assert.equal("Spirit Island",res.body.games[0].name);
+    let resp = serviceGetGameByID.getGameByID('kPDxpJZ8PD');
+
+    resp.then((data) => {
+      assert.equal("Spirit Island",data.body.games[0].name);
       done();
     });
     
   });
 
   it('Should return list of games with Monopoly in the name', function(done) {
-    serviceSearchByName.searchByName("Monopoly",function(err,res){
-      assert.notEqual(0,res.body.length);
+    let resp = serviceSearchByName.searchByName("Monopoly");
+
+    resp.then((data)=>{
+      assert.notEqual(0,data.body.games.length);
       done();
     });
   });
 
   it('Should return a list with the 2 most popular games', function(done) {
-    serviceGetMostPopularGames.getMostPopularGames(function(err,res){
-      assert.equal(2,res.body.games.length);
+    let resp = serviceGetMostPopularGames.getMostPopularGames();
+
+    resp.then((data) =>{
+      assert.equal(2, data.body.games.length);
       done();
     });
   });
 
   it('Should return an error', function(done) {
-    serviceGetGameByIDError.getGameByID('kPDxpJZ8PD',function(err,res){
-      assert.notEqual(null,err);
-      done();
-    });
+    let resp =  serviceGetGameByIDError.getGameByID('kPDxpJZ8PD');
+    resp.then((data) => {
+      throw new Error('Expected Error');
+    })
+    .catch((err) => {
+      assert.ok(err instanceof CiborgError);
+      done()
+    })
+    .catch(done);
+
   });
 
 });

@@ -26,6 +26,7 @@ let httpCall = (Props, CiborgError) => {
                     })
                 });
             }
+        }
 
             let HttpCall = {
                 get: genericMethodCall("GET"),
