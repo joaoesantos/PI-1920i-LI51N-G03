@@ -3,9 +3,12 @@ let debug = require('debug')('ciborg-web-api');
 debug.enabled = true;
 
 let webApi = function(Props, services, CiborgError, CiborgValidator) {
+
+    // enables or disables debug according to configuration file
     if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
         debug.disable();
     }
+
     return {
         getMostPopularGames : getMostPopularGames,
         getGameByName : getGameByName,
@@ -18,19 +21,20 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         getGamesFromGroup : getGamesFromGroup
     }
 
-    // constructs response with data from service
+    // resolves response with data from service
     function resolveServiceResponse(data, rsp) {
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = data.statusCode;
         let payload = { payload : data.body };
-        rsp.end(JSON.stringify(payload));
+        rsp.json(payload);
     }
 
     // get popular games
-    function getMostPopularGames(req, rsp) {
+    async function getMostPopularGames(req, rsp) {
         try {
             // service call
-            services.games.getMostPopularGames(serviceCallback);
+            let data = await services.games.getMostPopularGames;
+            resolveServiceResponse(data,rsp);
         } catch(err) {
             if(!err instanceof CiborgError) {
                 debug.extend("getMostPopularGames")(err);
@@ -42,22 +46,14 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             }
             err.resolveErrorResponse(rsp);
         }
-        function serviceCallback(err, data) {
-            debug.extend("getMostPopularGames").extend("serviceCallback")("HANDLING getMostPopularGames");
-            if(err) {
-                debug.extend("getMostPopularGames").extend("serviceCallback")(err);
-                err.resolveErrorResponse(rsp);
-            } else {
-                resolveServiceResponse(data, rsp);
-            } 
-        }
-    }
+    } 
 
     // search game by name
-    function getGameByName(req, rsp) {
+    async function getGameByName(req, rsp) {
         try {
             // service call
-            services.games.searchByName(req.params.name, serviceCallback)
+            let data = await services.games.searchByName(req.params.name);
+            resolveServiceResponse(data,rsp);
         } catch(err) {
             if(!err instanceof CiborgError) {
                 debug.extend("getGameByName")(err);
@@ -69,19 +65,10 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             }
             err.resolveErrorResponse(rsp);
         }
-        function serviceCallback(err, data) {
-            debug.extend("getGameByName").extend("serviceCallback")("HANDLING getGameByName");
-            if(err) {
-                debug.extend("getGameByName").extend("serviceCallback")(err);
-                err.resolveErrorResponse(rsp);
-            } else {
-                resolveServiceResponse(data, rsp);
-            } 
-        }
     }
 
     // create group
-    function createGroup(req, rsp) {
+    async function createGroup(req, rsp) {
         try {
             // ciborg validator
             let validatorErr = CiborgValidator.validateCreateGroupFormat(req.body);
@@ -90,7 +77,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                 validatorErr.resolveErrorResponse(rsp);
             }
             // service call
-            services.groups.createGroup(req.body, serviceCallback)
+            let data = await services.groups.createGroup(req.body);
+            resolveServiceResponse(data,rsp);
         } catch(err) {
             if(!err instanceof CiborgError) {
                 debug.extend("createGroup")(err);
@@ -102,19 +90,10 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             }
             err.resolveErrorResponse(rsp);
         }
-        function serviceCallback(err, data) {
-            debug.extend("createGroup").extend("serviceCallback")("HANDLING createGroup");
-            if(err) {
-                debug.extend("createGroup").extend("serviceCallback")(err);
-                err.resolveErrorResponse(rsp);
-            } else {
-                resolveServiceResponse(data, rsp);
-            } 
-        }
     }
 
     // edit group
-    function updateGroup(req, rsp) {
+    async function updateGroup(req, rsp) {
         try {
             // ciborg validator
             let validatorErr = CiborgValidator.validateUpdateGroupFormat(req.body);
@@ -123,7 +102,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                 validatorErr.resolveErrorResponse(rsp);
             }            
             // service call
-            services.groups.updateGroupWithNoGames(req.body, serviceCallback);
+            let data = await services.groups.updateGroupWithNoGames(req.body);
+            resolveServiceResponse(data,rsp);
         } catch(err) {
             debug.extend("updateGroup")(error);
             err = new CiborgError(
@@ -133,22 +113,14 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             );
             err.resolveErrorResponse(rsp);
         }
-        function serviceCallback(err, data) {
-            debug.extend("updateGroup").extend("serviceCallback")("HANDLING updateGroup");
-            if(err) {
-                debug.extend("updateGroup").extend("serviceCallback")(err);
-                err.resolveErrorResponse(rsp);
-            } else {
-                resolveServiceResponse(data, rsp);
-            } 
-        }
     }
 
     // list all groups
-    function getAllGroups(req, rsp) {
+    async function getAllGroups(req, rsp) {
         try {
             // service call
-            services.groups.getAllGroups(serviceCallback);
+            let data = await services.groups.getAllGroups;
+            resolveServiceResponse(data,rsp);
         } catch(err) {
             if(!err instanceof CiborgError) {
                 debug.extend("getAllGroups")(err);
@@ -160,22 +132,14 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             }
             err.resolveErrorResponse(rsp);
         }
-        function serviceCallback(err, data) {
-            debug.extend("getAllGroups").extend("serviceCallback")("HANDLING getAllGroups");
-            if(err) {
-                debug.extend("getAllGroups").extend("serviceCallback")(err);
-                err.resolveErrorResponse(rsp);
-            } else {
-                resolveServiceResponse(data, rsp);
-            } 
-        }
     }
 
     // get group details
-    function getGroup(req, rsp) {
+    async function getGroup(req, rsp) {
         try {
             // service call
-            services.groups.getGroupById(req.params.id, serviceCallback);
+            let data = await services.groups.getGroupById(req.params.id);
+            resolveServiceResponse(data,rsp);
         } catch(err) {
             if(!err instanceof CiborgError) {
                 debug.extend("getGroup")(err);
@@ -187,19 +151,10 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             }
             err.resolveErrorResponse(rsp);
         }
-        function serviceCallback(err, data) {
-            debug.extend("getGroup").extend("serviceCallback")("HANDLING getGroup");
-            if(err) {
-                debug.extend("getGroup").extend("serviceCallback")(err);
-                err.resolveErrorResponse(rsp);
-            } else {
-                resolveServiceResponse(data, rsp);
-            } 
-        }
     }
 
     // add game to group
-    function addGameToGroup(req, rsp) {
+    async function addGameToGroup(req, rsp) {
         try {
             // ciborg validator
             let validatorErr = CiborgValidator.validateAddGameToGroupFormat(req.body);
@@ -208,7 +163,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                 validatorErr.resolveErrorResponse(rsp);
             }
             // service call
-            services.groups.addGameToGroup(req.body.groupId, req.body.gameName, serviceCallback);
+            let data = await services.groups.addGameToGroup(req.body.groupId, req.body.gameName);
+            resolveServiceResponse(data,rsp);
         } catch(err) {
             if(!err instanceof CiborgError) {
                 debug.extend("addGameToGroup")(err);
@@ -220,19 +176,10 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             }
             err.resolveErrorResponse(rsp);
         }
-        function serviceCallback(err, data) {
-            debug.extend("addGameToGroup").extend("serviceCallback")("HANDLING addGameToGroup");
-            if(err) {
-                debug.extend("addGameToGroup").extend("serviceCallback")(err);
-                err.resolveErrorResponse(rsp);
-            } else {
-                resolveServiceResponse(data, rsp);
-            } 
-        }
     }
 
     // remove game from group
-    function removeGameFromGroup(req, rsp) {
+    async function removeGameFromGroup(req, rsp) {
         try {
            // ciborg validator
            let validatorErr = CiborgValidator.validateRemoveGameFromGroupFormat(req.body);
@@ -241,9 +188,11 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                 validatorErr.resolveErrorResponse(rsp);
             }
             // service call
-            services.groups.removeGameFromGroup(req.body.groupId, req.body.gameName, serviceCallback);
+            let data = await services.groups.removeGameFromGroup(req.body.groupId, req.body.gameName);
+            resolveServiceResponse(data,rsp);
         } catch(err) {
-            debug.extend("removeGameFromGroup")(err);
+            if(!err instanceof CiborgError) {
+                debug.extend("removeGameFromGroup")(err);
                 err = new CiborgError(
                     'Error in service: removeGameFromGroup.',
                     'Unable to remove game from group.',
@@ -252,19 +201,10 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             }
             err.resolveErrorResponse(rsp);
         }
-        function serviceCallback(err, data) {
-            debug.extend("removeGameFromGroup").extend("serviceCallback")("HANDLING removeGameFromGroup");
-            if(err) {
-                debug.extend("removeGameFromGroup").extend("serviceCallback")(err);
-                err.resolveErrorResponse(rsp);
-            } else {
-                resolveServiceResponse(data, rsp);
-            } 
-        }
     }
 
     // get all games froum a group
-    function getGamesFromGroup(req, rsp) {
+    async function getGamesFromGroup(req, rsp) {
         try {
             // ciborg validator
             let validatorErr = CiborgValidator.validateAlfanumeric(req.params.id);
@@ -273,7 +213,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                 validatorErr.resolveErrorResponse(rsp);
             }
             // service call
-            services.groups.getGamesFromGroup(req.params.id, serviceCallback);
+            let data = await services.groups.getGamesFromGroup(req.params.id);
+            resolveServiceResponse(data,rsp);
         } catch (err) {
             debug.extend("getGamesFromGroup")(err);
             err = new CiborgError(
@@ -282,17 +223,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                 '500' // Internal Server Error
             );
         }
-            err.resolveErrorResponse(rsp);
-        }
-        function serviceCallback(err, data) {
-            debug.extend("getGamesFromGroup").extend("serviceCallback")("HANDLING getGamesFromGroup");
-            if(err) {
-                debug.extend("getGamesFromGroup").extend("serviceCallback")(err);
-                err.resolveErrorResponse(rsp);
-            } else {
-                resolveServiceResponse(data, rsp);
-            } 
-        }
+        err.resolveErrorResponse(rsp);
     }
 }
 
