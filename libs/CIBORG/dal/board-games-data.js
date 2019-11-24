@@ -3,9 +3,12 @@ var debug = require('debug')('board-games-data');
 debug.enabled = true;
 
 module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError) {
+
+    // enables or disables debug according to configuration file
     if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
         debug.disable();
     }
+
     function queryBuilder(pairArray, keyValueSeparator, pairSeparator) {
         return pairArray.map(e => e.key + keyValueSeparator + e.value).reduce((accum, currVal) => accum + pairSeparator + currVal, "").substr(1);
     }
@@ -17,7 +20,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: "order_by", value: field},
             {key: "ascending", value: ascending},
         ], "=", "&");
-        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query };
+        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query};
 
         return options;
     }
@@ -29,14 +32,15 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: "ascending", value: "false"}
         ], "=", "&");
         // Setting URL and headers for request
-        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
+        let options = { url: Props.api.base_url + Props.api.search_api 
+            + "?" + query + "&" + Props.api.search_api_fields_filter, json: true };
 
         try{
             let data = await HttpCall.get(options);
-            debug.extend('getMostPopularGames').extend('handler')("Handling HTTP GET");
+            debug.extend('getMostPopularGames').extend('handler')('Handling HTTP GET');
 
             let games = data.body.games.map(function(g) {
-        
+
                 let dto = GamesDto(
                     g.id,
                     g.name,
@@ -55,6 +59,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     );
                 return GamesDtoMapper.entityToModel(dto);
             });
+
             return {
                 statusCode: 201,
                 statusMessage: "accepted",
@@ -75,12 +80,13 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "ids", value: id}
         ], "=", "&");
-        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
+        let options = { url: Props.api.base_url + Props.api.search_api 
+            + "?" + query + "&" + Props.api.search_api_fields_filter, json: true };
         try{
             let data = await HttpCall.get(options);
-            debug.extend('getGameByID').extend('handler')("Handling HTTP GET");
+            debug.extend('getGameByID').extend('handler')('Handling HTTP GET');
             let games = data.body.games.map(function(g) {
-        
+
                 let dto = GamesDto(
                     g.id,
                     g.name,
@@ -97,7 +103,8 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     g.num_user_ratings,
                     g.average_user_rating,
                     );
-                    return GamesDtoMapper.entityToModel(dto)});
+                    return GamesDtoMapper.entityToModel(dto);
+                });
 
             return {
                 statusCode: 201,
@@ -118,13 +125,14 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "name", value: gameName}
         ], "=", "&");
-        let options = { url: Props.api.base_url + Props.api.search_api + "?" + query, json: true };
+        let options = { url: Props.api.base_url + Props.api.search_api 
+            + "?" + query + "&" + Props.api.search_api_fields_filter, json: true };
 
         try{
-            debug.extend('getGameByID').extend('handler')("Handling HTTP GET");
+            debug.extend('getGameByID').extend('handler')('Handling HTTP GET');
             let data = await HttpCall.get(options);
             let games = data.body.games.map(function(g) {
-        
+
                 let dto = GamesDto(
                     g.id,
                     g.name,
@@ -142,7 +150,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     g.average_user_rating,
                     );
                     return GamesDtoMapper.entityToModel(dto);
-            })
+            });
 
             return {
                 statusCode: 201,
@@ -154,7 +162,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                 'Error calling external service:: searchByName.',
                 'Unable to search games.',
                 '500' //Service Unavailable
-            )  
+            );
         }
     };
 
