@@ -1,7 +1,6 @@
 let genericMethodCall = (method) => {
     return async(options) => {
         return new Promise(function(resolve, reject) {
-            setTimeout(()=>{
                 resolve({body: {
                     games : 
                 [{
@@ -38,7 +37,6 @@ let genericMethodCall = (method) => {
             },
         
         ]}});
-            },1000);
         });
     }
 };

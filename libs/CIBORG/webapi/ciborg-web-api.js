@@ -33,7 +33,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     async function getMostPopularGames(req, rsp) {
         try {
             // service call
-            let data = await services.games.getMostPopularGames;
+            let data = await services.games.getMostPopularGames();
             resolveServiceResponse(data,rsp);
         } catch(err) {
             if(!err instanceof CiborgError) {

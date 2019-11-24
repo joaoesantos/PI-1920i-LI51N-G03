@@ -1,7 +1,6 @@
 let genericMethodCall = (method) => {
     return async(options) => {
         return new Promise(function(resolve, reject) {
-            setTimeout(()=>{
                 resolve({body: {
                     games :
                 [{
@@ -20,7 +19,6 @@ let genericMethodCall = (method) => {
                 num_user_ratings:114,
                 average_user_rating:3.956140350877194,
             }]}});
-            },1000);
         });
     }
 };
