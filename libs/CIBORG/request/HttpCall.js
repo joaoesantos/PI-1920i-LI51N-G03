@@ -20,7 +20,7 @@ let httpCall = (Props, CiborgError) => {
                             );
                             reject(error);
                         } else {
-                            debug.extend('genericMethodCall')("RECEIVED HTTP RESPONSE");
+                            debug.extend('genericMethodCall')('RECEIVED HTTP RESPONSE');
                             resolve(resp);
                         }
                     })

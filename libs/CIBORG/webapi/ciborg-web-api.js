@@ -36,8 +36,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             let data = await services.games.getMostPopularGames();
             resolveServiceResponse(data,rsp);
         } catch(err) {
+            debug.extend('getMostPopularGames')(err);
             if(!err instanceof CiborgError) {
-                debug.extend('getMostPopularGames')(err);
                 err = new CiborgError(
                     'Error in service: getAllGames.',
                     'Unable to get popular games.',
@@ -55,8 +55,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             let data = await services.games.searchByName(req.params.name);
             resolveServiceResponse(data,rsp);
         } catch(err) {
+            debug.extend('getGameByName')(err);
             if(!err instanceof CiborgError) {
-                debug.extend('getGameByName')(err);
                 err = new CiborgError(
                     'Error in service: getGame.',
                     'Unable to get game.',
@@ -80,8 +80,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             let data = await services.groups.createGroup(req.body);
             resolveServiceResponse(data,rsp);
         } catch(err) {
+            debug.extend('createGroup')(err);
             if(!err instanceof CiborgError) {
-                debug.extend('createGroup')(err);
                 err = new CiborgError(
                     'Error in service: createGroup.',
                     'Unable to create group.',
@@ -106,11 +106,13 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             resolveServiceResponse(data,rsp);
         } catch(err) {
             debug.extend('updateGroup')(error);
-            err = new CiborgError(
-                'Error in service: updateGroup.',
-                'Unable to update group.',
-                '500' // Internal Server Error
-            );
+            if(!err instanceof CiborgError) {
+                err = new CiborgError(
+                    'Error in service: updateGroup.',
+                    'Unable to update group.',
+                    '500' // Internal Server Error
+                );
+            }
             err.resolveErrorResponse(rsp);
         }
     }
@@ -122,8 +124,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             let data = await services.groups.getAllGroups;
             resolveServiceResponse(data,rsp);
         } catch(err) {
+            debug.extend('getAllGroups')(err);
             if(!err instanceof CiborgError) {
-                debug.extend('getAllGroups')(err);
                 err = new CiborgError(
                     'Error in service: getAllGroups.',
                     'Unable to get popular groups.',
@@ -141,8 +143,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             let data = await services.groups.getGroupById(req.params.id);
             resolveServiceResponse(data,rsp);
         } catch(err) {
+            debug.extend('getGroup')(err);
             if(!err instanceof CiborgError) {
-                debug.extend('getGroup')(err);
                 err = new CiborgError(
                     'Error in service: getGroupById.',
                     'Unable to get group details.',
@@ -166,8 +168,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             let data = await services.groups.addGameToGroup(req.body.groupId, req.body.gameName);
             resolveServiceResponse(data,rsp);
         } catch(err) {
+            debug.extend('addGameToGroup')(err);
             if(!err instanceof CiborgError) {
-                debug.extend('addGameToGroup')(err);
                 err = new CiborgError(
                     'Error in service: addGameToGroup.',
                     'Unable to add game to group.',
@@ -191,8 +193,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             let data = await services.groups.removeGameFromGroup(req.body.groupId, req.body.gameName);
             resolveServiceResponse(data,rsp);
         } catch(err) {
+            debug.extend('removeGameFromGroup')(err);
             if(!err instanceof CiborgError) {
-                debug.extend('removeGameFromGroup')(err);
                 err = new CiborgError(
                     'Error in service: removeGameFromGroup.',
                     'Unable to remove game from group.',
@@ -217,11 +219,13 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             resolveServiceResponse(data,rsp);
         } catch (err) {
             debug.extend('getGamesFromGroup')(err);
-            err = new CiborgError(
-                'Error in service: getGamesByGroupID.',
-                'Unable to get games from group.',
-                '500' // Internal Server Error
-            );
+            if(!err instanceof CiborgError) {
+                err = new CiborgError(
+                    'Error in service: getGamesByGroupID.',
+                    'Unable to get games from group.',
+                    '500' // Internal Server Error
+                );
+            }
         }
         err.resolveErrorResponse(rsp);
     }
