@@ -27,7 +27,6 @@ let routerFunction = function(Props, CiborgError, CiborgValidator) {
                 }
                 request.body = (body.length === 0) ? {} :JSON.parse(body);
             }
-            debug("REQUEST RECEIVED");
             router.navigate(request, response);
         });
     };
@@ -50,7 +49,7 @@ let routerFunction = function(Props, CiborgError, CiborgValidator) {
                 'Command does not exist.',
                 '404' // Not Found
             );
-            debug.extend("navigate")(err);
+            debug.extend('navigate')(err);
             err.resolveErrorResponse(rsp);
         }
         // matches url with templates
@@ -74,10 +73,8 @@ let routerFunction = function(Props, CiborgError, CiborgValidator) {
                 'Command does not exist.',
                 '404' // Not Found
             );
-            debug.extend("navigate")(err);
+            debug.extend('navigate')(err);
             err.resolveErrorResponse(rsp);
-        } else {
-            debug.extend("navigate")("REQUEST MATCHED");
         }
     };
 

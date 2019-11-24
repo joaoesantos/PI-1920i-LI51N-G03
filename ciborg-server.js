@@ -1,9 +1,7 @@
 'use strict';
-const http = require('http');
 
 const express = require('express');
 const server = express();
-
 
 const props = require('./libs/CIBORG/shared/Config')("./libs/CIBORG/shared/files");
 const gamesDto = require('./libs/CIBORG/entities/dtos/GameDto');
@@ -21,15 +19,10 @@ const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, c
 
 const router = require('./libs/CIBORG/middleware/router')(express.Router(), webapi);
 
-
-
 server.use(express.json()) // for parsing application/json
 server.use(express.urlencoded({ extended: true }))
 //server.use(authentication);
 server.use(router);
-//Register routes
-
-//server.get('/');
 
 server.use(function (req, res, next) {
     let err = new ciborgError(
