@@ -187,6 +187,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
         addGameToGroup: async function(groupId, gameName) {
             try {
                 let promisses = await Promise.all([this.getGroupById(groupId), GameServices.searchByName(gameName)]);
+                console.log(promisses);
                 let payload = promisses[0];
                 debug.extend('addGameToGroup').extend('handleGroupById')('Handling getGroupById: ' + groupId);
 
@@ -195,7 +196,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 let gamePayload = promisses[1];
 
                 debug.extend('addGameToGroup').extend('handleGroupById').extend('handleGameByName')('Handling searchByName: ' + gameName);
-                let games = gamePayload.body;
+                let games = gamePayload.body.games;
                 let wasGameAdded = false;
                 games.forEach(el => {
                     if (!group.games.find(game => game.name === el.name)) {
@@ -238,7 +239,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 let gamePayload = promisses[1];
 
                 debug.extend('removeGameFromGroup').extend('handleGroupById').extend('handleGameByName')('Handling searchByName: ' + gameName);
-                let games = gamePayload.body;
+                let games = gamePayload.body.games;
                 let wereGamesRemoved = false;
                 games.forEach(el => {
                     group.games = group.games.filter(game => {

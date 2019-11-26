@@ -8,6 +8,8 @@ let router = function(router, services) {
     router.put('/groups/games', services.addGameToGroup);
     router.delete('/groups/games', services.removeGameFromGroup);
     router.get('/groups/:id/games', services.getGamesFromGroup);
+    console.log("ROUTER");
+    console.log(services.getGamesFromGroup);
 
     return router;
 }

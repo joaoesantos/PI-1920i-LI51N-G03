@@ -18,7 +18,7 @@ const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, c
 //const authentication = require('./libs/CIBORG/middleware/authentication')(props, ciborgError);
 
 const router = require('./libs/CIBORG/middleware/router')(express.Router(), webapi);
-const passport = require('./libs/CIBORG/middleware/passport');
+//const passport = require('./libs/CIBORG/middleware/passport');
 
 /*
 server.configure(function() {

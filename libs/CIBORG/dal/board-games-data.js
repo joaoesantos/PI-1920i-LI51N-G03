@@ -61,8 +61,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             });
 
             return {
-                statusCode: 201,
-                statusMessage: "accepted",
+                statusCode: 200,
                 body: {games:games}
             };
         }catch(err){
@@ -107,8 +106,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                 });
 
             return {
-                statusCode: 201,
-                statusMessage: "accepted",
+                statusCode: 200,
                 body: {games:games}
             };
         }catch(err){
@@ -153,8 +151,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             });
 
             return {
-                statusCode: 201,
-                statusMessage: "accepted",
+                statusCode: 200,
                 body: {games:games}
             }
         }catch(err){
