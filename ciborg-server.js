@@ -18,10 +18,22 @@ const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, c
 //const authentication = require('./libs/CIBORG/middleware/authentication')(props, ciborgError);
 
 const router = require('./libs/CIBORG/middleware/router')(express.Router(), webapi);
+const passport = require('./libs/CIBORG/middleware/passport');
+
+/*
+server.configure(function() {
+    server.use(express.static('public'));
+    server.use(express.cookieParser());
+    server.use(express.bodyParser());
+    server.use(express.session({ secret: 'keyboard cat' }));
+    server.use(passport.initialize());
+    server.use(passport.session());
+    server.use(app.router);
+  });
+*/
 
 server.use(express.json()) // for parsing application/json
 server.use(express.urlencoded({ extended: true }))
-//server.use(authentication);
 server.use(router);
 
 server.use(function (req, res, next) {
