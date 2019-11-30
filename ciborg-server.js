@@ -2,6 +2,7 @@
 
 const express = require('express');
 const server = express();
+const debug = require('debug')('server');
 
 const props = require('./libs/CIBORG/shared/Config')("./libs/CIBORG/shared/files");
 const gamesDto = require('./libs/CIBORG/entities/dtos/GameDto');
@@ -15,9 +16,8 @@ const groupService = require('./libs/CIBORG/dal/ciborg-db')(props, httpCall, gam
 const services = require('./libs/CIBORG/services/ciborg-services')(gamesService, groupService);
 const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, ciborgError, ciborgValidator);
 
-//const authentication = require('./libs/CIBORG/middleware/authentication')(props, ciborgError);
-
 const router = require('./libs/CIBORG/middleware/router')(express.Router(), webapi);
+
 //const passport = require('./libs/CIBORG/middleware/passport');
 
 /*
@@ -45,4 +45,4 @@ server.use(function (req, res, next) {
         err.resolveErrorResponse(res);
     })
 
-server.listen(props.config.port, () => console.log("Listening so port:", props.config.port));
+server.listen(props.config.port, () => debug(), console.log("Listening so port:", props.config.port));

@@ -64,6 +64,67 @@ let validator = function (CiborgError) {
         return null;
     };
 
+    // Validates if game data is in right format for put command
+    function validateGameFormat(data) {
+        debug.extend('validateGameFormat')('Validating...');
+        if(!data.hasOwnProperty('id')) {
+            let err = new CiborgError(
+                'Validation Error: Game does not have "id" field.',
+                'Game does not have "id" field.',
+                '400' // Bad Request
+            );
+            debug.extend('validateGameFormat')('Validation Error: game does not have a "id" field.');
+            return err;
+        };
+        if(Object.keys(data).length != 4) {
+            let err = new CiborgError(
+                'Validation Error: Game ' + data.id + ' has invalid number of fields for put service in game',
+                'Game ' + data.id + ' is not in correct format.',
+                '400' // Bad Request
+            );
+            debug.extend('validateGameFormat')('Validation Error: invalid number of fields for put service ' + data.id + '.');
+            return err;
+        };
+        if(!data.hasOwnProperty('name')) {
+            let err = new CiborgError(
+                'Validation Error: Game ' + data.id + ' does not have "name" field.',
+                'Game ' + data.id + ' does not have "name" field.',
+                '400' // Bad Request
+            );
+            debug.extend('validateGameFormat')('Validation Error: game does not have a "name" field.');
+            return err;
+        };
+        if(!data.hasOwnProperty('min_playtime')) {
+            let err = new CiborgError(
+                'Validation Error: Game ' + data.id + ' not have "min_playtime" field.',
+                'Game ' + data.id + ' does not have "min_playtime" field.',
+                '400' // Bad Request
+            );
+            debug.extend('validateGameFormat')('Validation Error: game does not have a "min_playtime" field.');
+            return err;
+        }
+        if(!data.hasOwnProperty('max_playtime')) {
+            let err = new CiborgError(
+                'Validation Error: Game ' + data.id + ' does not have a "max_playtime" field.',
+                'Game ' + data.id + ' does not have a "max_playtime" field.',
+                '400' // Bad Request
+            );
+            debug.extend('validateGameFormat')('Validation Error: game does not have a "max_playtime" field.');
+            return err;
+        };
+        if(min_playtime > max_playtime) {
+            let err = new CiborgError(
+                'Validation Error: Game ' + data.id + ' has min_playtime > max_playtime.',
+                'Game ' + data.id + ' has min_playtime > max_playtime.',
+                '400' // Bad Request
+            );
+            debug.extend('validateGameFormat')('Validation Error: Game ' + data.id + ' has min_playtime > max_playtime.');
+            return err;
+        };
+        debug.extend('validateGameFormat')('Validation OK.');
+        return null;
+    };
+
     // Validates if group data is in right format for post command
     function validateGroupWithNoIdFormat(data) {
         debug.extend('validateGroupWithNoIdFormat')('Validating...');
@@ -163,66 +224,6 @@ let validator = function (CiborgError) {
         return null;
     };
 
-    // Validates if game data is in right format for put command
-    function validateGameFormat(data) {
-        debug.extend('validateGameFormat')('Validating...');
-        if(!data.hasOwnProperty('id')) {
-            let err = new CiborgError(
-                'Validation Error: Game does not have "id" field.',
-                'Game does not have "id" field.',
-                '400' // Bad Request
-            );
-            debug.extend('validateGameFormat')('Validation Error: game does not have a "id" field.');
-            return err;
-        };
-        if(Object.keys(data).length != 4) {
-            let err = new CiborgError(
-                'Validation Error: Game ' + data.id + ' has invalid number of fields for put service in game',
-                'Game ' + data.id + ' is not in correct format.',
-                '400' // Bad Request
-            );
-            debug.extend('validateGameFormat')('Validation Error: invalid number of fields for put service ' + data.id + '.');
-            return err;
-        };
-        if(!data.hasOwnProperty('name')) {
-            let err = new CiborgError(
-                'Validation Error: Game ' + data.id + ' does not have "name" field.',
-                'Game ' + data.id + ' does not have "name" field.',
-                '400' // Bad Request
-            );
-            debug.extend('validateGameFormat')('Validation Error: game does not have a "name" field.');
-            return err;
-        };
-        if(!data.hasOwnProperty('min_playtime')) {
-            let err = new CiborgError(
-                'Validation Error: Game ' + data.id + ' not have "min_playtime" field.',
-                'Game ' + data.id + ' does not have "min_playtime" field.',
-                '400' // Bad Request
-            );
-            debug.extend('validateGameFormat')('Validation Error: game does not have a "min_playtime" field.');
-            return err;
-        }
-        if(!data.hasOwnProperty('max_playtime')) {
-            let err = new CiborgError(
-                'Validation Error: Game ' + data.id + ' does not have a "max_playtime" field.',
-                'Game ' + data.id + ' does not have a "max_playtime" field.',
-                '400' // Bad Request
-            );
-            debug.extend('validateGameFormat')('Validation Error: game does not have a "max_playtime" field.');
-            return err;
-        };
-        if(min_playtime > max_playtime) {
-            let err = new CiborgError(
-                'Validation Error: Game ' + data.id + ' has min_playtime > max_playtime.',
-                'Game ' + data.id + ' has min_playtime > max_playtime.',
-                '400' // Bad Request
-            );
-            debug.extend('validateGameFormat')('Validation Error: Game ' + data.id + ' has min_playtime > max_playtime.');
-            return err;
-        };
-        debug.extend('validateGameFormat')('Validation OK.');
-        return null;
-    };
 }
 
 module.exports = validator;

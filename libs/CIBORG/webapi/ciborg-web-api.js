@@ -1,6 +1,5 @@
 "use strict";
-let debug = require('debug')('ciborg-web-api');
-debug.enabled = true;
+const debug = require('debug')('ciborg-web-api');
 
 let webApi = function(Props, services, CiborgError, CiborgValidator) {
 

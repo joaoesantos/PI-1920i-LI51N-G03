@@ -1,7 +1,6 @@
 'use strict';
 
-let debug = require('debug')('ciborg-db');
-debug.enabled = true;
+const debug = require('debug')('ciborg-db');
 
 let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 

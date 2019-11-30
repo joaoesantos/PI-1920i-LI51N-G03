@@ -1,7 +1,6 @@
 'use strict';
 
-var debug = require('debug')('board-games-data');
-debug.enabled = true;
+const debug = require('debug')('board-games-data');
 
 module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError) {
 
@@ -34,8 +33,9 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         try {
             debug.extend('getMostPopularGames')('Handling HTTP GET');
             let data = await HttpCall.get(options);
+            /*
+            console.log(data.body);
             let games = data.body.games.map(function(g) {
-
                 let dto = GamesDto(
                     g.id,
                     g.name,
@@ -54,10 +54,11 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     );
                 return GamesDtoMapper.entityToModel(dto);
             });
+            */
             debug.extend('getMostPopularGames')('All games were retrieved with success.');
             return {
                 statusCode: 200,
-                body: games
+                body: data.body
             };
         } catch(err) {
             debug.extend('getMostPopularGames')(err);
@@ -85,7 +86,6 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             debug.extend('getGamesByID')('Handling HTTP GET');
             let data = await HttpCall.get(options);
             let games = data.body.games.map(function(g) {
-
                 let dto = GamesDto(
                     g.id,
                     g.name,
@@ -133,8 +133,8 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         try {
             debug.extend('searchByName')('Handling HTTP GET');
             let data = await HttpCall.get(options);
+            /*
             let games = data.body.games.map(function(g) {
-
                 let dto = GamesDto(
                     g.id,
                     g.name,
@@ -153,10 +153,11 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     );
                     return GamesDtoMapper.entityToModel(dto);
             });
+            */
             debug.extend('searchByName')('List of games with name ' +  gameName + ' was retrieved with success.');
             return {
                 statusCode: 200,
-                body: games
+                body: data.body
             }
         } catch(err) {
             debug.extend('searchByName')(err);
