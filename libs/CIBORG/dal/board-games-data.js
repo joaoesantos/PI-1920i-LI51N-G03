@@ -1,4 +1,5 @@
 'use strict';
+
 var debug = require('debug')('board-games-data');
 debug.enabled = true;
 
@@ -8,6 +9,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         return pairArray.map(e => e.key + keyValueSeparator + e.value).reduce((accum, currVal) => accum + pairSeparator + currVal, "").substr(1);
     }
 
+    /*
     function createOptionsForGamesOrderedByField(number,field,ascending) {
         let query = queryBuilder([
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
@@ -18,6 +20,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         let options = { url: Props.api.base_url + Props.api.search_api + "?" + query};
         return options;
     }
+    */
 
     async function getMostPopularGames() {
         let query = queryBuilder([

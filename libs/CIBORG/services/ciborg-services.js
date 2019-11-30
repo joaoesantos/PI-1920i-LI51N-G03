@@ -5,7 +5,6 @@ let ciborgServices = function(gamesService, groupsService){
         games: gamesService,
         groups: groupsService
     };
-
     return services;
 };
 

@@ -4,7 +4,7 @@ let request = require('request');
 const debug = require('debug')('http-call');
 
 let httpCall = (Props, CiborgError) => {
-
+        debug.extend('genericMethodCall')('Executing http call.');
         let genericMethodCall = (method) => {
             return async(options) => {
                 return new Promise(function(resolve, reject) {
@@ -18,22 +18,20 @@ let httpCall = (Props, CiborgError) => {
                             );
                             reject(error);
                         } else {
-                            console.log(debug);
-                            debug.extend('genericMethodCall')('RECEIVED HTTP RESPONSE');
+                            debug.extend('genericMethodCall')('Received http response.');
                             resolve(resp);
                         }
                     })
                 });
             }
         }
-
         let HttpCall = {
             get: genericMethodCall("GET"),
             post: genericMethodCall("POST"),
             put: genericMethodCall("PUT"),
             delete: genericMethodCall("DELETE")
         }
-        return HttpCall;
-        }
+    return HttpCall;
+}
 
-        module.exports = httpCall;
+module.exports = httpCall;

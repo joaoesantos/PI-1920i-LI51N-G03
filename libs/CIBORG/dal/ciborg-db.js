@@ -1,4 +1,5 @@
 'use strict';
+
 let debug = require('debug')('ciborg-db');
 debug.enabled = true;
 
@@ -250,6 +251,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
         }
     };
     return GroupServiceObject;
+    
 };
 
 module.exports = GroupService;
