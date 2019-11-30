@@ -9,13 +9,14 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             try {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.search.url;
                 let opts = { url: fullUrl, json: true };
+                debug.extend('getAllGroups')('Handling HTTP GET.');
                 let payload = await HttpCall.get(opts);
-                debug.extend('getAllGroups')('Handling HTTP GET');
                 let groupsList = payload.body.hits.hits.map(e => {
                     let group = e._source;
                     group.id = e._id;
                     return group;
                 });
+                debug.extend('getAllGroups')('All groups were retrieved with success.');
                 return {
                     statusCode: payload.statusCode,
                     body: groupsList
@@ -39,11 +40,12 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             try {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                 let opts = { url: fullUrl, json: true };
+                debug.extend('getGroupById')('Handling HTTP GET.');
                 let payload = await HttpCall.get(opts);
-
                 if (payload.body.found) {
                     let group = payload.body._source;
                     group.id = payload.body._id;
+                    debug.extend('getGroupById')('Group ' + groupId + ' retrieved with success.');
                     return {
                         statusCode: payload.statusCode,
                         body: group
@@ -75,9 +77,10 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 //add empty game array
                 group.games = [];
                 let opts = { url: fullUrl, json: true, body: group };
+                debug.extend('createGroup')('Handling HTTP POST.');
                 let payload = await HttpCall.post(opts);
-                debug.extend('createGroup')('Handling HTTP POST');
                 group.id = payload.body._id;
+                debug.extend('createGroup')('Group ' + group.id + ' created.');
                 return {
                     statusCode: payload.statusCode,
                     body: group
@@ -102,9 +105,10 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 delete group.id;
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                 let opts = { url: fullUrl, json: true, body: group };
-                let payload = await HttpCall.put(opts);
                 debug.extend('updateGroup')('Handling HTTP PUT');
+                let payload = await HttpCall.put(opts);
                 group.id = payload.body._id;
+                debug.extend('updateGroup')('Group ' + group.id + 'updated.');
                 return {
                     statusCode: payload.statusCode,
                     body: group
@@ -125,9 +129,10 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
         getGamesFromGroup: async function(groupId) {
             try {
-                let payload = await this.getGroupById(groupId);
                 debug.extend('getGamesFromGroup')('Handling getGroupById: ' + groupId);
+                let payload = await this.getGroupById(groupId);
                 let group = payload.body;
+                debug.extend('getGamesFromGroup')('Games from group ' + groupId + ' retrieved with success.');
                 return {
                     statusCode: payload.statusCode,
                     body: group.games
@@ -148,15 +153,15 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
         addGameToGroup: async function(groupId, gameId) {
             try {
+                debug.extend('addGameToGroup')('Handling getGroupById: ' + groupId)('Handling getGamesByID: ' + gameId);
                 let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGamesByID([gameId])]);
-                let payload = promisses[0];
-                debug.extend('addGameToGroup')('Handling getGroupById: ' + groupId);
+                
+                // payload from getGroupById promise
+                let groupPayload = promisses[0];
+                let group = groupPayload.body;
 
-                let group = payload.body;
-
+                // payload from getGamesByID promise
                 let gamePayload = promisses[1];
-
-                debug.extend('addGameToGroup')('Handling searchByName: ' + gameId);
                 let game = gamePayload.body[0];
 
                 let wasGameAdded = false;
@@ -164,7 +169,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     group.games.push(game);
                     wasGameAdded = true;
                 }
-
                 if (!wasGameAdded) {
                     debug.extend('addGameToGroup')('Error in service: addGameToGroup. The game does not exist or was already added.');
                     throw new CiborgError(null,
@@ -173,7 +177,9 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                         '500' // Internal Server Error
                     );
                 } else {
+                    debug.extend('addGameToGroup')('Handling updateGroup: ' + groupId)
                     let resultPayload = await this.updateGroup(group);
+                    debug.extend('addGameToGroup')('Game ' + gameId + 'added to group ' + updateGroup);
                     return resultPayload;
                 }
             } catch (err) {
@@ -192,19 +198,18 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
         removeGameFromGroup: async function(groupId, gameId) {
             try {
+                debug.extend('removeGameFromGroup')('Handling getGroupById: ' + groupId)('Handling getGamesByID: ' + gameId);
                 let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGamesByID([gameId])]);
-                let payload = promisses[0];
-                debug.extend('removeGameFromGroup')('Handling getGroupById: ' + groupId);
-                let group = payload.body;
+                
+                // payload from getGroupById promise
+                let groupPayload = promisses[0];
+                let group = groupPayload.body;
 
+                // payload from getGamesByID promise
                 let gamePayload = promisses[1];
-
-                debug.extend('removeGameFromGroup')('Handling searchByName: ' + gameId);
-
                 let game = gamePayload.body[0];
 
                 let wereGamesRemoved = false;
-
                 group.games = group.games.filter(el => {
                     let isFiltered = el.id === game.id;
                     if (isFiltered) {
@@ -221,7 +226,9 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                         '500' // Internal Server Error
                     );
                 } else {
-                    let resultPayload = await this.updateGroup(group);
+                    debug.extend('addGameToGroup')('Handling updateGroup: ' + groupId)
+                    await this.updateGroup(group);
+                    debug.extend('addGameToGroup')('Game ' + gameId + 'removed from group ' + updateGroup);
                     return {
                         statusCode: 202,
                         body: {}

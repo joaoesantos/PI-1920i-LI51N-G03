@@ -16,7 +16,6 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: "ascending", value: ascending},
         ], "=", "&");
         let options = { url: Props.api.base_url + Props.api.search_api + "?" + query};
-
         return options;
     }
 
@@ -29,11 +28,9 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         // Setting URL and headers for request
         let options = { url: Props.api.base_url + Props.api.search_api 
             + "?" + query + "&" + Props.api.search_api_fields_filter, json: true };
-
-        try{
+        try {
+            debug.extend('getMostPopularGames')('Handling HTTP GET');
             let data = await HttpCall.get(options);
-            debug.extend('getMostPopularGames').extend('handler')('Handling HTTP GET');
-
             let games = data.body.games.map(function(g) {
 
                 let dto = GamesDto(
@@ -54,12 +51,13 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     );
                 return GamesDtoMapper.entityToModel(dto);
             });
-
+            debug.extend('getMostPopularGames')('All games were retrieved with success.');
             return {
                 statusCode: 200,
                 body: games
             };
-        }catch(err){
+        } catch(err) {
+            debug.extend('getMostPopularGames')(err);
             if(!(err instanceof CiborgError)) {
                 throw new CiborgError(err,
                     'Error calling external service: getMostPopularGames.',
@@ -77,11 +75,12 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "ids", value: idArray.join(",")}
         ], "=", "&");
+        // Setting URL and headers for request
         let options = { url: Props.api.base_url + Props.api.search_api 
             + "?" + query, json: true };
         try{
+            debug.extend('getGamesByID')('Handling HTTP GET');
             let data = await HttpCall.get(options);
-            debug.extend('getGamesByID').extend('handler')('Handling HTTP GET');
             let games = data.body.games.map(function(g) {
 
                 let dto = GamesDto(
@@ -102,12 +101,13 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     );
                     return GamesDtoMapper.entityToModel(dto);
                 });
-
+            debug.extend('getGamesByID')('Game ' +  games.id + ' was retrieved with success.');
             return {
                 statusCode: 200,
                 body: games
             };
-        }catch(err){
+        } catch(err) {
+            debug.extend('getGamesByID')(err);
             if(!(err instanceof CiborgError)) {
                 throw new CiborgError(err,
                     'Error calling external service: getGamesByID.',
@@ -124,11 +124,11 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "name", value: gameName}
         ], "=", "&");
+        // Setting URL and headers for request
         let options = { url: Props.api.base_url + Props.api.search_api 
             + "?" + query + "&" + Props.api.search_api_fields_filter, json: true };
-
-        try{
-            debug.extend('getGamesByID').extend('handler')('Handling HTTP GET');
+        try {
+            debug.extend('searchByName')('Handling HTTP GET');
             let data = await HttpCall.get(options);
             let games = data.body.games.map(function(g) {
 
@@ -150,20 +150,20 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                     );
                     return GamesDtoMapper.entityToModel(dto);
             });
-
+            debug.extend('searchByName')('List of games with name ' +  gameName + ' was retrieved with success.');
             return {
                 statusCode: 200,
                 body: games
             }
-        }catch(err){
-            if(!(err instanceof CiborgError)){
+        } catch(err) {
+            debug.extend('searchByName')(err);
+            if(!(err instanceof CiborgError)) {
                 throw new CiborgError(err,
                     'Error calling external service:: searchByName.',
                     'Unable to search games.',
                     '500' //Service Unavailable
                 );
             }
-
             throw err;
         }
     };
