@@ -221,19 +221,43 @@
 													"type": "noauth"
 												},
 												"method": "PUT",
-												"header": [],
+												"header": [
+													{
+														"key": "Content-Type",
+														"name": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													}
+												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n\t\"groupId\" : \"GslhV24BWT9pWYbrQ4rp\",\n\t\"gameName\": \"Spirit Island\"\n}"
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
 												},
 												"url": {
-													"raw": "{{CiborgBaseUrl}}/groups/games",
+													"raw": "{{CiborgBaseUrl}}/groups/:groupId/games/:gameId",
 													"host": [
 														"{{CiborgBaseUrl}}"
 													],
 													"path": [
 														"groups",
-														"games"
+														":groupId",
+														"games",
+														":gameId"
+													],
+													"variable": [
+														{
+															"key": "groupId",
+															"value": "2K4uvG4BfdQ9tDM4HmBa"
+														},
+														{
+															"key": "gameId",
+															"value": "kPDxpJZ8PD"
+														}
 													]
 												},
 												"description": "Adds a game to a group.\n"
@@ -368,19 +392,43 @@
 													"type": "noauth"
 												},
 												"method": "DELETE",
-												"header": [],
+												"header": [
+													{
+														"key": "Content-Type",
+														"name": "Content-Type",
+														"value": "application/json",
+														"type": "text"
+													}
+												],
 												"body": {
 													"mode": "raw",
-													"raw": "{\n\t\"groupId\" : \"GslhV24BWT9pWYbrQ4rp\",\n\t\"gameName\": \"Spirit Island\"\n}"
+													"raw": "",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
 												},
 												"url": {
-													"raw": "{{CiborgBaseUrl}}/groups/games",
+													"raw": "{{CiborgBaseUrl}}/groups/:groupId/games/:gameId",
 													"host": [
 														"{{CiborgBaseUrl}}"
 													],
 													"path": [
 														"groups",
-														"games"
+														":groupId",
+														"games",
+														":gameId"
+													],
+													"variable": [
+														{
+															"key": "groupId",
+															"value": ""
+														},
+														{
+															"key": "gameId",
+															"value": ""
+														}
 													]
 												},
 												"description": "Removes a game from a group.\n"
@@ -533,7 +581,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "GslhV2444BWT9pWYbrQ4rp",
+													"value": "RCvZqW4BQD7Q-f4nD3j9",
 													"description": "String representing the id of the group"
 												}
 											]
@@ -683,7 +731,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "G8lrV24BWT9pWYbrr4qmrrr",
+											"value": "RCvZqW4BQD7Q-f4nD3j9",
 											"description": "String representing the id"
 										}
 									]
@@ -812,18 +860,37 @@
 									"type": "noauth"
 								},
 								"method": "PUT",
-								"header": [],
+								"header": [
+									{
+										"key": "Content-Type",
+										"name": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n\t\"id\" : \"G8lrV24BWT9pWYbrr4qm\",\r\n\t\"name\": \"Group 45644444\",\r\n\t\"description\": \"This grou of the twwwwwwwwwwwwwwwwwww\"\r\n}"
+									"raw": "{\r\n\t\"name\": \"Group 45644444\",\r\n\t\"description\": \"This grou of the twwwwwwwwwwwwwwwwwww\",\r\n\t\"games\": []\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
 								},
 								"url": {
-									"raw": "{{CiborgBaseUrl}}/groups",
+									"raw": "{{CiborgBaseUrl}}/groups/:id",
 									"host": [
 										"{{CiborgBaseUrl}}"
 									],
 									"path": [
-										"groups"
+										"groups",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2K4uvG4BfdQ9tDM4HmBa"
+										}
 									]
 								},
 								"description": "Updates a group.\n"
@@ -1030,10 +1097,22 @@
 							"type": "noauth"
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"name\": \"Group 1\",\r\n\t\"description\": \"This grou of the best players.\"\r\n}"
+							"raw": "{\r\n\t\"name\": \"Group 12\",\r\n\t\"description\": \"This grou of the best players.\",\r\n\t\"games\": []\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{CiborgBaseUrl}}/groups",
