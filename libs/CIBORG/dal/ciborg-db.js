@@ -154,7 +154,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
         addGameToGroup: async function(groupId, gameId) {
             try {
                 let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGameByID(gameId)]);
-                console.log(promisses);
                 let payload = promisses[0];
                 debug.extend('addGameToGroup').extend('handleGroupById')('Handling getGroupById: ' + groupId);
 
