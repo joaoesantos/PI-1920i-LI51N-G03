@@ -71,8 +71,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     async function createGroup(req, rsp) {
         try {
             // ciborg validator
-            console.log(Object.keys(req));
-            console.log(req.body);
             let validatorErr = CiborgValidator.validateGroupWithNoIdFormat(req.body);
             if(validatorErr)  {
                 debug.extend('createGroup validator')(validatorErr);
@@ -109,7 +107,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             let data = await services.groups.updateGroup(group);
             resolveServiceResponse(data,rsp);
         } catch(err) {
-            debug.extend('updateGroup')(error);
+            debug.extend('updateGroup')(err);
             if(!(err instanceof CiborgError)) {
                 err = new CiborgError(
                     'Error in service: updateGroup.',

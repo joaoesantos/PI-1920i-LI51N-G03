@@ -6,10 +6,8 @@ let validator = function (CiborgError) {
         validateNumeric : validateNumeric,
         validateAlfanumeric : validateAlfanumeric,
         validateJson : validateJson,
-        validateCreateGroupFormat : validateCreateGroupFormat,
-        validateUpdateGroupFormat : validateUpdateGroupFormat,
-        validateAddGameToGroupFormat : validateAddGameToGroupFormat,
-        validateRemoveGameFromGroupFormat : validateRemoveGameFromGroupFormat
+        validateGroupWithNoIdFormat : validateGroupWithNoIdFormat,
+        validateUpdateGroupFormat : validateUpdateGroupFormat
     };
 
     // Validates if data is a number
@@ -57,7 +55,7 @@ let validator = function (CiborgError) {
 
     // Validates if group data is in right format for post command
     function validateGroupWithNoIdFormat(data) {
-        if(Object.keys(data).length != 2) {
+        if(Object.keys(data).length != 3) {
             let err = new CiborgError(
                 'Error in validator: invalid number of fields for post service.',
                 'Failed to create group.',
@@ -81,12 +79,20 @@ let validator = function (CiborgError) {
             );
             return err;
         };
+        if(!data.hasOwnProperty('games')) {
+            let err = new CiborgError(
+                'Error in validator: group does not have a "description" field.',
+                'Failed to create group, it does not have a "description" field.',
+                '400' // Bad Request
+            );
+            return err;
+        };
         return null;
     }
 
     // Validates if group data is in right format for put command
     function validateUpdateGroupFormat(data) {
-        if(Object.keys(data).length != 3) {
+        if(Object.keys(data).length != 4) {
             let err = new CiborgError(
                 'Error in validator: invalid number of fields for put service.',
                 'Failed to create group.',
@@ -118,67 +124,16 @@ let validator = function (CiborgError) {
             );
             return err;
         }
+        if(!data.hasOwnProperty('games')) {
+            let err = new CiborgError(
+                'Error in validator: group does not have a "description" field.',
+                'Failed to create group, it does not have a "description" field.',
+                '400' // Bad Request
+            );
+            return err;
+        };
         return validateAlfanumeric(data.id);
     }
-
-    // Validates if group data is in right format for post command
-    function validateAddGameToGroupFormat(data) {
-        if(Object.keys(data).length != 2) {
-            let err = new CiborgError(
-                'Error in validator: invalid number of fields for update.',
-                'Failed to update group.',
-                '400' // Bad Request
-            );
-            return err;
-        };
-        if(!data.hasOwnProperty('gameName')) {
-            let err = new CiborgError(
-                'Error in validator: data does not have "gameName" field.',
-                'Failed to update group, missing "gameName" field.',
-                '400' // Bad Request
-            );
-            return err;
-        };
-        if(!data.hasOwnProperty('groupId')) {
-            let err = new CiborgError(
-                'Error in validator: data does not have "groupId" field.',
-                'Failed to create group, missing "groupId" field.',
-                '400' // Bad Request
-            );
-            return err;
-        };
-        return validateAlfanumeric(data.groupId);
-    }
-
-    // Validates if group data is in right format for post command
-    function validateRemoveGameFromGroupFormat(data) {
-        if(Object.keys(data).length != 2) {
-            let err = new CiborgError(
-                'Error in validator: invalid number of fields for delete.',
-                'Failed to delete group.',
-                '400' // Bad Request
-            );
-            return err;
-        };
-        if(!data.hasOwnProperty('gameName')) {
-            let err = new CiborgError(
-                'Error in validator: data does not have "gameName" field.',
-                'Failed to delete group, missing "gameName" field.',
-                '400' // Bad Request
-            );
-            return err;
-        };
-        if(!data.hasOwnProperty('groupId')) {
-            let err = new CiborgError(
-                'Error in validator: data does not have "groupId" field.',
-                'Failed to delete group, missing "groupId" field.',
-                '400' // Bad Request
-            );
-            return err;
-        };
-        return validateAlfanumeric(data.groupId);
-    }
-
 }
 
 module.exports = validator;

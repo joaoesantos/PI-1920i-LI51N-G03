@@ -77,13 +77,13 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         }    
     }
 
-    async function getGameByID(id){
+    async function getGameByID(idArray) {
         let query = queryBuilder([
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
             {key: "ids", value: id}
         ], "=", "&");
         let options = { url: Props.api.base_url + Props.api.search_api 
-            + "?" + query + "&" + Props.api.search_api_fields_filter, json: true };
+            + "?" + query, json: true };
         try{
             let data = await HttpCall.get(options);
             debug.extend('getGameByID').extend('handler')('Handling HTTP GET');
@@ -113,8 +113,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                 body: games
             };
         }catch(err){
-
-            if(!(err instanceof CiborgError)){
+            if(!(err instanceof CiborgError)) {
                 throw new CiborgError(
                     'Error calling external service: getGameByID.',
                     'Unable to get game.',

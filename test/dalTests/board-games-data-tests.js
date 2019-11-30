@@ -53,7 +53,6 @@ describe('Service-games test:', function() {
       throw new Error('Expected Error');
     })
     .catch((err) => {
-      console.log(err);
       assert.ok(err instanceof CiborgError);
       assert.equal(err.message, 'Error calling external service: getGameByID.');
       done()
@@ -68,7 +67,6 @@ describe('Service-games test:', function() {
       throw new Error('Expected Error');
     })
     .catch((err) => {
-      console.log(err);
       assert.ok(err instanceof CiborgError);
       assert.equal(err.message, 'Error httpcall');
       done()
