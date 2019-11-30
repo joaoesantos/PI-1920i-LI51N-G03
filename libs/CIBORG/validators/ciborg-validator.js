@@ -57,7 +57,6 @@ let validator = function (CiborgError) {
 
     // Validates if group data is in right format for post command
     function validateGroupWithNoIdFormat(data) {
-        console.log("number of cenas" + Object.keys(data));
         if(Object.keys(data).length != 2) {
             let err = new CiborgError(
                 'Error in validator: invalid number of fields for post service.',
