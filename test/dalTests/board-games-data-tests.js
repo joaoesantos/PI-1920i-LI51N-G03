@@ -6,8 +6,13 @@ let game = require('../../libs/CIBORG/entities/models/Game');
 let gameMapper = require('../../libs/CIBORG/entities/mappers/GameDtoMapper')(game);
 let httpCallGetGameByID = require('./mocks/board-game-data/getGameByID-httpCall-mock');
 let serviceGetGameByID = require('../../libs/CIBORG/dal/board-games-data')(Props, gameDto, gameMapper, httpCallGetGameByID, CiborgError);
-let httpCallGetGameByIDError = require('./mocks/board-game-data/getGameByIDError-httpCall');
+
+let httpCallGetGameHttpCallError = require('./mocks/board-game-data/getGameByIDError-httpCall')(CiborgError);
+let serviceGetGameByIDHttpCallError = require('../../libs/CIBORG/dal/board-games-data')(Props, gameDto, gameMapper, httpCallGetGameHttpCallError, CiborgError);
+
+let httpCallGetGameByIDError = require('./mocks/board-game-data/getGameByIDError-dal');
 let serviceGetGameByIDError = require('../../libs/CIBORG/dal/board-games-data')(Props, gameDto, gameMapper, httpCallGetGameByIDError, CiborgError);
+
 let httpCallsearchByName = require('./mocks/board-game-data/searchByName-httpCall-mock');
 let serviceSearchByName = require('../../libs/CIBORG/dal/board-games-data')(Props, gameDto, gameMapper, httpCallsearchByName, CiborgError);
 let httpCallGetMostPopularGames = require('./mocks/board-game-data/getMostPopularGames-httpCall-mock');
@@ -18,7 +23,7 @@ describe('Service-games test:', function() {
     let resp = serviceGetGameByID.getGameByID('kPDxpJZ8PD');
 
     resp.then((data) => {
-      assert.equal("Spirit Island",data.body.games[0].name);
+      assert.equal("Spirit Island",data.body[0].name);
       done();
     });
     
@@ -28,7 +33,7 @@ describe('Service-games test:', function() {
     let resp = serviceSearchByName.searchByName("Monopoly");
 
     resp.then((data)=>{
-      assert.notEqual(0,data.body.games.length);
+      assert.notEqual(0,data.body.length);
       done();
     });
   });
@@ -37,18 +42,35 @@ describe('Service-games test:', function() {
     let resp = serviceGetMostPopularGames.getMostPopularGames();
 
     resp.then((data) =>{
-      assert.equal(2, data.body.games.length);
+      assert.equal(2, data.body.length);
       done();
     });
   });
 
-  it('Should return an error', function(done) {
+  it('Should return a Ciborg Error from board-game-data dal', function(done) {
     let resp =  serviceGetGameByIDError.getGameByID('kPDxpJZ8PD');
     resp.then((data) => {
       throw new Error('Expected Error');
     })
     .catch((err) => {
+      console.log(err);
       assert.ok(err instanceof CiborgError);
+      assert.equal(err.message, 'Error calling external service: getGameByID.');
+      done()
+    })
+    .catch(done);
+
+  });
+
+  it('Should return a Ciborg Error from http call', function(done) {
+    let resp =  serviceGetGameByIDHttpCallError.getGameByID('kPDxpJZ8PD');
+    resp.then((data) => {
+      throw new Error('Expected Error');
+    })
+    .catch((err) => {
+      console.log(err);
+      assert.ok(err instanceof CiborgError);
+      assert.equal(err.message, 'Error httpcall');
       done()
     })
     .catch(done);

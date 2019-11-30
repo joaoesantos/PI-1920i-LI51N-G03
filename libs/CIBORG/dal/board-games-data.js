@@ -62,16 +62,19 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
 
             return {
                 statusCode: 200,
-                body: {games:games}
+                body: games
             };
         }catch(err){
-            throw new CiborgError(
-                'Error calling external service: getMostPopularGames.',
-                'Unable to get popular games.',
-                '500' //Service Unavailable
-            );
-        }
-        
+            if(!(err instanceof CiborgError)){
+                throw new CiborgError(
+                    'Error calling external service: getMostPopularGames.',
+                    'Unable to get popular games.',
+                    '500' //Service Unavailable
+                );
+            }
+            throw err;
+            
+        }    
     }
 
     async function getGameByID(id){
@@ -107,14 +110,18 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
 
             return {
                 statusCode: 200,
-                body: {games:games}
+                body: games
             };
         }catch(err){
-            throw new CiborgError(
-                'Error calling external service: getGameByID.',
-                'Unable to get game.',
-                '500' //Service Unavailable
-            );
+
+            if(!(err instanceof CiborgError)){
+                throw new CiborgError(
+                    'Error calling external service: getGameByID.',
+                    'Unable to get game.',
+                    '500' //Service Unavailable
+                );
+            }
+            throw err;
         }
     }
 
@@ -152,14 +159,18 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
 
             return {
                 statusCode: 200,
-                body: {games:games}
+                body: games
             }
         }catch(err){
-            throw new CiborgError(
-                'Error calling external service:: searchByName.',
-                'Unable to search games.',
-                '500' //Service Unavailable
-            );
+            if(!(err instanceof CiborgError)){
+                throw new CiborgError(
+                    'Error calling external service:: searchByName.',
+                    'Unable to search games.',
+                    '500' //Service Unavailable
+                );
+            }
+
+            throw err;
         }
     };
 

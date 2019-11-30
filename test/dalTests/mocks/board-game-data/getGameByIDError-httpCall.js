@@ -1,16 +1,21 @@
-let genericMethodCall = (method) => {
-    return async(options) => {
-        return new Promise(function(resolve, reject) {
-            reject({error: 'err'})
-        });
+let httpCall = (CiborgError) => {
+    let genericMethodCall = (method) => {
+        return async(options) => {
+            let err = new CiborgError('Error httpcall','Error httpcall','500');
+            throw err;
+        }
+    };
+    
+    let HttpCall =  {
+        get: genericMethodCall("GET"),
+        post: genericMethodCall("POST"),
+        put: genericMethodCall("PUT"),
+        delete: genericMethodCall("DELETE")
     }
-};
 
-let HttpCall = {
-    get: genericMethodCall("GET"),
-    post: genericMethodCall("POST"),
-    put: genericMethodCall("PUT"),
-    delete: genericMethodCall("DELETE")
+    return HttpCall;
 }
 
-module.exports = HttpCall;
+
+
+module.exports = httpCall;
