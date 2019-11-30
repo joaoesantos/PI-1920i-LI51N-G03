@@ -19,8 +19,8 @@ let genericMethodCall = (method) => {
                             max_playtime: 120
                         },
                         {
-                            id: 'levMwXaCM6',
-                            name: 'Monopoly Deal Card Game',
+                            id: "yqR4PtpO8X",
+                            name: "Scythe",
                             min_playtime: 90,
                             max_playtime: 120
                         }

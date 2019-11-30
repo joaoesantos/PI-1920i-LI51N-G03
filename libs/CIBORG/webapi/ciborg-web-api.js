@@ -205,8 +205,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                     '500' // Internal Server Error
                 );
             }
+            err.resolveErrorResponse(rsp);
         }
-        err.resolveErrorResponse(rsp);
     }
 }
 

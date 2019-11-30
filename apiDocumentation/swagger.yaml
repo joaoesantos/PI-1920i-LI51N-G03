@@ -172,7 +172,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/groupWithNoGamesAndId'
+              $ref: '#/components/schemas/groupWithNoId'
 
       responses:
         '201':
@@ -221,6 +221,86 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Internal error, please contact administrator.
+  /groups/{id}:
+    get:
+      tags:
+        - groups
+      summary: Gets a group by id
+      operationId: groupById
+      description: |
+        Gets a group by its id.
+      parameters:
+        - in: path
+          name: id
+          description: String representing the group id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: search results matching criteria
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    $ref: '#/components/schemas/group'
+        '400':
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group id must follow uuid standard format.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Invalid group id, please insert in the correct format.
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group with id b6713dac-f8dc-11e9-8f0-362b9e155667 does not exist.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: This group does not exist.
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
     put:
       tags:
         - groups
@@ -235,12 +315,12 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/groupWithNoGames'
+              $ref: '#/components/schemas/group'
 
       parameters:
         - in: path
           name: id
-          description: String representing the name
+          description: String representing the group id
           required: true
           schema:
             type: string
@@ -293,87 +373,7 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Internal error, please contact administrator.
-  /groups/{id}:
-    get:
-      tags:
-        - groups
-      summary: Gets a group by id
-      operationId: groupById
-      description: |
-        Gets a group by its id.
-      parameters:
-        - in: path
-          name: id
-          description: String representing the id
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: search results matching criteria
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  payload:
-                    type: object
-                    $ref: '#/components/schemas/group'
-        '400':
-          description: Bad request
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  payload:
-                    type: object
-                    properties:
-                      apiErrorMessage:
-                        type: string
-                        description: Technical error message.
-                        example: Group id must follow uuid standard format.
-                      applicationErrorMessage:
-                        type: string
-                        description: Error message to present on application.
-                        example: Invalid group id, please insert in the correct format.
-        '404':
-          description: Resource not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  payload:
-                    type: object
-                    properties:
-                      apiErrorMessage:
-                        type: string
-                        description: Technical error message.
-                        example: Group with id b6713dac-f8dc-11e9-8f0-362b9e155667 does not exist.
-                      applicationErrorMessage:
-                        type: string
-                        description: Error message to present on application.
-                        example: This group does not exist.
-        '500':
-          description: Server error
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  payload:
-                    type: object
-                    properties:
-                      apiErrorMessage:
-                        type: string
-                        description: Technical error message.
-                        example: Null pointer exception.
-                      applicationErrorMessage:
-                        type: string
-                        description: Error message to present on application.
-                        example: Internal error, please contact administrator.
-  /groups/games:
+  /groups/{groupId}/games/{gameId}:
     put:
       tags:
         - groups
@@ -382,24 +382,16 @@ paths:
       description: |
         Adds a game to a group.
 
-      requestBody:
-        description: Group id and game name to be added
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/groupIdGameNamePair'
-
       parameters:
         - in: path
-          name: name
-          description: String representing the name of the game
+          name: groupId
+          description: String representing the group id
           required: true
           schema:
             type: string
         - in: path
-          name: id
-          description: String representing the id of the group
+          name: gameId
+          description: String representing the game id
           required: true
           schema:
             type: string
@@ -476,24 +468,16 @@ paths:
       description: |
         Removes a game from a group.
 
-      requestBody:
-        description: Group id and game name to be removed
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/groupIdGameNamePair'
-
       parameters:
         - in: path
-          name: name
-          description: String representing the name of the game
+          name: groupId
+          description: String representing the group id
           required: true
           schema:
             type: string
         - in: path
-          name: id
-          description: String representing the id of the group
+          name: gameId
+          description: String representing the game id
           required: true
           schema:
             type: string
@@ -570,12 +554,6 @@ paths:
         - in: path
           name: id
           description: String representing the id of the group
-          required: true
-          schema:
-            type: string
-        - in: path
-          name: name
-          description: String representing the name
           required: true
           schema:
             type: string
@@ -687,23 +665,7 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/game'
-    groupWithNoGames:
-      type: object
-      required:
-        - id
-        - name
-        - description
-      properties:
-        id:
-          type: string
-          example: 'kPDxpJZ8PD'
-        name:
-          type: string
-          example: 'Group 1'
-        description:
-          type: string
-          example: 'This grou of the best players.'
-    groupWithNoGamesAndId:
+    groupWithNoId:
       type: object
       required:
         - name
@@ -715,15 +677,7 @@ components:
         description:
           type: string
           example: 'This grou of the best players.'
-    groupIdGameNamePair:
-      type: object
-      required:
-        - groupId
-        - gameName
-      properties:
-        groupId:
-          type: string
-          example: 'GcnsVW4BWT9pWYbr3YrF'
-        gameName:
-          type: string
-          example: 'This grou of the best players.'
+        games:
+          type: array
+          items:
+            $ref: '#/components/schemas/game'

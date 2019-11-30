@@ -20,7 +20,7 @@ let serviceGetMostPopularGames = require('../../libs/CIBORG/dal/board-games-data
 
 describe('Service-games test:', function() {
   it('Should return game which name is Spirit Island', function(done) {
-    let resp = serviceGetGameByID.getGameByID('kPDxpJZ8PD');
+    let resp = serviceGetGameByID.getGamesByID(['kPDxpJZ8PD']);
 
     resp.then((data) => {
       assert.equal("Spirit Island",data.body[0].name);
@@ -48,13 +48,13 @@ describe('Service-games test:', function() {
   });
 
   it('Should return a Ciborg Error from board-game-data dal', function(done) {
-    let resp =  serviceGetGameByIDError.getGameByID('kPDxpJZ8PD');
+    let resp =  serviceGetGameByIDError.getGamesByID(['kPDxpJZ8PD']);
     resp.then((data) => {
       throw new Error('Expected Error');
     })
     .catch((err) => {
       assert.ok(err instanceof CiborgError);
-      assert.equal(err.message, 'Error calling external service: getGameByID.');
+      assert.equal(err.message, 'Error calling external service: getGamesByID.');
       done()
     })
     .catch(done);
@@ -62,7 +62,7 @@ describe('Service-games test:', function() {
   });
 
   it('Should return a Ciborg Error from http call', function(done) {
-    let resp =  serviceGetGameByIDHttpCallError.getGameByID('kPDxpJZ8PD');
+    let resp =  serviceGetGameByIDHttpCallError.getGamesByID(['kPDxpJZ8PD']);
     resp.then((data) => {
       throw new Error('Expected Error');
     })
