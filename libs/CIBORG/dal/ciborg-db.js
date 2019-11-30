@@ -128,39 +128,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             }
         },
 
-        /**
-         * Updating a group object considering the argument object does not contain a games array, as such this array must first be retrieved from the db.
-         */
-        updateGroupWithNoGames: async function(group) {
-            try {
-                let payload = await this.getGroupById(group.id);
-                debug.extend('updateGroupWithNoGames').extend('handleGroupById')('Handling getGroupById: ' + group.id);
-                let groupWithGames = payload.body;
-                group.games = groupWithGames.games;
-                let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + group.id;
-                delete group.id;
-                let opts = { url: fullUrl, json: true, body: group };
-                let resultPayload = await HttpCall.put(opts);
-                debug.extend('updateGroupWithNoGames').extend('handleGroupById').extend('handler')('Handling HTTP PUT');
-                group.id = resultPayload.body._id;
-                return {
-                    statusCode: resultPayload.statusCode,
-                    body: group
-                };
-            } catch (err) {
-                debug.extend('updateGroupWithNoGames')(err);
-                if (err instanceof CiborgError) {
-                    throw err;
-                } else {
-                    throw new CiborgError(
-                        'Error in service: updateGroup.',
-                        'Unable to update group.',
-                        '500' // Internal Server Error
-                    );
-                }
-            }
-        },
-
         getGamesFromGroup: async function(groupId) {
             try {
                 let payload = await this.getGroupById(groupId);
@@ -184,9 +151,9 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             }
         },
 
-        addGameToGroup: async function(groupId, gameName) {
+        addGameToGroup: async function(groupId, gameId) {
             try {
-                let promisses = await Promise.all([this.getGroupById(groupId), GameServices.searchByName(gameName)]);
+                let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGameByID(gameId)]);
                 console.log(promisses);
                 let payload = promisses[0];
                 debug.extend('addGameToGroup').extend('handleGroupById')('Handling getGroupById: ' + groupId);
@@ -195,8 +162,8 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
                 let gamePayload = promisses[1];
 
-                debug.extend('addGameToGroup').extend('handleGroupById').extend('handleGameByName')('Handling searchByName: ' + gameName);
-                let games = gamePayload.body.games;
+                debug.extend('addGameToGroup').extend('handleGroupById').extend('handleGameByName')('Handling searchByName: ' + gameId);
+                let games = gamePayload.body;
                 let wasGameAdded = false;
                 games.forEach(el => {
                     if (!group.games.find(game => game.name === el.name)) {
@@ -229,17 +196,17 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             }
         },
 
-        removeGameFromGroup: async function(groupId, gameName) {
+        removeGameFromGroup: async function(groupId, gameId) {
             try {
-                let promisses = await Promise.all([this.getGroupById(groupId), GameServices.searchByName(gameName)]);
+                let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGameByID(gameId)]);
                 let payload = promisses[0];
                 debug.extend('removeGameFromGroup').extend('handleGroupById')('Handling getGroupById: ' + groupId);
                 let group = payload.body;
 
                 let gamePayload = promisses[1];
 
-                debug.extend('removeGameFromGroup').extend('handleGroupById').extend('handleGameByName')('Handling searchByName: ' + gameName);
-                let games = gamePayload.body.games;
+                debug.extend('removeGameFromGroup').extend('handleGroupById').extend('handleGameByName')('Handling searchByName: ' + gameId);
+                let games = gamePayload.body;
                 let wereGamesRemoved = false;
                 games.forEach(el => {
                     group.games = group.games.filter(game => {

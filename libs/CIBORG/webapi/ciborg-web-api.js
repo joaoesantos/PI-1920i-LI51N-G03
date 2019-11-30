@@ -19,7 +19,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         addGameToGroup : addGameToGroup,
         removeGameFromGroup : removeGameFromGroup,
         getGamesFromGroup : getGamesFromGroup
-    }
+    };
 
     // resolves response with data from service
     function resolveServiceResponse(data, rsp) {
@@ -73,7 +73,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             // ciborg validator
             console.log(Object.keys(req));
             console.log(req.body);
-            let validatorErr = CiborgValidator.validateCreateGroupFormat(req.body);
+            let validatorErr = CiborgValidator.validateGroupWithNoIdFormat(req.body);
             if(validatorErr)  {
                 debug.extend('createGroup validator')(validatorErr);
                 validatorErr.resolveErrorResponse(rsp);
@@ -98,13 +98,15 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     async function updateGroup(req, rsp) {
         try {
             // ciborg validator
-            let validatorErr = CiborgValidator.validateUpdateGroupFormat(req.body);
-            if(validatorErr)  {
+            let validatorErr = CiborgValidator.validateGroupWithNoIdFormat(req.body);
+            if(validatorErr) {
                 debug.extend('updateGroup validator')(validatorErr);
                 validatorErr.resolveErrorResponse(rsp);
-            }            
+            }
             // service call
-            let data = await services.groups.updateGroupWithNoGames(req.body);
+            let group = req.body;
+            group.id = req.params.id;
+            let data = await services.groups.updateGroup(group);
             resolveServiceResponse(data,rsp);
         } catch(err) {
             debug.extend('updateGroup')(error);
@@ -161,7 +163,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     async function addGameToGroup(req, rsp) {
         try {
             // service call
-            let data = await services.groups.addGameToGroup(req.body.groupId, req.body.gameName);
+            let data = await services.groups.addGameToGroup(req.params.groupId, req.params.gameId);
             resolveServiceResponse(data,rsp);
         } catch(err) {
             debug.extend('addGameToGroup')(err);
@@ -180,7 +182,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     async function removeGameFromGroup(req, rsp) {
         try {
             // service call
-            let data = await services.groups.removeGameFromGroup(req.body.groupId, req.body.gameName);
+            let data = await services.groups.removeGameFromGroup(req.params.groupId, req.params.gameId);
             resolveServiceResponse(data,rsp);
         } catch(err) {
             debug.extend('removeGameFromGroup')(err);
