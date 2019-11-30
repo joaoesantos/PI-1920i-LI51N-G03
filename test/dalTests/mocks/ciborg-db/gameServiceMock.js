@@ -1,5 +1,5 @@
 let GameServices = {
-    searchByName: async function(gameName) {
+    getGameByID: async function(gameName) {
         let game = {
             statusCode: 202,
             body: [{
