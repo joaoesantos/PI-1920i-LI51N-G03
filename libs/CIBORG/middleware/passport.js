@@ -1,3 +1,5 @@
+'use strict';
+
 let passport = function() {
     
     this.require('passport');
