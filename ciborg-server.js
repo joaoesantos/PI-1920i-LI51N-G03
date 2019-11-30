@@ -37,7 +37,7 @@ server.use(express.urlencoded({ extended: true }))
 server.use(router);
 
 server.use(function (req, res, next) {
-    let err = new ciborgError(
+    let err = new ciborgError(null,
         'No routes implemented yet.',
         'Command does not exist.',
         '404' // Not Found

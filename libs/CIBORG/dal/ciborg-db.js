@@ -25,7 +25,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 if (err instanceof CiborgError) {
                     throw err;
                 } else {
-                    throw new CiborgError(
+                    throw new CiborgError(err,
                         'Error in service: getAllGroups.',
                         'Unable to get groups.',
                         '500' // Internal Server Error
@@ -49,7 +49,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                         body: group
                     };
                 } else {
-                    throw new CiborgError(
+                    throw new CiborgError(null,
                         'Error in service: groupt with id ' + groupId + ' not found.',
                         'Unable to get group.',
                         '404' // Internal Server Error
@@ -60,7 +60,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 if (err instanceof CiborgError) {
                     throw err;
                 } else {
-                    throw new CiborgError(
+                    throw new CiborgError(err,
                         'Error in service: getGroupById.',
                         'Unable to get group.',
                         '500' // Internal Server Error
@@ -87,7 +87,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 if (err instanceof CiborgError) {
                     throw err;
                 } else {
-                    throw new CiborgError(
+                    throw new CiborgError(err,
                         'Error in service: createGroup.',
                         'Unable to create group.',
                         '500' // Internal Server Error
@@ -114,7 +114,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 if (err instanceof CiborgError) {
                     throw err;
                 } else {
-                    throw new CiborgError(
+                    throw new CiborgError(err,
                         'Error in service: updateGroup.',
                         'Unable to update group.',
                         '500' // Internal Server Error
@@ -137,7 +137,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 if (err instanceof CiborgError) {
                     throw err;
                 } else {
-                    throw new CiborgError(
+                    throw new CiborgError(err,
                         'Error in service: getGamesFromGroup.',
                         'Unable to get games from group.',
                         '500' // Internal Server Error
@@ -167,7 +167,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
                 if (!wasGameAdded) {
                     debug.extend('addGameToGroup')('Error in service: addGameToGroup. The game does not exist or was already added.');
-                    throw new CiborgError(
+                    throw new CiborgError(null,
                         'Error in service: addGameToGroup. The game does not exist or was already added.',
                         'Unable to add game to group. Either the game does not exist or was already added.',
                         '500' // Internal Server Error
@@ -181,7 +181,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 if (err instanceof CiborgError) {
                     throw err;
                 } else {
-                    throw new CiborgError(
+                    throw new CiborgError(err,
                         'Error in service: addGameToGroup.',
                         'Unable to get add game to group.',
                         '500' // Internal Server Error
@@ -215,7 +215,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
                 if (!wereGamesRemoved) {
                     debug.extend('removeGameFromGroup')('Error in service: removeGameFromGroup. The game does not exist or is not in this group.');
-                    throw new CiborgError(
+                    throw new CiborgError(null,
                         'Error in service: removeGameFromGroup. The game does not exist or is not in this group.',
                         'Unable to remove game from group. Either the game does not exist or is is not related to this group.',
                         '500' // Internal Server Error
@@ -233,7 +233,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 if (err instanceof CiborgError) {
                     throw err;
                 } else {
-                    throw new CiborgError(
+                    throw new CiborgError(err,
                         'Error in service: removeGameFromGroup.',
                         'Unable to get remove game from group.',
                         '500' // Internal Server Error

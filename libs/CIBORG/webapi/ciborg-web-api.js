@@ -33,7 +33,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         } catch(err) {
             debug.extend('getMostPopularGames')(err);
             if(!(err instanceof CiborgError)) {
-                err = new CiborgError(
+                err = new CiborgError(err,
                     'Error in service: getAllGames.',
                     'Unable to get popular games.',
                     '500' // Internal Server Error
@@ -52,7 +52,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         } catch(err) {
             debug.extend('getGameByName')(err);
             if(!(err instanceof CiborgError)) {
-                err = new CiborgError(
+                err = new CiborgError(err,
                     'Error in service: getGame.',
                     'Unable to get game.',
                     '500' // Internal Server Error
@@ -77,7 +77,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         } catch(err) {
             debug.extend('createGroup')(err);
             if(!(err instanceof CiborgError)) {
-                err = new CiborgError(
+                err = new CiborgError(err,
                     'Error in service: createGroup.',
                     'Unable to create group.',
                     '500' // Internal Server Error
@@ -104,7 +104,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         } catch(err) {
             debug.extend('updateGroup')(err);
             if(!(err instanceof CiborgError)) {
-                err = new CiborgError(
+                err = new CiborgError(err,
                     'Error in service: updateGroup.',
                     'Unable to update group.',
                     '500' // Internal Server Error
@@ -123,7 +123,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         } catch(err) {
             debug.extend('getAllGroups')(err);
             if(!(err instanceof CiborgError)) {
-                err = new CiborgError(
+                err = new CiborgError(err,
                     'Error in service: getAllGroups.',
                     'Unable to get popular groups.',
                     '500' // Internal Server Error
@@ -142,7 +142,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         } catch(err) {
             debug.extend('getGroup')(err);
             if(!(err instanceof CiborgError)) {
-                err = new CiborgError(
+                err = new CiborgError(err,
                     'Error in service: getGroupById.',
                     'Unable to get group details.',
                     '500' // Internal Server Error
@@ -161,7 +161,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         } catch(err) {
             debug.extend('addGameToGroup')(err);
             if(!(err instanceof CiborgError)) {
-                err = new CiborgError(
+                err = new CiborgError(err,
                     'Error in service: addGameToGroup.',
                     'Unable to add game to group.',
                     '500' // Internal Server Error
@@ -180,7 +180,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         } catch(err) {
             debug.extend('removeGameFromGroup')(err);
             if(!(err instanceof CiborgError)) {
-                err = new CiborgError(
+                err = new CiborgError(err,
                     'Error in service: removeGameFromGroup.',
                     'Unable to remove game from group.',
                     '500' // Internal Server Error
@@ -199,7 +199,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         } catch (err) {
             debug.extend('getGamesFromGroup')(err);
             if(!(err instanceof CiborgError)) {
-                err = new CiborgError(
+                err = new CiborgError(err,
                     'Error in service: getGamesByGroupID.',
                     'Unable to get games from group.',
                     '500' // Internal Server Error

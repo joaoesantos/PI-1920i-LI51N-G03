@@ -1,7 +1,7 @@
 let httpCall = (CiborgError) => {
     let genericMethodCall = (method) => {
         return async(options) => {
-            let err = new CiborgError('Error httpcall','Error httpcall','500');
+            let err = new CiborgError(null,'Error httpcall','Error httpcall','500');
             throw err;
         }
     };
@@ -15,7 +15,5 @@ let httpCall = (CiborgError) => {
 
     return HttpCall;
 }
-
-
 
 module.exports = httpCall;

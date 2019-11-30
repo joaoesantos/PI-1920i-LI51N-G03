@@ -3,7 +3,7 @@
 let httpCall = (CiborgError) => {
     let genericMethodCall = (method) => {
         return async(options) => {
-            throw new CiborgError(
+            throw new CiborgError(null,
                 'CiborgErrorTest',
                 'CiborgErrorTest',
                 '500' // Internal Server Error

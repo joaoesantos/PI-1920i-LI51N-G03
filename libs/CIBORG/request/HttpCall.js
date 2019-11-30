@@ -11,7 +11,7 @@ let httpCall = (Props, CiborgError) => {
                     request[method.toLowerCase()](options, function(err, resp) {
                         if (err) {
                             debug.extend('genericMethodCall')(err);
-                            let error = new CiborgError(
+                            let error = new CiborgError(err,
                                 'Error accessing external service.',
                                 'Unable to add game to group.',
                                 '500' // Internal Server Error

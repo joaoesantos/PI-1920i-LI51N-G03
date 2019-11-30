@@ -54,7 +54,7 @@ describe('Service-games test:', function() {
     })
     .catch((err) => {
       assert.ok(err instanceof CiborgError);
-      assert.equal(err.message, 'Error calling external service: getGamesByID.');
+      assert.equal(err.apiErrorMessage, 'Error calling external service: getGamesByID.');
       done()
     })
     .catch(done);
@@ -69,7 +69,7 @@ describe('Service-games test:', function() {
     .catch((err) => {
       assert.ok(err instanceof CiborgError);
       assert.equal(err.message, 'Error httpcall');
-      done()
+      done();
     })
     .catch(done);
 

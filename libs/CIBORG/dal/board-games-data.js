@@ -61,7 +61,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             };
         }catch(err){
             if(!(err instanceof CiborgError)) {
-                throw new CiborgError(
+                throw new CiborgError(err,
                     'Error calling external service: getMostPopularGames.',
                     'Unable to get popular games.',
                     '500' //Service Unavailable
@@ -109,7 +109,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             };
         }catch(err){
             if(!(err instanceof CiborgError)) {
-                throw new CiborgError(
+                throw new CiborgError(err,
                     'Error calling external service: getGamesByID.',
                     'Unable to get game.',
                     '500' //Service Unavailable
@@ -157,7 +157,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             }
         }catch(err){
             if(!(err instanceof CiborgError)){
-                throw new CiborgError(
+                throw new CiborgError(err,
                     'Error calling external service:: searchByName.',
                     'Unable to search games.',
                     '500' //Service Unavailable
