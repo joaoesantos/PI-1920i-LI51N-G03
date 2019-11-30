@@ -4,11 +4,6 @@ debug.enabled = true;
 
 module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError) {
 
-    // enables or disables debug according to configuration file
-    if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
-        debug.disable();
-    }
-
     function queryBuilder(pairArray, keyValueSeparator, pairSeparator) {
         return pairArray.map(e => e.key + keyValueSeparator + e.value).reduce((accum, currVal) => accum + pairSeparator + currVal, "").substr(1);
     }

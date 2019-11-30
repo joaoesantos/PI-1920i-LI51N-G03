@@ -4,11 +4,6 @@ debug.enabled = true;
 
 let webApi = function(Props, services, CiborgError, CiborgValidator) {
 
-    // enables or disables debug according to configuration file
-    if(!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
-        debug.disable();
-    }
-
     return {
         getMostPopularGames : getMostPopularGames,
         getGameByName : getGameByName,

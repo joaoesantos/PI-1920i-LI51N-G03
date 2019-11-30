@@ -1,12 +1,10 @@
 'use strict';
 
 let request = require('request');
-var debug = require('debug')('http-call');
+const debug = require('debug')('http-call');
 
 let httpCall = (Props, CiborgError) => {
-        if (!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
-            debug.disable();
-        }
+
         let genericMethodCall = (method) => {
             return async(options) => {
                 return new Promise(function(resolve, reject) {
@@ -20,6 +18,7 @@ let httpCall = (Props, CiborgError) => {
                             );
                             reject(error);
                         } else {
+                            console.log(debug);
                             debug.extend('genericMethodCall')('RECEIVED HTTP RESPONSE');
                             resolve(resp);
                         }
@@ -28,13 +27,13 @@ let httpCall = (Props, CiborgError) => {
             }
         }
 
-            let HttpCall = {
-                get: genericMethodCall("GET"),
-                post: genericMethodCall("POST"),
-                put: genericMethodCall("PUT"),
-                delete: genericMethodCall("DELETE")
-            }
-            return HttpCall;
+        let HttpCall = {
+            get: genericMethodCall("GET"),
+            post: genericMethodCall("POST"),
+            put: genericMethodCall("PUT"),
+            delete: genericMethodCall("DELETE")
+        }
+        return HttpCall;
         }
 
         module.exports = httpCall;

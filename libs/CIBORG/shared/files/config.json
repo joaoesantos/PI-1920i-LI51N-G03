@@ -1,4 +1,3 @@
 {
-	"port" : "8500",
-	"isDebugEnabled" : true
+	"port" : "8500"
 }

@@ -4,18 +4,13 @@ debug.enabled = true;
 
 let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
-    // enables or disables debug according to configuration file
-    if (!Props.config && !Props.config.isDebugEnabled && Props.config.isDebugEnabled === false) {
-        debug.disable();
-    }
-
     let GroupServiceObject = {
         getAllGroups: async() => {
             try {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.search.url;
                 let opts = { url: fullUrl, json: true };
                 let payload = await HttpCall.get(opts);
-                debug.extend('getAllGroups').extend('handler')('Handling HTTP GET');
+                debug.extend('getAllGroups')('Handling HTTP GET');
                 let groupsList = payload.body.hits.hits.map(e => {
                     let group = e._source;
                     group.id = e._id;
@@ -81,7 +76,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 group.games = [];
                 let opts = { url: fullUrl, json: true, body: group };
                 let payload = await HttpCall.post(opts);
-                debug.extend('createGroup').extend('handler')('Handling HTTP POST');
+                debug.extend('createGroup')('Handling HTTP POST');
                 group.id = payload.body._id;
                 return {
                     statusCode: payload.statusCode,
@@ -108,7 +103,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                 let opts = { url: fullUrl, json: true, body: group };
                 let payload = await HttpCall.put(opts);
-                debug.extend('updateGroup').extend('handler')('Handling HTTP PUT');
+                debug.extend('updateGroup')('Handling HTTP PUT');
                 group.id = payload.body._id;
                 return {
                     statusCode: payload.statusCode,
@@ -131,7 +126,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
         getGamesFromGroup: async function(groupId) {
             try {
                 let payload = await this.getGroupById(groupId);
-                debug.extend('getGamesFromGroup').extend('handdleGroupById')('Handling getGroupById: ' + groupId);
+                debug.extend('getGamesFromGroup')('Handling getGroupById: ' + groupId);
                 let group = payload.body;
                 return {
                     statusCode: payload.statusCode,
@@ -155,13 +150,13 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             try {
                 let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGameByID(gameId)]);
                 let payload = promisses[0];
-                debug.extend('addGameToGroup').extend('handleGroupById')('Handling getGroupById: ' + groupId);
+                debug.extend('addGameToGroup')('Handling getGroupById: ' + groupId);
 
                 let group = payload.body;
 
                 let gamePayload = promisses[1];
 
-                debug.extend('addGameToGroup').extend('handleGroupById').extend('handleGameByName')('Handling searchByName: ' + gameId);
+                debug.extend('addGameToGroup')('Handling searchByName: ' + gameId);
                 let game = gamePayload.body;
                 let wasGameAdded = false;
                 if (!group.games.find(el => el.id === game.id)) {
@@ -169,7 +164,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     wasGameAdded = true;
                 }
                 if (!wasGameAdded) {
-                    debug.extend('addGameToGroup').extend('handleGroupById').extend('handleGameByName')('Error in service: addGameToGroup. The game does not exist or was already added.');
+                    debug.extend('addGameToGroup')('Error in service: addGameToGroup. The game does not exist or was already added.');
                     throw new CiborgError(
                         'Error in service: addGameToGroup. The game does not exist or was already added.',
                         'Unable to add game to group. Either the game does not exist or was already added.',
@@ -197,13 +192,13 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             try {
                 let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGameByID(gameId)]);
                 let payload = promisses[0];
-                debug.extend('removeGameFromGroup').extend('handleGroupById')('Handling getGroupById: ' + groupId);
+                debug.extend('removeGameFromGroup')('Handling getGroupById: ' + groupId);
                 let group = payload.body;
 
                 let gamePayload = promisses[1];
                 console.log(gamePayload)
 
-                debug.extend('removeGameFromGroup').extend('handleGroupById').extend('handleGameByName')('Handling searchByName: ' + gameId);
+                debug.extend('removeGameFromGroup')('Handling searchByName: ' + gameId);
                 let game = gamePayload.body;
                 let wereGamesRemoved = false;
 
@@ -224,7 +219,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 console.log(group.games)
 
                 if (!wereGamesRemoved) {
-                    debug.extend('removeGameFromGroup').extend('handleGroupById').extend('handleGameByName')('Error in service: removeGameFromGroup. The game does not exist or is not in this group.');
+                    debug.extend('removeGameFromGroup')('Error in service: removeGameFromGroup. The game does not exist or is not in this group.');
                     throw new CiborgError(
                         'Error in service: removeGameFromGroup. The game does not exist or is not in this group.',
                         'Unable to remove game from group. Either the game does not exist or is is not related to this group.',
