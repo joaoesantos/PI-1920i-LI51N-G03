@@ -120,6 +120,8 @@ describe('Service-groups tests:', function() {
             assert.equal("fG5Ax8PA7n", res.body.games[0].id);
             assert.equal("levMwXaCM6", res.body.games[1].id);
             done();
+        }).catch((res) => {
+            console.log(res.stack)
         });
     });
 
@@ -137,14 +139,14 @@ describe('Service-groups tests:', function() {
                     max_playtime: 120
                 },
                 {
-                    id: "levMwXaCM6",
-                    name: "Monopoly Deal Card Game",
+                    id: "yqR4PtpO8X",
+                    name: "Scythe",
                     min_playtime: 90,
                     max_playtime: 120
                 }
             ]
         };
-        let resP = groupService.removeGameFromGroup(group.id, "Monopoly Deal Card Game");
+        let resP = groupService.removeGameFromGroup(group.id, "yqR4PtpO8X");
         resP.then((res) => {
             assert.deepEqual({}, res.body);
             done();

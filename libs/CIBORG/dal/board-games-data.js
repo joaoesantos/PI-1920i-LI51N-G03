@@ -65,7 +65,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
                 body: games
             };
         }catch(err){
-            if(!(err instanceof CiborgError)){
+            if(!(err instanceof CiborgError)) {
                 throw new CiborgError(
                     'Error calling external service: getMostPopularGames.',
                     'Unable to get popular games.',
@@ -77,16 +77,16 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         }    
     }
 
-    async function getGameByID(idArray) {
+    async function getGamesByID(idArray) {
         let query = queryBuilder([
             {key: Props.api.client_id_param, value: Props.api.client_id_value},
-            {key: "ids", value: id}
+            {key: "ids", value: idArray.join(",")}
         ], "=", "&");
         let options = { url: Props.api.base_url + Props.api.search_api 
             + "?" + query, json: true };
         try{
             let data = await HttpCall.get(options);
-            debug.extend('getGameByID').extend('handler')('Handling HTTP GET');
+            debug.extend('getGamesByID').extend('handler')('Handling HTTP GET');
             let games = data.body.games.map(function(g) {
 
                 let dto = GamesDto(
@@ -115,7 +115,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
         }catch(err){
             if(!(err instanceof CiborgError)) {
                 throw new CiborgError(
-                    'Error calling external service: getGameByID.',
+                    'Error calling external service: getGamesByID.',
                     'Unable to get game.',
                     '500' //Service Unavailable
                 );
@@ -133,7 +133,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
             + "?" + query + "&" + Props.api.search_api_fields_filter, json: true };
 
         try{
-            debug.extend('getGameByID').extend('handler')('Handling HTTP GET');
+            debug.extend('getGamesByID').extend('handler')('Handling HTTP GET');
             let data = await HttpCall.get(options);
             let games = data.body.games.map(function(g) {
 
@@ -176,7 +176,7 @@ module.exports = function(Props, GamesDto, GamesDtoMapper, HttpCall, CiborgError
     return {
         searchByName: searchByName,
         getMostPopularGames: getMostPopularGames,
-        getGameByID: getGameByID,
+        getGamesByID: getGamesByID,
     }
     
 };

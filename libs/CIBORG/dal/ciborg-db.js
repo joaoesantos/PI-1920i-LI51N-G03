@@ -153,7 +153,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
         addGameToGroup: async function(groupId, gameId) {
             try {
-                let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGameByID(gameId)]);
+                let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGamesByID([gameId])]);
                 let payload = promisses[0];
                 debug.extend('addGameToGroup').extend('handleGroupById')('Handling getGroupById: ' + groupId);
 
@@ -162,12 +162,13 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 let gamePayload = promisses[1];
 
                 debug.extend('addGameToGroup').extend('handleGroupById').extend('handleGameByName')('Handling searchByName: ' + gameId);
-                let game = gamePayload.body;
+                let game = gamePayload.body[0];
                 let wasGameAdded = false;
                 if (!group.games.find(el => el.id === game.id)) {
-                    group.games.push(el);
+                    group.games.push(game);
                     wasGameAdded = true;
                 }
+
                 if (!wasGameAdded) {
                     debug.extend('addGameToGroup').extend('handleGroupById').extend('handleGameByName')('Error in service: addGameToGroup. The game does not exist or was already added.');
                     throw new CiborgError(
@@ -195,33 +196,24 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
         removeGameFromGroup: async function(groupId, gameId) {
             try {
-                let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGameByID(gameId)]);
+                let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGamesByID([gameId])]);
                 let payload = promisses[0];
                 debug.extend('removeGameFromGroup').extend('handleGroupById')('Handling getGroupById: ' + groupId);
                 let group = payload.body;
 
                 let gamePayload = promisses[1];
-                console.log(gamePayload)
 
                 debug.extend('removeGameFromGroup').extend('handleGroupById').extend('handleGameByName')('Handling searchByName: ' + gameId);
-                let game = gamePayload.body;
+                let game = gamePayload.body[0];
                 let wereGamesRemoved = false;
-
-                console.log("------------------------------------------");
-                console.log(group.games)
 
                 group.games = group.games.filter(el => {
                     let isFiltered = el.id === game.id;
-                    console.log("||||||||||||||||||||||||");
-                    console.log(el.id === game.id);
-                    console.log(el.id + " - " +  game.id);
                     if (isFiltered) {
                         wereGamesRemoved = true;
                     }
                     return !isFiltered;
                 });
-
-                console.log(group.games)
 
                 if (!wereGamesRemoved) {
                     debug.extend('removeGameFromGroup').extend('handleGroupById').extend('handleGameByName')('Error in service: removeGameFromGroup. The game does not exist or is not in this group.');
@@ -231,14 +223,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                         '500' // Internal Server Error
                     );
                 } else {
-                    /*delete group.id;
-                    let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
-                    let opts = { url: fullUrl, json: true, body: group };
-
-                    let resultPayload = await HttpCall.put(opts);
-
-                    debug.extend('removeGameFromGroup').extend('handleGroupById').extend('handleGameByName').extend('handler')('Handling HTTP PUT');*/
-                    console.log(group.games)
                     let resultPayload = await this.updateGroup(group);
                     return {
                         statusCode: 202,

@@ -1,10 +1,10 @@
 let GameServices = {
-    getGameByID: async function(gameName) {
+    getGamesByID: async function(gameName) {
         let game = {
             statusCode: 202,
             body: [{
-                id: "levMwXaCM6",
-                name: "Monopoly Deal Card Game",
+                id: "yqR4PtpO8X",
+                name: "Scythe",
                 min_playtime: 90,
                 max_playtime: 120
             }]
