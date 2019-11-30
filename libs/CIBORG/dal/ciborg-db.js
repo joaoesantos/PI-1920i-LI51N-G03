@@ -153,7 +153,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
         addGameToGroup: async function(groupId, gameId) {
             try {
-                debug.extend('addGameToGroup')('Handling getGroupById: ' + groupId)('Handling getGamesByID: ' + gameId);
+                debug.extend('addGameToGroup')('Handling getGroupById: ' + groupId + ' & Handling getGamesByID: ' + gameId);
                 let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGamesByID([gameId])]);
                 
                 // payload from getGroupById promise
@@ -179,7 +179,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 } else {
                     debug.extend('addGameToGroup')('Handling updateGroup: ' + groupId)
                     let resultPayload = await this.updateGroup(group);
-                    debug.extend('addGameToGroup')('Game ' + gameId + 'added to group ' + updateGroup);
+                    debug.extend('addGameToGroup')('Game ' + gameId + 'added to group ' + groupId);
                     return resultPayload;
                 }
             } catch (err) {
@@ -198,7 +198,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
         removeGameFromGroup: async function(groupId, gameId) {
             try {
-                debug.extend('removeGameFromGroup')('Handling getGroupById: ' + groupId)('Handling getGamesByID: ' + gameId);
+                debug.extend('removeGameFromGroup')('Handling getGroupById: ' + groupId + ' & Handling getGamesByID: ' + gameId);
                 let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGamesByID([gameId])]);
                 
                 // payload from getGroupById promise
@@ -228,7 +228,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 } else {
                     debug.extend('addGameToGroup')('Handling updateGroup: ' + groupId)
                     await this.updateGroup(group);
-                    debug.extend('addGameToGroup')('Game ' + gameId + 'removed from group ' + updateGroup);
+                    debug.extend('addGameToGroup')('Game ' + gameId + 'removed from group ' + groupId);
                     return {
                         statusCode: 202,
                         body: {}
