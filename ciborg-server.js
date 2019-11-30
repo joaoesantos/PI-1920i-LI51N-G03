@@ -45,4 +45,4 @@ server.use(function (req, res, next) {
         err.resolveErrorResponse(res);
     })
 
-server.listen(props.config.port, () => debug(), console.log("Listening so port:", props.config.port));
+server.listen(props.config.port, () => console.log("Listening to port:", props.config.port));

@@ -4,9 +4,9 @@ let request = require('request');
 const debug = require('debug')('http-call');
 
 let httpCall = (Props, CiborgError) => {
-        debug.extend('genericMethodCall')('Executing http call.');
         let genericMethodCall = (method) => {
             return async(options) => {
+                debug.extend('genericMethodCall')('Executing http call.');
                 return new Promise(function(resolve, reject) {
                     request[method.toLowerCase()](options, function(err, resp) {
                         if (err) {
