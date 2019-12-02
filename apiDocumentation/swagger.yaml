@@ -336,7 +336,23 @@ paths:
                     type: object
                     $ref: '#/components/schemas/group'
         '400':
-          description: bad input parameter
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Group id must follow uuid standard format.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Invalid group id, please insert in the correct format.
         '404':
           description: Resource not found
           content:
