@@ -33,7 +33,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getMostPopularGames')('Service getMostPopularGames executed with sucess.');
             resolveServiceResponse(data,rsp);
         } catch(err) {
-            debug.extend('getMostPopularGames')(err);
             if(!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: getAllGames.',
@@ -41,6 +40,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                     '500' // Internal Server Error
                 );
             }
+            debug.extend('getMostPopularGames')(err);
             err.resolveErrorResponse(rsp);
         }
     } 
@@ -54,7 +54,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getGameByName')('Service searchByName executed with sucess.');
             resolveServiceResponse(data,rsp);
         } catch(err) {
-            debug.extend('getGameByName')(err);
             if(!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: getGame.',
@@ -62,6 +61,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                     '500' // Internal Server Error
                 );
             }
+            debug.extend('getGameByName')(err);
             err.resolveErrorResponse(rsp);
         }
     }
@@ -70,18 +70,13 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     async function createGroup(req, rsp) {
         try {
             // ciborg validator
-            let validatorErr = CiborgValidator.validateGroupWithNoIdFormat(req.body);
-            if(validatorErr)  {
-                debug.extend('createGroup validator')(validatorErr);
-                validatorErr.resolveErrorResponse(rsp);
-            }
+            CiborgValidator.validateGroupWithNoIdFormat(req.body);
             // service call
             debug.extend('createGroup')('Handling group service createGroup.');
             let data = await services.groups.createGroup(req.body);
             debug.extend('createGroup')('Service createGroup executed with sucess.');
             resolveServiceResponse(data,rsp);
         } catch(err) {
-            debug.extend('createGroup')(err);
             if(!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: createGroup.',
@@ -89,6 +84,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                     '500' // Internal Server Error
                 );
             }
+            debug.extend('createGroup')(err);
             err.resolveErrorResponse(rsp);
         }
     }
@@ -97,11 +93,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     async function updateGroup(req, rsp) {
         try {
             // ciborg validator
-            let validatorErr = CiborgValidator.validateGroupWithNoIdFormat(req.body);
-            if(validatorErr) {
-                debug.extend('updateGroup validator')(validatorErr);
-                validatorErr.resolveErrorResponse(rsp);
-            }
+            CiborgValidator.validateGroupWithNoIdFormat(req.body);
             // service call
             debug.extend('updateGroup')('Handling group service updateGroup.');
             let group = req.body; group.id = req.params.id;
@@ -109,7 +101,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('updateGroup')('Service updateGroup executed with sucess.');
             resolveServiceResponse(data,rsp);
         } catch(err) {
-            debug.extend('updateGroup')(err);
             if(!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: updateGroup.',
@@ -117,6 +108,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                     '500' // Internal Server Error
                 );
             }
+            debug.extend('updateGroup')(err);
             err.resolveErrorResponse(rsp);
         }
     }
@@ -130,14 +122,14 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getAllGroups')('Service getAllGroups executed with sucess.');
             resolveServiceResponse(data,rsp);
         } catch(err) {
-            debug.extend('getAllGroups')(err);
             if(!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: getAllGroups.',
                     'Unable to get popular groups.',
                     '500' // Internal Server Error
-                );
+                    );
             }
+            debug.extend('getAllGroups')(err);
             err.resolveErrorResponse(rsp);
         }
     }
@@ -151,7 +143,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getGroup')('Service getGroupById executed with sucess.');
             resolveServiceResponse(data,rsp);
         } catch(err) {
-            debug.extend('getGroup')(err);
             if(!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: getGroupById.',
@@ -159,6 +150,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                     '500' // Internal Server Error
                 );
             }
+            debug.extend('getGroup')(err);
             err.resolveErrorResponse(rsp);
         }
     }
@@ -172,7 +164,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('addGameToGroup')('Service addGameToGroup executed with sucess.');
             resolveServiceResponse(data,rsp);
         } catch(err) {
-            debug.extend('addGameToGroup')(err);
             if(!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: addGameToGroup.',
@@ -180,6 +171,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                     '500' // Internal Server Error
                 );
             }
+            debug.extend('addGameToGroup')(err);
             err.resolveErrorResponse(rsp);
         }
     }
@@ -193,7 +185,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('removeGameFromGroup')('Service removeGameFromGroup executed with sucess.');
             resolveServiceResponse(data,rsp);
         } catch(err) {
-            debug.extend('removeGameFromGroup')(err);
             if(!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: removeGameFromGroup.',
@@ -201,6 +192,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                     '500' // Internal Server Error
                 );
             }
+            debug.extend('removeGameFromGroup')(err);
             err.resolveErrorResponse(rsp);
         }
     }
@@ -214,7 +206,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getGamesFromGroup')('Service getGamesFromGroup executed with sucess.');
             resolveServiceResponse(data,rsp);
         } catch (err) {
-            debug.extend('getGamesFromGroup')(err);
             if(!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: getGamesByGroupID.',
@@ -222,6 +213,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
                     '500' // Internal Server Error
                 );
             }
+            debug.extend('getGamesFromGroup')(err);
             err.resolveErrorResponse(rsp);
         }
     }

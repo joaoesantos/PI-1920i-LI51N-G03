@@ -18,6 +18,7 @@ class CiborgError extends Error {
     }
 
     resolveErrorResponse(rsp) {
+        console.log(this.statusCode);
         rsp.statusCode = this.statusCode;
         let errorResponsePayload = { payload : {
              clientErrorMessage : this.clientErrorMessage,

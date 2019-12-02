@@ -74,8 +74,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
         createGroup: async(group) => {
             try {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex;
-                //add empty game array
-                group.games = [];
                 let opts = { url: fullUrl, json: true, body: group };
                 debug.extend('createGroup')('Handling HTTP POST.');
                 let payload = await HttpCall.post(opts);
