@@ -32,8 +32,10 @@ server.configure(function() {
   });
 */
 
-server.use(express.json()) // for parsing application/json
-server.use(express.urlencoded({ extended: true }))
+server.use(express.json()); // for parsing application/json
+server.use('/', express.static('dist') );
+
+//server.use(express.urlencoded({ extended: true }))
 server.use(router);
 
 server.use(function (req, res, next) {
