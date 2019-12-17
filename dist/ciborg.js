@@ -127,6 +127,20 @@ exports.push([module.i, "/*!\n * Bootstrap v4.4.1 (https://getbootstrap.com/)\n 
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/stylesheet.css":
+/*!******************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/stylesheet.css ***!
+  \******************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}", ""]);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/runtime/api.js":
 /*!*****************************************************!*\
   !*** ./node_modules/css-loader/dist/runtime/api.js ***!
@@ -5531,6 +5545,19 @@ module.exports = function (list, options) {
 
 /***/ }),
 
+/***/ "./spa/images/istockphoto.jpg":
+/*!************************************!*\
+  !*** ./spa/images/istockphoto.jpg ***!
+  \************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "203a5f72543964126acc2e29ca2061cc.jpg");
+
+/***/ }),
+
 /***/ "./spa/index.js":
 /*!**********************!*\
   !*** ./spa/index.js ***!
@@ -5540,18 +5567,38 @@ module.exports = function (list, options) {
 
 "use script";
 
-__webpack_require__(/*! ../node_modules/bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css")
+__webpack_require__(/*! ../node_modules/bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
+__webpack_require__(/*! ../spa/stylesheets/stylesheet.css */ "./spa/stylesheets/stylesheet.css");
 
-const templates = __webpack_require__(/*! ./templateBuilder */ "./spa/templateBuilder.js");
+const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
+const img = __webpack_require__(/*! ./images/istockphoto.jpg */ "./spa/images/istockphoto.jpg").default;
 //const bookImg = require('./img/books-1012088_640.jpg').default Quitela na gota!!
 
-document.body.innerHTML=templates.home
-window.addEventListener('hashchange', hashChangeHandler)
-hashChangeHandler()
+console.log(templates)
+console.log("------------------------------")
+
+document.body.innerHTML=templates.home(img);
+window.addEventListener('hashchange', hashChangeHandler);
+//hashChangeHandler();
 
 
-function hashChangeHandler(){
-
+function hashChangeHandler() {
+    let gameTable = {
+        header: ["H1", "H2", "H3"],
+        elements: [
+            {
+                h1: "lala",
+                p2: "lele",
+                lge: "rbgegr"
+            },
+            {
+                h1: "rrrrrrrrr",
+                p2: "eeeeeeeeee",
+                lge: "tttttttttt"
+            }
+        ]
+    };
+    document.body.innerHTML = templates.table(gameTable);
     //const mainContent = document.getElementById('mainContent')
 
     /*switch(window.location.hash){
@@ -5571,31 +5618,75 @@ function hashChangeHandler(){
 
 /***/ }),
 
-/***/ "./spa/templateBuilder.js":
+/***/ "./spa/stylesheets/stylesheet.css":
+/*!****************************************!*\
+  !*** ./spa/stylesheets/stylesheet.css ***!
+  \****************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!./stylesheet.css */ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/stylesheet.css");
+
+if (typeof content === 'string') {
+  content = [[module.i, content, '']];
+}
+
+var options = {}
+
+options.insert = "head";
+options.singleton = false;
+
+var update = __webpack_require__(/*! ../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js")(content, options);
+
+if (content.locals) {
+  module.exports = content.locals;
+}
+
+
+/***/ }),
+
+/***/ "./spa/templateManager.js":
 /*!********************************!*\
-  !*** ./spa/templateBuilder.js ***!
+  !*** ./spa/templateManager.js ***!
   \********************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 const Handlebars = __webpack_require__(/*! ../node_modules/handlebars/dist/handlebars */ "./node_modules/handlebars/dist/handlebars.js");
 
-const home = __webpack_require__(/*! ./templates/home.html */ "./spa/templates/home.html");
+const home = __webpack_require__(/*! ./templates/home.hbs */ "./spa/templates/home.hbs").default;
+const table = __webpack_require__(/*! ./templates/table.hbs */ "./spa/templates/table.hbs").default;
 
 module.exports = {
-    home : home
+    home : Handlebars.compile(home),
+    table : Handlebars.compile(table)
 };
 
 /***/ }),
 
-/***/ "./spa/templates/home.html":
-/*!*********************************!*\
-  !*** ./spa/templates/home.html ***!
-  \*********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
+/***/ "./spa/templates/home.hbs":
+/*!********************************!*\
+  !*** ./spa/templates/home.hbs ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-module.exports = '<a href="#login"> Login </a> 	<a href="#logout"> Logout </a> 	<a href="#games"> Games </a> 	<a href="#groups"> Groups </a> 	<p>Chelas 2019</p> ';
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<a href=\"#login\" class = \"test-class\">Login </a>\r\n<a href=\"#logout\"> Logout </a>\r\n<a href=\"#games\"> Games </a>\r\n<a href=\"#groups\"> Groups </a> \r\n<div>\r\n    <img src=\"{{this}}\">\r\n</div>\r\n<p>Chelas 2019</p>");
+
+/***/ }),
+
+/***/ "./spa/templates/table.hbs":
+/*!*********************************!*\
+  !*** ./spa/templates/table.hbs ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<table class=\"table\">\r\n  <thead class=\"thead-dark\">\r\n    <tr>\r\n\t{{#each header as |column|}}\r\n        <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n    {{/each}} \r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n\t{{#each elements as |row|}}\r\n\t<tr>\r\n\t\t{{#each row as |value|}}\r\n\t\t\t<td>{{value}}</td>\r\n\t\t{{/each}} \r\n\t</tr>\r\n\t{{/each}} \r\n  </tbody>\r\n</table>");
 
 /***/ })
 

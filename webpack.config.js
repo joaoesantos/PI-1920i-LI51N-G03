@@ -35,6 +35,10 @@ module.exports = {
             loader: 'file-loader',
           },
         ],
+      },
+      {
+        test: /\.(hbs|handlebars)$/,
+        use: 'raw-loader'
       }
     ],
   },
