@@ -1,50 +1,53 @@
 "use script";
 
-require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
-require('../spa/stylesheets/stylesheet.css');
+window.addEventListener('load', loadHandler)
 
-const templates = require('./templateManager');
-const img = require('./images/istockphoto.jpg').default;
-//const bookImg = require('./img/books-1012088_640.jpg').default Quitela na gota!!
+function loadHandler() {
+    window.addEventListener('hashchange', hashChangeHandler);
+    hashChangeHandler();
+    const mainContent = document.querySelector("#mainContent");
 
-console.log(templates)
-console.log("------------------------------")
+    // <div id = "mainContent" > < /div>
 
-document.body.innerHTML=templates.home(img);
-window.addEventListener('hashchange', hashChangeHandler);
-//hashChangeHandler();
+    let routeData = null;
 
+    const routeManager = {
+        setMainContent: function(html) {
+            mainContent.innerHTML = html;
+        },
 
-function hashChangeHandler() {
-    let gameTable = {
-        header: ["H1", "H2", "H3"],
-        elements: [
-            {
-                h1: "lala",
-                p2: "lele",
-                lge: "rbgegr"
-            },
-            {
-                h1: "rrrrrrrrr",
-                p2: "eeeeeeeeee",
-                lge: "tttttttttt"
-            }
-        ]
-    };
-    document.body.innerHTML = templates.table(gameTable);
-    //const mainContent = document.getElementById('mainContent')
+        changeRoute: function(hash, data) {
+            routeData = data;
+            window.location.hash = hash;
+        }
+    }
 
-    /*switch(window.location.hash){
-        case '#home' :
-            mainContent.innerHTML = templates.home({bookImg})
-            break;
-        case '#bundles' :
-            mainContent.innerHTML = templates.bundles
-            bundlesScript()
-            break;
-        default:
-            window.location.hash="#home"
-    }*/
-	console.log("HASH CHANGED");
+    function addRouteData(args) {
+        args.push(routeData);
+        resetRouteData();
+    }
+
+    function resetRouteData() {
+        routeData = null;
+    }
+
+    function hashChangeHandler() {
+
+        const hash = window.location.hash.substring(1)
+        let [state, ...args] = hash.split('/')
+
+        let route = routes[state];
+
+        if (!route) {
+            window.location.hash = "home";
+            return;
+        }
+
+        addRouteData(args)
+        route
+            .controller.apply(null, args)
+            .then(data => route.view(data, routeManager))
+            .then(() => resetRouteData())
+    }
 
 }
