@@ -5545,6 +5545,40 @@ module.exports = function (list, options) {
 
 /***/ }),
 
+/***/ "./spa/controller.js":
+/*!***************************!*\
+  !*** ./spa/controller.js ***!
+  \***************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+module.exports = {
+    home: async function() {
+        const img = __webpack_require__(/*! ./images/istockphoto.jpg */ "./spa/images/istockphoto.jpg").default;
+        return img;
+    },
+
+    table: async function() {
+        let gameTable = {
+            header: ["H1", "H2", "H3"],
+            elements: [{
+                    h1: "lala",
+                    p2: "lele",
+                    lge: "rbgegr"
+                },
+                {
+                    h1: "rrrrrrrrr",
+                    p2: "eeeeeeeeee",
+                    lge: "tttttttttt"
+                }
+            ]
+        };
+        return gameTable;
+    }
+}
+
+/***/ }),
+
 /***/ "./spa/images/istockphoto.jpg":
 /*!************************************!*\
   !*** ./spa/images/istockphoto.jpg ***!
@@ -5567,53 +5601,90 @@ __webpack_require__.r(__webpack_exports__);
 
 "use script";
 
-__webpack_require__(/*! ../node_modules/bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
-__webpack_require__(/*! ../spa/stylesheets/stylesheet.css */ "./spa/stylesheets/stylesheet.css");
+const routes = __webpack_require__(/*! ./routesManager */ "./spa/routesManager.js");
 
-const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
-const img = __webpack_require__(/*! ./images/istockphoto.jpg */ "./spa/images/istockphoto.jpg").default;
-//const bookImg = require('./img/books-1012088_640.jpg').default Quitela na gota!!
+window.addEventListener('load', loadHandler)
 
-console.log(templates)
-console.log("------------------------------")
+function loadHandler() {
+    console.log(routes);
+    window.addEventListener('hashchange', hashChangeHandler);
+    hashChangeHandler();
+    const mainContent = document.querySelector("#mainContent");
 
-document.body.innerHTML=templates.home(img);
-window.addEventListener('hashchange', hashChangeHandler);
-//hashChangeHandler();
+    // <div id = "mainContent" > < /div>
 
+    let routeData = null;
 
-function hashChangeHandler() {
-    let gameTable = {
-        header: ["H1", "H2", "H3"],
-        elements: [
-            {
-                h1: "lala",
-                p2: "lele",
-                lge: "rbgegr"
-            },
-            {
-                h1: "rrrrrrrrr",
-                p2: "eeeeeeeeee",
-                lge: "tttttttttt"
-            }
-        ]
-    };
-    document.body.innerHTML = templates.table(gameTable);
-    //const mainContent = document.getElementById('mainContent')
+    const routeManager = {
+        setMainContent: function(html) {
+            mainContent.innerHTML = html;
+        },
 
-    /*switch(window.location.hash){
-        case '#home' :
-            mainContent.innerHTML = templates.home({bookImg})
-            break;
-        case '#bundles' :
-            mainContent.innerHTML = templates.bundles
-            bundlesScript()
-            break;
-        default:
-            window.location.hash="#home"
-    }*/
-	console.log("HASH CHANGED");
+        changeRoute: function(hash, data) {
+            routeData = data;
+            window.location.hash = hash;
+        }
+    }
 
+    function addRouteData(args) {
+        args.push(routeData);
+        resetRouteData();
+    }
+
+    function resetRouteData() {
+        routeData = null;
+    }
+
+    function hashChangeHandler() {
+        console.log("------------------------------------------");
+        const hash = window.location.hash.substring(1)
+        let [state, ...args] = hash.split('/')
+
+        console.log(state);
+
+        let route = routes[state];
+
+        console.log(route);
+
+        if (!route) {
+            window.location.hash = "home";
+            return;
+        }
+
+        console.log(args);
+
+        addRouteData(args)
+        route
+            .controller.apply(null, args)
+            .then(data => route.view(data, routeManager))
+            .then(() => resetRouteData())
+    }
+
+}
+
+/***/ }),
+
+/***/ "./spa/routesManager.js":
+/*!******************************!*\
+  !*** ./spa/routesManager.js ***!
+  \******************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const controller = __webpack_require__(/*! ./controller */ "./spa/controller.js");
+const views = __webpack_require__(/*! ./viewManager */ "./spa/viewManager.js");
+
+module.exports = {
+
+    home: {
+        controller: controller.home,
+        view: views.home
+    },
+
+    table: {
+        controller: controller.table,
+        view: views.table
+    }
 }
 
 /***/ }),
@@ -5687,6 +5758,35 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ("<table class=\"table\">\r\n  <thead class=\"thead-dark\">\r\n    <tr>\r\n\t{{#each header as |column|}}\r\n        <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n    {{/each}} \r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n\t{{#each elements as |row|}}\r\n\t<tr>\r\n\t\t{{#each row as |value|}}\r\n\t\t\t<td>{{value}}</td>\r\n\t\t{{/each}} \r\n\t</tr>\r\n\t{{/each}} \r\n  </tbody>\r\n</table>");
+
+/***/ }),
+
+/***/ "./spa/viewManager.js":
+/*!****************************!*\
+  !*** ./spa/viewManager.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use script";
+
+__webpack_require__(/*! ../node_modules/bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
+__webpack_require__(/*! ../spa/stylesheets/stylesheet.css */ "./spa/stylesheets/stylesheet.css");
+
+const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
+
+module.exports = {
+    home: home,
+    table: table,
+}
+
+function home(data, routeManager) {
+    routeManager.setMainContent(templates.home(data));
+}
+
+function table(data, routeManager) {
+    routeManager.setMainContent(templates.table(data));
+}
 
 /***/ })
 

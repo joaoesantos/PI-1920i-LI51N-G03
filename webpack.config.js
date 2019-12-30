@@ -17,6 +17,8 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
         title: 'CIBORG',
+        //minify : true,
+        template: 'spa/index.html'
     }), 
     ],
   module: {

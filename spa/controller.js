@@ -1,7 +1,7 @@
 module.exports = {
     home: async function() {
         const img = require('./images/istockphoto.jpg').default;
-        return { img };
+        return img;
     },
 
     table: async function() {
