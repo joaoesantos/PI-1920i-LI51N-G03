@@ -1229,7 +1229,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "",
+							"raw": "{ \n\t\"userId\" : \"mog\",\n\t\"password\" : \"pass123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"

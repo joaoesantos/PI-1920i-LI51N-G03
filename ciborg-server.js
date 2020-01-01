@@ -10,24 +10,23 @@ const server = express();
 const debug = require('debug')('server');
 
 const props = require('./libs/CIBORG/shared/Config')("./libs/CIBORG/shared/files");
-const passportInitialize = require("./libs/CIBORG/authentication/passport-config")(bcrypt, localStrategy);
+const ciborgError = require('./libs/CIBORG/errors/ciborg-error');
+const passportInitialize = require("./libs/CIBORG/authentication/passport-config")(bcrypt, localStrategy, ciborgError);
 const gamesDto = require('./libs/CIBORG/entities/dtos/GameDto');
 const gamesEntity = require('./libs/CIBORG/entities/models/Game');
 const gamesDtoMapper = require('./libs/CIBORG/entities/mappers/GameDtoMapper')(gamesEntity);
-const ciborgError = require('./libs/CIBORG/errors/ciborg-error');
 const httpCall = require('./libs/CIBORG/request/HttpCall')(props, ciborgError);
 const ciborgValidator = require('./libs/CIBORG/validators/ciborg-validator')(ciborgError);
 const gamesService = require('./libs/CIBORG/dal/board-games-data')(props, gamesDto, gamesDtoMapper, httpCall, ciborgError);
 const groupService = require('./libs/CIBORG/dal/ciborg-db')(props, httpCall, gamesService, ciborgError);
 const userService = require('./libs/CIBORG/dal/ciborg-users')(props, httpCall, ciborgError);
 const services = require('./libs/CIBORG/services/ciborg-services')(gamesService, groupService, userService);
-const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, ciborgError, ciborgValidator);
+passportInitialize(passport, userService.getUserById);
+const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, ciborgError, ciborgValidator, passport);
 
 const router = require('./libs/CIBORG/middleware/router')(express.Router(), webapi);
 
 
-let getUserById = () => {};
-passportInitialize(passport, getUserById);
 
 server.use(session({
     secret: "secret-key", //devia estar no ficheiro de propriedades

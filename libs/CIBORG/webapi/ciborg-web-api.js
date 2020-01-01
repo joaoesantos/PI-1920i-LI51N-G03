@@ -1,7 +1,7 @@
 "use strict";
 const debug = require('debug')('ciborg-web-api');
 
-let webApi = function(Props, services, CiborgError, CiborgValidator) {
+let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
 
     return {
         login: login,
@@ -27,16 +27,55 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
     }
 
     //login user
-    async function login(req, rsp) {
+    async function login(req, rsp, next) {
         try {
             debug.extend('login')('Logging in.');
 
-            let data = await services.users.getUserById("mog");
-            console.log("------------------------------")
-            console.log(data)
+            //let data = await services.users.getUserById("mog");
 
-            resolveServiceResponse(data, rsp);
+            passport.authenticate("local", function(err, user, info) {
+                if (!user && !err) {
+                    err = new CiborgError(err,
+                        'Error in service: login.',
+                        'Wrong username or credentials.',
+                        '401' // Unauthorized
+                    );
+                }
+                if (err) {
+                    if (!(err instanceof CiborgError)) {
+                        err = new CiborgError(err,
+                            'Error in service: login.',
+                            'Unable to login.',
+                            '500' // Internal Server Error
+                        );
+                    }
+                    debug.extend('login')(err);
+                    err.resolveErrorResponse(rsp);
+                } else {
+                    req.logIn(user, function(err) {
+                        if (err) {
+                            err = new CiborgError(err,
+                                'Error in service: login request.',
+                                'Unable to login.',
+                                '500' // Internal Server Error
+                            );
+                            debug.extend('login')(err);
+                            err.resolveErrorResponse(rsp);
+                        } else {
+                            resolveServiceResponse({
+                                statusCode: 200,
+                                body: {
+                                    message: "user logged in",
+                                    user: user
+                                }
+                            }, rsp);
+                        }
+                    });
+
+                }
+            })(req, rsp, next);
         } catch (err) {
+            console.log(err);
             if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: login.',
