@@ -4,15 +4,17 @@ const debug = require('debug')('ciborg-web-api');
 let webApi = function(Props, services, CiborgError, CiborgValidator) {
 
     return {
-        getMostPopularGames : getMostPopularGames,
-        getGameByName : getGameByName,
-        createGroup : createGroup,
-        updateGroup : updateGroup,
-        getAllGroups : getAllGroups,
-        getGroup : getGroup,
-        addGameToGroup : addGameToGroup,
-        removeGameFromGroup : removeGameFromGroup,
-        getGamesFromGroup : getGamesFromGroup
+        login: login,
+        logout: logout,
+        getMostPopularGames: getMostPopularGames,
+        getGameByName: getGameByName,
+        createGroup: createGroup,
+        updateGroup: updateGroup,
+        getAllGroups: getAllGroups,
+        getGroup: getGroup,
+        addGameToGroup: addGameToGroup,
+        removeGameFromGroup: removeGameFromGroup,
+        getGamesFromGroup: getGamesFromGroup
     };
 
     // resolves response with data from service
@@ -20,9 +22,52 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
         debug.extend('resolveServiceResponse')('End() response.');
         rsp.setHeader('Content-type', 'application/json')
         rsp.statusCode = data.statusCode;
-        let payload = { payload : data.body };
+        let payload = { payload: data.body };
         rsp.json(payload);
     }
+
+    //login user
+    async function login(req, rsp) {
+        try {
+            debug.extend('login')('Logging in.');
+
+            let data = await services.users.getUserById("mog");
+            console.log("------------------------------")
+            console.log(data)
+
+            resolveServiceResponse(data, rsp);
+        } catch (err) {
+            if (!(err instanceof CiborgError)) {
+                err = new CiborgError(err,
+                    'Error in service: login.',
+                    'Unable to login.',
+                    '500' // Internal Server Error
+                );
+            }
+            debug.extend('login')(err);
+            err.resolveErrorResponse(rsp);
+        }
+    }
+
+    //logout user
+    async function logout(req, rsp) {
+        try {
+            debug.extend('login')('Logging in.');
+            //TODO
+            let payload = { payload: data.body };
+        } catch (e) {
+            if (!(err instanceof CiborgError)) {
+                err = new CiborgError(err,
+                    'Error in service: logout.',
+                    'Unable to logout.',
+                    '500' // Internal Server Error
+                );
+            }
+            debug.extend('login')(err);
+            err.resolveErrorResponse(rsp);
+        }
+    }
+
 
     // get popular games
     async function getMostPopularGames(req, rsp) {
@@ -31,9 +76,9 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getMostPopularGames')('Handling game service getMostPopularGames.');
             let data = await services.games.getMostPopularGames();
             debug.extend('getMostPopularGames')('Service getMostPopularGames executed with sucess.');
-            resolveServiceResponse(data,rsp);
-        } catch(err) {
-            if(!(err instanceof CiborgError)) {
+            resolveServiceResponse(data, rsp);
+        } catch (err) {
+            if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: getAllGames.',
                     'Unable to get popular games.',
@@ -43,7 +88,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getMostPopularGames')(err);
             err.resolveErrorResponse(rsp);
         }
-    } 
+    }
 
     // search game by name
     async function getGameByName(req, rsp) {
@@ -52,9 +97,9 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getGameByName')('Handling game service searchByName.');
             let data = await services.games.searchByName(req.params.name);
             debug.extend('getGameByName')('Service searchByName executed with sucess.');
-            resolveServiceResponse(data,rsp);
-        } catch(err) {
-            if(!(err instanceof CiborgError)) {
+            resolveServiceResponse(data, rsp);
+        } catch (err) {
+            if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: getGame.',
                     'Unable to get game.',
@@ -75,9 +120,9 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('createGroup')('Handling group service createGroup.');
             let data = await services.groups.createGroup(req.body);
             debug.extend('createGroup')('Service createGroup executed with sucess.');
-            resolveServiceResponse(data,rsp);
-        } catch(err) {
-            if(!(err instanceof CiborgError)) {
+            resolveServiceResponse(data, rsp);
+        } catch (err) {
+            if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: createGroup.',
                     'Unable to create group.',
@@ -96,12 +141,13 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             CiborgValidator.validateGroupWithNoIdFormat(req.body);
             // service call
             debug.extend('updateGroup')('Handling group service updateGroup.');
-            let group = req.body; group.id = req.params.id;
+            let group = req.body;
+            group.id = req.params.id;
             let data = await services.groups.updateGroup(group);
             debug.extend('updateGroup')('Service updateGroup executed with sucess.');
-            resolveServiceResponse(data,rsp);
-        } catch(err) {
-            if(!(err instanceof CiborgError)) {
+            resolveServiceResponse(data, rsp);
+        } catch (err) {
+            if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: updateGroup.',
                     'Unable to update group.',
@@ -120,14 +166,14 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getAllGroups')('Handling group service getAllGroups.');
             let data = await services.groups.getAllGroups();
             debug.extend('getAllGroups')('Service getAllGroups executed with sucess.');
-            resolveServiceResponse(data,rsp);
-        } catch(err) {
-            if(!(err instanceof CiborgError)) {
+            resolveServiceResponse(data, rsp);
+        } catch (err) {
+            if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: getAllGroups.',
                     'Unable to get popular groups.',
                     '500' // Internal Server Error
-                    );
+                );
             }
             debug.extend('getAllGroups')(err);
             err.resolveErrorResponse(rsp);
@@ -141,9 +187,9 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getGroup')('Handling group service getGroupById.');
             let data = await services.groups.getGroupById(req.params.id);
             debug.extend('getGroup')('Service getGroupById executed with sucess.');
-            resolveServiceResponse(data,rsp);
-        } catch(err) {
-            if(!(err instanceof CiborgError)) {
+            resolveServiceResponse(data, rsp);
+        } catch (err) {
+            if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: getGroupById.',
                     'Unable to get group details.',
@@ -162,9 +208,9 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('addGameToGroup')('Handling group service addGameToGroup.');
             let data = await services.groups.addGameToGroup(req.params.groupId, req.params.gameId);
             debug.extend('addGameToGroup')('Service addGameToGroup executed with sucess.');
-            resolveServiceResponse(data,rsp);
-        } catch(err) {
-            if(!(err instanceof CiborgError)) {
+            resolveServiceResponse(data, rsp);
+        } catch (err) {
+            if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: addGameToGroup.',
                     'Unable to add game to group.',
@@ -183,9 +229,9 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('removeGameFromGroup')('Handling group service removeGameFromGroup.');
             let data = await services.groups.removeGameFromGroup(req.params.groupId, req.params.gameId);
             debug.extend('removeGameFromGroup')('Service removeGameFromGroup executed with sucess.');
-            resolveServiceResponse(data,rsp);
-        } catch(err) {
-            if(!(err instanceof CiborgError)) {
+            resolveServiceResponse(data, rsp);
+        } catch (err) {
+            if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: removeGameFromGroup.',
                     'Unable to remove game from group.',
@@ -204,9 +250,9 @@ let webApi = function(Props, services, CiborgError, CiborgValidator) {
             debug.extend('getGamesFromGroup')('Handling group service getGamesFromGroup.');
             let data = await services.groups.getGamesFromGroup(req.params.id);
             debug.extend('getGamesFromGroup')('Service getGamesFromGroup executed with sucess.');
-            resolveServiceResponse(data,rsp);
+            resolveServiceResponse(data, rsp);
         } catch (err) {
-            if(!(err instanceof CiborgError)) {
+            if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: getGamesByGroupID.',
                     'Unable to get games from group.',

@@ -6,176 +6,356 @@
 	},
 	"item": [
 		{
-			"name": "Create Group Index",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{elasticBaseUrl}}/groups",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"groups"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete Group Index",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{elasticBaseUrl}}/groups",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"groups"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get All Groups",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"url": {
-					"raw": "{{elasticBaseUrl}}/groups/groups/_search",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"groups",
-						"groups",
-						"_search"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Insert Group",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"description\" : \"Group of wild gamers\",\n\t\"games\": []\n}"
-				},
-				"url": {
-					"raw": "{{elasticBaseUrl}}/groups/groups",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"groups",
-						"groups"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Group",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{elasticBaseUrl}}/groups/_doc/:id",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"groups",
-						"_doc",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "A_lAR24BzWeGhLBFL1VJ"
+			"name": "group",
+			"item": [
+				{
+					"name": "Create Group Index",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{elasticBaseUrl}}/groups",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"groups"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Group Index",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{elasticBaseUrl}}/groups",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Groups",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{elasticBaseUrl}}/groups/groups/_search",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"groups",
+								"groups",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert Group",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"description\" : \"Group of wild gamers 3\",\n\t\"games\": []\n}"
+						},
+						"url": {
+							"raw": "{{elasticBaseUrl}}/groups/groups",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"groups",
+								"groups"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Group",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{elasticBaseUrl}}/groups/_doc/:id",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"groups",
+								"_doc",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "G8lrV24BWT9pWYbrr4qm",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Group",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\t\"name\": \"Test Group 3rf34ff\",\r\n\t\"description\": \"Group for testing creation 4 44 4fffffffffffffffffff\"\r\n}"
+						},
+						"url": {
+							"raw": "{{elasticBaseUrl}}/groups/_doc/:id",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"groups",
+								"_doc",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "GcnsVW4BWT9pWYbr3YrF",
+									"type": "string"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		},
 		{
-			"name": "Update Group",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"id\" : \"kPDxhJwePW\",\n\t\"name\" : \"Cenas\",\n\t\"min_playtime\" : 120,\n\t\"max_playtime\" : 180\n}"
-				},
-				"url": {
-					"raw": "{{elasticBaseUrl}}/groups/_doc/:id",
-					"host": [
-						"{{elasticBaseUrl}}"
-					],
-					"path": [
-						"groups",
-						"_doc",
-						":id"
-					],
-					"variable": [
-						{
-							"key": "id",
-							"value": "BXCTT24B48xg3O5SuPev"
+			"name": "user",
+			"item": [
+				{
+					"name": "Create User Index",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{elasticBaseUrl}}/users",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"users"
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User Index",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{elasticBaseUrl}}/users",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert User",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\" : \"mog\",\n\t\"name\": \"Rodrigo\",\n\t\"password\": \"pass123\"\n}"
+						},
+						"url": {
+							"raw": "{{elasticBaseUrl}}/users/users",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"users",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"query\": {\r\n        \"term\": {\r\n            \"userId\": {\r\n                \"value\": \"mog\"\r\n            }\r\n        }\r\n    }\r\n}"
+						},
+						"url": {
+							"raw": "{{elasticBaseUrl}}/users/_search",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"users",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"url": {
+							"raw": "{{elasticBaseUrl}}/users/users/_search",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"users",
+								"users",
+								"_search"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"userId\" : \"mog\",\n\t\"name\": \"Rodrigo\",\n\t\"password\": \"pass123\"\n}"
+						},
+						"url": {
+							"raw": "{{elasticBaseUrl}}/users/_doc/:id",
+							"host": [
+								"{{elasticBaseUrl}}"
+							],
+							"path": [
+								"users",
+								"_doc",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"type": "string",
+									"value": "GcnsVW4BWT9pWYbr3YrF"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"protocolProfileBehavior": {}

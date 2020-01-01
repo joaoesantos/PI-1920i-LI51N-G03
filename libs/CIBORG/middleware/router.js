@@ -1,7 +1,8 @@
 'use strict';
 
 let router = function(router, services) {
-    router.get('/games', services.getMostPopularGames);
+    router.post('/login', services.login);
+    router.delete('/logout', services.logout);
     router.get('/games/:name', services.getGameByName);
     router.post('/groups', services.createGroup);
     router.put('/groups/:id', services.updateGroup);

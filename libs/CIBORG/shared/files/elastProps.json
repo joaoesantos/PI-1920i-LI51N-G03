@@ -3,6 +3,7 @@
     "gameIndex": "games",
     "groupIndex": "groups",
     "groupGameRel": "group_game_rel",
+    "userIndex": "users",
     "ops": {
         "search": {
             "url": "_search",

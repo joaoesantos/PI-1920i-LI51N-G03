@@ -1,9 +1,10 @@
 'use strict';
 
-let ciborgServices = function(gamesService, groupsService){
+let ciborgServices = function(gamesService, groupsService, userService) {
     let services = {
         games: gamesService,
-        groups: groupsService
+        groups: groupsService,
+        users: userService
     };
     return services;
 };
