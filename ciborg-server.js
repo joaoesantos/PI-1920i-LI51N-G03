@@ -11,6 +11,7 @@ const debug = require('debug')('server');
 
 const props = require('./libs/CIBORG/shared/Config')("./libs/CIBORG/shared/files");
 const ciborgError = require('./libs/CIBORG/errors/ciborg-error');
+const authentication = require("./libs/CIBORG/middleware/authentication")(props, ciborgError);
 const passportInitialize = require("./libs/CIBORG/authentication/passport-config")(bcrypt, localStrategy, ciborgError);
 const gamesDto = require('./libs/CIBORG/entities/dtos/GameDto');
 const gamesEntity = require('./libs/CIBORG/entities/models/Game');
@@ -24,7 +25,7 @@ const services = require('./libs/CIBORG/services/ciborg-services')(gamesService,
 passportInitialize(passport, userService.getUserById);
 const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, ciborgError, ciborgValidator, passport);
 
-const router = require('./libs/CIBORG/middleware/router')(express.Router(), webapi);
+const router = require('./libs/CIBORG/middleware/router')(express.Router(), webapi, authentication);
 
 
 
@@ -45,8 +46,8 @@ server.use(router);
 
 server.use(function(req, res, next) {
     let err = new ciborgError(null,
-        'No routes implemented yet.',
-        'Command does not exist.',
+        'No routes matching.',
+        'Endpoint does not exist.',
         '404' // Not Found
     );
     err.resolveErrorResponse(res);

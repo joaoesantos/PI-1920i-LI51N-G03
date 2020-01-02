@@ -91,10 +91,29 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
     //logout user
     async function logout(req, rsp) {
         try {
-            debug.extend('login')('Logging in.');
-            //TODO
-            let payload = { payload: data.body };
-        } catch (e) {
+            debug.extend('logout')('Logging out.');
+            req.logOut();
+            req.session.destroy(function(err) {
+                if (err) {
+                    if (!(err instanceof CiborgError)) {
+                        err = new CiborgError(err,
+                            'Error in service: logout.',
+                            'Unable to logout.',
+                            '500' // Internal Server Error
+                        );
+                    }
+                    debug.extend('login')(err);
+                    err.resolveErrorResponse(rsp);
+                } else {
+                    resolveServiceResponse({
+                        statusCode: 200,
+                        body: {
+                            message: "user logged out"
+                        }
+                    }, rsp);
+                }
+            });
+        } catch (err) {
             if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: logout.',
@@ -102,7 +121,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
                     '500' // Internal Server Error
                 );
             }
-            debug.extend('login')(err);
+            debug.extend('logout')(err);
             err.resolveErrorResponse(rsp);
         }
     }
