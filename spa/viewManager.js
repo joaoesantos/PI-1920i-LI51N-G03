@@ -2,12 +2,14 @@
 
 require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 require('../spa/stylesheets/stylesheet.css');
+require('../spa/stylesheets/login.css');
 
 const templates = require('./templateManager');
 
 module.exports = {
     home: home,
     table: table,
+    login: login,
 }
 
 function home(data, routeManager) {
@@ -16,4 +18,8 @@ function home(data, routeManager) {
 
 function table(data, routeManager) {
     routeManager.setMainContent(templates.table(data));
+}
+
+function login(data, routeManager){
+    routeManager.setMainContent(templates.login(data))
 }
