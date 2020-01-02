@@ -17,6 +17,8 @@ tags:
     description: Operations for games
   - name: groups
     description: Operations for groups
+  - name: authentication
+    description: Operations for autentication
 paths:
   /games:
     get:
@@ -39,6 +41,24 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/game'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Unauthorized.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Unauthorized access.
         '500':
           description: Server error
           content:
@@ -101,6 +121,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Game id must be alphanumeric.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Unauthorized.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Unauthorized access.
         '500':
           description: Server error
           content:
@@ -140,6 +178,24 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/group'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Unauthorized.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Unauthorized access.
         '500':
           description: Server error
           content:
@@ -203,6 +259,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Invalid group id, please insert in the correct format.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Unauthorized.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Unauthorized access.
         '500':
           description: Server error
           content:
@@ -265,6 +339,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Invalid group id, please insert in the correct format.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Unauthorized.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Unauthorized access.
         '404':
           description: Resource not found
           content:
@@ -353,6 +445,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Invalid group id, please insert in the correct format.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Unauthorized.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Unauthorized access.
         '404':
           description: Resource not found
           content:
@@ -440,6 +550,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Invalid group id, please insert in the correct format.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Unauthorized.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Unauthorized access.
         '404':
           description: Resource not found
           content:
@@ -522,6 +650,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Invalid group id, please insert in the correct format.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Unauthorized.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Unauthorized access.
         '404':
           description: Resource not found
           content:
@@ -603,6 +749,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Invalid group id, please insert in the correct format.
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Unauthorized.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Unauthorized access.
         '404':
           description: Resource not found
           content:
@@ -621,6 +785,129 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: This group does not exist.
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+  /login:
+    post:
+      tags:
+        - authentication
+      summary: Loggs in a given user
+      operationId: login
+      description: |
+        Attemps to login a given user with userId and password.
+            
+      responses:
+        '200':
+          description: Login success.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: Technical message.
+                        example: user logged in.
+                      user:
+                        type: object
+                        $ref: '#/components/schemas/user'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Forbidden.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Cannot access when logged in.
+        '500':
+          description: Server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Null pointer exception.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Internal error, please contact administrator.
+  /logout:
+    delete:
+      tags:
+        - authentication
+      summary: Loggs out a given user
+      operationId: logout
+      description: |
+        Attemps to logout a given user with a session id.
+            
+      responses:
+        '200':
+          description: Logout success.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: Technical message.
+                        example: user logged out
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Unauthorized.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Unauthorized access.
         '500':
           description: Server error
           content:
@@ -697,3 +984,19 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/game'
+    user:
+      type: object
+      required:
+        - userId
+        - name
+        - password
+       properties:
+        userId:
+          type: string
+          example: 'mogarrio'
+        name:
+          type: string
+          example: 'Rodrigo Leal'
+        password:
+          type: string
+          example: 'password123'
