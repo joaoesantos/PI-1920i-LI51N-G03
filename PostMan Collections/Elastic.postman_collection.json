@@ -247,7 +247,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"userId\" : \"mog\",\n\t\"name\": \"Rodrigo\",\n\t\"password\": \"pass123\"\n}"
+							"raw": "{\n\t\"userId\" : \"mog\",\n\t\"name\": \"Rodrigo\",\n\t\"password\": \"$2b$10$OwciYE51ZSR9ieiMKpM/L.i/QJAfgD5Q1oSkRBaGGg8qfISAWlSaW\"\n}"
 						},
 						"url": {
 							"raw": "{{elasticBaseUrl}}/users/users",
@@ -331,7 +331,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"userId\" : \"mog\",\n\t\"name\": \"Rodrigo\",\n\t\"password\": \"pass123\"\n}"
+							"raw": "{\n\t\"userId\" : \"mog\",\n\t\"name\": \"Rodrigo\",\n\t\"password\": \"$2b$10$OwciYE51ZSR9ieiMKpM/L.i/QJAfgD5Q1oSkRBaGGg8qfISAWlSaW\"\n}"
 						},
 						"url": {
 							"raw": "{{elasticBaseUrl}}/users/_doc/:id",
@@ -347,7 +347,7 @@
 								{
 									"key": "id",
 									"type": "string",
-									"value": "GcnsVW4BWT9pWYbr3YrF"
+									"value": "kaIcYm8BfSebHa12aAcr"
 								}
 							]
 						}
