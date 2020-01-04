@@ -34,7 +34,9 @@ let passportInitializer = (bcrypt, localStrategy, CiborgError) => {
         }, authenticateUser));
 
         passport.serializeUser((user, done) => done(null, user.userId));
-        passport.deserializeUser((id, done) => done(null, getUserById(id)));
+        //passport.deserializeUser((id, done) => done(null, getUserById(id)).body));
+        passport.deserializeUser((id, done) => done(null, id));
+
     }
     return initialize;
 }
