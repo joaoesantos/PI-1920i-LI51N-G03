@@ -9,7 +9,8 @@ let validator = function (CiborgError) {
         validateAlfanumeric : validateAlfanumeric,
         validateJson : validateJson,
         validateGroupWithNoIdFormat : validateGroupWithNoIdFormat,
-        validateGroupFormat : validateGroupFormat
+        validateGroupFormat : validateGroupFormat,
+        validateGroupOwner : validateGroupOwner
     };
 
     // Validates if data is a number
@@ -203,6 +204,21 @@ let validator = function (CiborgError) {
             );
         };
         debug.extend('validateGroupFormat')('Validation OK.');
+    };
+
+    // Validates if the session-owner has acess to requested group information
+    function validateGroupOwner(owner, group) {
+        debug.extend('validateNumeric')('Validating...');
+        if(owner !== group.owner) {
+            debug.extend('validateGroupOwner')('Validation Error: ' + owner + ' is not the group owner.');
+            throw new CiborgError(null,
+                'Validation Error: Unauthorized access' + owner + ' is not the group owner.',
+                'Unauthorized access, failed to get group',
+                '401' // Unauthorized
+            );
+        } else {
+            debug.extend('validateGroupOwner')('Validation OK.');
+        } 
     };
 
 }
