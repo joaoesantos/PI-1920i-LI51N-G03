@@ -5591,7 +5591,7 @@ module.exports = {
     },
 
     login: async function(){
-        console.log('controller login');
+        console.log('???????????');
     },
 
     gameList: async function(){
@@ -5650,6 +5650,7 @@ function loadHandler() {
         },
 
         changeRoute: function(hash, data) {
+            console.log('hash:', hash);
             routeData = data;
             window.location.hash = hash;
         }
@@ -5840,7 +5841,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container login-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form method=\"POST\" action=\"/login\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"Login\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container login-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"loginForm\" method=\"POST\" action=\"/login\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"Login\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -5885,10 +5886,36 @@ function home(data, routeManager) {
 
 function table(data, routeManager) {
     routeManager.setMainContent(templates.table(data));
+    
 }
 
 function login(data, routeManager){
     routeManager.setMainContent(templates.login(data));
+    const formLogin = document.querySelector("#loginForm")
+    formLogin.addEventListener('submit', handleSubmit)
+
+        function handleSubmit(e) {
+            e.preventDefault()
+            const userId = document.querySelector("#userId");
+            const password = document.querySelector("#password");
+
+            let fromServer = fetch('/login',{
+                method: 'POST',
+                body: JSON.stringify(
+                    {userId : userId.value, password : password.value}
+                ),
+                headers: {"Content-Type": "application/json"}
+              })
+
+            fromServer.then(function(response){
+                routeManager.changeRoute('home');
+            })
+            .catch(function(error){
+                alert(errror);
+            });
+            //routeManager.changeRoute('login', {userId : userId.value, password : password.value})
+            routeManager.changeRoute('home');
+        }
 }
 
 function gameList(data, routeManager){

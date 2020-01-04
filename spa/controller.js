@@ -23,7 +23,7 @@ module.exports = {
     },
 
     login: async function(){
-        console.log('controller login');
+        console.log('???????????');
     },
 
     gameList: async function(){

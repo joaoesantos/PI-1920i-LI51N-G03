@@ -40,6 +40,7 @@ server.use(passport.session());
 
 
 server.use(express.json()); // for parsing application/json
+server.use(express.urlencoded());
 server.use('/', express.static('dist'));
 
 server.use(router);

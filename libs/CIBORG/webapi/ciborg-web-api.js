@@ -31,13 +31,10 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
         try {
             debug.extend('login')('Logging in.');
             //let data = await services.users.getUserById("mog");
-            console.log('req: ', req);
             passport.authenticate("local", function(err, user, info) {
                 if(!user){
-                    console.log('not user');
                 }
                 if (!user && !err) {
-                    console.log('err1')
                     err = new CiborgError(err,
                         'Error in service: login.',
                         'Wrong username or credentials.',
@@ -45,7 +42,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
                     );
                 }
                 if (err) {
-                    console.log('err2')
 
                     if (!(err instanceof CiborgError)) {
                         err = new CiborgError(err,
