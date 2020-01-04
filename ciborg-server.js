@@ -30,7 +30,7 @@ const router = require('./libs/CIBORG/middleware/router')(express.Router(), weba
 
 
 server.use(session({
-    secret: "secret-key", //devia estar no ficheiro de propriedades
+    secret: props.session.secretKey,
     resave: false,
     saveUninitialized: false
 }));
