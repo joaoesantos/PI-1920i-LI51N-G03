@@ -16,7 +16,13 @@
 							"type": "noauth"
 						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AuthenticationCookie}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{CiborgBaseUrl}}/games",
 							"host": [
@@ -24,6 +30,13 @@
 							],
 							"path": [
 								"games"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								}
 							]
 						},
 						"description": "Gets the full list of games.\n    \n"
@@ -92,7 +105,13 @@
 							"type": "noauth"
 						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AuthenticationCookie}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{CiborgBaseUrl}}/games/:name",
 							"host": [
@@ -226,6 +245,11 @@
 														"key": "Content-Type",
 														"name": "Content-Type",
 														"value": "application/json",
+														"type": "text"
+													},
+													{
+														"key": "Cookie",
+														"value": "{{AuthenticationCookie}}",
 														"type": "text"
 													}
 												],
@@ -398,6 +422,11 @@
 														"name": "Content-Type",
 														"value": "application/json",
 														"type": "text"
+													},
+													{
+														"key": "Cookie",
+														"value": "{{AuthenticationCookie}}",
+														"type": "text"
 													}
 												],
 												"body": {
@@ -567,7 +596,13 @@
 											"type": "noauth"
 										},
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "Cookie",
+												"value": "{{AuthenticationCookie}}",
+												"type": "text"
+											}
+										],
 										"url": {
 											"raw": "{{CiborgBaseUrl}}/groups/:id/games",
 											"host": [
@@ -718,7 +753,13 @@
 									"type": "noauth"
 								},
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "{{AuthenticationCookie}}",
+										"type": "text"
+									}
+								],
 								"url": {
 									"raw": "{{CiborgBaseUrl}}/groups/:id",
 									"host": [
@@ -865,6 +906,11 @@
 										"key": "Content-Type",
 										"name": "Content-Type",
 										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Cookie",
+										"value": "{{AuthenticationCookie}}",
 										"type": "text"
 									}
 								],
@@ -1021,7 +1067,13 @@
 							"type": "noauth"
 						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "{{AuthenticationCookie}}",
+								"type": "text"
+							}
+						],
 						"url": {
 							"raw": "{{CiborgBaseUrl}}/groups",
 							"host": [
@@ -1102,6 +1154,11 @@
 								"key": "Content-Type",
 								"name": "Content-Type",
 								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Cookie",
+								"value": "{{AuthenticationCookie}}",
 								"type": "text"
 							}
 						],
@@ -1261,7 +1318,7 @@
 							},
 							{
 								"key": "Cookie",
-								"value": "connect.sid=s%3ARmhxF5MvF7Kdq4OS6tZZsqvwOaW-scnR.8SARtKVoto0%2BzZQTUi8iWuIeQGvkRw7AA4ydhHYiS9s; Path=/; HttpOnly",
+								"value": "{{AuthenticationCookie}}",
 								"type": "text"
 							}
 						],

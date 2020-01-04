@@ -990,7 +990,7 @@ components:
         - userId
         - name
         - password
-       properties:
+      properties:
         userId:
           type: string
           example: 'mogarrio'
