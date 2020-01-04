@@ -10,6 +10,7 @@ module.exports = {
     home: home,
     table: table,
     login: login,
+    gameList: gameList,
 }
 
 function home(data, routeManager) {
@@ -21,5 +22,9 @@ function table(data, routeManager) {
 }
 
 function login(data, routeManager){
-    routeManager.setMainContent(templates.login(data))
+    routeManager.setMainContent(templates.login(data));
+}
+
+function gameList(data, routeManager){
+    routeManager.setMainContent(templates.gameList(data));
 }

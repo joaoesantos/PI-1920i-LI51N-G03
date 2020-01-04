@@ -30,7 +30,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
     async function login(req, rsp, next) {
         try {
             debug.extend('login')('Logging in.');
-
+            console.log('ganda login');
             //let data = await services.users.getUserById("mog");
 
             passport.authenticate("local", function(err, user, info) {
