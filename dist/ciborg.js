@@ -5594,13 +5594,14 @@ module.exports = {
         console.log('???????????');
     },
 
-    gameList: async function(){
-        let gameList = [{
-            name:'teste1',
-            average_user_rating: 2.5,
-            num_user_ratings: 2
-        }];
+    games: async function(){
 
+        let gameList = await fetch('/popularGames',{
+            method: 'GET',
+            headers: {"Content-Type": "application/json"}
+          })
+        
+        console.log('gameslist: ', gameList.payload);
         return gameList;
     }
 
@@ -5650,7 +5651,6 @@ function loadHandler() {
         },
 
         changeRoute: function(hash, data) {
-            console.log('hash:', hash);
             routeData = data;
             window.location.hash = hash;
         }
@@ -5716,9 +5716,9 @@ module.exports = {
         view: views.table
     },
 
-    gameList: {
-        controller: controller.gameList,
-        view: views.gameList
+    games: {
+        controller: controller.games,
+        view: views.games
     },
 
     login: {
@@ -5801,7 +5801,7 @@ module.exports = {
     home: Handlebars.compile(home),
     table: Handlebars.compile(table),
     login: Handlebars.compile(login),
-    gameList: Handlebars.compile(gameList),
+    games: Handlebars.compile(gameList),
 };
 
 /***/ }),
@@ -5815,7 +5815,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div id=\"GameList\">\r\n     {{#each this}}\r\n            <div class=\"row\">\r\n                <div class=\"col-md-12\">\r\n                    <h2>{{name}}</h2>\r\n                    <p>Rating:{{average_user_rating}} by {{num_user_ratings}} users</p>\r\n                    <p>Show detail</a></p>\r\n                </div>\r\n            </div>\r\n        {{/each}}\r\n</div>\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div id=\"GameList\">\r\n     {{#each this.payload}}\r\n            <div class=\"row\">\r\n                <div class=\"col-md-12\">\r\n                    <h2>{{name}}</h2>\r\n                    <p>Rating:{{average_user_rating}} by {{num_user_ratings}} users</p>\r\n                    <p>Show detail</a></p>\r\n                </div>\r\n            </div>\r\n        {{/each}}\r\n</div>\r\n");
 
 /***/ }),
 
@@ -5877,7 +5877,7 @@ module.exports = {
     home: home,
     table: table,
     login: login,
-    gameList: gameList,
+    games: games,
 }
 
 function home(data, routeManager) {
@@ -5913,13 +5913,12 @@ function login(data, routeManager){
             .catch(function(error){
                 alert(errror);
             });
-            //routeManager.changeRoute('login', {userId : userId.value, password : password.value})
             routeManager.changeRoute('home');
         }
 }
 
-function gameList(data, routeManager){
-    routeManager.setMainContent(templates.gameList(data));
+function games(data, routeManager){
+    routeManager.setMainContent(templates.games(data));
 }
 
 /***/ })

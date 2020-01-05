@@ -9,5 +9,5 @@ module.exports = {
     home: Handlebars.compile(home),
     table: Handlebars.compile(table),
     login: Handlebars.compile(login),
-    gameList: Handlebars.compile(gameList),
+    games: Handlebars.compile(gameList),
 };
