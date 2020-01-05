@@ -1,6 +1,7 @@
 "use strict";
 
 const groups = require('./model/groups');
+const games = require('./model/games');
 
 module.exports = {
     home: async function() {
