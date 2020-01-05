@@ -5878,7 +5878,7 @@ module.exports = {
     table: Handlebars.compile(table),
     login: Handlebars.compile(login),
     games: Handlebars.compile(gameList),
-    getAllUserGroups: Handlebars.compile(getAllUserGroups),
+    getAllUserGroups: Handlebars.compile(getAllUserGroups)
 };
 
 /***/ }),
@@ -5905,7 +5905,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<h1>USER NAME -> como aceder ao user da sessao?</h1>\r\n \r\n <div id = \"userGroups\">\r\n    <table class=\"table\">\r\n        <tr>\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each this}}\r\n            <tr>\r\n                <td>{{name}}</td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n<form id = \"createGroup\" action=\"/groups\" method=\"POST\">\r\n    <label>Name</label>\r\n    <input type=\"text\" id=\"formName\" >\r\n    <label>Description</label>\r\n    <input type=\"text\" id=\"formDescription\" >\r\n    <input type=\"submit\" >\r\n</form>");
+/* harmony default export */ __webpack_exports__["default"] = ("<h1 id=\"title\">USER NAME -> como aceder ao user da sessao?</h1>\r\n \r\n <div id=\"userGroups\">\r\n    <table class=\"table\">\r\n        <tr>\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr>\r\n                <td>{{name}}</td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n<form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n    <label>Name</label>\r\n    <input type=\"text\" id=\"formName\" >\r\n    <label>Description</label>\r\n    <input type=\"text\" id=\"formDescription\" >\r\n    <input type=\"submit\" >\r\n</form>");
 
 /***/ }),
 
@@ -5944,7 +5944,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<table class=\"table\">\r\n  <thead class=\"thead-dark\">\r\n    <tr>\r\n\t{{#each header as |column|}}\r\n        <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n    {{/each}} \r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n\t{{#each elements as |row|}}\r\n\t<tr>\r\n\t\t{{#each row as |value|}}\r\n\t\t\t<td>{{value}}</td>\r\n\t\t{{/each}} \r\n\t</tr>\r\n\t{{/each}} \r\n  </tbody>\r\n</table>");
+/* harmony default export */ __webpack_exports__["default"] = ("<table class=\"table\">\r\n  <thead class=\"thead-dark\">\r\n    <tr>\r\n      {{#each header as |column|}}\r\n        <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n      {{/each}} \r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n\t  {{#each elements as |row|}}\r\n\t    <tr>\r\n\t\t    {{#each row as |value|}}\r\n\t\t\t    <td>{{value}}</td>\r\n\t\t    {{/each}} \r\n\t  </tr>\r\n  \t{{/each}} \r\n  </tbody>\r\n</table>");
 
 /***/ }),
 
@@ -5965,11 +5965,11 @@ const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateMa
 
 module.exports = {
     home: home,
-    getAllUserGroups: getAllUserGroups,
     createGroup: createGroup,
     table: table,
     login: login,
     games: games,
+    getAllUserGroups: getAllUserGroups
 }
 
 function home(data, routesManager) {
@@ -5977,8 +5977,8 @@ function home(data, routesManager) {
 }
 
 function getAllUserGroups(data, routesManager) {
-    console.log('payload:', data.payload);
-    routesManager.setMainContent(templates.getAllUserGroups(data.payload));
+    console.log(data);
+    routesManager.setMainContent(templates.getAllUserGroups(data));
     const formCreateGroup = document.querySelector("#createGroup");
     formCreateGroup.addEventListener('submit', handleSubmit);
 
