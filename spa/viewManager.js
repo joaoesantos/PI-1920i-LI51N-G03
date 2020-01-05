@@ -8,11 +8,11 @@ const templates = require('./templateManager');
 
 module.exports = {
     home: home,
-    getAllUserGroups: getAllUserGroups,
     createGroup: createGroup,
     table: table,
     login: login,
     games: games,
+    getAllUserGroups: getAllUserGroups
 }
 
 function home(data, routesManager) {
