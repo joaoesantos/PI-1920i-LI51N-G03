@@ -1,7 +1,10 @@
 'use strict'
 
+//const props = require('../../libs/CIBORG/shared/Config')('../../libs/CIBORG/shared/files');
+
 function GroupsApiUris() {
-    const baseUri = "http://localhost:8500/"
+    const baseUri = 'http://localhost:8500/'
+    //const baseUri = `http://localhost:${props.config.port}/`
   
     this.getAllUserGroupsUri =  () => `${baseUri}groups`
     this.createGroupUri =  () => `${baseUri}groups`

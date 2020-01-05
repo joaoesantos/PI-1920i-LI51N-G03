@@ -13,8 +13,8 @@ module.exports = {
         return groups.getAllUserGroups();
     },
 
-    createGroup: async function () {
-        return groups.createGroup();
+    createGroup: async function (group) {
+        return groups.createGroup(group.name, group.description);
     },
 
     table: async function() {

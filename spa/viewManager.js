@@ -21,15 +21,15 @@ function home(data, routesManager) {
 
 function getAllUserGroups(data, routesManager) {
     console.log(data);
-    routesManager.setMainContent(templates.getAllUserGroups(data));
+    routesManager.setMainContent(templates.getAllUserGroups(data.payload));
     const formCreateGroup = document.querySelector("#createGroup");
     formCreateGroup.addEventListener('submit', handleSubmit);
 
     function handleSubmit(e) {
-        e.preventDefault()
-        const formName = document.querySelector("#formName")
-        const formDescription = document.querySelector("#formDescription")
-        routesManager.changeRoute('createGroup', {name : formName.value, description : formDescription.value})
+        e.preventDefault();
+        const formName = document.querySelector("#formName");
+        const formDescription = document.querySelector("#formDescription");
+        routesManager.changeRoute('createGroup', {name : formName.value, description : formDescription.value});
     }
 }
 
