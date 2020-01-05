@@ -39,13 +39,14 @@ module.exports = {
         console.log('???????????');
     },
 
-    gameList: async function(){
-        let gameList = [{
-            name:'teste1',
-            average_user_rating: 2.5,
-            num_user_ratings: 2
-        }];
+    games: async function(){
 
+        let gameList = await fetch('/popularGames',{
+            method: 'GET',
+            headers: {"Content-Type": "application/json"}
+          })
+        
+        console.log('gameslist: ', gameList.payload);
         return gameList;
     }
 

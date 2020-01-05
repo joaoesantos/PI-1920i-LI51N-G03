@@ -23,9 +23,9 @@ module.exports = {
         view: views.table
     },
 
-    gameList: {
-        controller: controller.gameList,
-        view: views.gameList
+    games: {
+        controller: controller.games,
+        view: views.games
     },
 
     login: {
