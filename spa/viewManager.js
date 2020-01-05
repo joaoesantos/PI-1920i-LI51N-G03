@@ -12,6 +12,7 @@ module.exports = {
     createGroup: createGroup,
     table: table,
     login: login,
+    gameList: gameList,
 }
 
 function home(data, routesManager) {
@@ -40,6 +41,34 @@ function table(data, routesManager) {
     routesManager.setMainContent(templates.table(data));
 }
 
-function login(data, routesManager){
-    routesManager.setMainContent(templates.login(data))
+function login(data, routeManager){
+    routeManager.setMainContent(templates.login(data));
+    const formLogin = document.querySelector("#loginForm")
+    formLogin.addEventListener('submit', handleSubmit)
+
+        function handleSubmit(e) {
+            e.preventDefault()
+            const userId = document.querySelector("#userId");
+            const password = document.querySelector("#password");
+
+            let fromServer = fetch('/login',{
+                method: 'POST',
+                body: JSON.stringify(
+                    {userId : userId.value, password : password.value}
+                ),
+                headers: {"Content-Type": "application/json"}
+              })
+
+            fromServer.then(function(response){
+                routeManager.changeRoute('home');
+            })
+            .catch(function(error){
+                alert(errror);
+            });
+            routeManager.changeRoute('home');
+        }
+}
+
+function gameList(data, routeManager){
+    routeManager.setMainContent(templates.gameList(data));
 }

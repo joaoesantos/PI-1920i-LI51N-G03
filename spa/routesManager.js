@@ -21,5 +21,15 @@ module.exports = {
     table: {
         controller: controller.table,
         view: views.table
+    },
+
+    gameList: {
+        controller: controller.gameList,
+        view: views.gameList
+    },
+
+    login: {
+        controller: controller.login,
+        view: views.login
     }
 }

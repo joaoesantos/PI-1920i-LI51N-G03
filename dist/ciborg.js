@@ -136,7 +136,7 @@ exports.push([module.i, "/*!\r\n * Bootstrap v4.4.1 (https://getbootstrap.com/)\
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".loginBtn\r\n{\r\n    width: 20%;\r\n    border-radius: 5rem;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #0062cc;\r\n}\r\n\r\n.login-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.login-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n", ""]);
+exports.push([module.i, ".submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius: 5rem;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #0062cc;\r\n}\r\n\r\n.login-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.login-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n", ""]);
 
 
 /***/ }),
@@ -5566,24 +5566,10 @@ module.exports = function (list, options) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-"use strict";
-
-
-const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
-
 module.exports = {
     home: async function() {
         const img = __webpack_require__(/*! ./images/istockphoto.jpg */ "./spa/images/istockphoto.jpg").default;
         return img;
-    },
-
-    // groups models
-    getAllUserGroups: async function () {
-        return groups.getAllUserGroups();
-    },
-
-    createGroup: async function () {
-        return groups.createGroup();
     },
 
     table: async function() {
@@ -5602,7 +5588,22 @@ module.exports = {
             ]
         };
         return gameTable;
+    },
+
+    login: async function(){
+        console.log('???????????');
+    },
+
+    gameList: async function(){
+        let gameList = [{
+            name:'teste1',
+            average_user_rating: 2.5,
+            num_user_ratings: 2
+        }];
+
+        return gameList;
     }
+
 }
 
 /***/ }),
@@ -5649,6 +5650,7 @@ function loadHandler() {
         },
 
         changeRoute: function(hash, data) {
+            console.log('hash:', hash);
             routeData = data;
             window.location.hash = hash;
         }
@@ -5692,54 +5694,6 @@ function loadHandler() {
 
 /***/ }),
 
-/***/ "./spa/model/groups.js":
-/*!*****************************!*\
-  !*** ./spa/model/groups.js ***!
-  \*****************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-function GroupsApiUris() {
-    const baseUri = "http://localhost:8500/"
-  
-    this.getAllUserGroupsUri =  () => `${baseUri}groups`
-    this.createGroupUri =  () => `${baseUri}groups`
-}
-
-const Uris = new GroupsApiUris()
-
-function getAllUserGroups(){
-    return fetch(Uris.getAllUserGroupsUri())
-        .then(res => res.json())
-}
-
-function createGroup(name, description){
-    const options = {
-        method : "POST",
-        headers : {
-            "Content-Type" : "application/json",
-            "Accept" : "application/json"
-        },
-        body : JSON.stringify({
-            name : name,
-            description : description,
-            games: []
-        })
-    }
-    return fetch(Uris.createGroupUri(), options)
-        .then(res => res.json()) 
-}
-
-module.exports  = {
-    getAllUserGroups : getAllUserGroups,
-    createGroup : createGroup
-}
-
-/***/ }),
-
 /***/ "./spa/routesManager.js":
 /*!******************************!*\
   !*** ./spa/routesManager.js ***!
@@ -5757,19 +5711,19 @@ module.exports = {
         view: views.home
     },
 
-    getAllUserGroups : {
-        controller : controller.getAllUserGroups,
-        view : views.getAllUserGroups
-    },
-
-    createGroup : {
-        controller : controller.createGroup,
-        view : views.createGroup
-    },
-
     table: {
         controller: controller.table,
         view: views.table
+    },
+
+    gameList: {
+        controller: controller.gameList,
+        view: views.gameList
+    },
+
+    login: {
+        controller: controller.login,
+        view: views.login
     }
 }
 
@@ -5840,28 +5794,28 @@ const Handlebars = __webpack_require__(/*! ../node_modules/handlebars/dist/handl
 
 const home = __webpack_require__(/*! ./templates/home.hbs */ "./spa/templates/home.hbs").default;
 const table = __webpack_require__(/*! ./templates/table.hbs */ "./spa/templates/table.hbs").default;
-const getAllUserGroups = __webpack_require__(/*! ./templates/getAllUserGroups.hbs */ "./spa/templates/getAllUserGroups.hbs").default;
 const login = __webpack_require__(/*! ./templates/login.hbs */ "./spa/templates/login.hbs").default;
+const gameList = __webpack_require__(/*! ./templates/gameList.hbs */ "./spa/templates/gameList.hbs").default;
 
 module.exports = {
-    home : Handlebars.compile(home),
-    getAllUserGroups : Handlebars.compile(getAllUserGroups),
-    table : Handlebars.compile(table),
-    login : Handlebars.compile(login),
+    home: Handlebars.compile(home),
+    table: Handlebars.compile(table),
+    login: Handlebars.compile(login),
+    gameList: Handlebars.compile(gameList),
 };
 
 /***/ }),
 
-/***/ "./spa/templates/getAllUserGroups.hbs":
-/*!********************************************!*\
-  !*** ./spa/templates/getAllUserGroups.hbs ***!
-  \********************************************/
+/***/ "./spa/templates/gameList.hbs":
+/*!************************************!*\
+  !*** ./spa/templates/gameList.hbs ***!
+  \************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<h1>USER NAME -> como aceder ao user da sessao?</h1>\r\n \r\n <div id = \"userGroups\">\r\n    <table class=\"table\">\r\n        <tr>\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each group}}\r\n            <tr>\r\n                <td>{{name}}</td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n<form id = \"createGroup\" action=\"/groups\" method=\"POST\">\r\n    <label>Name</label>\r\n    <input type=\"text\" id=\"formName\" >\r\n    <label>Description</label>\r\n    <input type=\"text\" id=\"formDescription\" >\r\n    <input type=\"submit\" >\r\n</form>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div id=\"GameList\">\r\n     {{#each this}}\r\n            <div class=\"row\">\r\n                <div class=\"col-md-12\">\r\n                    <h2>{{name}}</h2>\r\n                    <p>Rating:{{average_user_rating}} by {{num_user_ratings}} users</p>\r\n                    <p>Show detail</a></p>\r\n                </div>\r\n            </div>\r\n        {{/each}}\r\n</div>\r\n");
 
 /***/ }),
 
@@ -5874,7 +5828,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<a href=\"#login\" class = \"test-class\">Login </a>\r\n<a href=\"#logout\"> Logout </a>\r\n<a href=\"#games\"> Games </a>\r\n<a href=\"#getAllUserGroups\"> Groups </a> \r\n<div>\r\n    <img src=\"{{this}}\">\r\n</div>\r\n<p>Chelas 2019</p>");
+/* harmony default export */ __webpack_exports__["default"] = ("<a href=\"#login\" class = \"test-class\">Login </a>\r\n<a href=\"#logout\"> Logout </a>\r\n<a href=\"#games\"> Games </a>\r\n<a href=\"#groups\"> Groups </a> \r\n<div>\r\n    <img src=\"{{this}}\">\r\n</div>\r\n<p>Chelas 2020</p>");
 
 /***/ }),
 
@@ -5887,7 +5841,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container login-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form>\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" class=\"form-control\" placeholder=\"Your Email *\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"loginBtn\" value=\"Login\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container login-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"loginForm\" method=\"POST\" action=\"/login\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"Login\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -5921,40 +5875,51 @@ const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateMa
 
 module.exports = {
     home: home,
-    getAllUserGroups: getAllUserGroups,
-    createGroup: createGroup,
     table: table,
     login: login,
+    gameList: gameList,
 }
 
-function home(data, routesManager) {
-    routesManager.setMainContent(templates.home(data));
+function home(data, routeManager) {
+    routeManager.setMainContent(templates.home(data));
 }
 
-function getAllUserGroups(data, routesManager) {
-    console.log(data);
-    routesManager.setMainContent(templates.getAllUserGroups(data));
-    const formCreateGroup = document.querySelector("#createGroup");
-    formCreateGroup.addEventListener('submit', handleSubmit);
-
-    function handleSubmit(e) {
-        e.preventDefault()
-        const formName = document.querySelector("#formName")
-        const formDescription = document.querySelector("#formDescription")
-        routesManager.changeRoute('createGroup', {name : formName.value, description : formDescription.value})
-    }
+function table(data, routeManager) {
+    routeManager.setMainContent(templates.table(data));
+    
 }
 
-function createGroup(data, routesManager){
-    routesManager.changeRoute('getAllUserGroups');
+function login(data, routeManager){
+    routeManager.setMainContent(templates.login(data));
+    const formLogin = document.querySelector("#loginForm")
+    formLogin.addEventListener('submit', handleSubmit)
+
+        function handleSubmit(e) {
+            e.preventDefault()
+            const userId = document.querySelector("#userId");
+            const password = document.querySelector("#password");
+
+            let fromServer = fetch('/login',{
+                method: 'POST',
+                body: JSON.stringify(
+                    {userId : userId.value, password : password.value}
+                ),
+                headers: {"Content-Type": "application/json"}
+              })
+
+            fromServer.then(function(response){
+                routeManager.changeRoute('home');
+            })
+            .catch(function(error){
+                alert(errror);
+            });
+            //routeManager.changeRoute('login', {userId : userId.value, password : password.value})
+            routeManager.changeRoute('home');
+        }
 }
 
-function table(data, routesManager) {
-    routesManager.setMainContent(templates.table(data));
-}
-
-function login(data, routesManager){
-    routesManager.setMainContent(templates.login(data))
+function gameList(data, routeManager){
+    routeManager.setMainContent(templates.gameList(data));
 }
 
 /***/ })

@@ -33,5 +33,20 @@ module.exports = {
             ]
         };
         return gameTable;
+    },
+
+    login: async function(){
+        console.log('???????????');
+    },
+
+    gameList: async function(){
+        let gameList = [{
+            name:'teste1',
+            average_user_rating: 2.5,
+            num_user_ratings: 2
+        }];
+
+        return gameList;
     }
+
 }

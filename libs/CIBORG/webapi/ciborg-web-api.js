@@ -30,10 +30,10 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
     async function login(req, rsp, next) {
         try {
             debug.extend('login')('Logging in.');
-
             //let data = await services.users.getUserById("mog");
-
             passport.authenticate("local", function(err, user, info) {
+                if(!user){
+                }
                 if (!user && !err) {
                     err = new CiborgError(err,
                         'Error in service: login.',
@@ -42,6 +42,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
                     );
                 }
                 if (err) {
+
                     if (!(err instanceof CiborgError)) {
                         err = new CiborgError(err,
                             'Error in service: login.',
