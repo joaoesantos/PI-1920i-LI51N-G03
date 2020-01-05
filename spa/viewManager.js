@@ -21,7 +21,7 @@ function home(data, routesManager) {
 
 function getAllUserGroups(data, routesManager) {
     console.log(data);
-    routesManager.setMainContent(templates.getAllUserGroups(data.payload));
+    routesManager.setMainContent(templates.getAllUserGroups(data));
     const formCreateGroup = document.querySelector("#createGroup");
     formCreateGroup.addEventListener('submit', handleSubmit);
 
