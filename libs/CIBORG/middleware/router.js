@@ -3,6 +3,7 @@
 let router = function(router, services, authentication) {
     router.post('/login', authentication.notAllowAuthenticatedRequests, services.login);
     router.delete('/logout', authentication.allowAuthenticatedRequests, services.logout);
+    router.get('/games/', services.getMostPopularGames);
     router.get('/games/:name', services.getGameByName);
     router.get('/popularGames', services.getMostPopularGames);
     router.post('/groups', services.createGroup);
