@@ -127,6 +127,20 @@ exports.push([module.i, "/*!\r\n * Bootstrap v4.4.1 (https://getbootstrap.com/)\
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/getAllUserGroups.css":
+/*!************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/getAllUserGroups.css ***!
+  \************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, ".createGroupBox{\r\n    color: rgb(152, 248, 42);\r\n    background-color: #d11bb3;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.formTitle {\r\n    color: blue;\r\n}", ""]);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/login.css":
 /*!*************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/login.css ***!
@@ -5577,13 +5591,28 @@ module.exports = {
         return img;
     },
 
+    login: async function(){
+        console.log('???????????');
+    },
+
+    games: async function(){
+
+        let gameList = await fetch('/popularGames',{
+            method: 'GET',
+            headers: {"Content-Type": "application/json"}
+          })
+        
+        console.log('gameslist: ', gameList.payload);
+        return gameList;
+    },
+
     // groups models
     getAllUserGroups: async function () {
         return groups.getAllUserGroups();
     },
 
-    createGroup: async function (group) {
-        return groups.createGroup(group.name, group.description);
+    createGroup: async function (data) {
+        return groups.createGroup(data.name, data.description);
     },
 
     table: async function() {
@@ -5602,21 +5631,6 @@ module.exports = {
             ]
         };
         return gameTable;
-    },
-
-    login: async function(){
-        console.log('???????????');
-    },
-
-    games: async function(){
-
-        let gameList = await fetch('/popularGames',{
-            method: 'GET',
-            headers: {"Content-Type": "application/json"}
-          })
-        
-        console.log('gameslist: ', gameList.payload);
-        return gameList;
     }
 
 }
@@ -5650,7 +5664,6 @@ const routes = __webpack_require__(/*! ./routesManager */ "./spa/routesManager.j
 window.addEventListener('load', loadHandler)
 
 function loadHandler() {
-    console.log(routes);
     window.addEventListener('hashchange', hashChangeHandler);
     hashChangeHandler();
     const mainContent = document.querySelector("#mainContent");
@@ -5680,22 +5693,16 @@ function loadHandler() {
     }
 
     function hashChangeHandler() {
-        console.log("------------------------------------------");
         const hash = window.location.hash.substring(1)
         let [state, ...args] = hash.split('/')
 
-        console.log(state);
-
         let route = routes[state];
-
-        console.log(route);
 
         if (!route) {
             window.location.hash = "home";
             return;
         }
 
-        console.log(args);
 
         addRouteData(args)
         route
@@ -5721,18 +5728,18 @@ function loadHandler() {
 //const props = require('../../libs/CIBORG/shared/Config')('../../libs/CIBORG/shared/files');
 
 function GroupsApiUris() {
-    const baseUri = 'http://localhost:8500/'
+    const baseUri = 'http://localhost:8500/';
     //const baseUri = `http://localhost:${props.config.port}/`
   
-    this.getAllUserGroupsUri =  () => `${baseUri}groups`
-    this.createGroupUri =  () => `${baseUri}groups`
+    this.getAllUserGroupsUri =  () => `${baseUri}groups`;
+    this.createGroupUri =  () => `${baseUri}groups`;
 }
 
 const Uris = new GroupsApiUris()
 
 function getAllUserGroups(){
     return fetch(Uris.getAllUserGroupsUri())
-        .then(res => res.json())
+        .then(res => res.json());
 }
 
 function createGroup(name, description){
@@ -5747,9 +5754,9 @@ function createGroup(name, description){
             description : description,
             games: []
         })
-    }
+    };
     return fetch(Uris.createGroupUri(), options)
-        .then(res => res.json()) 
+        .then(res => res.json());
 }
 
 module.exports  = {
@@ -5766,6 +5773,9 @@ module.exports  = {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+"use strict";
+
+
 const controller = __webpack_require__(/*! ./controller */ "./spa/controller.js");
 const views = __webpack_require__(/*! ./viewManager */ "./spa/viewManager.js");
 
@@ -5774,6 +5784,16 @@ module.exports = {
     home: {
         controller: controller.home,
         view: views.home
+    },
+
+    login: {
+        controller: controller.login,
+        view: views.login
+    },
+
+    games: {
+        controller: controller.games,
+        view: views.games
     },
 
     getAllUserGroups : {
@@ -5789,18 +5809,36 @@ module.exports = {
     table: {
         controller: controller.table,
         view: views.table
-    },
-
-    games: {
-        controller: controller.games,
-        view: views.games
-    },
-
-    login: {
-        controller: controller.login,
-        view: views.login
     }
+
 }
+
+/***/ }),
+
+/***/ "./spa/stylesheets/getAllUserGroups.css":
+/*!**********************************************!*\
+  !*** ./spa/stylesheets/getAllUserGroups.css ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!./getAllUserGroups.css */ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/getAllUserGroups.css");
+
+if (typeof content === 'string') {
+  content = [[module.i, content, '']];
+}
+
+var options = {}
+
+options.insert = "head";
+options.singleton = false;
+
+var update = __webpack_require__(/*! ../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js")(content, options);
+
+if (content.locals) {
+  module.exports = content.locals;
+}
+
 
 /***/ }),
 
@@ -5905,7 +5943,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<h1 id=\"title\">USER NAME -> como aceder ao user da sessao?</h1>\r\n \r\n <div id=\"userGroups\">\r\n    <table class=\"table\">\r\n        <tr>\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr>\r\n                <td>{{name}}</td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n<form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n    <label>Name</label>\r\n    <input type=\"text\" id=\"formName\" >\r\n    <label>Description</label>\r\n    <input type=\"text\" id=\"formDescription\" >\r\n    <input type=\"submit\" >\r\n</form>");
+/* harmony default export */ __webpack_exports__["default"] = ("<h1 class=\"title\">GET USER NAME -> ficara nos cookies da sessao?</h1>\r\n \r\n <div class=\"userGroups\">\r\n    <table class=\"table\">\r\n        <tr class=\"thead-dark\">\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr>\r\n                <td>{{name}}</td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n{{!-- <div class=\"createGroupBox\"> --}}\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n        <label>Name</label>\r\n        <input type=\"text\" id=\"formName\" >\r\n        <label>Description</label>\r\n        <input type=\"text\" id=\"formDescription\" >\r\n        <input type=\"submit\" >\r\n    </form>\r\n{{!-- </div> --}}");
 
 /***/ }),
 
@@ -5918,7 +5956,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<a href=\"#login\" class = \"test-class\">Login </a>\r\n<a href=\"#logout\"> Logout </a>\r\n<a href=\"#games\"> Games </a>\r\n<a href=\"#getAllUserGroups\"> Groups </a> \r\n<div>\r\n    <img src=\"{{this}}\">\r\n</div>\r\n<p>Chelas 2020</p>");
+/* harmony default export */ __webpack_exports__["default"] = ("<a href=\"#games\"> Games </a>\r\n<a href=\"#getAllUserGroups\"> Groups </a> \r\n<a href=\"#table\"> Table </a>\r\n<div>\r\n    <img src=\"{{this}}\">\r\n</div>");
 
 /***/ }),
 
@@ -5960,16 +5998,18 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ../node_modules/bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
 __webpack_require__(/*! ../spa/stylesheets/stylesheet.css */ "./spa/stylesheets/stylesheet.css");
 __webpack_require__(/*! ../spa/stylesheets/login.css */ "./spa/stylesheets/login.css");
+// groups
+__webpack_require__(/*! ../spa/stylesheets/getAllUserGroups.css */ "./spa/stylesheets/getAllUserGroups.css");
 
 const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
 
 module.exports = {
     home: home,
-    createGroup: createGroup,
     table: table,
     login: login,
     games: games,
-    getAllUserGroups: getAllUserGroups
+    getAllUserGroups: getAllUserGroups,
+    createGroup: createGroup,
 }
 
 function home(data, routesManager) {
@@ -5977,7 +6017,14 @@ function home(data, routesManager) {
 }
 
 function getAllUserGroups(data, routesManager) {
-    console.log(data);
+    // const sleep = (milliseconds) => {
+    //     return new Promise(resolve => setTimeout(resolve, milliseconds))
+    // };
+    // const doSomething = async () => {
+    //     await sleep(2000)
+    //     //do stuff
+    // };
+    // doSomething();
     routesManager.setMainContent(templates.getAllUserGroups(data));
     const formCreateGroup = document.querySelector("#createGroup");
     formCreateGroup.addEventListener('submit', handleSubmit);
@@ -5990,7 +6037,7 @@ function getAllUserGroups(data, routesManager) {
     }
 }
 
-function createGroup(data, routesManager){
+function createGroup(data, routesManager) {
     routesManager.changeRoute('getAllUserGroups');
 }
 
@@ -6020,7 +6067,7 @@ function login(data, routeManager){
                 routeManager.changeRoute('home');
             })
             .catch(function(error){
-                alert(errror);
+                alert(error);
             });
             routeManager.changeRoute('home');
         }

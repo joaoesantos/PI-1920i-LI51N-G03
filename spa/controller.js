@@ -8,13 +8,28 @@ module.exports = {
         return img;
     },
 
+    login: async function(){
+        console.log('???????????');
+    },
+
+    games: async function(){
+
+        let gameList = await fetch('/popularGames',{
+            method: 'GET',
+            headers: {"Content-Type": "application/json"}
+          })
+        
+        console.log('gameslist: ', gameList.payload);
+        return gameList;
+    },
+
     // groups models
     getAllUserGroups: async function () {
         return groups.getAllUserGroups();
     },
 
-    createGroup: async function (group) {
-        return groups.createGroup(group.name, group.description);
+    createGroup: async function (data) {
+        return groups.createGroup(data.name, data.description);
     },
 
     table: async function() {
@@ -33,21 +48,6 @@ module.exports = {
             ]
         };
         return gameTable;
-    },
-
-    login: async function(){
-        console.log('???????????');
-    },
-
-    games: async function(){
-
-        let gameList = await fetch('/popularGames',{
-            method: 'GET',
-            headers: {"Content-Type": "application/json"}
-          })
-        
-        console.log('gameslist: ', gameList.payload);
-        return gameList;
     }
 
 }

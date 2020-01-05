@@ -3,16 +3,18 @@
 require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 require('../spa/stylesheets/stylesheet.css');
 require('../spa/stylesheets/login.css');
+// groups
+require('../spa/stylesheets/getAllUserGroups.css');
 
 const templates = require('./templateManager');
 
 module.exports = {
     home: home,
-    createGroup: createGroup,
     table: table,
     login: login,
     games: games,
-    getAllUserGroups: getAllUserGroups
+    getAllUserGroups: getAllUserGroups,
+    createGroup: createGroup,
 }
 
 function home(data, routesManager) {
@@ -20,7 +22,14 @@ function home(data, routesManager) {
 }
 
 function getAllUserGroups(data, routesManager) {
-    console.log(data);
+    // const sleep = (milliseconds) => {
+    //     return new Promise(resolve => setTimeout(resolve, milliseconds))
+    // };
+    // const doSomething = async () => {
+    //     await sleep(2000)
+    //     //do stuff
+    // };
+    // doSomething();
     routesManager.setMainContent(templates.getAllUserGroups(data));
     const formCreateGroup = document.querySelector("#createGroup");
     formCreateGroup.addEventListener('submit', handleSubmit);
@@ -33,7 +42,7 @@ function getAllUserGroups(data, routesManager) {
     }
 }
 
-function createGroup(data, routesManager){
+function createGroup(data, routesManager) {
     routesManager.changeRoute('getAllUserGroups');
 }
 
@@ -63,7 +72,7 @@ function login(data, routeManager){
                 routeManager.changeRoute('home');
             })
             .catch(function(error){
-                alert(errror);
+                alert(error);
             });
             routeManager.changeRoute('home');
         }
