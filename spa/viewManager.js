@@ -8,18 +8,38 @@ const templates = require('./templateManager');
 
 module.exports = {
     home: home,
+    getAllUserGroups: getAllUserGroups,
+    createGroup: createGroup,
     table: table,
     login: login,
 }
 
-function home(data, routeManager) {
-    routeManager.setMainContent(templates.home(data));
+function home(data, routesManager) {
+    routesManager.setMainContent(templates.home(data));
 }
 
-function table(data, routeManager) {
-    routeManager.setMainContent(templates.table(data));
+function getAllUserGroups(data, routesManager) {
+    console.log(data);
+    routesManager.setMainContent(templates.getAllUserGroups(data));
+    const formCreateGroup = document.querySelector("#createGroup");
+    formCreateGroup.addEventListener('submit', handleSubmit);
+
+    function handleSubmit(e) {
+        e.preventDefault()
+        const formName = document.querySelector("#formName")
+        const formDescription = document.querySelector("#formDescription")
+        routesManager.changeRoute('createGroup', {name : formName.value, description : formDescription.value})
+    }
 }
 
-function login(data, routeManager){
-    routeManager.setMainContent(templates.login(data))
+function createGroup(data, routesManager){
+    routesManager.changeRoute('getAllUserGroups');
+}
+
+function table(data, routesManager) {
+    routesManager.setMainContent(templates.table(data));
+}
+
+function login(data, routesManager){
+    routesManager.setMainContent(templates.login(data))
 }

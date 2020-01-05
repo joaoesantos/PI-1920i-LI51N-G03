@@ -8,6 +8,16 @@ module.exports = {
         view: views.home
     },
 
+    getAllUserGroups : {
+        controller : controller.getAllUserGroups,
+        view : views.getAllUserGroups
+    },
+
+    createGroup : {
+        controller : controller.createGroup,
+        view : views.createGroup
+    },
+
     table: {
         controller: controller.table,
         view: views.table

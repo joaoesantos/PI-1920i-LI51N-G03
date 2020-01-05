@@ -1,0 +1,24 @@
+<h1>USER NAME -> como aceder ao user da sessao?</h1>
+ 
+ <div id = "userGroups">
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <th>Description</th>
+        </tr>
+        {{#each group}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{description}}</td>
+            </tr>
+        {{/each}}
+    </table>    
+</div>
+
+<form id = "createGroup" action="/groups" method="POST">
+    <label>Name</label>
+    <input type="text" id="formName" >
+    <label>Description</label>
+    <input type="text" id="formDescription" >
+    <input type="submit" >
+</form>

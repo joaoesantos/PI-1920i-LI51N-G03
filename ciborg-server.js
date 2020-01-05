@@ -27,8 +27,6 @@ const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, c
 
 const router = require('./libs/CIBORG/middleware/router')(express.Router(), webapi, authentication);
 
-
-
 server.use(session({
     secret: props.session.secretKey,
     resave: false,
@@ -37,7 +35,6 @@ server.use(session({
 
 server.use(passport.initialize());
 server.use(passport.session());
-
 
 server.use(express.json()); // for parsing application/json
 server.use('/', express.static('dist'));

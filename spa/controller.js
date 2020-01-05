@@ -1,7 +1,20 @@
+"use strict";
+
+const groups = require('./model/groups');
+
 module.exports = {
     home: async function() {
         const img = require('./images/istockphoto.jpg').default;
         return img;
+    },
+
+    // groups models
+    getAllUserGroups: async function () {
+        return groups.getAllUserGroups();
+    },
+
+    createGroup: async function () {
+        return groups.createGroup();
     },
 
     table: async function() {
