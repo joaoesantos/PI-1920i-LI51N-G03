@@ -5756,6 +5756,7 @@ function GroupsApiUris() {
     this.getGroupUri = (id) => `${baseUri}groups/${id}`;
     this.updateGroupUri = (id) => `${baseUri}groups/${id}`;
     this.addGameToGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
+    this.removeGameFromGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
 }
 
 const Uris = new GroupsApiUris();
@@ -5870,12 +5871,38 @@ function addGameToGroup(groupId, gameId) {
         });
 }
 
+function removeGameFromGroup(groupId, gameId) {
+    let options = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+    };
+    return fetch(Uris.removeGameFromGroupUri(groupId, gameId), options)
+        .then((rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                //avisa o user que deu merda
+                //throw new Error();
+            }
+        })
+        .catch((err) => {
+            //send error message
+        })
+        .then((rsp) => {
+            return rsp.payload; // HMMMMMM
+        });
+}
+
 module.exports = {
     getAllUserGroups: getAllUserGroups,
     createGroup: createGroup,
     getGroup: getGroup,
     updateGroup: updateGroup,
-    addGameToGroup: addGameToGroup
+    addGameToGroup: addGameToGroup,
+    removeGameFromGroup: removeGameFromGroup
 }
 
 /***/ }),
@@ -6074,7 +6101,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<h1 class=\"title\">GET USER NAME -> ficara nos cookies da sessao?</h1>\r\n \r\n <div class=\"userGroups\">\r\n    <table class=\"table\">\r\n        <tr class=\"thead-dark\">\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr>\r\n                <td>{{name}}</td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n<div class=\"createGroupBox\">\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n        <label>Name</label>\r\n        <input type=\"text\" id=\"formName\" >\r\n        <label>Description</label>\r\n        <input type=\"text\" id=\"formDescription\" >\r\n        <input type=\"submit\" >\r\n    </form>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<h1 class=\"title\">GET USER NAME -> ficara nos cookies da sessao?</h1>\r\n \r\n <div class=\"userGroups\">\r\n    <table class=\"table\">\r\n        <tr class=\"thead-dark\">\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr>\r\n                <td><a href=\"#group/{{id}}\">{{name}}</a> </td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n<div class=\"createGroupBox\">\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n        <label>Name</label>\r\n        <input type=\"text\" id=\"formName\" >\r\n        <label>Description</label>\r\n        <input type=\"text\" id=\"formDescription\" >\r\n        <input type=\"submit\" >\r\n    </form>\r\n</div>");
 
 /***/ }),
 
@@ -6146,7 +6173,6 @@ __webpack_require__(/*! ../spa/stylesheets/login.css */ "./spa/stylesheets/login
 __webpack_require__(/*! ../spa/stylesheets/getAllUserGroups.css */ "./spa/stylesheets/getAllUserGroups.css");
 
 const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
-const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
 
 module.exports = {
     home: home,
@@ -6157,7 +6183,8 @@ module.exports = {
     createGroup: createGroup,
     group: group,
     updateGroup: updateGroup,
-    addGameToGroup: addGameToGroup
+    addGameToGroup: addGameToGroup,
+    removeGamefromGroup: removeGamefromGroup
 }
 
 function home(data, routesManager) {
@@ -6165,14 +6192,6 @@ function home(data, routesManager) {
 }
 
 function getAllUserGroups(data, routesManager) {
-    // const sleep = (milliseconds) => {
-    //     return new Promise(resolve => setTimeout(resolve, milliseconds))
-    // };
-    // const doSomething = async () => {
-    //     await sleep(2000)
-    //     //do stuff
-    // };
-    // doSomething();
     routesManager.setMainContent(templates.getAllUserGroups(data));
     const formCreateGroup = document.querySelector("#createGroup");
     formCreateGroup.addEventListener('submit', handleSubmit);
@@ -6269,9 +6288,6 @@ function group(data, routeManager) {
 
         const gameName = document.querySelector("#searchGameName").value;
 
-        console.log("-------------------------------------");
-        console.log(gameName);
-
         var headers = new Headers();
         headers.append("Content-Type", "application/json");
         var requestConfigs = {
@@ -6293,7 +6309,6 @@ function group(data, routeManager) {
                 //send error message
             })
         let games = response.payload;
-        console.log(games);
         let rows = "";
         for (let i = 0; i < games.length; i++) {
             let game = games[i];
@@ -6310,24 +6325,24 @@ function group(data, routeManager) {
         });
 
         function handleAddGameToGroupButton(e) {
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            console.log(e);
-            console.log(e.toElement.attributes[0].value);
             const searchGameIds = document.getElementsByName("searchGameId");
             const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
             const groupId = document.querySelector("#groupId").value
-            console.log(gameId);
             routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
         }
     }
 }
 
-function updateGroup(data, routeManager) {
-    routeManager.changeRoute(`group/${data}`);
+function updateGroup(data, routesManager) {
+    routesManager.changeRoute(`group/${data}`);
 }
 
-function addGameToGroup(data, routeManager) {
-    routeManager.changeRoute(`group/${data}`);
+function addGameToGroup(data, routesManager) {
+    routesManager.changeRoute(`group/${data}`);
+}
+
+function removeGamefromGroup(data, routesManager) {
+    routesManager.changeRoute(`group/${data}`);
 }
 
 /***/ })

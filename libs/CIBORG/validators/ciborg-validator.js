@@ -212,9 +212,9 @@ let validator = function (CiborgError) {
         if(owner !== group.owner) {
             debug.extend('validateGroupOwner')('Validation Error: ' + owner + ' is not the group owner.');
             throw new CiborgError(null,
-                'Validation Error: Unauthorized access' + owner + ' is not the group owner.',
+                'Validation Error: Forbidden access' + owner + ' is not the group owner.',
                 'Unauthorized access, failed to get group',
-                '401' // Unauthorized
+                '403' // Forbidden 
             );
         } else {
             debug.extend('validateGroupOwner')('Validation OK.');
