@@ -48,6 +48,14 @@ module.exports = {
         return await groups.updateGroup(group);
     },
 
+    addGameToGroup: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let data = args;
+        return await groups.addGameToGroup(data.groupId, data.gameId);
+    },
+
     table: async function() {
         let gameTable = {
             header: ["H1", "H2", "H3"],

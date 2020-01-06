@@ -40,6 +40,11 @@ module.exports = {
         view: views.updateGroup
     },
 
+    addGameToGroup: {
+        controller: controller.addGameToGroup,
+        view: views.addGameToGroup
+    },
+
     table: {
         controller: controller.table,
         view: views.table

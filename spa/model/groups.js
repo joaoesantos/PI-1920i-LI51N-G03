@@ -10,6 +10,7 @@ function GroupsApiUris() {
     this.createGroupUri = () => `${baseUri}groups`;
     this.getGroupUri = (id) => `${baseUri}groups/${id}`;
     this.updateGroupUri = (id) => `${baseUri}groups/${id}`;
+    this.addGameToGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
 }
 
 const Uris = new GroupsApiUris();
@@ -94,7 +95,32 @@ function updateGroup(group) {
             //send error message
         })
         .then((rsp) => {
-            console.log(rsp);
+            return rsp.payload.id;
+        });
+}
+
+function addGameToGroup(groupId, gameId) {
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    var requestConfigs = {
+        method: 'PUT',
+        headers: headers,
+        mode: 'cors',
+        cache: 'default'
+    };
+    return fetch(Uris.addGameToGroupUri(groupId, gameId), requestConfigs)
+        .then((rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                //avisa o user que deu merda
+                //throw new Error();
+            }
+        })
+        .catch((err) => {
+            //send error message
+        })
+        .then((rsp) => {
             return rsp.payload.id;
         });
 }
@@ -103,5 +129,6 @@ module.exports = {
     getAllUserGroups: getAllUserGroups,
     createGroup: createGroup,
     getGroup: getGroup,
-    updateGroup: updateGroup
+    updateGroup: updateGroup,
+    addGameToGroup: addGameToGroup
 }

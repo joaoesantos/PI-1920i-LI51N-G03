@@ -5631,6 +5631,14 @@ module.exports = {
         return await groups.updateGroup(group);
     },
 
+    addGameToGroup: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let data = args;
+        return await groups.addGameToGroup(data.groupId, data.gameId);
+    },
+
     table: async function() {
         let gameTable = {
             header: ["H1", "H2", "H3"],
@@ -5747,6 +5755,7 @@ function GroupsApiUris() {
     this.createGroupUri = () => `${baseUri}groups`;
     this.getGroupUri = (id) => `${baseUri}groups/${id}`;
     this.updateGroupUri = (id) => `${baseUri}groups/${id}`;
+    this.addGameToGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
 }
 
 const Uris = new GroupsApiUris();
@@ -5831,7 +5840,32 @@ function updateGroup(group) {
             //send error message
         })
         .then((rsp) => {
-            console.log(rsp);
+            return rsp.payload.id;
+        });
+}
+
+function addGameToGroup(groupId, gameId) {
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    var requestConfigs = {
+        method: 'PUT',
+        headers: headers,
+        mode: 'cors',
+        cache: 'default'
+    };
+    return fetch(Uris.addGameToGroupUri(groupId, gameId), requestConfigs)
+        .then((rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                //avisa o user que deu merda
+                //throw new Error();
+            }
+        })
+        .catch((err) => {
+            //send error message
+        })
+        .then((rsp) => {
             return rsp.payload.id;
         });
 }
@@ -5840,7 +5874,8 @@ module.exports = {
     getAllUserGroups: getAllUserGroups,
     createGroup: createGroup,
     getGroup: getGroup,
-    updateGroup: updateGroup
+    updateGroup: updateGroup,
+    addGameToGroup: addGameToGroup
 }
 
 /***/ }),
@@ -5893,6 +5928,11 @@ module.exports = {
     updateGroup: {
         controller: controller.updateGroup,
         view: views.updateGroup
+    },
+
+    addGameToGroup: {
+        controller: controller.addGameToGroup,
+        view: views.addGameToGroup
     },
 
     table: {
@@ -6047,7 +6087,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n  <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n</div>\r\n<div>\r\n  <form>\r\n    <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Name:</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"groupDescription\">Description:</label>\r\n      <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n    </div>\r\n  </form>\r\n  <label>Games:</label>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n</div>\r\n<div>\r\n  <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update</button>\r\n</div>\r\n\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n  <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n</div>\r\n<div>\r\n  <form>\r\n    <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Name:</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"groupDescription\">Description:</label>\r\n      <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n    </div>\r\n  </form>\r\n  <div>\r\n    <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update Group Details</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <label>Games:</label>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  <br/>\r\n  <h2>Searh Game by name:</h2>\r\n  <form id=\"searchGameForm\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"searchGameName\">Game name:</label>\r\n      <input type=\"text\" id=\"searchGameName\" name=\"searchGameName\" value=\"\" placeholder=\"insert name to search\" required>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-secondary\">Procurar</button>\r\n  </form>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"searchResults\">\r\n    </tbody>\r\n  </table>\r\n</div>");
 
 /***/ }),
 
@@ -6106,6 +6146,7 @@ __webpack_require__(/*! ../spa/stylesheets/login.css */ "./spa/stylesheets/login
 __webpack_require__(/*! ../spa/stylesheets/getAllUserGroups.css */ "./spa/stylesheets/getAllUserGroups.css");
 
 const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
+const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
 
 module.exports = {
     home: home,
@@ -6115,7 +6156,8 @@ module.exports = {
     getAllUserGroups: getAllUserGroups,
     createGroup: createGroup,
     group: group,
-    updateGroup: updateGroup
+    updateGroup: updateGroup,
+    addGameToGroup: addGameToGroup
 }
 
 function home(data, routesManager) {
@@ -6218,9 +6260,73 @@ function group(data, routeManager) {
         }
         routeManager.changeRoute('updateGroup', group);
     }
+
+    const searchGameForm = document.querySelector("#searchGameForm");
+    searchGameForm.addEventListener('click', handleSubmitSearchGameForm);
+
+    async function handleSubmitSearchGameForm(e) {
+        e.preventDefault();
+
+        const gameName = document.querySelector("#searchGameName").value;
+
+        console.log("-------------------------------------");
+        console.log(gameName);
+
+        var headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        var requestConfigs = {
+            method: 'GET',
+            headers: headers,
+            mode: 'cors',
+            cache: 'default'
+        };
+        const response = await fetch("http://localhost:8500/games/" + gameName, requestConfigs) //add gameName to url later
+            .then((rsp) => {
+                if (rsp.ok) {
+                    return rsp.json();
+                } else {
+                    //avisa o user que deu merda
+                    //throw new Error();
+                }
+            })
+            .catch((err) => {
+                //send error message
+            })
+        let games = response.payload;
+        console.log(games);
+        let rows = "";
+        for (let i = 0; i < games.length; i++) {
+            let game = games[i];
+            let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn btn-primary">Add game to group</button>`;
+            let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td> <td>${addGameToGroupButton}</td> </tr>`;
+            rows += row;
+        }
+        let tableBody = document.querySelector("#searchResults");
+        tableBody.innerHTML = rows;
+
+        const addGameToGroupButtons = document.getElementsByName("addGameToGroup");
+        addGameToGroupButtons.forEach(b => {
+            b.addEventListener('click', handleAddGameToGroupButton);
+        });
+
+        function handleAddGameToGroupButton(e) {
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            console.log(e);
+            console.log(e.toElement.attributes[0].value);
+            const searchGameIds = document.getElementsByName("searchGameId");
+            const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
+            const groupId = document.querySelector("#groupId").value
+            console.log(gameId);
+            routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
+        }
+    }
 }
 
 function updateGroup(data, routeManager) {
+    routeManager.changeRoute(`group/${data}`);
+}
+
+function addGameToGroup(data, routeManager) {
     routeManager.changeRoute(`group/${data}`);
 }
 
