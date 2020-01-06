@@ -1,3 +1,15 @@
 .test-class {
     background-color : blue;
 }
+
+.game-item{
+    background-color: #4a708b;
+    opacity: 0.6;
+    color: white;
+    padding: 2%;
+}
+
+.img-home{
+    height: 50%;
+    width: 50%;
+}

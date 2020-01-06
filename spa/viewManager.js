@@ -12,7 +12,8 @@ module.exports = {
     table: table,
     login: login,
     games: games,
-    getAllUserGroups: getAllUserGroups
+    getAllUserGroups: getAllUserGroups,
+    searchGamesByName: searchGamesByName,
 }
 
 function home(data, routesManager) {
@@ -65,10 +66,33 @@ function login(data, routeManager){
             .catch(function(error){
                 alert(errror);
             });
-            routeManager.changeRoute('home');
         }
 }
 
 function games(data, routeManager){
     routeManager.setMainContent(templates.games(data));
+}
+
+function searchGamesByName(data, routeManager){
+    routeManager.setMainContent(templates.searchGamesByName(data));
+
+    const formLogin = document.querySelector("#searchGamesForm")
+    formLogin.addEventListener('submit', handleSubmit)
+
+        function handleSubmit(e) {
+            e.preventDefault()
+            const gameName = document.querySelector("#gameName");
+            
+            let fromServer = fetch(`/games/${gameName.value}`,{
+                method: 'GET',
+              })
+
+            fromServer.then(function(response){
+                
+                routeManager.changeRoute('searchGamesForm', {name : gameName.value});
+            })
+            .catch(function(error){
+                alert(errror);
+            });
+        }
 }

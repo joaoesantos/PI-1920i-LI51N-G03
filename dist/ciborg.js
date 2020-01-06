@@ -150,7 +150,7 @@ exports.push([module.i, ".submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}", ""]);
+exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.game-item{\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}", ""]);
 
 
 /***/ }),
@@ -5570,10 +5570,11 @@ module.exports = function (list, options) {
 
 
 const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
+const games = __webpack_require__(/*! ./model/games */ "./spa/model/games.js");
 
 module.exports = {
     home: async function() {
-        const img = __webpack_require__(/*! ./images/istockphoto.jpg */ "./spa/images/istockphoto.jpg").default;
+        const img = __webpack_require__(/*! ./images/ciborgChess.jpeg */ "./spa/images/ciborgChess.jpeg").default;
         return img;
     },
 
@@ -5610,29 +5611,30 @@ module.exports = {
 
     games: async function(){
 
-        let gameList = await fetch('/popularGames',{
-            method: 'GET',
-            headers: {"Content-Type": "application/json"}
-          })
+        let gameList = await games.getMostPopularGames();
         
-        console.log('gameslist: ', gameList.payload);
-        return gameList;
-    }
+        console.log('gameslist: ', gameList);
+        return gameList.payload;
+    },
+
+    searchGamesByName: async function(){
+        
+    },
 
 }
 
 /***/ }),
 
-/***/ "./spa/images/istockphoto.jpg":
-/*!************************************!*\
-  !*** ./spa/images/istockphoto.jpg ***!
-  \************************************/
+/***/ "./spa/images/ciborgChess.jpeg":
+/*!*************************************!*\
+  !*** ./spa/images/ciborgChess.jpeg ***!
+  \*************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "203a5f72543964126acc2e29ca2061cc.jpg");
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "1ffa2ff7c86d48c8d2b825c8e08effb5.jpeg");
 
 /***/ }),
 
@@ -5704,6 +5706,54 @@ function loadHandler() {
             .then(() => resetRouteData())
     }
 
+}
+
+/***/ }),
+
+/***/ "./spa/model/games.js":
+/*!****************************!*\
+  !*** ./spa/model/games.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function GamesApiUris() {
+    const baseUri = 'http://localhost:8500/'
+  
+    this.getMostPopularGames =  () => `${baseUri}games`
+    //this.createGroupUri =  () => `${baseUri}groups`
+}
+
+const Uris = new GamesApiUris()
+
+function getMostPopularGames(){
+    return fetch(Uris.getMostPopularGames())
+        .then(res => res.json())
+}
+
+function createGroup(name, description){
+    const options = {
+        method : "POST",
+        headers : {
+            "Content-Type" : "application/json",
+            "Accept" : "application/json"
+        },
+        body : JSON.stringify({
+            name : name,
+            description : description,
+            games: []
+        })
+    }
+    return fetch(Uris.createGroupUri(), options)
+        .then(res => res.json()) 
+}
+
+module.exports  = {
+    getMostPopularGames : getMostPopularGames,
+    createGroup : createGroup
 }
 
 /***/ }),
@@ -5799,6 +5849,11 @@ module.exports = {
     login: {
         controller: controller.login,
         view: views.login
+    },
+
+    searchGames: {
+        controller: controller.searchGamesByName,
+        view: views.searchGamesByName
     }
 }
 
@@ -5872,13 +5927,15 @@ const table = __webpack_require__(/*! ./templates/table.hbs */ "./spa/templates/
 const login = __webpack_require__(/*! ./templates/login.hbs */ "./spa/templates/login.hbs").default;
 const gameList = __webpack_require__(/*! ./templates/gameList.hbs */ "./spa/templates/gameList.hbs").default;
 const getAllUserGroups = __webpack_require__(/*! ./templates/getAllUserGroups.hbs */ "./spa/templates/getAllUserGroups.hbs").default;
+const searchGamesByName = __webpack_require__(/*! ./templates/gameSearch.hbs */ "./spa/templates/gameSearch.hbs").default;
 
 module.exports = {
     home: Handlebars.compile(home),
     table: Handlebars.compile(table),
     login: Handlebars.compile(login),
     games: Handlebars.compile(gameList),
-    getAllUserGroups: Handlebars.compile(getAllUserGroups)
+    getAllUserGroups: Handlebars.compile(getAllUserGroups),
+    searchGamesByName: Handlebars.compile(searchGamesByName),
 };
 
 /***/ }),
@@ -5892,7 +5949,20 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div id=\"GameList\">\r\n     {{#each this.payload}}\r\n            <div class=\"row\">\r\n                <div class=\"col-md-12\">\r\n                    <h2>{{name}}</h2>\r\n                    <p>Rating:{{average_user_rating}} by {{num_user_ratings}} users</p>\r\n                    <p>Show detail</a></p>\r\n                </div>\r\n            </div>\r\n        {{/each}}\r\n</div>\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div id=\"GameList\">\r\n     {{#each this}}\r\n            <div class=\"row\">\r\n                <div class=\"col-md-3 game-item\">\r\n                    <h2>{{name}}</h2>\r\n                    <p>Minimum playtime:{{min_playtime}} min</p>\r\n                    <p>Maximum playtime:{{max_playtime}} min</p>\r\n                </div>\r\n            </div>\r\n            </br>\r\n        {{/each}}\r\n</div>\r\n");
+
+/***/ }),
+
+/***/ "./spa/templates/gameSearch.hbs":
+/*!**************************************!*\
+  !*** ./spa/templates/gameSearch.hbs ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                 <button class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"table-container\">\r\n    <table class=\"table\">\r\n        <thead class=\"thead-dark\">\r\n            <tr>\r\n            {{#each header as |column|}}\r\n                <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n            {{/each}} \r\n            </tr>\r\n        </thead>\r\n        <tbody>\r\n            {{#each elements as |row|}}\r\n                <tr>\r\n                    {{#each row as |value|}}\r\n                        <td>{{value}}</td>\r\n                    {{/each}} \r\n            </tr>\r\n            {{/each}} \r\n        </tbody>\r\n    </table>\r\n</div>\r\n\r\n</div>");
 
 /***/ }),
 
@@ -5918,7 +5988,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<a href=\"#login\" class = \"test-class\">Login </a>\r\n<a href=\"#logout\"> Logout </a>\r\n<a href=\"#games\"> Games </a>\r\n<a href=\"#getAllUserGroups\"> Groups </a> \r\n<div>\r\n    <img src=\"{{this}}\">\r\n</div>\r\n<p>Chelas 2020</p>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n    <img class=\"img-home\" src=\"{{this}}\">\r\n</div>");
 
 /***/ }),
 
@@ -5969,7 +6039,8 @@ module.exports = {
     table: table,
     login: login,
     games: games,
-    getAllUserGroups: getAllUserGroups
+    getAllUserGroups: getAllUserGroups,
+    searchGamesByName: searchGamesByName,
 }
 
 function home(data, routesManager) {
@@ -6022,12 +6093,15 @@ function login(data, routeManager){
             .catch(function(error){
                 alert(errror);
             });
-            routeManager.changeRoute('home');
         }
 }
 
 function games(data, routeManager){
     routeManager.setMainContent(templates.games(data));
+}
+
+function searchGamesByName(data, routeManager){
+    routeManager.setMainContent(templates.searchGamesByName(data));
 }
 
 /***/ })

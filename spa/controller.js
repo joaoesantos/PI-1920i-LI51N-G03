@@ -5,7 +5,7 @@ const games = require('./model/games');
 
 module.exports = {
     home: async function() {
-        const img = require('./images/istockphoto.jpg').default;
+        const img = require('./images/ciborgChess.jpeg').default;
         return img;
     },
 
@@ -42,13 +42,18 @@ module.exports = {
 
     games: async function(){
 
-        let gameList = await fetch('/popularGames',{
-            method: 'GET',
-            headers: {"Content-Type": "application/json"}
-          })
+        let gameList = await games.getMostPopularGames();
         
-        console.log('gameslist: ', gameList.payload);
-        return gameList;
-    }
+        return gameList.payload;
+    },
+
+    searchGamesByName: async function(name){
+        if(!name){
+            name = "";
+        }
+
+        let gameList = await games.searchGamesByName(name);
+        return gameList.payload;
+    },
 
 }

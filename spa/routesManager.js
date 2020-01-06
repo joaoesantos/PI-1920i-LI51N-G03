@@ -31,5 +31,10 @@ module.exports = {
     login: {
         controller: controller.login,
         view: views.login
+    },
+
+    searchGames: {
+        controller: controller.searchGamesByName,
+        view: views.searchGamesByName
     }
 }
