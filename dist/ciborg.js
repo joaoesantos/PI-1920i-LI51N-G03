@@ -164,7 +164,7 @@ exports.push([module.i, ".submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}", ""]);
+exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 15%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}", ""]);
 
 
 /***/ }),
@@ -5584,10 +5584,11 @@ module.exports = function (list, options) {
 
 
 const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
+const games = __webpack_require__(/*! ./model/games */ "./spa/model/games.js");
 
 module.exports = {
     home: async function() {
-        const img = __webpack_require__(/*! ./images/istockphoto.jpg */ "./spa/images/istockphoto.jpg").default;
+        const img = __webpack_require__(/*! ./images/ciborgChess.jpeg */ "./spa/images/ciborgChess.jpeg").default;
         return img;
     },
 
@@ -5597,13 +5598,8 @@ module.exports = {
 
     games: async function() {
 
-        let gameList = await fetch('/popularGames', {
-            method: 'GET',
-            headers: { "Content-Type": "application/json" }
-        })
-
-        console.log('gameslist: ', gameList.payload);
-        return gameList;
+        let fromServer = await games.getMostPopularGames();
+        return fromServer.payload;
     },
 
     // groups models
@@ -5655,22 +5651,32 @@ module.exports = {
             ]
         };
         return gameTable;
-    }
+    },
+
+
+    searchGamesByName: async function(name){
+        if(!name){
+            name = "";
+        }
+
+        let gameList = await games.searchGamesByName(name);
+        return gameList.payload;
+    },
 
 }
 
 /***/ }),
 
-/***/ "./spa/images/istockphoto.jpg":
-/*!************************************!*\
-  !*** ./spa/images/istockphoto.jpg ***!
-  \************************************/
+/***/ "./spa/images/ciborgChess.jpeg":
+/*!*************************************!*\
+  !*** ./spa/images/ciborgChess.jpeg ***!
+  \*************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "203a5f72543964126acc2e29ca2061cc.jpg");
+/* harmony default export */ __webpack_exports__["default"] = (__webpack_require__.p + "1ffa2ff7c86d48c8d2b825c8e08effb5.jpeg");
 
 /***/ }),
 
@@ -5731,6 +5737,51 @@ function loadHandler() {
             .then(data => route.view(data, routeManager))
             .then(() => resetRouteData());
     }
+}
+
+/***/ }),
+
+/***/ "./spa/model/games.js":
+/*!****************************!*\
+  !*** ./spa/model/games.js ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+function GamesApiUris() {
+    const baseUri = 'http://localhost:8500/'
+  
+    this.getMostPopularGames =  () => `${baseUri}games`
+    this.searchGamesByName =  () => `${baseUri}games/`
+}
+
+const Uris = new GamesApiUris()
+
+function getMostPopularGames(){
+    return fetch(Uris.getMostPopularGames())
+        .then(res => res.json())
+}
+
+function searchGamesByName(name){
+    const options = {
+        method : "GET",
+        headers : {
+            "Content-Type" : "application/json"
+        }
+    }
+    let res = fetch(Uris.searchGamesByName() + name, options)
+        .then(res => res.json()) 
+
+    console.log(res);
+    return res;
+}
+
+module.exports  = {
+    getMostPopularGames : getMostPopularGames,
+    searchGamesByName : searchGamesByName
 }
 
 /***/ }),
@@ -5947,6 +5998,10 @@ module.exports = {
         view: views.createGroup
     },
 
+    searchGames: {
+        controller: controller.searchGamesByName,
+        view: views.searchGamesByName
+    },
     group: {
         controller: controller.group,
         view: views.group
@@ -5961,10 +6016,10 @@ module.exports = {
         controller: controller.addGameToGroup,
         view: views.addGameToGroup
     },
-
     table: {
         controller: controller.table,
         view: views.table
+
     }
 
 }
@@ -6066,6 +6121,7 @@ const table = __webpack_require__(/*! ./templates/table.hbs */ "./spa/templates/
 const login = __webpack_require__(/*! ./templates/login.hbs */ "./spa/templates/login.hbs").default;
 const gameList = __webpack_require__(/*! ./templates/gameList.hbs */ "./spa/templates/gameList.hbs").default;
 const getAllUserGroups = __webpack_require__(/*! ./templates/getAllUserGroups.hbs */ "./spa/templates/getAllUserGroups.hbs").default;
+const searchGamesByName = __webpack_require__(/*! ./templates/gameSearch.hbs */ "./spa/templates/gameSearch.hbs").default;
 const group = __webpack_require__(/*! ./templates/groupDetail.hbs */ "./spa/templates/groupDetail.hbs").default;
 
 module.exports = {
@@ -6074,6 +6130,7 @@ module.exports = {
     login: Handlebars.compile(login),
     games: Handlebars.compile(gameList),
     getAllUserGroups: Handlebars.compile(getAllUserGroups),
+    searchGamesByName: Handlebars.compile(searchGamesByName),
     group: Handlebars.compile(group)
 };
 
@@ -6088,7 +6145,20 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div id=\"GameList\">\r\n     {{#each this.payload}}\r\n            <div class=\"row\">\r\n                <div class=\"col-md-12\">\r\n                    <h2>{{name}}</h2>\r\n                    <p>Rating:{{average_user_rating}} by {{num_user_ratings}} users</p>\r\n                    <p>Show detail</a></p>\r\n                </div>\r\n            </div>\r\n        {{/each}}\r\n</div>\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div id=\"GameList\">\r\n    <div class=\"row gamecontainer\">\r\n     {{#each this}}\r\n                <div class=\"col-md-3 game-item\">\r\n                    <h2>{{name}}</h2>\r\n                    <p>Minimum playtime:{{min_playtime}} min</p>\r\n                    <p>Maximum playtime:{{max_playtime}} min</p>\r\n                </div>\r\n        {{/each}}\r\n    </div>\r\n\r\n</div>\r\n");
+
+/***/ }),
+
+/***/ "./spa/templates/gameSearch.hbs":
+/*!**************************************!*\
+  !*** ./spa/templates/gameSearch.hbs ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                 <button class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"table-container\">\r\n</div>\r\n\r\n</div>");
 
 /***/ }),
 
@@ -6127,7 +6197,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<a href=\"#games\"> Games </a>\r\n<a href=\"#getAllUserGroups\"> Groups </a> \r\n<a href=\"#table\"> Table </a>\r\n<div>\r\n    <img src=\"{{this}}\">\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n    <img class=\"img-home\" src=\"{{this}}\">\r\n</div>");
 
 /***/ }),
 
@@ -6180,6 +6250,7 @@ module.exports = {
     login: login,
     games: games,
     getAllUserGroups: getAllUserGroups,
+    searchGamesByName: searchGamesByName,
     createGroup: createGroup,
     group: group,
     updateGroup: updateGroup,
@@ -6234,12 +6305,35 @@ function login(data, routeManager) {
             .catch(function(error) {
                 alert(error);
             });
-        routeManager.changeRoute('home');
-    }
+        }
 }
 
 function games(data, routeManager) {
     routeManager.setMainContent(templates.games(data));
+}
+
+function searchGamesByName(data, routeManager){
+    routeManager.setMainContent(templates.searchGamesByName(data));
+
+    const formLogin = document.querySelector("#searchGamesForm")
+    formLogin.addEventListener('submit', handleSubmit)
+
+        function handleSubmit(e) {
+            e.preventDefault()
+            const gameName = document.querySelector("#gameName");
+            
+            let fromServer = fetch(`/games/${gameName.value}`,{
+                method: 'GET',
+              })
+
+            fromServer.then(function(response){
+                
+                routeManager.changeRoute('searchGamesForm', {name : gameName.value});
+            })
+            .catch(function(error){
+                alert(errror);
+            });
+        }
 }
 
 function group(data, routeManager) {

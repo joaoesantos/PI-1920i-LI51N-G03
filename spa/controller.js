@@ -15,13 +15,8 @@ module.exports = {
 
     games: async function() {
 
-        let gameList = await fetch('/popularGames', {
-            method: 'GET',
-            headers: { "Content-Type": "application/json" }
-        })
-
-        console.log('gameslist: ', gameList.payload);
-        return gameList;
+        let fromServer = await games.getMostPopularGames();
+        return fromServer.payload;
     },
 
     // groups models

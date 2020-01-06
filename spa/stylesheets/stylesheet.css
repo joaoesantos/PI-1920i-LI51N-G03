@@ -2,11 +2,19 @@
     background-color : blue;
 }
 
-.game-item{
+.parent {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+.game-item {
     background-color: #4a708b;
     opacity: 0.6;
     color: white;
     padding: 2%;
+    flex: 1 0 20%; 
+    height: 200px;
+    margin:5px;
 }
 
 .img-home{

@@ -1,12 +1,12 @@
 <div id="GameList">
+    <div class="row gamecontainer">
      {{#each this}}
-            <div class="row">
                 <div class="col-md-3 game-item">
                     <h2>{{name}}</h2>
                     <p>Minimum playtime:{{min_playtime}} min</p>
                     <p>Maximum playtime:{{max_playtime}} min</p>
                 </div>
-            </div>
-            </br>
         {{/each}}
+    </div>
+
 </div>
