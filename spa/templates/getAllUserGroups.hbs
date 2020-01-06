@@ -1,8 +1,8 @@
-<h1 id="title">USER NAME -> como aceder ao user da sessao?</h1>
+<h1 class="title">GET USER NAME -> ficara nos cookies da sessao?</h1>
  
- <div id="userGroups">
+ <div class="userGroups">
     <table class="table">
-        <tr>
+        <tr class="thead-dark">
             <th>Name</th>
             <th>Description</th>
         </tr>
@@ -15,10 +15,13 @@
     </table>    
 </div>
 
-<form id="createGroup" action="/groups" method="POST">
-    <label>Name</label>
-    <input type="text" id="formName" >
-    <label>Description</label>
-    <input type="text" id="formDescription" >
-    <input type="submit" >
-</form>
+<div class="createGroupBox">
+    <h4 class="formTitle">Add new group</h4>
+    <form id="createGroup" action="/groups" method="POST">
+        <label>Name</label>
+        <input type="text" id="formName" >
+        <label>Description</label>
+        <input type="text" id="formDescription" >
+        <input type="submit" >
+    </form>
+</div>

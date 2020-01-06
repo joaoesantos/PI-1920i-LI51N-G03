@@ -1,3 +1,5 @@
+'use strict';
+
 const controller = require('./controller');
 const views = require('./viewManager');
 
@@ -8,19 +10,9 @@ module.exports = {
         view: views.home
     },
 
-    getAllUserGroups : {
-        controller : controller.getAllUserGroups,
-        view : views.getAllUserGroups
-    },
-
-    createGroup : {
-        controller : controller.createGroup,
-        view : views.createGroup
-    },
-
-    table: {
-        controller: controller.table,
-        view: views.table
+    login: {
+        controller: controller.login,
+        view: views.login
     },
 
     games: {
@@ -28,13 +20,38 @@ module.exports = {
         view: views.games
     },
 
-    login: {
-        controller: controller.login,
-        view: views.login
+    getAllUserGroups: {
+        controller: controller.getAllUserGroups,
+        view: views.getAllUserGroups
+    },
+
+    createGroup: {
+        controller: controller.createGroup,
+        view: views.createGroup
     },
 
     searchGames: {
         controller: controller.searchGamesByName,
         view: views.searchGamesByName
+    },
+    group: {
+        controller: controller.group,
+        view: views.group
+    },
+
+    updateGroup: {
+        controller: controller.updateGroup,
+        view: views.updateGroup
+    },
+
+    addGameToGroup: {
+        controller: controller.addGameToGroup,
+        view: views.addGameToGroup
+    },
+    table: {
+        controller: controller.table,
+        view: views.table
+
     }
+
 }

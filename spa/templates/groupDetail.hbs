@@ -1,0 +1,62 @@
+<div>
+  <button id="backToGroups" type="button" class="btn btn-primary">Groups</button>
+</div>
+<div>
+  <form>
+    <input type="hidden" id="groupId" name="groupId" value="{{groupId}}">
+    <div class="form-group">
+      <label for="groupName">Name:</label>
+      <input type="text" id="groupName" name="groupName" value="{{groupName}}">
+    </div>
+    <div class="form-group">
+      <label for="groupDescription">Description:</label>
+      <textarea id="groupDescription" name="groupDescription" cols="70" rows="10">{{groupDescription}}</textarea>
+    </div>
+  </form>
+  <div>
+    <button id="updateGroup" type="button" class="btn btn-primary">Update Group Details</button>
+  </div>
+</div>
+<div>
+  <label>Games:</label>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        {{#each header as |column|}}
+          <th scope="col" class="test-class">{{column}}</th>
+        {{/each}} 
+      </tr>
+    </thead>
+    <tbody>
+      {{#each elements as |row|}}
+        <tr>
+          <td name="gameId">{{row.id}}</td>
+          <td name="gameName">{{row.name}}</td>
+          <td name="gameMin">{{row.min_playtime}}</td>
+          <td name="gameMax">{{row.max_playtime}}</td>
+        </tr>
+      {{/each}} 
+    </tbody>
+  </table>
+  <br/>
+  <h2>Searh Game by name:</h2>
+  <form id="searchGameForm" class="form-inline">
+    <div class="form-group">
+      <label for="searchGameName">Game name:</label>
+      <input type="text" id="searchGameName" name="searchGameName" value="" placeholder="insert name to search" required>
+    </div>
+    <button type="submit" class="btn btn-secondary">Procurar</button>
+  </form>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        {{#each header as |column|}}
+          <th scope="col" class="test-class">{{column}}</th>
+        {{/each}} 
+        <th scope="col" class="test-class"> </th>
+      </tr>
+    </thead>
+    <tbody id="searchResults">
+    </tbody>
+  </table>
+</div>

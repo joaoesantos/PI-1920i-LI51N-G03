@@ -9,13 +9,52 @@ module.exports = {
         return img;
     },
 
+    login: async function() {
+        console.log('???????????');
+    },
+
+    games: async function() {
+
+        let gameList = await fetch('/popularGames', {
+            method: 'GET',
+            headers: { "Content-Type": "application/json" }
+        })
+
+        console.log('gameslist: ', gameList.payload);
+        return gameList;
+    },
+
     // groups models
-    getAllUserGroups: async function () {
+    getAllUserGroups: async function() {
         return groups.getAllUserGroups();
     },
 
-    createGroup: async function (group) {
-        return groups.createGroup(group.name, group.description);
+    createGroup: async function(data) {
+        return groups.createGroup(data.name, data.description);
+    },
+
+    group: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let id = args;
+        return await groups.getGroup(id);
+    },
+
+    updateGroup: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let group = args;
+        return await groups.updateGroup(group);
+    },
+
+    addGameToGroup: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let data = args;
+        return await groups.addGameToGroup(data.groupId, data.gameId);
     },
 
     table: async function() {
@@ -36,16 +75,6 @@ module.exports = {
         return gameTable;
     },
 
-    login: async function(){
-        console.log('???????????');
-    },
-
-    games: async function(){
-
-        let gameList = await games.getMostPopularGames();
-        
-        return gameList.payload;
-    },
 
     searchGamesByName: async function(name){
         if(!name){

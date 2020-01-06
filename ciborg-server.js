@@ -9,7 +9,7 @@ const localStrategy = require("passport-local").Strategy;
 const server = express();
 const debug = require('debug')('server');
 
-const props = require('./libs/CIBORG/shared/Config')("./libs/CIBORG/shared/files");
+const props = require('./libs/CIBORG/shared/Config')('./libs/CIBORG/shared/files');
 const ciborgError = require('./libs/CIBORG/errors/ciborg-error');
 const authentication = require("./libs/CIBORG/middleware/authentication")(props, ciborgError);
 const passportInitialize = require("./libs/CIBORG/authentication/passport-config")(bcrypt, localStrategy, ciborgError);
