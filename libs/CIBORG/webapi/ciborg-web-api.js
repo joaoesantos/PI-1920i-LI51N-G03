@@ -275,6 +275,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
             debug.extend('addGameToGroup')('Handling group service addGameToGroup.');
             let data = await services.groups.addGameToGroup(req.params.groupId, req.params.gameId);
             debug.extend('addGameToGroup')('Service addGameToGroup executed with sucess.');
+            // ownerId = req.session.passport.user.userId;
+            // CiborgValidator.validateGroupOwner(ownerId, data);
             resolveServiceResponse(data, rsp);
         } catch (err) {
             if (!(err instanceof CiborgError)) {
@@ -296,6 +298,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
             debug.extend('removeGameFromGroup')('Handling group service removeGameFromGroup.');
             let data = await services.groups.removeGameFromGroup(req.params.groupId, req.params.gameId);
             debug.extend('removeGameFromGroup')('Service removeGameFromGroup executed with sucess.');
+            // ownerId = req.session.passport.user.userId;
+            // CiborgValidator.validateGroupOwner(ownerId, data);
             resolveServiceResponse(data, rsp);
         } catch (err) {
             if (!(err instanceof CiborgError)) {
@@ -317,6 +321,8 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
             debug.extend('getGamesFromGroup')('Handling group service getGamesFromGroup.');
             let data = await services.groups.getGamesFromGroup(req.params.id);
             debug.extend('getGamesFromGroup')('Service getGamesFromGroup executed with sucess.');
+            // ownerId = req.session.passport.user.userId;
+            // CiborgValidator.validateGroupOwner(ownerId, data);
             resolveServiceResponse(data, rsp);
         } catch (err) {
             if (!(err instanceof CiborgError)) {

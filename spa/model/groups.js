@@ -11,6 +11,7 @@ function GroupsApiUris() {
     this.getGroupUri = (id) => `${baseUri}groups/${id}`;
     this.updateGroupUri = (id) => `${baseUri}groups/${id}`;
     this.addGameToGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
+    this.removeGameFromGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
 }
 
 const Uris = new GroupsApiUris();
@@ -125,10 +126,36 @@ function addGameToGroup(groupId, gameId) {
         });
 }
 
+function removeGameFromGroup(groupId, gameId) {
+    let options = {
+        method: 'DELETE',
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+    };
+    return fetch(Uris.removeGameFromGroupUri(groupId, gameId), options)
+        .then((rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                //avisa o user que deu merda
+                //throw new Error();
+            }
+        })
+        .catch((err) => {
+            //send error message
+        })
+        .then((rsp) => {
+            return rsp.payload; // HMMMMMM
+        });
+}
+
 module.exports = {
     getAllUserGroups: getAllUserGroups,
     createGroup: createGroup,
     getGroup: getGroup,
     updateGroup: updateGroup,
-    addGameToGroup: addGameToGroup
+    addGameToGroup: addGameToGroup,
+    removeGameFromGroup: removeGameFromGroup
 }

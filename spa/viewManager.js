@@ -7,7 +7,6 @@ require('../spa/stylesheets/login.css');
 require('../spa/stylesheets/getAllUserGroups.css');
 
 const templates = require('./templateManager');
-const groups = require('./model/groups');
 
 module.exports = {
     home: home,
@@ -19,7 +18,8 @@ module.exports = {
     createGroup: createGroup,
     group: group,
     updateGroup: updateGroup,
-    addGameToGroup: addGameToGroup
+    addGameToGroup: addGameToGroup,
+    removeGamefromGroup: removeGamefromGroup
 }
 
 function home(data, routesManager) {
@@ -27,14 +27,6 @@ function home(data, routesManager) {
 }
 
 function getAllUserGroups(data, routesManager) {
-    // const sleep = (milliseconds) => {
-    //     return new Promise(resolve => setTimeout(resolve, milliseconds))
-    // };
-    // const doSomething = async () => {
-    //     await sleep(2000)
-    //     //do stuff
-    // };
-    // doSomething();
     routesManager.setMainContent(templates.getAllUserGroups(data));
     const formCreateGroup = document.querySelector("#createGroup");
     formCreateGroup.addEventListener('submit', handleSubmit);
@@ -199,10 +191,14 @@ function group(data, routeManager) {
     }
 }
 
-function updateGroup(data, routeManager) {
-    routeManager.changeRoute(`group/${data}`);
+function updateGroup(data, routesManager) {
+    routesManager.changeRoute(`group/${data}`);
 }
 
-function addGameToGroup(data, routeManager) {
-    routeManager.changeRoute(`group/${data}`);
+function addGameToGroup(data, routesManager) {
+    routesManager.changeRoute(`group/${data}`);
+}
+
+function removeGamefromGroup(data, routesManager) {
+    routesManager.changeRoute(`group/${data}`);
 }
