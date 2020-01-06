@@ -8,28 +8,44 @@ module.exports = {
         return img;
     },
 
-    login: async function(){
+    login: async function() {
         console.log('???????????');
     },
 
-    games: async function(){
+    games: async function() {
 
-        let gameList = await fetch('/popularGames',{
+        let gameList = await fetch('/popularGames', {
             method: 'GET',
-            headers: {"Content-Type": "application/json"}
-          })
-        
+            headers: { "Content-Type": "application/json" }
+        })
+
         console.log('gameslist: ', gameList.payload);
         return gameList;
     },
 
     // groups models
-    getAllUserGroups: async function () {
+    getAllUserGroups: async function() {
         return groups.getAllUserGroups();
     },
 
-    createGroup: async function (data) {
+    createGroup: async function(data) {
         return groups.createGroup(data.name, data.description);
+    },
+
+    group: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let id = args;
+        return await groups.getGroup(id);
+    },
+
+    updateGroup: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let group = args;
+        return await groups.updateGroup(group);
     },
 
     table: async function() {

@@ -9,8 +9,6 @@ function loadHandler() {
     hashChangeHandler();
     const mainContent = document.querySelector("#mainContent");
 
-    // <div id = "mainContent" > < /div>
-
     let routeData = null;
 
     const routeManager = {
@@ -35,7 +33,7 @@ function loadHandler() {
 
     function hashChangeHandler() {
         const hash = window.location.hash.substring(1)
-        let [state, ...args] = hash.split('/')
+        let [state, ...args] = hash.split('/');
 
         let route = routes[state];
 
@@ -44,12 +42,10 @@ function loadHandler() {
             return;
         }
 
-
-        addRouteData(args)
+        addRouteData(args);
         route
             .controller.apply(null, args)
             .then(data => route.view(data, routeManager))
-            .then(() => resetRouteData())
+            .then(() => resetRouteData());
     }
-
 }

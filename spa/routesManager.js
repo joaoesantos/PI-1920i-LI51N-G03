@@ -20,14 +20,24 @@ module.exports = {
         view: views.games
     },
 
-    getAllUserGroups : {
-        controller : controller.getAllUserGroups,
-        view : views.getAllUserGroups
+    getAllUserGroups: {
+        controller: controller.getAllUserGroups,
+        view: views.getAllUserGroups
     },
 
-    createGroup : {
-        controller : controller.createGroup,
-        view : views.createGroup
+    createGroup: {
+        controller: controller.createGroup,
+        view: views.createGroup
+    },
+
+    group: {
+        controller: controller.group,
+        view: views.group
+    },
+
+    updateGroup: {
+        controller: controller.updateGroup,
+        view: views.updateGroup
     },
 
     table: {

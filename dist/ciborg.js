@@ -5591,28 +5591,44 @@ module.exports = {
         return img;
     },
 
-    login: async function(){
+    login: async function() {
         console.log('???????????');
     },
 
-    games: async function(){
+    games: async function() {
 
-        let gameList = await fetch('/popularGames',{
+        let gameList = await fetch('/popularGames', {
             method: 'GET',
-            headers: {"Content-Type": "application/json"}
-          })
-        
+            headers: { "Content-Type": "application/json" }
+        })
+
         console.log('gameslist: ', gameList.payload);
         return gameList;
     },
 
     // groups models
-    getAllUserGroups: async function () {
+    getAllUserGroups: async function() {
         return groups.getAllUserGroups();
     },
 
-    createGroup: async function (data) {
+    createGroup: async function(data) {
         return groups.createGroup(data.name, data.description);
+    },
+
+    group: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let id = args;
+        return await groups.getGroup(id);
+    },
+
+    updateGroup: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let group = args;
+        return await groups.updateGroup(group);
     },
 
     table: async function() {
@@ -5668,8 +5684,6 @@ function loadHandler() {
     hashChangeHandler();
     const mainContent = document.querySelector("#mainContent");
 
-    // <div id = "mainContent" > < /div>
-
     let routeData = null;
 
     const routeManager = {
@@ -5694,7 +5708,7 @@ function loadHandler() {
 
     function hashChangeHandler() {
         const hash = window.location.hash.substring(1)
-        let [state, ...args] = hash.split('/')
+        let [state, ...args] = hash.split('/');
 
         let route = routes[state];
 
@@ -5703,14 +5717,12 @@ function loadHandler() {
             return;
         }
 
-
-        addRouteData(args)
+        addRouteData(args);
         route
             .controller.apply(null, args)
             .then(data => route.view(data, routeManager))
-            .then(() => resetRouteData())
+            .then(() => resetRouteData());
     }
-
 }
 
 /***/ }),
@@ -5730,28 +5742,30 @@ function loadHandler() {
 function GroupsApiUris() {
     const baseUri = 'http://localhost:8500/';
     //const baseUri = `http://localhost:${props.config.port}/`
-  
-    this.getAllUserGroupsUri =  () => `${baseUri}groups`;
-    this.createGroupUri =  () => `${baseUri}groups`;
+
+    this.getAllUserGroupsUri = () => `${baseUri}groups`;
+    this.createGroupUri = () => `${baseUri}groups`;
+    this.getGroupUri = (id) => `${baseUri}groups/${id}`;
+    this.updateGroupUri = (id) => `${baseUri}groups/${id}`;
 }
 
-const Uris = new GroupsApiUris()
+const Uris = new GroupsApiUris();
 
-function getAllUserGroups(){
+function getAllUserGroups() {
     return fetch(Uris.getAllUserGroupsUri())
         .then(res => res.json());
 }
 
-function createGroup(name, description){
+function createGroup(name, description) {
     const options = {
-        method : "POST",
-        headers : {
-            "Content-Type" : "application/json",
-            "Accept" : "application/json"
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
         },
-        body : JSON.stringify({
-            name : name,
-            description : description,
+        body: JSON.stringify({
+            name: name,
+            description: description,
             games: []
         })
     };
@@ -5759,9 +5773,74 @@ function createGroup(name, description){
         .then(res => res.json());
 }
 
-module.exports  = {
-    getAllUserGroups : getAllUserGroups,
-    createGroup : createGroup
+function getGroup(id) {
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    var requestConfigs = {
+        method: 'GET',
+        headers: headers,
+        mode: 'cors',
+        cache: 'default'
+    };
+    return fetch(Uris.getGroupUri(id), requestConfigs)
+        .then((rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                //avisa o user que deu merda
+                //throw new Error();
+            }
+        })
+        .catch((err) => {
+            //send error message
+        })
+        .then((rsp) => {
+            let group = {
+                groupId: rsp.payload.id,
+                groupName: rsp.payload.name,
+                groupDescription: rsp.payload.description,
+                header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
+                elements: rsp.payload.games
+            };
+            return group;
+        });
+}
+
+function updateGroup(group) {
+    let id = group.id;
+    delete group.id;
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    var requestConfigs = {
+        method: 'PUT',
+        headers: headers,
+        mode: 'cors',
+        cache: 'default',
+        body: JSON.stringify(group)
+    };
+    return fetch(Uris.updateGroupUri(id), requestConfigs)
+        .then((rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                //avisa o user que deu merda
+                //throw new Error();
+            }
+        })
+        .catch((err) => {
+            //send error message
+        })
+        .then((rsp) => {
+            console.log(rsp);
+            return rsp.payload.id;
+        });
+}
+
+module.exports = {
+    getAllUserGroups: getAllUserGroups,
+    createGroup: createGroup,
+    getGroup: getGroup,
+    updateGroup: updateGroup
 }
 
 /***/ }),
@@ -5796,14 +5875,24 @@ module.exports = {
         view: views.games
     },
 
-    getAllUserGroups : {
-        controller : controller.getAllUserGroups,
-        view : views.getAllUserGroups
+    getAllUserGroups: {
+        controller: controller.getAllUserGroups,
+        view: views.getAllUserGroups
     },
 
-    createGroup : {
-        controller : controller.createGroup,
-        view : views.createGroup
+    createGroup: {
+        controller: controller.createGroup,
+        view: views.createGroup
+    },
+
+    group: {
+        controller: controller.group,
+        view: views.group
+    },
+
+    updateGroup: {
+        controller: controller.updateGroup,
+        view: views.updateGroup
     },
 
     table: {
@@ -5910,13 +5999,15 @@ const table = __webpack_require__(/*! ./templates/table.hbs */ "./spa/templates/
 const login = __webpack_require__(/*! ./templates/login.hbs */ "./spa/templates/login.hbs").default;
 const gameList = __webpack_require__(/*! ./templates/gameList.hbs */ "./spa/templates/gameList.hbs").default;
 const getAllUserGroups = __webpack_require__(/*! ./templates/getAllUserGroups.hbs */ "./spa/templates/getAllUserGroups.hbs").default;
+const group = __webpack_require__(/*! ./templates/groupDetail.hbs */ "./spa/templates/groupDetail.hbs").default;
 
 module.exports = {
     home: Handlebars.compile(home),
     table: Handlebars.compile(table),
     login: Handlebars.compile(login),
     games: Handlebars.compile(gameList),
-    getAllUserGroups: Handlebars.compile(getAllUserGroups)
+    getAllUserGroups: Handlebars.compile(getAllUserGroups),
+    group: Handlebars.compile(group)
 };
 
 /***/ }),
@@ -5943,7 +6034,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<h1 class=\"title\">GET USER NAME -> ficara nos cookies da sessao?</h1>\r\n \r\n <div class=\"userGroups\">\r\n    <table class=\"table\">\r\n        <tr class=\"thead-dark\">\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr>\r\n                <td>{{name}}</td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n{{!-- <div class=\"createGroupBox\"> --}}\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n        <label>Name</label>\r\n        <input type=\"text\" id=\"formName\" >\r\n        <label>Description</label>\r\n        <input type=\"text\" id=\"formDescription\" >\r\n        <input type=\"submit\" >\r\n    </form>\r\n{{!-- </div> --}}");
+/* harmony default export */ __webpack_exports__["default"] = ("<h1 class=\"title\">GET USER NAME -> ficara nos cookies da sessao?</h1>\r\n \r\n <div class=\"userGroups\">\r\n    <table class=\"table\">\r\n        <tr class=\"thead-dark\">\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr>\r\n                <td>{{name}}</td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n<div class=\"createGroupBox\">\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n        <label>Name</label>\r\n        <input type=\"text\" id=\"formName\" >\r\n        <label>Description</label>\r\n        <input type=\"text\" id=\"formDescription\" >\r\n        <input type=\"submit\" >\r\n    </form>\r\n</div>");
+
+/***/ }),
+
+/***/ "./spa/templates/groupDetail.hbs":
+/*!***************************************!*\
+  !*** ./spa/templates/groupDetail.hbs ***!
+  \***************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n  <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n</div>\r\n<div>\r\n  <form>\r\n    <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Name:</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"groupDescription\">Description:</label>\r\n      <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n    </div>\r\n  </form>\r\n  <label>Games:</label>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n</div>\r\n<div>\r\n  <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update</button>\r\n</div>\r\n\r\n");
 
 /***/ }),
 
@@ -6010,6 +6114,8 @@ module.exports = {
     games: games,
     getAllUserGroups: getAllUserGroups,
     createGroup: createGroup,
+    group: group,
+    updateGroup: updateGroup
 }
 
 function home(data, routesManager) {
@@ -6033,7 +6139,7 @@ function getAllUserGroups(data, routesManager) {
         e.preventDefault();
         const formName = document.querySelector("#formName");
         const formDescription = document.querySelector("#formDescription");
-        routesManager.changeRoute('createGroup', {name : formName.value, description : formDescription.value});
+        routesManager.changeRoute('createGroup', { name: formName.value, description: formDescription.value });
     }
 }
 
@@ -6045,36 +6151,77 @@ function table(data, routesManager) {
     routesManager.setMainContent(templates.table(data));
 }
 
-function login(data, routeManager){
+function login(data, routeManager) {
     routeManager.setMainContent(templates.login(data));
     const formLogin = document.querySelector("#loginForm")
     formLogin.addEventListener('submit', handleSubmit)
 
-        function handleSubmit(e) {
-            e.preventDefault()
-            const userId = document.querySelector("#userId");
-            const password = document.querySelector("#password");
+    function handleSubmit(e) {
+        e.preventDefault()
+        const userId = document.querySelector("#userId");
+        const password = document.querySelector("#password");
 
-            let fromServer = fetch('/login',{
-                method: 'POST',
-                body: JSON.stringify(
-                    {userId : userId.value, password : password.value}
-                ),
-                headers: {"Content-Type": "application/json"}
-              })
+        let fromServer = fetch('/login', {
+            method: 'POST',
+            body: JSON.stringify({ userId: userId.value, password: password.value }),
+            headers: { "Content-Type": "application/json" }
+        })
 
-            fromServer.then(function(response){
+        fromServer.then(function(response) {
                 routeManager.changeRoute('home');
             })
-            .catch(function(error){
+            .catch(function(error) {
                 alert(error);
             });
-            routeManager.changeRoute('home');
-        }
+        routeManager.changeRoute('home');
+    }
 }
 
-function games(data, routeManager){
+function games(data, routeManager) {
     routeManager.setMainContent(templates.games(data));
+}
+
+function group(data, routeManager) {
+    routeManager.setMainContent(templates.group(data));
+
+    const backToGroupsButton = document.querySelector("#backToGroups");
+    backToGroupsButton.addEventListener('click', handleClickBackToGroupsButton);
+
+    function handleClickBackToGroupsButton(e) {
+        routeManager.changeRoute('groups');
+    }
+
+    const updateGroupButton = document.querySelector("#updateGroup");
+    updateGroupButton.addEventListener('click', handleClickUpdateGroupButton);
+
+    function handleClickUpdateGroupButton(e) {
+        let group = {
+            id: document.querySelector("#groupId").value,
+            name: document.querySelector("#groupName").value,
+            description: document.querySelector("#groupDescription").value,
+            games: []
+        };
+
+        let gameIds = document.getElementsByName("gameId");
+        let gameNames = document.getElementsByName("gameName");
+        let gameMins = document.getElementsByName("gameMin");
+        let gameMaxs = document.getElementsByName("gameMax");
+
+        for (let i = 0; i < gameIds.length; i++) {
+            let game = {
+                id: gameIds[i].innerText,
+                name: gameNames[i].innerText,
+                min_playtime: Number(gameMins[i].innerText),
+                max_playtime: Number(gameMaxs[i].innerText)
+            };
+            group.games.push(game);
+        }
+        routeManager.changeRoute('updateGroup', group);
+    }
+}
+
+function updateGroup(data, routeManager) {
+    routeManager.changeRoute(`group/${data}`);
 }
 
 /***/ })

@@ -15,6 +15,8 @@ module.exports = {
     games: games,
     getAllUserGroups: getAllUserGroups,
     createGroup: createGroup,
+    group: group,
+    updateGroup: updateGroup
 }
 
 function home(data, routesManager) {
@@ -38,7 +40,7 @@ function getAllUserGroups(data, routesManager) {
         e.preventDefault();
         const formName = document.querySelector("#formName");
         const formDescription = document.querySelector("#formDescription");
-        routesManager.changeRoute('createGroup', {name : formName.value, description : formDescription.value});
+        routesManager.changeRoute('createGroup', { name: formName.value, description: formDescription.value });
     }
 }
 
@@ -50,34 +52,75 @@ function table(data, routesManager) {
     routesManager.setMainContent(templates.table(data));
 }
 
-function login(data, routeManager){
+function login(data, routeManager) {
     routeManager.setMainContent(templates.login(data));
     const formLogin = document.querySelector("#loginForm")
     formLogin.addEventListener('submit', handleSubmit)
 
-        function handleSubmit(e) {
-            e.preventDefault()
-            const userId = document.querySelector("#userId");
-            const password = document.querySelector("#password");
+    function handleSubmit(e) {
+        e.preventDefault()
+        const userId = document.querySelector("#userId");
+        const password = document.querySelector("#password");
 
-            let fromServer = fetch('/login',{
-                method: 'POST',
-                body: JSON.stringify(
-                    {userId : userId.value, password : password.value}
-                ),
-                headers: {"Content-Type": "application/json"}
-              })
+        let fromServer = fetch('/login', {
+            method: 'POST',
+            body: JSON.stringify({ userId: userId.value, password: password.value }),
+            headers: { "Content-Type": "application/json" }
+        })
 
-            fromServer.then(function(response){
+        fromServer.then(function(response) {
                 routeManager.changeRoute('home');
             })
-            .catch(function(error){
+            .catch(function(error) {
                 alert(error);
             });
-            routeManager.changeRoute('home');
-        }
+        routeManager.changeRoute('home');
+    }
 }
 
-function games(data, routeManager){
+function games(data, routeManager) {
     routeManager.setMainContent(templates.games(data));
+}
+
+function group(data, routeManager) {
+    routeManager.setMainContent(templates.group(data));
+
+    const backToGroupsButton = document.querySelector("#backToGroups");
+    backToGroupsButton.addEventListener('click', handleClickBackToGroupsButton);
+
+    function handleClickBackToGroupsButton(e) {
+        routeManager.changeRoute('groups');
+    }
+
+    const updateGroupButton = document.querySelector("#updateGroup");
+    updateGroupButton.addEventListener('click', handleClickUpdateGroupButton);
+
+    function handleClickUpdateGroupButton(e) {
+        let group = {
+            id: document.querySelector("#groupId").value,
+            name: document.querySelector("#groupName").value,
+            description: document.querySelector("#groupDescription").value,
+            games: []
+        };
+
+        let gameIds = document.getElementsByName("gameId");
+        let gameNames = document.getElementsByName("gameName");
+        let gameMins = document.getElementsByName("gameMin");
+        let gameMaxs = document.getElementsByName("gameMax");
+
+        for (let i = 0; i < gameIds.length; i++) {
+            let game = {
+                id: gameIds[i].innerText,
+                name: gameNames[i].innerText,
+                min_playtime: Number(gameMins[i].innerText),
+                max_playtime: Number(gameMaxs[i].innerText)
+            };
+            group.games.push(game);
+        }
+        routeManager.changeRoute('updateGroup', group);
+    }
+}
+
+function updateGroup(data, routeManager) {
+    routeManager.changeRoute(`group/${data}`);
 }
