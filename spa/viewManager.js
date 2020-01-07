@@ -10,6 +10,7 @@ const templates = require('./templateManager');
 
 module.exports = {
     home: home,
+    table: table,
     login: login,
     games: games,
     getAllUserGroups: getAllUserGroups,
@@ -18,7 +19,7 @@ module.exports = {
     group: group,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
-    removeGameFromGroup: removeGameFromGroup
+    removeGamefromGroup: removeGamefromGroup
 }
 
 function home(data, routesManager) {
@@ -40,6 +41,10 @@ function getAllUserGroups(data, routesManager) {
 
 function createGroup(data, routesManager) {
     routesManager.changeRoute('getAllUserGroups');
+}
+
+function table(data, routesManager) {
+    routesManager.setMainContent(templates.table(data));
 }
 
 function login(data, routeManager) {
@@ -64,7 +69,7 @@ function login(data, routeManager) {
             .catch(function(error) {
                 alert(error);
             });
-    }
+        }
 }
 
 function games(data, routeManager) {
@@ -74,24 +79,30 @@ function games(data, routeManager) {
 function searchGamesByName(data, routeManager) {
     routeManager.setMainContent(templates.searchGamesByName(data));
 
-    const formLogin = document.querySelector("#searchGamesForm")
-    formLogin.addEventListener('submit', handleSubmit)
+    const searchButton = document.querySelector("#searchButton")
+    searchButton.addEventListener('click', handleClick)
 
-    function handleSubmit(e) {
-        e.preventDefault()
-        const gameName = document.querySelector("#gameName");
-
-        let fromServer = fetch(`/games/${gameName.value}`, {
-            method: 'GET',
-        })
-
-        fromServer.then(function(response) {
-                routeManager.changeRoute('searchGamesForm', { name: gameName.value });
-            })
-            .catch(function(error) {
-                alert(errror);
-            });
-    }
+        async function handleClick(e) {
+            const gameName = document.querySelector("#gameName");
+            let fromServer = await fetch(`/games/${gameName.value}`,{
+                method: 'GET',
+              }).then(function(response){
+                  return response.json();
+              })
+              .catch(function(error){
+                  alert(error);
+              });
+            let games = fromServer.payload;
+            let rows = "";
+            for (let i = 0; i < games.length; i++) {
+                let game = games[i];
+                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td></tr>`;
+                rows += row;
+            }
+            let target = document.querySelector("#gamesSearched");
+            target.innerHTML = rows;
+        }
+        
 }
 
 function group(data, routeManager) {
@@ -133,7 +144,7 @@ function group(data, routeManager) {
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
-    searchGameForm.addEventListener('submit', handleSubmitSearchGameForm);
+    searchGameForm.addEventListener('click', handleSubmitSearchGameForm);
 
     async function handleSubmitSearchGameForm(e) {
         e.preventDefault();
@@ -153,8 +164,12 @@ function group(data, routeManager) {
                 if (rsp.ok) {
                     return rsp.json();
                 } else {
-                    throw new Error(rsp.json().payload.applicationErrorMessage);
+                    //avisa o user que deu merda
+                    //throw new Error();
                 }
+            })
+            .catch((err) => {
+                //send error message
             })
         let games = response.payload;
         let rows = "";
@@ -175,23 +190,10 @@ function group(data, routeManager) {
         function handleAddGameToGroupButton(e) {
             const searchGameIds = document.getElementsByName("searchGameId");
             const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
-            const groupId = document.querySelector("#groupId").value;
+            const groupId = document.querySelector("#groupId").value
             routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
         }
     }
-
-    const removeGameToGroupButtons = document.getElementsByName("removeGameFromGroup");
-    removeGameToGroupButtons.forEach(b => {
-        b.addEventListener('click', handleRemoveGameToGroupButton);
-    });
-
-    function handleRemoveGameToGroupButton(e) {
-        const gameIds = document.getElementsByName("gameId");
-        const gameId = gameIds[e.toElement.attributes[0].value].innerText;
-        const groupId = document.querySelector("#groupId").value;
-        routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
-    }
-
 }
 
 function updateGroup(data, routesManager) {
@@ -202,6 +204,6 @@ function addGameToGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
 }
 
-function removeGameFromGroup(data, routesManager) {
+function removeGamefromGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
 }

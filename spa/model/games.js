@@ -38,7 +38,6 @@ function searchGamesByName(name) {
             }
         })
 
-    console.log(res);
     return res;
 }
 

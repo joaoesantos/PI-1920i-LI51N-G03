@@ -52,21 +52,31 @@ module.exports = {
         return await groups.addGameToGroup(data.groupId, data.gameId);
     },
 
-    removeGameFromGroup: async function(args) {
-        if (args == null) {
-            //dia ao utilizador que tem de por id
-        }
-        let data = args;
-        return await groups.removeGameFromGroup(data.groupId, data.gameId);
+    table: async function() {
+        let gameTable = {
+            header: ["H1", "H2", "H3"],
+            elements: [{
+                    h1: "lala",
+                    p2: "lele",
+                    lge: "rbgegr"
+                },
+                {
+                    h1: "rrrrrrrrr",
+                    p2: "eeeeeeeeee",
+                    lge: "tttttttttt"
+                }
+            ]
+        };
+        return gameTable;
     },
 
-    searchGamesByName: async function(name) {
-        if (!name) {
-            name = "";
-        }
 
-        let gameList = await games.searchGamesByName(name);
-        return gameList.payload;
+    searchGamesByName: async function(name){
+        let table = {
+            header: ["ID", "Name", "Min Playtime", "Max Playtime"],
+            
+        };
+        return table;
     },
 
 }
