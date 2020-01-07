@@ -48,10 +48,9 @@ module.exports = {
         controller: controller.addGameToGroup,
         view: views.addGameToGroup
     },
-    table: {
-        controller: controller.table,
-        view: views.table
 
+    removeGameFromGroup: {
+        controller: controller.removeGameFromGroup,
+        view: views.removeGameFromGroup
     }
-
 }

@@ -127,14 +127,15 @@ function addGameToGroup(groupId, gameId) {
 }
 
 function removeGameFromGroup(groupId, gameId) {
-    let options = {
-        method: 'DELETE',
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    var requestConfigs = {
+        method: 'Delete',
+        headers: headers,
+        mode: 'cors',
+        cache: 'default'
     };
-    return fetch(Uris.removeGameFromGroupUri(groupId, gameId), options)
+    return fetch(Uris.removeGameFromGroupUri(groupId, gameId), requestConfigs)
         .then((rsp) => {
             if (rsp.ok) {
                 return rsp.json();
@@ -147,7 +148,7 @@ function removeGameFromGroup(groupId, gameId) {
             //send error message
         })
         .then((rsp) => {
-            return rsp.payload; // HMMMMMM
+            return groupId; // HMMMMMM
         });
 }
 

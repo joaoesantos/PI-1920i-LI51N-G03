@@ -164,7 +164,7 @@ exports.push([module.i, ".submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 15%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}", ""]);
+exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 20%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}", ""]);
 
 
 /***/ }),
@@ -5635,27 +5635,16 @@ module.exports = {
         return await groups.addGameToGroup(data.groupId, data.gameId);
     },
 
-    table: async function() {
-        let gameTable = {
-            header: ["H1", "H2", "H3"],
-            elements: [{
-                    h1: "lala",
-                    p2: "lele",
-                    lge: "rbgegr"
-                },
-                {
-                    h1: "rrrrrrrrr",
-                    p2: "eeeeeeeeee",
-                    lge: "tttttttttt"
-                }
-            ]
-        };
-        return gameTable;
+    removeGameFromGroup: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let data = args;
+        return await groups.removeGameFromGroup(data.groupId, data.gameId);
     },
 
-
-    searchGamesByName: async function(name){
-        if(!name){
+    searchGamesByName: async function(name) {
+        if (!name) {
             name = "";
         }
 
@@ -5730,6 +5719,8 @@ function loadHandler() {
             window.location.hash = "home";
             return;
         }
+
+        console.log(route)
 
         addRouteData(args);
         route
@@ -5923,14 +5914,15 @@ function addGameToGroup(groupId, gameId) {
 }
 
 function removeGameFromGroup(groupId, gameId) {
-    let options = {
-        method: 'DELETE',
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    var requestConfigs = {
+        method: 'Delete',
+        headers: headers,
+        mode: 'cors',
+        cache: 'default'
     };
-    return fetch(Uris.removeGameFromGroupUri(groupId, gameId), options)
+    return fetch(Uris.removeGameFromGroupUri(groupId, gameId), requestConfigs)
         .then((rsp) => {
             if (rsp.ok) {
                 return rsp.json();
@@ -5943,7 +5935,7 @@ function removeGameFromGroup(groupId, gameId) {
             //send error message
         })
         .then((rsp) => {
-            return rsp.payload; // HMMMMMM
+            return groupId; // HMMMMMM
         });
 }
 
@@ -6016,12 +6008,11 @@ module.exports = {
         controller: controller.addGameToGroup,
         view: views.addGameToGroup
     },
-    table: {
-        controller: controller.table,
-        view: views.table
 
+    removeGameFromGroup: {
+        controller: controller.removeGameFromGroup,
+        view: views.removeGameFromGroup
     }
-
 }
 
 /***/ }),
@@ -6117,7 +6108,6 @@ if (content.locals) {
 const Handlebars = __webpack_require__(/*! ../node_modules/handlebars/dist/handlebars */ "./node_modules/handlebars/dist/handlebars.js");
 
 const home = __webpack_require__(/*! ./templates/home.hbs */ "./spa/templates/home.hbs").default;
-const table = __webpack_require__(/*! ./templates/table.hbs */ "./spa/templates/table.hbs").default;
 const login = __webpack_require__(/*! ./templates/login.hbs */ "./spa/templates/login.hbs").default;
 const gameList = __webpack_require__(/*! ./templates/gameList.hbs */ "./spa/templates/gameList.hbs").default;
 const getAllUserGroups = __webpack_require__(/*! ./templates/getAllUserGroups.hbs */ "./spa/templates/getAllUserGroups.hbs").default;
@@ -6126,7 +6116,6 @@ const group = __webpack_require__(/*! ./templates/groupDetail.hbs */ "./spa/temp
 
 module.exports = {
     home: Handlebars.compile(home),
-    table: Handlebars.compile(table),
     login: Handlebars.compile(login),
     games: Handlebars.compile(gameList),
     getAllUserGroups: Handlebars.compile(getAllUserGroups),
@@ -6184,7 +6173,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n  <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n</div>\r\n<div>\r\n  <form>\r\n    <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Name:</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"groupDescription\">Description:</label>\r\n      <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n    </div>\r\n  </form>\r\n  <div>\r\n    <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update Group Details</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <label>Games:</label>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  <br/>\r\n  <h2>Searh Game by name:</h2>\r\n  <form id=\"searchGameForm\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"searchGameName\">Game name:</label>\r\n      <input type=\"text\" id=\"searchGameName\" name=\"searchGameName\" value=\"\" placeholder=\"insert name to search\" required>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-secondary\">Procurar</button>\r\n  </form>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"searchResults\">\r\n    </tbody>\r\n  </table>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n  <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n</div>\r\n<div>\r\n  <form>\r\n    <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Name:</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"groupDescription\">Description:</label>\r\n      <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n    </div>\r\n  </form>\r\n  <div>\r\n    <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update Group Details</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <label>Games:</label>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n          <td> <button id=\"{{@index}}\" name=\"removeGameFromGroup\" type=\"button\" class=\"btn btn-primary\">Remove game from group</button> </td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  <br/>\r\n  <h2>Searh Game by name:</h2>\r\n  <form id=\"searchGameForm\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"searchGameName\">Game name:</label>\r\n      <input type=\"text\" id=\"searchGameName\" name=\"searchGameName\" value=\"\" placeholder=\"insert name to search\" required>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-secondary\">Procurar</button>\r\n  </form>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"searchResults\">\r\n    </tbody>\r\n  </table>\r\n</div>");
 
 /***/ }),
 
@@ -6214,19 +6203,6 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./spa/templates/table.hbs":
-/*!*********************************!*\
-  !*** ./spa/templates/table.hbs ***!
-  \*********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<table class=\"table\">\r\n  <thead class=\"thead-dark\">\r\n    <tr>\r\n      {{#each header as |column|}}\r\n        <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n      {{/each}} \r\n    </tr>\r\n  </thead>\r\n  <tbody>\r\n\t  {{#each elements as |row|}}\r\n\t    <tr>\r\n\t\t    {{#each row as |value|}}\r\n\t\t\t    <td>{{value}}</td>\r\n\t\t    {{/each}} \r\n\t  </tr>\r\n  \t{{/each}} \r\n  </tbody>\r\n</table>");
-
-/***/ }),
-
 /***/ "./spa/viewManager.js":
 /*!****************************!*\
   !*** ./spa/viewManager.js ***!
@@ -6246,7 +6222,6 @@ const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateMa
 
 module.exports = {
     home: home,
-    table: table,
     login: login,
     games: games,
     getAllUserGroups: getAllUserGroups,
@@ -6255,7 +6230,7 @@ module.exports = {
     group: group,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
-    removeGamefromGroup: removeGamefromGroup
+    removeGameFromGroup: removeGameFromGroup
 }
 
 function home(data, routesManager) {
@@ -6277,10 +6252,6 @@ function getAllUserGroups(data, routesManager) {
 
 function createGroup(data, routesManager) {
     routesManager.changeRoute('getAllUserGroups');
-}
-
-function table(data, routesManager) {
-    routesManager.setMainContent(templates.table(data));
 }
 
 function login(data, routeManager) {
@@ -6305,35 +6276,35 @@ function login(data, routeManager) {
             .catch(function(error) {
                 alert(error);
             });
-        }
+    }
 }
 
 function games(data, routeManager) {
     routeManager.setMainContent(templates.games(data));
 }
 
-function searchGamesByName(data, routeManager){
+function searchGamesByName(data, routeManager) {
     routeManager.setMainContent(templates.searchGamesByName(data));
 
     const formLogin = document.querySelector("#searchGamesForm")
     formLogin.addEventListener('submit', handleSubmit)
 
-        function handleSubmit(e) {
-            e.preventDefault()
-            const gameName = document.querySelector("#gameName");
-            
-            let fromServer = fetch(`/games/${gameName.value}`,{
-                method: 'GET',
-              })
+    function handleSubmit(e) {
+        e.preventDefault()
+        const gameName = document.querySelector("#gameName");
 
-            fromServer.then(function(response){
-                
-                routeManager.changeRoute('searchGamesForm', {name : gameName.value});
+        let fromServer = fetch(`/games/${gameName.value}`, {
+            method: 'GET',
+        })
+
+        fromServer.then(function(response) {
+
+                routeManager.changeRoute('searchGamesForm', { name: gameName.value });
             })
-            .catch(function(error){
+            .catch(function(error) {
                 alert(errror);
             });
-        }
+    }
 }
 
 function group(data, routeManager) {
@@ -6375,7 +6346,7 @@ function group(data, routeManager) {
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
-    searchGameForm.addEventListener('click', handleSubmitSearchGameForm);
+    searchGameForm.addEventListener('submit', handleSubmitSearchGameForm);
 
     async function handleSubmitSearchGameForm(e) {
         e.preventDefault();
@@ -6421,10 +6392,23 @@ function group(data, routeManager) {
         function handleAddGameToGroupButton(e) {
             const searchGameIds = document.getElementsByName("searchGameId");
             const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
-            const groupId = document.querySelector("#groupId").value
+            const groupId = document.querySelector("#groupId").value;
             routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
         }
     }
+
+    const removeGameToGroupButtons = document.getElementsByName("removeGameFromGroup");
+    removeGameToGroupButtons.forEach(b => {
+        b.addEventListener('click', handleRemoveGameToGroupButton);
+    });
+
+    function handleRemoveGameToGroupButton(e) {
+        const gameIds = document.getElementsByName("gameId");
+        const gameId = gameIds[e.toElement.attributes[0].value].innerText;
+        const groupId = document.querySelector("#groupId").value;
+        routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
+    }
+
 }
 
 function updateGroup(data, routesManager) {
@@ -6435,7 +6419,7 @@ function addGameToGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
 }
 
-function removeGamefromGroup(data, routesManager) {
+function removeGameFromGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
 }
 

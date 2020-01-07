@@ -10,7 +10,6 @@ const templates = require('./templateManager');
 
 module.exports = {
     home: home,
-    table: table,
     login: login,
     games: games,
     getAllUserGroups: getAllUserGroups,
@@ -19,7 +18,7 @@ module.exports = {
     group: group,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
-    removeGamefromGroup: removeGamefromGroup
+    removeGameFromGroup: removeGameFromGroup
 }
 
 function home(data, routesManager) {
@@ -41,10 +40,6 @@ function getAllUserGroups(data, routesManager) {
 
 function createGroup(data, routesManager) {
     routesManager.changeRoute('getAllUserGroups');
-}
-
-function table(data, routesManager) {
-    routesManager.setMainContent(templates.table(data));
 }
 
 function login(data, routeManager) {
@@ -69,35 +64,35 @@ function login(data, routeManager) {
             .catch(function(error) {
                 alert(error);
             });
-        }
+    }
 }
 
 function games(data, routeManager) {
     routeManager.setMainContent(templates.games(data));
 }
 
-function searchGamesByName(data, routeManager){
+function searchGamesByName(data, routeManager) {
     routeManager.setMainContent(templates.searchGamesByName(data));
 
     const formLogin = document.querySelector("#searchGamesForm")
     formLogin.addEventListener('submit', handleSubmit)
 
-        function handleSubmit(e) {
-            e.preventDefault()
-            const gameName = document.querySelector("#gameName");
-            
-            let fromServer = fetch(`/games/${gameName.value}`,{
-                method: 'GET',
-              })
+    function handleSubmit(e) {
+        e.preventDefault()
+        const gameName = document.querySelector("#gameName");
 
-            fromServer.then(function(response){
-                
-                routeManager.changeRoute('searchGamesForm', {name : gameName.value});
+        let fromServer = fetch(`/games/${gameName.value}`, {
+            method: 'GET',
+        })
+
+        fromServer.then(function(response) {
+
+                routeManager.changeRoute('searchGamesForm', { name: gameName.value });
             })
-            .catch(function(error){
+            .catch(function(error) {
                 alert(errror);
             });
-        }
+    }
 }
 
 function group(data, routeManager) {
@@ -139,7 +134,7 @@ function group(data, routeManager) {
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
-    searchGameForm.addEventListener('click', handleSubmitSearchGameForm);
+    searchGameForm.addEventListener('submit', handleSubmitSearchGameForm);
 
     async function handleSubmitSearchGameForm(e) {
         e.preventDefault();
@@ -185,10 +180,23 @@ function group(data, routeManager) {
         function handleAddGameToGroupButton(e) {
             const searchGameIds = document.getElementsByName("searchGameId");
             const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
-            const groupId = document.querySelector("#groupId").value
+            const groupId = document.querySelector("#groupId").value;
             routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
         }
     }
+
+    const removeGameToGroupButtons = document.getElementsByName("removeGameFromGroup");
+    removeGameToGroupButtons.forEach(b => {
+        b.addEventListener('click', handleRemoveGameToGroupButton);
+    });
+
+    function handleRemoveGameToGroupButton(e) {
+        const gameIds = document.getElementsByName("gameId");
+        const gameId = gameIds[e.toElement.attributes[0].value].innerText;
+        const groupId = document.querySelector("#groupId").value;
+        routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
+    }
+
 }
 
 function updateGroup(data, routesManager) {
@@ -199,6 +207,6 @@ function addGameToGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
 }
 
-function removeGamefromGroup(data, routesManager) {
+function removeGameFromGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
 }

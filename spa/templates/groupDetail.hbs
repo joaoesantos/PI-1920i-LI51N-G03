@@ -25,6 +25,7 @@
         {{#each header as |column|}}
           <th scope="col" class="test-class">{{column}}</th>
         {{/each}} 
+        <th scope="col" class="test-class"> </th>
       </tr>
     </thead>
     <tbody>
@@ -34,6 +35,7 @@
           <td name="gameName">{{row.name}}</td>
           <td name="gameMin">{{row.min_playtime}}</td>
           <td name="gameMax">{{row.max_playtime}}</td>
+          <td> <button id="{{@index}}" name="removeGameFromGroup" type="button" class="btn btn-primary">Remove game from group</button> </td>
         </tr>
       {{/each}} 
     </tbody>
