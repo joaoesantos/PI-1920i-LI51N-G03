@@ -76,28 +76,33 @@ function games(data, routeManager) {
     routeManager.setMainContent(templates.games(data));
 }
 
-function searchGamesByName(data, routeManager){
+function searchGamesByName(data, routeManager) {
     routeManager.setMainContent(templates.searchGamesByName(data));
 
-    const formLogin = document.querySelector("#searchGamesForm")
-    formLogin.addEventListener('submit', handleSubmit)
+    const searchButton = document.querySelector("#searchButton")
+    searchButton.addEventListener('click', handleClick)
 
-        function handleSubmit(e) {
-            e.preventDefault()
+        async function handleClick(e) {
             const gameName = document.querySelector("#gameName");
-            
-            let fromServer = fetch(`/games/${gameName.value}`,{
+            let fromServer = await fetch(`/games/${gameName.value}`,{
                 method: 'GET',
+              }).then(function(response){
+                  return response.json();
               })
-
-            fromServer.then(function(response){
-                
-                routeManager.changeRoute('searchGamesForm', {name : gameName.value});
-            })
-            .catch(function(error){
-                alert(errror);
-            });
+              .catch(function(error){
+                  alert(error);
+              });
+            let games = fromServer.payload;
+            let rows = "";
+            for (let i = 0; i < games.length; i++) {
+                let game = games[i];
+                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td></tr>`;
+                rows += row;
+            }
+            let target = document.querySelector("#gamesSearched");
+            target.innerHTML = rows;
         }
+        
 }
 
 function group(data, routeManager) {

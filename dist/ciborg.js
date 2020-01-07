@@ -164,7 +164,7 @@ exports.push([module.i, ".submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 15%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}", ""]);
+exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 20%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}", ""]);
 
 
 /***/ }),
@@ -5655,12 +5655,11 @@ module.exports = {
 
 
     searchGamesByName: async function(name){
-        if(!name){
-            name = "";
-        }
-
-        let gameList = await games.searchGamesByName(name);
-        return gameList.payload;
+        let table = {
+            header: ["ID", "Name", "Min Playtime", "Max Playtime"],
+            
+        };
+        return table;
     },
 
 }
@@ -5775,7 +5774,6 @@ function searchGamesByName(name){
     let res = fetch(Uris.searchGamesByName() + name, options)
         .then(res => res.json()) 
 
-    console.log(res);
     return res;
 }
 
@@ -6158,7 +6156,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                 <button class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"table-container\">\r\n</div>\r\n\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                 <button id=\"searchButton\" class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n\r\n</div>\r\n<table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"gamesSearched\">\r\n    </tbody>\r\n  </table>\r\n</div>");
 
 /***/ }),
 
@@ -6312,28 +6310,37 @@ function games(data, routeManager) {
     routeManager.setMainContent(templates.games(data));
 }
 
-function searchGamesByName(data, routeManager){
+function searchGamesByName(data, routeManager) {
     routeManager.setMainContent(templates.searchGamesByName(data));
 
-    const formLogin = document.querySelector("#searchGamesForm")
-    formLogin.addEventListener('submit', handleSubmit)
+    const searchButton = document.querySelector("#searchButton")
+    searchButton.addEventListener('click', handleClick)
 
-        function handleSubmit(e) {
-            e.preventDefault()
+        async function handleClick(e) {
             const gameName = document.querySelector("#gameName");
-            
-            let fromServer = fetch(`/games/${gameName.value}`,{
+            console.log('submit search');
+            let fromServer = await fetch(`/games/${gameName.value}`,{
                 method: 'GET',
+              }).then(function(response){
+                  console.log(response);
+                  return response.json();
               })
-
-            fromServer.then(function(response){
-                
-                routeManager.changeRoute('searchGamesForm', {name : gameName.value});
-            })
-            .catch(function(error){
-                alert(errror);
-            });
+              .catch(function(error){
+                  alert(error);
+              });
+            let games = fromServer.payload;
+            let rows = "";
+            for (let i = 0; i < games.length; i++) {
+                let game = games[i];
+                console.log('game', game);
+                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td></tr>`;
+                rows += row;
+            }
+            console.log('rows', rows);
+            let target = document.querySelector("#gamesSearched");
+            target.innerHTML = rows;
         }
+        
 }
 
 function group(data, routeManager) {

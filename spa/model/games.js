@@ -24,7 +24,6 @@ function searchGamesByName(name){
     let res = fetch(Uris.searchGamesByName() + name, options)
         .then(res => res.json()) 
 
-    console.log(res);
     return res;
 }
 

@@ -72,12 +72,11 @@ module.exports = {
 
 
     searchGamesByName: async function(name){
-        if(!name){
-            name = "";
-        }
-
-        let gameList = await games.searchGamesByName(name);
-        return gameList.payload;
+        let table = {
+            header: ["ID", "Name", "Min Playtime", "Max Playtime"],
+            
+        };
+        return table;
     },
 
 }
