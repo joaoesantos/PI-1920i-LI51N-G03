@@ -12,7 +12,7 @@ function loadHandler() {
 
     let routeData = null;
 
-    const routeManager = {
+    const routesManager = {
         setMainContent: function(html) {
             mainContent.innerHTML = html;
         },

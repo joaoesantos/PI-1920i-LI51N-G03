@@ -66,7 +66,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
                             resolveServiceResponse({
                                 statusCode: 200,
                                 body: {
-                                    message: "user logged in",
+                                    message: "User logged in.",
                                     user: user
                                 }
                             }, rsp);
@@ -103,13 +103,13 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
                             '500' // Internal Server Error
                         );
                     }
-                    debug.extend('login')(err);
+                    debug.extend('logout')(err);
                     err.resolveErrorResponse(rsp);
                 } else {
                     resolveServiceResponse({
                         statusCode: 200,
                         body: {
-                            message: "user logged out"
+                            message: "User logged out."
                         }
                     }, rsp);
                 }

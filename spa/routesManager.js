@@ -15,14 +15,24 @@ module.exports = {
         view: views.login
     },
 
+    logout: {
+        controller: controller.logout,
+        view: views.logout
+    },
+
     games: {
         controller: controller.games,
         view: views.games
     },
 
-    getAllUserGroups: {
-        controller: controller.getAllUserGroups,
-        view: views.getAllUserGroups
+    searchGames: {
+        controller: controller.searchGamesByName,
+        view: views.searchGamesByName
+    },
+
+    groups: {
+        controller: controller.groups,
+        view: views.groups
     },
 
     createGroup: {
@@ -30,10 +40,6 @@ module.exports = {
         view: views.createGroup
     },
 
-    searchGames: {
-        controller: controller.searchGamesByName,
-        view: views.searchGamesByName
-    },
     group: {
         controller: controller.group,
         view: views.group

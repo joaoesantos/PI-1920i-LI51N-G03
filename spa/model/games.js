@@ -1,4 +1,9 @@
-'use strict'
+'use strict';
+
+module.exports = {
+    getMostPopularGames: getMostPopularGames,
+    searchGamesByName: searchGamesByName
+};
 
 function GamesApiUris() {
     const baseUri = 'http://localhost:8500/'
