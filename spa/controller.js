@@ -1,5 +1,6 @@
 "use strict";
 
+const authentication = require('./model/authentication')
 const groups = require('./model/groups');
 const games = require('./model/games');
 
@@ -13,19 +14,29 @@ module.exports = {
         console.log('???????????');
     },
 
-    games: async function() {
+    logout: async function() {
+        return await authentication.logout();
+    },
 
+    games: async function() {
         let fromServer = await games.getMostPopularGames();
         return fromServer.payload;
     },
 
-    // groups models
-    getAllUserGroups: async function() {
-        return groups.getAllUserGroups();
+    searchGamesByName: async function(name){
+        let table = {
+            header: ["ID", "Name", "Min Playtime", "Max Playtime"],
+            
+        };
+        return table;
+    },
+
+    groups: async function() {
+        return await groups.getGroups();
     },
 
     createGroup: async function(data) {
-        return groups.createGroup(data.name, data.description);
+        return await groups.createGroup(data.name, data.description);
     },
 
     group: async function(args) {
@@ -50,33 +61,6 @@ module.exports = {
         }
         let data = args;
         return await groups.addGameToGroup(data.groupId, data.gameId);
-    },
-
-    table: async function() {
-        let gameTable = {
-            header: ["H1", "H2", "H3"],
-            elements: [{
-                    h1: "lala",
-                    p2: "lele",
-                    lge: "rbgegr"
-                },
-                {
-                    h1: "rrrrrrrrr",
-                    p2: "eeeeeeeeee",
-                    lge: "tttttttttt"
-                }
-            ]
-        };
-        return gameTable;
-    },
-
-
-    searchGamesByName: async function(name){
-        let table = {
-            header: ["ID", "Name", "Min Playtime", "Max Playtime"],
-            
-        };
-        return table;
     },
 
 }

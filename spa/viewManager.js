@@ -1,20 +1,23 @@
 "use script";
 
+// geral
 require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 require('../spa/stylesheets/stylesheet.css');
+// authentication
 require('../spa/stylesheets/login.css');
+// games
 // groups
-require('../spa/stylesheets/getAllUserGroups.css');
+require('../spa/stylesheets/groups.css');
 
 const templates = require('./templateManager');
 
 module.exports = {
     home: home,
-    table: table,
     login: login,
+    logout: logout,
     games: games,
-    getAllUserGroups: getAllUserGroups,
     searchGamesByName: searchGamesByName,
+    groups: groups,
     createGroup: createGroup,
     group: group,
     updateGroup: updateGroup,
@@ -24,27 +27,6 @@ module.exports = {
 
 function home(data, routesManager) {
     routesManager.setMainContent(templates.home(data));
-}
-
-function getAllUserGroups(data, routesManager) {
-    routesManager.setMainContent(templates.getAllUserGroups(data));
-    const formCreateGroup = document.querySelector("#createGroup");
-    formCreateGroup.addEventListener('submit', handleSubmit);
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        const formName = document.querySelector("#formName");
-        const formDescription = document.querySelector("#formDescription");
-        routesManager.changeRoute('createGroup', { name: formName.value, description: formDescription.value });
-    }
-}
-
-function createGroup(data, routesManager) {
-    routesManager.changeRoute('getAllUserGroups');
-}
-
-function table(data, routesManager) {
-    routesManager.setMainContent(templates.table(data));
 }
 
 function login(data, routeManager) {
@@ -69,7 +51,11 @@ function login(data, routeManager) {
             .catch(function(error) {
                 alert(error);
             });
-        }
+    }
+}
+
+function logout(data, routesManager) {
+    routesManager.changeRoute('home');
 }
 
 function games(data, routeManager) {
@@ -82,27 +68,43 @@ function searchGamesByName(data, routeManager) {
     const searchButton = document.querySelector("#searchButton")
     searchButton.addEventListener('click', handleClick)
 
-        async function handleClick(e) {
-            const gameName = document.querySelector("#gameName");
-            let fromServer = await fetch(`/games/${gameName.value}`,{
-                method: 'GET',
-              }).then(function(response){
-                  return response.json();
-              })
-              .catch(function(error){
-                  alert(error);
-              });
-            let games = fromServer.payload;
-            let rows = "";
-            for (let i = 0; i < games.length; i++) {
-                let game = games[i];
-                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td></tr>`;
-                rows += row;
-            }
-            let target = document.querySelector("#gamesSearched");
-            target.innerHTML = rows;
+    async function handleClick(e) {
+        const gameName = document.querySelector("#gameName");
+        let fromServer = await fetch(`/games/${gameName.value}`,{
+            method: 'GET',
+            }).then(function(response){
+                return response.json();
+            })
+            .catch(function(error){
+                alert(error);
+            });
+        let games = fromServer.payload;
+        let rows = "";
+        for (let i = 0; i < games.length; i++) {
+            let game = games[i];
+            let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td></tr>`;
+            rows += row;
         }
-        
+        let target = document.querySelector("#gamesSearched");
+        target.innerHTML = rows;
+    }      
+}
+
+function groups(data, routesManager) {
+    routesManager.setMainContent(templates.groups(data));
+    const formCreateGroup = document.querySelector("#createGroup");
+    formCreateGroup.addEventListener('submit', handleSubmit);
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        const formName = document.querySelector("#formName");
+        const formDescription = document.querySelector("#formDescription");
+        routesManager.changeRoute('createGroup', { name: formName.value, description: formDescription.value });
+    }
+}
+
+function createGroup(data, routesManager) {
+    routesManager.changeRoute('groups');
 }
 
 function group(data, routeManager) {

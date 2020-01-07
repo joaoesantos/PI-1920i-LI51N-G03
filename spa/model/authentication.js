@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = {
-    login: login,
+    //login: login,
     logout: logout
-}
+};
 
 function AuthenticationApiUris() {
     const baseUri = 'http://localhost:8500/';

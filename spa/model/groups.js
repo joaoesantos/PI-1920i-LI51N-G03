@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-    groups: groups,
+    getGroups: getGroups,
     createGroup: createGroup,
     getGroup: getGroup,
     updateGroup: updateGroup,
@@ -22,7 +22,7 @@ function GroupsApiUris() {
 
 const Uris = new GroupsApiUris();
 
-function groups() {
+function getGroups() {
     return fetch(Uris.groupsUri())
         .then((rsp) => {
             if (rsp.ok) {

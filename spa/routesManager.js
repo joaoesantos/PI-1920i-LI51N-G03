@@ -25,6 +25,11 @@ module.exports = {
         view: views.games
     },
 
+    searchGames: {
+        controller: controller.searchGamesByName,
+        view: views.searchGamesByName
+    },
+
     groups: {
         controller: controller.groups,
         view: views.groups
@@ -35,10 +40,6 @@ module.exports = {
         view: views.createGroup
     },
 
-    searchGames: {
-        controller: controller.searchGamesByName,
-        view: views.searchGamesByName
-    },
     group: {
         controller: controller.group,
         view: views.group
@@ -53,11 +54,5 @@ module.exports = {
         controller: controller.addGameToGroup,
         view: views.addGameToGroup
     },
-
-    table: {
-        controller: controller.table,
-        view: views.table
-
-    }
 
 }
