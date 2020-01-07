@@ -18,7 +18,14 @@ const Uris = new GroupsApiUris();
 
 function getAllUserGroups() {
     return fetch(Uris.getAllUserGroupsUri())
-        .then(res => res.json());
+        .then(async(rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
+            }
+        });
 }
 
 function createGroup(name, description) {
@@ -35,7 +42,14 @@ function createGroup(name, description) {
         })
     };
     return fetch(Uris.createGroupUri(), options)
-        .then(res => res.json());
+        .then(async(rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
+            }
+        });
 }
 
 function getGroup(id) {
@@ -48,16 +62,13 @@ function getGroup(id) {
         cache: 'default'
     };
     return fetch(Uris.getGroupUri(id), requestConfigs)
-        .then((rsp) => {
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         })
         .then((rsp) => {
             let group = {
@@ -84,16 +95,13 @@ function updateGroup(group) {
         body: JSON.stringify(group)
     };
     return fetch(Uris.updateGroupUri(id), requestConfigs)
-        .then((rsp) => {
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         })
         .then((rsp) => {
             return rsp.payload.id;
@@ -110,16 +118,13 @@ function addGameToGroup(groupId, gameId) {
         cache: 'default'
     };
     return fetch(Uris.addGameToGroupUri(groupId, gameId), requestConfigs)
-        .then((rsp) => {
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         })
         .then((rsp) => {
             return rsp.payload.id;
@@ -136,16 +141,13 @@ function removeGameFromGroup(groupId, gameId) {
         cache: 'default'
     };
     return fetch(Uris.removeGameFromGroupUri(groupId, gameId), requestConfigs)
-        .then((rsp) => {
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         })
         .then((rsp) => {
             return groupId; // HMMMMMM

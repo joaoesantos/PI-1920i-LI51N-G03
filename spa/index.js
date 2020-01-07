@@ -8,6 +8,7 @@ function loadHandler() {
     window.addEventListener('hashchange', hashChangeHandler);
     hashChangeHandler();
     const mainContent = document.querySelector("#mainContent");
+    const alertContent = document.querySelector("#alertContent");
 
     let routeData = null;
 
@@ -19,7 +20,11 @@ function loadHandler() {
         changeRoute: function(hash, data) {
             routeData = data;
             window.location.hash = hash;
-        }
+        },
+
+        showAlert: showAlert,
+
+        clearAlert: clearAlert
     }
 
     function addRouteData(args) {
@@ -45,7 +50,28 @@ function loadHandler() {
         addRouteData(args);
         route
             .controller.apply(null, args)
-            .then(data => route.view(data, routeManager))
-            .then(() => resetRouteData());
+            .then(data => {
+                route.view(data, routeManager);
+                clearAlert();
+                resetRouteData();
+            })
+            .catch(e => showAlert(e.message, 3));
+    }
+
+    //alertLevel: 1 - sucess, 2 - warning, 3 - error, default - indo
+    function showAlert(alertMessage, alertLevel) {
+        let html = `<div class="alert alert-info" role="alert"> ${alertMessage} </div>`;
+        if (alertLevel === 1) {
+            html = `<div class="alert alert-success" role="alert"> ${alertMessage} </div>`;
+        } else if (alertLevel === 2) {
+            html = `<div class="alert alert-warning" role="alert"> ${alertMessage} </div>`;
+        } else if (alertLevel === 3) {
+            html = `<div class="alert alert-danger" role="alert"> ${alertMessage} </div>`;
+        }
+        alertContent.innerHTML = html;
+    }
+
+    function clearAlert() {
+        alertContent.innerHTML = "<div></div>";
     }
 }

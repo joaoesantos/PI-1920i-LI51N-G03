@@ -86,7 +86,6 @@ function searchGamesByName(data, routeManager) {
         })
 
         fromServer.then(function(response) {
-
                 routeManager.changeRoute('searchGamesForm', { name: gameName.value });
             })
             .catch(function(error) {
@@ -154,12 +153,8 @@ function group(data, routeManager) {
                 if (rsp.ok) {
                     return rsp.json();
                 } else {
-                    //avisa o user que deu merda
-                    //throw new Error();
+                    throw new Error(rsp.json().payload.applicationErrorMessage);
                 }
-            })
-            .catch((err) => {
-                //send error message
             })
         let games = response.payload;
         let rows = "";

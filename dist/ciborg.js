@@ -5686,6 +5686,7 @@ function loadHandler() {
     window.addEventListener('hashchange', hashChangeHandler);
     hashChangeHandler();
     const mainContent = document.querySelector("#mainContent");
+    const alertContent = document.querySelector("#alertContent");
 
     let routeData = null;
 
@@ -5720,13 +5721,32 @@ function loadHandler() {
             return;
         }
 
-        console.log(route)
-
         addRouteData(args);
         route
             .controller.apply(null, args)
-            .then(data => route.view(data, routeManager))
-            .then(() => resetRouteData());
+            .then(data => {
+                route.view(data, routeManager);
+                clearAlert();
+                resetRouteData();
+            })
+            .catch(e => showAlert(e.message, 3));
+    }
+
+    //alertLevel: 1 - sucess, 2 - warning, 3 - error, default - indo
+    function showAlert(alertMessage, alertLevel) {
+        let html = `<div class="alert alert-info" role="alert"> ${alertMessage} </div>`;
+        if (alertLevel === 1) {
+            html = `<div class="alert alert-success" role="alert"> ${alertMessage} </div>`;
+        } else if (alertLevel === 2) {
+            html = `<div class="alert alert-warning" role="alert"> ${alertMessage} </div>`;
+        } else if (alertLevel === 3) {
+            html = `<div class="alert alert-danger" role="alert"> ${alertMessage} </div>`;
+        }
+        alertContent.innerHTML = html;
+    }
+
+    function clearAlert() {
+        alertContent.innerHTML = "<div></div>";
     }
 }
 
@@ -5897,16 +5917,14 @@ function addGameToGroup(groupId, gameId) {
         cache: 'default'
     };
     return fetch(Uris.addGameToGroupUri(groupId, gameId), requestConfigs)
-        .then((rsp) => {
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                console.log(response);
+                throw new Error(response.payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         })
         .then((rsp) => {
             return rsp.payload.id;
@@ -5927,12 +5945,8 @@ function removeGameFromGroup(groupId, gameId) {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                throw new Error(rsp.json().payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         })
         .then((rsp) => {
             return groupId; // HMMMMMM
@@ -6298,7 +6312,6 @@ function searchGamesByName(data, routeManager) {
         })
 
         fromServer.then(function(response) {
-
                 routeManager.changeRoute('searchGamesForm', { name: gameName.value });
             })
             .catch(function(error) {
@@ -6366,12 +6379,8 @@ function group(data, routeManager) {
                 if (rsp.ok) {
                     return rsp.json();
                 } else {
-                    //avisa o user que deu merda
-                    //throw new Error();
+                    throw new Error(rsp.json().payload.applicationErrorMessage);
                 }
-            })
-            .catch((err) => {
-                //send error message
             })
         let games = response.payload;
         let rows = "";
