@@ -127,10 +127,10 @@ exports.push([module.i, "/*!\r\n * Bootstrap v4.4.1 (https://getbootstrap.com/)\
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/groups.css":
-/*!**************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/groups.css ***!
-  \**************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/getAllUserGroups.css":
+/*!************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/getAllUserGroups.css ***!
+  \************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -5583,7 +5583,6 @@ module.exports = function (list, options) {
 "use strict";
 
 
-const authentication = requeire('./model/authentication');
 const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
 const games = __webpack_require__(/*! ./model/games */ "./spa/model/games.js");
 
@@ -5594,33 +5593,22 @@ module.exports = {
     },
 
     login: async function() {
-        console.log('Logging in...');
-    },
-
-    logout: async function() {
-        return await authentication.logout();
+        console.log('???????????');
     },
 
     games: async function() {
+
         let fromServer = await games.getMostPopularGames();
         return fromServer.payload;
     },
 
-    searchGamesByName: async function(name){
-        if(!name){
-            name = "";
-        }
-
-        let gameList = await games.searchGamesByName(name);
-        return gameList.payload;
-    },
-
+    // groups models
     getAllUserGroups: async function() {
-        return await groups.getAllUserGroups();
+        return groups.getAllUserGroups();
     },
 
     createGroup: async function(data) {
-        return await groups.createGroup(data.name, data.description);
+        return groups.createGroup(data.name, data.description);
     },
 
     group: async function(args) {
@@ -5647,7 +5635,34 @@ module.exports = {
         return await groups.addGameToGroup(data.groupId, data.gameId);
     },
 
-};
+    table: async function() {
+        let gameTable = {
+            header: ["H1", "H2", "H3"],
+            elements: [{
+                    h1: "lala",
+                    p2: "lele",
+                    lge: "rbgegr"
+                },
+                {
+                    h1: "rrrrrrrrr",
+                    p2: "eeeeeeeeee",
+                    lge: "tttttttttt"
+                }
+            ]
+        };
+        return gameTable;
+    },
+
+
+    searchGamesByName: async function(name){
+        let table = {
+            header: ["ID", "Name", "Min Playtime", "Max Playtime"],
+            
+        };
+        return table;
+    },
+
+}
 
 /***/ }),
 
@@ -5684,7 +5699,7 @@ function loadHandler() {
 
     let routeData = null;
 
-    const routesManager = {
+    const routeManager = {
         setMainContent: function(html) {
             mainContent.innerHTML = html;
         },
@@ -5718,7 +5733,7 @@ function loadHandler() {
         addRouteData(args);
         route
             .controller.apply(null, args)
-            .then(data => route.view(data, routesManager))
+            .then(data => route.view(data, routeManager))
             .then(() => resetRouteData());
     }
 }
@@ -5735,24 +5750,19 @@ function loadHandler() {
 "use strict";
 
 
-module.exports  = {
-    getMostPopularGames : getMostPopularGames,
-    searchGamesByName : searchGamesByName
-};
-
 function GamesApiUris() {
     const baseUri = 'http://localhost:8500/'
   
     this.getMostPopularGames =  () => `${baseUri}games`
     this.searchGamesByName =  () => `${baseUri}games/`
-};
+}
 
 const Uris = new GamesApiUris()
 
 function getMostPopularGames(){
     return fetch(Uris.getMostPopularGames())
         .then(res => res.json())
-};
+}
 
 function searchGamesByName(name){
     const options = {
@@ -5762,10 +5772,15 @@ function searchGamesByName(name){
         }
     }
     let res = fetch(Uris.searchGamesByName() + name, options)
-        .then(res => res.json())
+        .then(res => res.json()) 
 
     return res;
-};
+}
+
+module.exports  = {
+    getMostPopularGames : getMostPopularGames,
+    searchGamesByName : searchGamesByName
+}
 
 /***/ }),
 
@@ -5779,42 +5794,26 @@ function searchGamesByName(name){
 "use strict";
 
 
-module.exports = {
-    groups: groups,
-    createGroup: createGroup,
-    getGroup: getGroup,
-    updateGroup: updateGroup,
-    addGameToGroup: addGameToGroup,
-    removeGameFromGroup: removeGameFromGroup
-};
+//const props = require('../../libs/CIBORG/shared/Config')('../../libs/CIBORG/shared/files');
 
 function GroupsApiUris() {
     const baseUri = 'http://localhost:8500/';
+    //const baseUri = `http://localhost:${props.config.port}/`
 
-    this.groupsUri = () => `${baseUri}groups`;
+    this.getAllUserGroupsUri = () => `${baseUri}groups`;
     this.createGroupUri = () => `${baseUri}groups`;
     this.getGroupUri = (id) => `${baseUri}groups/${id}`;
     this.updateGroupUri = (id) => `${baseUri}groups/${id}`;
     this.addGameToGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
     this.removeGameFromGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
-};
+}
 
 const Uris = new GroupsApiUris();
 
-function groups() {
-    return fetch(Uris.groupsUri())
-        .then((rsp) => {
-            if (rsp.ok) {
-                return rsp.json();
-            } else {
-                //avisa o user que deu merda
-                //throw new Error();
-            }
-        })
-        .catch((err) => {
-            //send error message
-        });
-};
+function getAllUserGroups() {
+    return fetch(Uris.getAllUserGroupsUri())
+        .then(res => res.json());
+}
 
 function createGroup(name, description) {
     const options = {
@@ -5830,18 +5829,8 @@ function createGroup(name, description) {
         })
     };
     return fetch(Uris.createGroupUri(), options)
-        .then((rsp) => {
-            if (rsp.ok) {
-                return rsp.json();
-            } else {
-                //avisa o user que deu merda
-                //throw new Error();
-            }
-        })
-        .catch((err) => {
-            //send error message
-        });
-};
+        .then(res => res.json());
+}
 
 function getGroup(id) {
     var headers = new Headers();
@@ -5874,7 +5863,7 @@ function getGroup(id) {
             };
             return group;
         });
-};
+}
 
 function updateGroup(group) {
     let id = group.id;
@@ -5903,7 +5892,7 @@ function updateGroup(group) {
         .then((rsp) => {
             return rsp.payload.id;
         });
-};
+}
 
 function addGameToGroup(groupId, gameId) {
     var headers = new Headers();
@@ -5929,7 +5918,7 @@ function addGameToGroup(groupId, gameId) {
         .then((rsp) => {
             return rsp.payload.id;
         });
-};
+}
 
 function removeGameFromGroup(groupId, gameId) {
     let options = {
@@ -5954,7 +5943,16 @@ function removeGameFromGroup(groupId, gameId) {
         .then((rsp) => {
             return rsp.payload; // HMMMMMM
         });
-};
+}
+
+module.exports = {
+    getAllUserGroups: getAllUserGroups,
+    createGroup: createGroup,
+    getGroup: getGroup,
+    updateGroup: updateGroup,
+    addGameToGroup: addGameToGroup,
+    removeGameFromGroup: removeGameFromGroup
+}
 
 /***/ }),
 
@@ -5983,19 +5981,14 @@ module.exports = {
         view: views.login
     },
 
-    logout: {
-        controller: controller.logout,
-        view: views.logout
-    },
-
     games: {
         controller: controller.games,
         view: views.games
     },
 
-    groups: {
-        controller: controller.groups,
-        view: views.groups
+    getAllUserGroups: {
+        controller: controller.getAllUserGroups,
+        view: views.getAllUserGroups
     },
 
     createGroup: {
@@ -6021,7 +6014,6 @@ module.exports = {
         controller: controller.addGameToGroup,
         view: views.addGameToGroup
     },
-
     table: {
         controller: controller.table,
         view: views.table
@@ -6032,14 +6024,14 @@ module.exports = {
 
 /***/ }),
 
-/***/ "./spa/stylesheets/groups.css":
-/*!************************************!*\
-  !*** ./spa/stylesheets/groups.css ***!
-  \************************************/
+/***/ "./spa/stylesheets/getAllUserGroups.css":
+/*!**********************************************!*\
+  !*** ./spa/stylesheets/getAllUserGroups.css ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!./groups.css */ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/groups.css");
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!./getAllUserGroups.css */ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/getAllUserGroups.css");
 
 if (typeof content === 'string') {
   content = [[module.i, content, '']];
@@ -6126,16 +6118,17 @@ const home = __webpack_require__(/*! ./templates/home.hbs */ "./spa/templates/ho
 const table = __webpack_require__(/*! ./templates/table.hbs */ "./spa/templates/table.hbs").default;
 const login = __webpack_require__(/*! ./templates/login.hbs */ "./spa/templates/login.hbs").default;
 const gameList = __webpack_require__(/*! ./templates/gameList.hbs */ "./spa/templates/gameList.hbs").default;
-const groups = __webpack_require__(/*! ./templates/groups.hbs */ "./spa/templates/groups.hbs").default;
+const getAllUserGroups = __webpack_require__(/*! ./templates/getAllUserGroups.hbs */ "./spa/templates/getAllUserGroups.hbs").default;
 const searchGamesByName = __webpack_require__(/*! ./templates/gameSearch.hbs */ "./spa/templates/gameSearch.hbs").default;
 const group = __webpack_require__(/*! ./templates/groupDetail.hbs */ "./spa/templates/groupDetail.hbs").default;
 
 module.exports = {
     home: Handlebars.compile(home),
+    table: Handlebars.compile(table),
     login: Handlebars.compile(login),
     games: Handlebars.compile(gameList),
+    getAllUserGroups: Handlebars.compile(getAllUserGroups),
     searchGamesByName: Handlebars.compile(searchGamesByName),
-    groups: Handlebars.compile(groups),
     group: Handlebars.compile(group)
 };
 
@@ -6163,7 +6156,20 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                 <button class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n\r\n<div class=\"table-container\">\r\n</div>\r\n\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                 <button id=\"searchButton\" class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n\r\n</div>\r\n<table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"gamesSearched\">\r\n    </tbody>\r\n  </table>\r\n</div>");
+
+/***/ }),
+
+/***/ "./spa/templates/getAllUserGroups.hbs":
+/*!********************************************!*\
+  !*** ./spa/templates/getAllUserGroups.hbs ***!
+  \********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<h1 class=\"title\">GET USER NAME -> ficara nos cookies da sessao?</h1>\r\n \r\n <div class=\"userGroups\">\r\n    <table class=\"table\">\r\n        <tr class=\"thead-dark\">\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr>\r\n                <td><a href=\"#group/{{id}}\">{{name}}</a> </td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n<div class=\"createGroupBox\">\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n        <label>Name</label>\r\n        <input type=\"text\" id=\"formName\" >\r\n        <label>Description</label>\r\n        <input type=\"text\" id=\"formDescription\" >\r\n        <input type=\"submit\" >\r\n    </form>\r\n</div>");
 
 /***/ }),
 
@@ -6177,19 +6183,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n  <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n</div>\r\n<div>\r\n  <form>\r\n    <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Name:</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"groupDescription\">Description:</label>\r\n      <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n    </div>\r\n  </form>\r\n  <div>\r\n    <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update Group Details</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <label>Games:</label>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  <br/>\r\n  <h2>Searh Game by name:</h2>\r\n  <form id=\"searchGameForm\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"searchGameName\">Game name:</label>\r\n      <input type=\"text\" id=\"searchGameName\" name=\"searchGameName\" value=\"\" placeholder=\"insert name to search\" required>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-secondary\">Procurar</button>\r\n  </form>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"searchResults\">\r\n    </tbody>\r\n  </table>\r\n</div>");
-
-/***/ }),
-
-/***/ "./spa/templates/groups.hbs":
-/*!**********************************!*\
-  !*** ./spa/templates/groups.hbs ***!
-  \**********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<h1 class=\"title\">List of all owned groups</h1>\r\n \r\n <div class=\"allGroupsBox\">\r\n    <table class=\"table\">\r\n        <tr class=\"thead-dark\">\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr>\r\n                <td><a href=\"#group/{{id}}\">{{name}}</a></td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n<div class=\"createGroupBox\">\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n        <label>Name</label>\r\n        <input type=\"text\" id=\"formName\" >\r\n        <label>Description</label>\r\n        <input type=\"text\" id=\"formDescription\" >\r\n        <input type=\"submit\" >\r\n    </form>\r\n</div>");
 
 /***/ }),
 
@@ -6243,34 +6236,53 @@ __webpack_require__.r(__webpack_exports__);
 
 __webpack_require__(/*! ../node_modules/bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
 __webpack_require__(/*! ../spa/stylesheets/stylesheet.css */ "./spa/stylesheets/stylesheet.css");
-// authentication
 __webpack_require__(/*! ../spa/stylesheets/login.css */ "./spa/stylesheets/login.css");
-// games
 // groups
-__webpack_require__(/*! ../spa/stylesheets/groups.css */ "./spa/stylesheets/groups.css");
+__webpack_require__(/*! ../spa/stylesheets/getAllUserGroups.css */ "./spa/stylesheets/getAllUserGroups.css");
 
 const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
 
 module.exports = {
     home: home,
+    table: table,
     login: login,
-    logout: logout,
     games: games,
+    getAllUserGroups: getAllUserGroups,
     searchGamesByName: searchGamesByName,
-    groups: groups,
     createGroup: createGroup,
     group: group,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
     removeGamefromGroup: removeGamefromGroup
-};
+}
 
 function home(data, routesManager) {
     routesManager.setMainContent(templates.home(data));
-};
+}
 
-function login(data, routesManager) {
-    routesManager.setMainContent(templates.login(data));
+function getAllUserGroups(data, routesManager) {
+    routesManager.setMainContent(templates.getAllUserGroups(data));
+    const formCreateGroup = document.querySelector("#createGroup");
+    formCreateGroup.addEventListener('submit', handleSubmit);
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        const formName = document.querySelector("#formName");
+        const formDescription = document.querySelector("#formDescription");
+        routesManager.changeRoute('createGroup', { name: formName.value, description: formDescription.value });
+    }
+}
+
+function createGroup(data, routesManager) {
+    routesManager.changeRoute('getAllUserGroups');
+}
+
+function table(data, routesManager) {
+    routesManager.setMainContent(templates.table(data));
+}
+
+function login(data, routeManager) {
+    routeManager.setMainContent(templates.login(data));
     const formLogin = document.querySelector("#loginForm")
     formLogin.addEventListener('submit', handleSubmit)
 
@@ -6286,72 +6298,60 @@ function login(data, routesManager) {
         })
 
         fromServer.then(function(response) {
-                routesManager.changeRoute('home');
+                routeManager.changeRoute('home');
             })
             .catch(function(error) {
                 alert(error);
             });
-        };
-};
-
-function logout(data, routesManager) {
-    routesManager.changeRoute('home');
-};
-
-function games(data, routesManager) {
-    routesManager.setMainContent(templates.games(data));
-};
-
-function searchGamesByName(data, routesManager){
-    routesManager.setMainContent(templates.searchGamesByName(data));
-
-    const formLogin = document.querySelector("#searchGamesForm")
-    formLogin.addEventListener('submit', handleSubmit)
-
-    function handleSubmit(e) {
-        e.preventDefault()
-        const gameName = document.querySelector("#gameName");
-        
-        let fromServer = fetch(`/games/${gameName.value}`,{
-            method: 'GET',
-            })
-
-        fromServer.then(function(response){
-            
-            routesManager.changeRoute('searchGamesForm', {name : gameName.value});
-        })
-        .catch(function(error){
-            alert(error);
-        });
-    };
-};
-
-function groups(data, routesManager) {
-    routesManager.setMainContent(templates.groups(data));
-    const formCreateGroup = document.querySelector("#createGroup");
-    formCreateGroup.addEventListener('submit', handleSubmit);
-
-    function handleSubmit(e) {
-        e.preventDefault();
-        const formName = document.querySelector("#formName");
-        const formDescription = document.querySelector("#formDescription");
-        routesManager.changeRoute('createGroup', { name: formName.value, description: formDescription.value });
-    };
-};
-
-function createGroup(data, routesManager) {
-    routesManager.changeRoute('groups');
+        }
 }
 
-function group(data, routesManager) {
-    routesManager.setMainContent(templates.group(data));
+function games(data, routeManager) {
+    routeManager.setMainContent(templates.games(data));
+}
+
+function searchGamesByName(data, routeManager) {
+    routeManager.setMainContent(templates.searchGamesByName(data));
+
+    const searchButton = document.querySelector("#searchButton")
+    searchButton.addEventListener('click', handleClick)
+
+        async function handleClick(e) {
+            const gameName = document.querySelector("#gameName");
+            console.log('submit search');
+            let fromServer = await fetch(`/games/${gameName.value}`,{
+                method: 'GET',
+              }).then(function(response){
+                  console.log(response);
+                  return response.json();
+              })
+              .catch(function(error){
+                  alert(error);
+              });
+            let games = fromServer.payload;
+            let rows = "";
+            for (let i = 0; i < games.length; i++) {
+                let game = games[i];
+                console.log('game', game);
+                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td></tr>`;
+                rows += row;
+            }
+            console.log('rows', rows);
+            let target = document.querySelector("#gamesSearched");
+            target.innerHTML = rows;
+        }
+        
+}
+
+function group(data, routeManager) {
+    routeManager.setMainContent(templates.group(data));
 
     const backToGroupsButton = document.querySelector("#backToGroups");
     backToGroupsButton.addEventListener('click', handleClickBackToGroupsButton);
 
     function handleClickBackToGroupsButton(e) {
-        routesManager.changeRoute('groups');
-    };
+        routeManager.changeRoute('groups');
+    }
 
     const updateGroupButton = document.querySelector("#updateGroup");
     updateGroupButton.addEventListener('click', handleClickUpdateGroupButton);
@@ -6378,8 +6378,8 @@ function group(data, routesManager) {
             };
             group.games.push(game);
         }
-        routesManager.changeRoute('updateGroup', group);
-    };
+        routeManager.changeRoute('updateGroup', group);
+    }
 
     const searchGameForm = document.querySelector("#searchGameForm");
     searchGameForm.addEventListener('click', handleSubmitSearchGameForm);
@@ -6429,22 +6429,22 @@ function group(data, routesManager) {
             const searchGameIds = document.getElementsByName("searchGameId");
             const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
             const groupId = document.querySelector("#groupId").value
-            routesManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
-        };
-    };
-};
+            routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
+        }
+    }
+}
 
 function updateGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
-};
+}
 
 function addGameToGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
-};
+}
 
 function removeGamefromGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
-};
+}
 
 /***/ })
 
