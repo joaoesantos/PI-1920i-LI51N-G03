@@ -5680,6 +5680,7 @@ function loadHandler() {
     window.addEventListener('hashchange', hashChangeHandler);
     hashChangeHandler();
     const mainContent = document.querySelector("#mainContent");
+    const alertContent = document.querySelector("#alertContent");
 
     let routeData = null;
 
@@ -5691,7 +5692,11 @@ function loadHandler() {
         changeRoute: function(hash, data) {
             routeData = data;
             window.location.hash = hash;
-        }
+        },
+
+        showAlert: showAlert,
+
+        clearAlert: clearAlert
     }
 
     function addRouteData(args) {
@@ -5717,8 +5722,29 @@ function loadHandler() {
         addRouteData(args);
         route
             .controller.apply(null, args)
-            .then(data => route.view(data, routesManager))
-            .then(() => resetRouteData());
+            .then(data => {
+                route.view(data, routeManager);
+                clearAlert();
+                resetRouteData();
+            })
+            .catch(e => showAlert(e.message, 3));
+    }
+
+    //alertLevel: 1 - sucess, 2 - warning, 3 - error, default - indo
+    function showAlert(alertMessage, alertLevel) {
+        let html = `<div class="alert alert-info" role="alert"> ${alertMessage} </div>`;
+        if (alertLevel === 1) {
+            html = `<div class="alert alert-success" role="alert"> ${alertMessage} </div>`;
+        } else if (alertLevel === 2) {
+            html = `<div class="alert alert-warning" role="alert"> ${alertMessage} </div>`;
+        } else if (alertLevel === 3) {
+            html = `<div class="alert alert-danger" role="alert"> ${alertMessage} </div>`;
+        }
+        alertContent.innerHTML = html;
+    }
+
+    function clearAlert() {
+        alertContent.innerHTML = "<div></div>";
     }
 }
 
@@ -5785,37 +5811,56 @@ function logout(){
 "use strict";
 
 
-module.exports  = {
-    getMostPopularGames : getMostPopularGames,
-    searchGamesByName : searchGamesByName
+module.exports = {
+    getMostPopularGames: getMostPopularGames,
+    searchGamesByName: searchGamesByName
 };
 
 function GamesApiUris() {
     const baseUri = 'http://localhost:8500/'
-  
-    this.getMostPopularGames =  () => `${baseUri}games`
-    this.searchGamesByName =  () => `${baseUri}games/`
-};
+
+    this.getMostPopularGames = () => `${baseUri}games`
+    this.searchGamesByName = () => `${baseUri}games/`
+}
 
 const Uris = new GamesApiUris()
 
-function getMostPopularGames(){
+function getMostPopularGames() {
     return fetch(Uris.getMostPopularGames())
-        .then(res => res.json())
-};
+        .then(async(rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
+            }
+        })
+}
 
-function searchGamesByName(name){
+function searchGamesByName(name) {
     const options = {
-        method : "GET",
-        headers : {
-            "Content-Type" : "application/json"
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
         }
     }
     let res = fetch(Uris.searchGamesByName() + name, options)
-        .then(res => res.json())
+        .then(async(rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
+            }
+        })
 
     return res;
-};
+}
+
+module.exports = {
+    getMostPopularGames: getMostPopularGames,
+    searchGamesByName: searchGamesByName
+}
 
 /***/ }),
 
@@ -5852,19 +5897,16 @@ function GroupsApiUris() {
 const Uris = new GroupsApiUris();
 
 function getGroups() {
-    return fetch(Uris.groupsUri())
-        .then((rsp) => {
+    return fetch(Uris.getAllUserGroupsUri())
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         });
-};
+}
 
 function createGroup(name, description) {
     const options = {
@@ -5880,18 +5922,15 @@ function createGroup(name, description) {
         })
     };
     return fetch(Uris.createGroupUri(), options)
-        .then((rsp) => {
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         });
-};
+}
 
 function getGroup(id) {
     var headers = new Headers();
@@ -5903,16 +5942,13 @@ function getGroup(id) {
         cache: 'default'
     };
     return fetch(Uris.getGroupUri(id), requestConfigs)
-        .then((rsp) => {
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         })
         .then((rsp) => {
             let group = {
@@ -5939,16 +5975,13 @@ function updateGroup(group) {
         body: JSON.stringify(group)
     };
     return fetch(Uris.updateGroupUri(id), requestConfigs)
-        .then((rsp) => {
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         })
         .then((rsp) => {
             return rsp.payload.id;
@@ -5965,16 +5998,13 @@ function addGameToGroup(groupId, gameId) {
         cache: 'default'
     };
     return fetch(Uris.addGameToGroupUri(groupId, gameId), requestConfigs)
-        .then((rsp) => {
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
-        })
-        .catch((err) => {
-            //send error message
         })
         .then((rsp) => {
             return rsp.payload.id;
@@ -5982,27 +6012,25 @@ function addGameToGroup(groupId, gameId) {
 };
 
 function removeGameFromGroup(groupId, gameId) {
-    let options = {
-        method: 'DELETE',
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
+    var headers = new Headers();
+    headers.append("Content-Type", "application/json");
+    var requestConfigs = {
+        method: 'Delete',
+        headers: headers,
+        mode: 'cors',
+        cache: 'default'
     };
-    return fetch(Uris.removeGameFromGroupUri(groupId, gameId), options)
-        .then((rsp) => {
+    return fetch(Uris.removeGameFromGroupUri(groupId, gameId), requestConfigs)
+        .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
         })
-        .catch((err) => {
-            //send error message
-        })
         .then((rsp) => {
-            return rsp.payload; // HMMMMMM
+            return groupId; // HMMMMMM
         });
 };
 
@@ -6073,6 +6101,10 @@ module.exports = {
         view: views.addGameToGroup
     },
 
+    removeGameFromGroup: {
+        controller: controller.removeGameFromGroup,
+        view: views.removeGameFromGroup
+    }
 }
 
 /***/ }),
@@ -6223,7 +6255,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n  <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n</div>\r\n<div>\r\n  <form>\r\n    <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Name:</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"groupDescription\">Description:</label>\r\n      <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n    </div>\r\n  </form>\r\n  <div>\r\n    <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update Group Details</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <label>Games:</label>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  <br/>\r\n  <h2>Searh Game by name:</h2>\r\n  <form id=\"searchGameForm\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"searchGameName\">Game name:</label>\r\n      <input type=\"text\" id=\"searchGameName\" name=\"searchGameName\" value=\"\" placeholder=\"insert name to search\" required>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-secondary\">Procurar</button>\r\n  </form>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"searchResults\">\r\n    </tbody>\r\n  </table>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n  <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n</div>\r\n<div>\r\n  <form>\r\n    <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Name:</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"groupDescription\">Description:</label>\r\n      <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n    </div>\r\n  </form>\r\n  <div>\r\n    <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update Group Details</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <label>Games:</label>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n          <td> <button id=\"{{@index}}\" name=\"removeGameFromGroup\" type=\"button\" class=\"btn btn-primary\">Remove game from group</button> </td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  <br/>\r\n  <h2>Searh Game by name:</h2>\r\n  <form id=\"searchGameForm\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"searchGameName\">Game name:</label>\r\n      <input type=\"text\" id=\"searchGameName\" name=\"searchGameName\" value=\"\" placeholder=\"insert name to search\" required>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-secondary\">Procurar</button>\r\n  </form>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"searchResults\">\r\n    </tbody>\r\n  </table>\r\n</div>");
 
 /***/ }),
 

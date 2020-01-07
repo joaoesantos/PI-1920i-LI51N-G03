@@ -47,8 +47,7 @@ function createGroup(name, description) {
             games: []
         })
     };
-    return fetch(Uris.createGroupUri(), options) <<
-        << << < HEAD
+    return fetch(Uris.createGroupUri(), options)
         .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
@@ -57,21 +56,7 @@ function createGroup(name, description) {
                 throw new Error(response.payload.clientErrorMessage);
             }
         });
-} ===
-=== =
-.then((rsp) => {
-        if (rsp.ok) {
-            return rsp.json();
-        } else {
-            //avisa o user que deu merda
-            //throw new Error();
-        }
-    })
-    .catch((err) => {
-        //send error message
-    });
-}; >>>
->>> > 64 de2f5575654098cc769333a5636c531029431c
+}
 
 function getGroup(id) {
     var headers = new Headers();
