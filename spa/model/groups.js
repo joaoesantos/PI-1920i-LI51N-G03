@@ -1,25 +1,41 @@
 'use strict';
 
-//const props = require('../../libs/CIBORG/shared/Config')('../../libs/CIBORG/shared/files');
+module.exports = {
+    groups: groups,
+    createGroup: createGroup,
+    getGroup: getGroup,
+    updateGroup: updateGroup,
+    addGameToGroup: addGameToGroup,
+    removeGameFromGroup: removeGameFromGroup
+};
 
 function GroupsApiUris() {
     const baseUri = 'http://localhost:8500/';
-    //const baseUri = `http://localhost:${props.config.port}/`
 
-    this.getAllUserGroupsUri = () => `${baseUri}groups`;
+    this.groupsUri = () => `${baseUri}groups`;
     this.createGroupUri = () => `${baseUri}groups`;
     this.getGroupUri = (id) => `${baseUri}groups/${id}`;
     this.updateGroupUri = (id) => `${baseUri}groups/${id}`;
     this.addGameToGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
     this.removeGameFromGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
-}
+};
 
 const Uris = new GroupsApiUris();
 
-function getAllUserGroups() {
-    return fetch(Uris.getAllUserGroupsUri())
-        .then(res => res.json());
-}
+function groups() {
+    return fetch(Uris.groupsUri())
+        .then((rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                //avisa o user que deu merda
+                //throw new Error();
+            }
+        })
+        .catch((err) => {
+            //send error message
+        });
+};
 
 function createGroup(name, description) {
     const options = {
@@ -35,8 +51,18 @@ function createGroup(name, description) {
         })
     };
     return fetch(Uris.createGroupUri(), options)
-        .then(res => res.json());
-}
+        .then((rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                //avisa o user que deu merda
+                //throw new Error();
+            }
+        })
+        .catch((err) => {
+            //send error message
+        });
+};
 
 function getGroup(id) {
     var headers = new Headers();
@@ -69,7 +95,7 @@ function getGroup(id) {
             };
             return group;
         });
-}
+};
 
 function updateGroup(group) {
     let id = group.id;
@@ -98,7 +124,7 @@ function updateGroup(group) {
         .then((rsp) => {
             return rsp.payload.id;
         });
-}
+};
 
 function addGameToGroup(groupId, gameId) {
     var headers = new Headers();
@@ -124,7 +150,7 @@ function addGameToGroup(groupId, gameId) {
         .then((rsp) => {
             return rsp.payload.id;
         });
-}
+};
 
 function removeGameFromGroup(groupId, gameId) {
     let options = {
@@ -149,13 +175,4 @@ function removeGameFromGroup(groupId, gameId) {
         .then((rsp) => {
             return rsp.payload; // HMMMMMM
         });
-}
-
-module.exports = {
-    getAllUserGroups: getAllUserGroups,
-    createGroup: createGroup,
-    getGroup: getGroup,
-    updateGroup: updateGroup,
-    addGameToGroup: addGameToGroup,
-    removeGameFromGroup: removeGameFromGroup
-}
+};

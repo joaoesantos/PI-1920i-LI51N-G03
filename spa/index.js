@@ -11,7 +11,7 @@ function loadHandler() {
 
     let routeData = null;
 
-    const routeManager = {
+    const routesManager = {
         setMainContent: function(html) {
             mainContent.innerHTML = html;
         },
@@ -45,7 +45,7 @@ function loadHandler() {
         addRouteData(args);
         route
             .controller.apply(null, args)
-            .then(data => route.view(data, routeManager))
+            .then(data => route.view(data, routesManager))
             .then(() => resetRouteData());
     }
 }

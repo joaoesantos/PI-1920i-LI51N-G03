@@ -1,6 +1,6 @@
-<h1 class="title">GET USER NAME -> ficara nos cookies da sessao?</h1>
+<h1 class="title">List of all owned groups</h1>
  
- <div class="userGroups">
+ <div class="allGroupsBox">
     <table class="table">
         <tr class="thead-dark">
             <th>Name</th>
@@ -8,7 +8,7 @@
         </tr>
         {{#each payload}}
             <tr>
-                <td><a href="#group/{{id}}">{{name}}</a> </td>
+                <td><a href="#group/{{id}}">{{name}}</a></td>
                 <td>{{description}}</td>
             </tr>
         {{/each}}

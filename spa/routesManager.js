@@ -15,14 +15,19 @@ module.exports = {
         view: views.login
     },
 
+    logout: {
+        controller: controller.logout,
+        view: views.logout
+    },
+
     games: {
         controller: controller.games,
         view: views.games
     },
 
-    getAllUserGroups: {
-        controller: controller.getAllUserGroups,
-        view: views.getAllUserGroups
+    groups: {
+        controller: controller.groups,
+        view: views.groups
     },
 
     createGroup: {
@@ -48,6 +53,7 @@ module.exports = {
         controller: controller.addGameToGroup,
         view: views.addGameToGroup
     },
+
     table: {
         controller: controller.table,
         view: views.table
