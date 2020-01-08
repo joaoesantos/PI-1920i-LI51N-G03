@@ -51,7 +51,7 @@ function loadHandler() {
         route
             .controller.apply(null, args)
             .then(data => {
-                route.view(data, routeManager);
+                route.view(data, routesManager);
                 clearAlert();
                 resetRouteData();
             })

@@ -30,9 +30,13 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
     async function login(req, rsp, next) {
         try {
             debug.extend('login')('Logging in.');
-            //let data = await services.users.getUserById("mog");
             passport.authenticate("local", function(err, user, info) {
-                if(!user){
+                if (!user) {
+                    err = new CiborgError(err,
+                        'Error in service: login.',
+                        'No user with that username was found.',
+                        '404'
+                    );
                 }
                 if (!user && !err) {
                     err = new CiborgError(err,

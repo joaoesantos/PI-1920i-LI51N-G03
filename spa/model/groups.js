@@ -1,5 +1,7 @@
 'use strict';
 
+const clientSideConfigs = require("../clientSideConfigs");
+
 module.exports = {
     getGroups: getGroups,
     createGroup: createGroup,
@@ -10,20 +12,24 @@ module.exports = {
 };
 
 function GroupsApiUris() {
-    const baseUri = 'http://localhost:8500/';
+    const baseUri = clientSideConfigs.apiBaseUrl;
 
-    this.groupsUri = () => `${baseUri}groups`;
-    this.createGroupUri = () => `${baseUri}groups`;
-    this.getGroupUri = (id) => `${baseUri}groups/${id}`;
-    this.updateGroupUri = (id) => `${baseUri}groups/${id}`;
-    this.addGameToGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
-    this.removeGameFromGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
+    this.groupsUri = () => `${baseUri}/groups`;
+    this.createGroupUri = () => `${baseUri}/groups`;
+    this.getGroupUri = (id) => `${baseUri}/groups/${id}`;
+    this.updateGroupUri = (id) => `${baseUri}/groups/${id}`;
+    this.addGameToGroupUri = (groupId, gameId) => `${baseUri}/groups/${groupId}/games/${gameId}`;
+    this.removeGameFromGroupUri = (groupId, gameId) => `${baseUri}/groups/${groupId}/games/${gameId}`;
 };
 
 const Uris = new GroupsApiUris();
 
 function getGroups() {
-    return fetch(Uris.getAllUserGroupsUri())
+    const options = {
+        method: "GET",
+        headers: clientSideConfigs.defaultHeaders
+    };
+    return fetch(Uris.groupsUri(), options)
         .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
@@ -37,14 +43,12 @@ function getGroups() {
 function createGroup(name, description) {
     const options = {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
+        headers: clientSideConfigs.defaultHeaders,
         body: JSON.stringify({
             name: name,
             description: description,
             games: []
+                //falta aqui acrescentar o dono, ou acrescenta-se no backend?
         })
     };
     return fetch(Uris.createGroupUri(), options)
@@ -59,13 +63,9 @@ function createGroup(name, description) {
 }
 
 function getGroup(id) {
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    var requestConfigs = {
+    let requestConfigs = {
         method: 'GET',
-        headers: headers,
-        mode: 'cors',
-        cache: 'default'
+        headers: clientSideConfigs.defaultHeaders
     };
     return fetch(Uris.getGroupUri(id), requestConfigs)
         .then(async(rsp) => {
@@ -91,13 +91,9 @@ function getGroup(id) {
 function updateGroup(group) {
     let id = group.id;
     delete group.id;
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    var requestConfigs = {
+    let requestConfigs = {
         method: 'PUT',
-        headers: headers,
-        mode: 'cors',
-        cache: 'default',
+        headers: clientSideConfigs.defaultHeaders,
         body: JSON.stringify(group)
     };
     return fetch(Uris.updateGroupUri(id), requestConfigs)
@@ -115,13 +111,9 @@ function updateGroup(group) {
 };
 
 function addGameToGroup(groupId, gameId) {
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    var requestConfigs = {
+    let requestConfigs = {
         method: 'PUT',
-        headers: headers,
-        mode: 'cors',
-        cache: 'default'
+        headers: clientSideConfigs.defaultHeaders
     };
     return fetch(Uris.addGameToGroupUri(groupId, gameId), requestConfigs)
         .then(async(rsp) => {
@@ -138,13 +130,9 @@ function addGameToGroup(groupId, gameId) {
 };
 
 function removeGameFromGroup(groupId, gameId) {
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    var requestConfigs = {
+    let requestConfigs = {
         method: 'Delete',
-        headers: headers,
-        mode: 'cors',
-        cache: 'default'
+        headers: clientSideConfigs.defaultHeaders
     };
     return fetch(Uris.removeGameFromGroupUri(groupId, gameId), requestConfigs)
         .then(async(rsp) => {
@@ -156,6 +144,6 @@ function removeGameFromGroup(groupId, gameId) {
             }
         })
         .then((rsp) => {
-            return groupId; // HMMMMMM
+            return groupId;
         });
 };

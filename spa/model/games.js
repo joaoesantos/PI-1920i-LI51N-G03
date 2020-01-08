@@ -1,21 +1,27 @@
 'use strict';
 
+const clientSideConfigs = require("../clientSideConfigs");
+
 module.exports = {
     getMostPopularGames: getMostPopularGames,
     searchGamesByName: searchGamesByName
 };
 
 function GamesApiUris() {
-    const baseUri = 'http://localhost:8500/'
+    const baseUri = clientSideConfigs.apiBaseUrl;
 
-    this.getMostPopularGames = () => `${baseUri}games`
-    this.searchGamesByName = () => `${baseUri}games/`
+    this.getMostPopularGames = () => `${baseUri}/games`
+    this.searchGamesByName = (name) => `${baseUri}/games/${name}`
 }
 
 const Uris = new GamesApiUris()
 
 function getMostPopularGames() {
-    return fetch(Uris.getMostPopularGames())
+    const options = {
+        method: "GET",
+        headers: clientSideConfigs.defaultHeaders
+    };
+    return fetch(Uris.getMostPopularGames(), options)
         .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
@@ -29,11 +35,9 @@ function getMostPopularGames() {
 function searchGamesByName(name) {
     const options = {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: clientSideConfigs.defaultHeaders
     }
-    let res = fetch(Uris.searchGamesByName() + name, options)
+    let res = fetch(Uris.searchGamesByName(name), options)
         .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
@@ -44,9 +48,4 @@ function searchGamesByName(name) {
         })
 
     return res;
-}
-
-module.exports = {
-    getMostPopularGames: getMostPopularGames,
-    searchGamesByName: searchGamesByName
 }

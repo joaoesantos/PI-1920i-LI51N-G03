@@ -5573,6 +5573,27 @@ module.exports = function (list, options) {
 
 /***/ }),
 
+/***/ "./spa/clientSideConfigs.js":
+/*!**********************************!*\
+  !*** ./spa/clientSideConfigs.js ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+let defaultHeaders = new Headers();
+defaultHeaders.append("Content-Type", "application/json");
+defaultHeaders.append("Accept", "application/json");
+
+module.exports = {
+    defaultHeaders: defaultHeaders,
+    apiBaseUrl: "http://localhost:8500"
+};
+
+/***/ }),
+
 /***/ "./spa/controller.js":
 /*!***************************!*\
   !*** ./spa/controller.js ***!
@@ -5593,9 +5614,7 @@ module.exports = {
         return img;
     },
 
-    login: async function() {
-        console.log('???????????');
-    },
+    login: async function() {},
 
     logout: async function() {
         return await authentication.logout();
@@ -5606,10 +5625,9 @@ module.exports = {
         return fromServer.payload;
     },
 
-    searchGamesByName: async function(name){
+    searchGamesByName: async function(name) {
         let table = {
-            header: ["ID", "Name", "Min Playtime", "Max Playtime"],
-            
+            header: ["ID", "Name", "Min Playtime", "Max Playtime"]
         };
         return table;
     },
@@ -5645,6 +5663,14 @@ module.exports = {
         let data = args;
         return await groups.addGameToGroup(data.groupId, data.gameId);
     },
+
+    removeGameFromGroup: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let data = args;
+        return await groups.removeGameFromGroup(data.groupId, data.gameId);
+    }
 
 }
 
@@ -5723,7 +5749,7 @@ function loadHandler() {
         route
             .controller.apply(null, args)
             .then(data => {
-                route.view(data, routeManager);
+                route.view(data, routesManager);
                 clearAlert();
                 resetRouteData();
             })
@@ -5760,43 +5786,58 @@ function loadHandler() {
 "use strict";
 
 
+const clientSideConfigs = __webpack_require__(/*! ../clientSideConfigs */ "./spa/clientSideConfigs.js");
+
 module.exports = {
-    //login: login,
+    login: login,
     logout: logout
 };
 
 function AuthenticationApiUris() {
-    const baseUri = 'http://localhost:8500/';
+    const baseUri = clientSideConfigs.apiBaseUrl;
 
-    this.loginUri = () => `${baseUri}login`;
-    this.logoutUri = () => `${baseUri}logout`;
+    this.loginUri = () => `${baseUri}/login`;
+    this.logoutUri = () => `${baseUri}/logout`;
 };
 
 const Uris = new AuthenticationApiUris();
 
-function login(){ };
-
-function logout(){
+function login(userId, password) {
     const options = {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        }
+        method: "POST",
+        headers: clientSideConfigs.defaultHeaders,
+        body: JSON.stringify({
+            userId: userId,
+            password: password
+        })
     };
-
-    return fetch(Uris.logoutUri(), options)
-        .then((rsp) => {
+    return fetch(Uris.loginUri(), options)
+        .then(async(rsp) => {
+            console.log(rsp)
             if (rsp.ok) {
                 return rsp.json();
             } else {
-                //avisa o user que deu merda
-                //throw new Error();
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
+            }
+        });
+
+};
+
+function logout() {
+    const options = {
+        method: "DELETE",
+        headers: clientSideConfigs.defaultHeaders
+    };
+    return fetch(Uris.logoutUri(), options)
+        .then(async(rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
             }
         })
-        .catch((err) => {
-            //send error message
-        });
 };
 
 /***/ }),
@@ -5811,22 +5852,28 @@ function logout(){
 "use strict";
 
 
+const clientSideConfigs = __webpack_require__(/*! ../clientSideConfigs */ "./spa/clientSideConfigs.js");
+
 module.exports = {
     getMostPopularGames: getMostPopularGames,
     searchGamesByName: searchGamesByName
 };
 
 function GamesApiUris() {
-    const baseUri = 'http://localhost:8500/'
+    const baseUri = clientSideConfigs.apiBaseUrl;
 
-    this.getMostPopularGames = () => `${baseUri}games`
-    this.searchGamesByName = () => `${baseUri}games/`
+    this.getMostPopularGames = () => `${baseUri}/games`
+    this.searchGamesByName = (name) => `${baseUri}/games/${name}`
 }
 
 const Uris = new GamesApiUris()
 
 function getMostPopularGames() {
-    return fetch(Uris.getMostPopularGames())
+    const options = {
+        method: "GET",
+        headers: clientSideConfigs.defaultHeaders
+    };
+    return fetch(Uris.getMostPopularGames(), options)
         .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
@@ -5840,11 +5887,9 @@ function getMostPopularGames() {
 function searchGamesByName(name) {
     const options = {
         method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: clientSideConfigs.defaultHeaders
     }
-    let res = fetch(Uris.searchGamesByName() + name, options)
+    let res = fetch(Uris.searchGamesByName(name), options)
         .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
@@ -5855,11 +5900,6 @@ function searchGamesByName(name) {
         })
 
     return res;
-}
-
-module.exports = {
-    getMostPopularGames: getMostPopularGames,
-    searchGamesByName: searchGamesByName
 }
 
 /***/ }),
@@ -5874,6 +5914,8 @@ module.exports = {
 "use strict";
 
 
+const clientSideConfigs = __webpack_require__(/*! ../clientSideConfigs */ "./spa/clientSideConfigs.js");
+
 module.exports = {
     getGroups: getGroups,
     createGroup: createGroup,
@@ -5884,20 +5926,24 @@ module.exports = {
 };
 
 function GroupsApiUris() {
-    const baseUri = 'http://localhost:8500/';
+    const baseUri = clientSideConfigs.apiBaseUrl;
 
-    this.groupsUri = () => `${baseUri}groups`;
-    this.createGroupUri = () => `${baseUri}groups`;
-    this.getGroupUri = (id) => `${baseUri}groups/${id}`;
-    this.updateGroupUri = (id) => `${baseUri}groups/${id}`;
-    this.addGameToGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
-    this.removeGameFromGroupUri = (groupId, gameId) => `${baseUri}groups/${groupId}/games/${gameId}`;
+    this.groupsUri = () => `${baseUri}/groups`;
+    this.createGroupUri = () => `${baseUri}/groups`;
+    this.getGroupUri = (id) => `${baseUri}/groups/${id}`;
+    this.updateGroupUri = (id) => `${baseUri}/groups/${id}`;
+    this.addGameToGroupUri = (groupId, gameId) => `${baseUri}/groups/${groupId}/games/${gameId}`;
+    this.removeGameFromGroupUri = (groupId, gameId) => `${baseUri}/groups/${groupId}/games/${gameId}`;
 };
 
 const Uris = new GroupsApiUris();
 
 function getGroups() {
-    return fetch(Uris.getAllUserGroupsUri())
+    const options = {
+        method: "GET",
+        headers: clientSideConfigs.defaultHeaders
+    };
+    return fetch(Uris.groupsUri(), options)
         .then(async(rsp) => {
             if (rsp.ok) {
                 return rsp.json();
@@ -5911,14 +5957,12 @@ function getGroups() {
 function createGroup(name, description) {
     const options = {
         method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
+        headers: clientSideConfigs.defaultHeaders,
         body: JSON.stringify({
             name: name,
             description: description,
             games: []
+                //falta aqui acrescentar o dono, ou acrescenta-se no backend?
         })
     };
     return fetch(Uris.createGroupUri(), options)
@@ -5933,13 +5977,9 @@ function createGroup(name, description) {
 }
 
 function getGroup(id) {
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    var requestConfigs = {
+    let requestConfigs = {
         method: 'GET',
-        headers: headers,
-        mode: 'cors',
-        cache: 'default'
+        headers: clientSideConfigs.defaultHeaders
     };
     return fetch(Uris.getGroupUri(id), requestConfigs)
         .then(async(rsp) => {
@@ -5965,13 +6005,9 @@ function getGroup(id) {
 function updateGroup(group) {
     let id = group.id;
     delete group.id;
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    var requestConfigs = {
+    let requestConfigs = {
         method: 'PUT',
-        headers: headers,
-        mode: 'cors',
-        cache: 'default',
+        headers: clientSideConfigs.defaultHeaders,
         body: JSON.stringify(group)
     };
     return fetch(Uris.updateGroupUri(id), requestConfigs)
@@ -5989,13 +6025,9 @@ function updateGroup(group) {
 };
 
 function addGameToGroup(groupId, gameId) {
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    var requestConfigs = {
+    let requestConfigs = {
         method: 'PUT',
-        headers: headers,
-        mode: 'cors',
-        cache: 'default'
+        headers: clientSideConfigs.defaultHeaders
     };
     return fetch(Uris.addGameToGroupUri(groupId, gameId), requestConfigs)
         .then(async(rsp) => {
@@ -6012,13 +6044,9 @@ function addGameToGroup(groupId, gameId) {
 };
 
 function removeGameFromGroup(groupId, gameId) {
-    var headers = new Headers();
-    headers.append("Content-Type", "application/json");
-    var requestConfigs = {
+    let requestConfigs = {
         method: 'Delete',
-        headers: headers,
-        mode: 'cors',
-        cache: 'default'
+        headers: clientSideConfigs.defaultHeaders
     };
     return fetch(Uris.removeGameFromGroupUri(groupId, gameId), requestConfigs)
         .then(async(rsp) => {
@@ -6030,7 +6058,7 @@ function removeGameFromGroup(groupId, gameId) {
             }
         })
         .then((rsp) => {
-            return groupId; // HMMMMMM
+            return groupId;
         });
 };
 
@@ -6316,6 +6344,10 @@ __webpack_require__(/*! ../spa/stylesheets/login.css */ "./spa/stylesheets/login
 // groups
 __webpack_require__(/*! ../spa/stylesheets/groups.css */ "./spa/stylesheets/groups.css");
 
+//models
+const authenticationModel = __webpack_require__(/*! ./model/authentication */ "./spa/model/authentication.js");
+const gamesModel = __webpack_require__(/*! ./model/games */ "./spa/model/games.js");
+
 const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
 
 module.exports = {
@@ -6329,7 +6361,7 @@ module.exports = {
     group: group,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
-    removeGamefromGroup: removeGamefromGroup
+    removeGameFromGroup: removeGameFromGroup
 }
 
 function home(data, routesManager) {
@@ -6341,23 +6373,14 @@ function login(data, routeManager) {
     const formLogin = document.querySelector("#loginForm")
     formLogin.addEventListener('submit', handleSubmit)
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         const userId = document.querySelector("#userId");
         const password = document.querySelector("#password");
 
-        let fromServer = fetch('/login', {
-            method: 'POST',
-            body: JSON.stringify({ userId: userId.value, password: password.value }),
-            headers: { "Content-Type": "application/json" }
-        })
+        let response = await authenticationModel.login(userId.value, password.value);
 
-        fromServer.then(function(response) {
-                routeManager.changeRoute('home');
-            })
-            .catch(function(error) {
-                alert(error);
-            });
+        routeManager.changeRoute('home', response);
     }
 }
 
@@ -6377,12 +6400,12 @@ function searchGamesByName(data, routeManager) {
 
     async function handleClick(e) {
         const gameName = document.querySelector("#gameName");
-        let fromServer = await fetch(`/games/${gameName.value}`,{
-            method: 'GET',
-            }).then(function(response){
+        let fromServer = await fetch(`/games/${gameName.value}`, {
+                method: 'GET',
+            }).then(function(response) {
                 return response.json();
             })
-            .catch(function(error){
+            .catch(function(error) {
                 alert(error);
             });
         let games = fromServer.payload;
@@ -6394,7 +6417,7 @@ function searchGamesByName(data, routeManager) {
         }
         let target = document.querySelector("#gamesSearched");
         target.innerHTML = rows;
-    }      
+    }
 }
 
 function groups(data, routesManager) {
@@ -6453,33 +6476,14 @@ function group(data, routeManager) {
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
-    searchGameForm.addEventListener('click', handleSubmitSearchGameForm);
+    searchGameForm.addEventListener('submit', handleSubmitSearchGameForm);
 
     async function handleSubmitSearchGameForm(e) {
         e.preventDefault();
 
         const gameName = document.querySelector("#searchGameName").value;
 
-        var headers = new Headers();
-        headers.append("Content-Type", "application/json");
-        var requestConfigs = {
-            method: 'GET',
-            headers: headers,
-            mode: 'cors',
-            cache: 'default'
-        };
-        const response = await fetch("http://localhost:8500/games/" + gameName, requestConfigs) //add gameName to url later
-            .then((rsp) => {
-                if (rsp.ok) {
-                    return rsp.json();
-                } else {
-                    //avisa o user que deu merda
-                    //throw new Error();
-                }
-            })
-            .catch((err) => {
-                //send error message
-            })
+        const response = await gamesModel.searchGamesByName(gameName);
         let games = response.payload;
         let rows = "";
         for (let i = 0; i < games.length; i++) {
@@ -6503,6 +6507,19 @@ function group(data, routeManager) {
             routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
         }
     }
+
+    const removeGameToGroupButtons = document.getElementsByName("removeGameFromGroup");
+    removeGameToGroupButtons.forEach(b => {
+        b.addEventListener('click', handleRemoveGameToGroupButton);
+    });
+
+    function handleRemoveGameToGroupButton(e) {
+        const gameIds = document.getElementsByName("gameId");
+        const gameId = gameIds[e.toElement.attributes[0].value].innerText;
+        const groupId = document.querySelector("#groupId").value;
+        routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
+    }
+
 }
 
 function updateGroup(data, routesManager) {
@@ -6513,7 +6530,7 @@ function addGameToGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
 }
 
-function removeGamefromGroup(data, routesManager) {
+function removeGameFromGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
 }
 

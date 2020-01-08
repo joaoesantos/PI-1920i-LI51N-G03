@@ -10,9 +10,7 @@ module.exports = {
         return img;
     },
 
-    login: async function() {
-        console.log('???????????');
-    },
+    login: async function() {},
 
     logout: async function() {
         return await authentication.logout();
@@ -23,10 +21,9 @@ module.exports = {
         return fromServer.payload;
     },
 
-    searchGamesByName: async function(name){
+    searchGamesByName: async function(name) {
         let table = {
-            header: ["ID", "Name", "Min Playtime", "Max Playtime"],
-            
+            header: ["ID", "Name", "Min Playtime", "Max Playtime"]
         };
         return table;
     },
@@ -62,5 +59,13 @@ module.exports = {
         let data = args;
         return await groups.addGameToGroup(data.groupId, data.gameId);
     },
+
+    removeGameFromGroup: async function(args) {
+        if (args == null) {
+            //dia ao utilizador que tem de por id
+        }
+        let data = args;
+        return await groups.removeGameFromGroup(data.groupId, data.gameId);
+    }
 
 }

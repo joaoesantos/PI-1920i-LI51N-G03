@@ -9,6 +9,10 @@ require('../spa/stylesheets/login.css');
 // groups
 require('../spa/stylesheets/groups.css');
 
+//models
+const authenticationModel = require("./model/authentication");
+const gamesModel = require("./model/games");
+
 const templates = require('./templateManager');
 
 module.exports = {
@@ -22,7 +26,7 @@ module.exports = {
     group: group,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
-    removeGamefromGroup: removeGamefromGroup
+    removeGameFromGroup: removeGameFromGroup
 }
 
 function home(data, routesManager) {
@@ -34,23 +38,14 @@ function login(data, routeManager) {
     const formLogin = document.querySelector("#loginForm")
     formLogin.addEventListener('submit', handleSubmit)
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         const userId = document.querySelector("#userId");
         const password = document.querySelector("#password");
 
-        let fromServer = fetch('/login', {
-            method: 'POST',
-            body: JSON.stringify({ userId: userId.value, password: password.value }),
-            headers: { "Content-Type": "application/json" }
-        })
+        let response = await authenticationModel.login(userId.value, password.value);
 
-        fromServer.then(function(response) {
-                routeManager.changeRoute('home');
-            })
-            .catch(function(error) {
-                alert(error);
-            });
+        routeManager.changeRoute('home', response);
     }
 }
 
@@ -70,12 +65,12 @@ function searchGamesByName(data, routeManager) {
 
     async function handleClick(e) {
         const gameName = document.querySelector("#gameName");
-        let fromServer = await fetch(`/games/${gameName.value}`,{
-            method: 'GET',
-            }).then(function(response){
+        let fromServer = await fetch(`/games/${gameName.value}`, {
+                method: 'GET',
+            }).then(function(response) {
                 return response.json();
             })
-            .catch(function(error){
+            .catch(function(error) {
                 alert(error);
             });
         let games = fromServer.payload;
@@ -87,7 +82,7 @@ function searchGamesByName(data, routeManager) {
         }
         let target = document.querySelector("#gamesSearched");
         target.innerHTML = rows;
-    }      
+    }
 }
 
 function groups(data, routesManager) {
@@ -146,33 +141,14 @@ function group(data, routeManager) {
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
-    searchGameForm.addEventListener('click', handleSubmitSearchGameForm);
+    searchGameForm.addEventListener('submit', handleSubmitSearchGameForm);
 
     async function handleSubmitSearchGameForm(e) {
         e.preventDefault();
 
         const gameName = document.querySelector("#searchGameName").value;
 
-        var headers = new Headers();
-        headers.append("Content-Type", "application/json");
-        var requestConfigs = {
-            method: 'GET',
-            headers: headers,
-            mode: 'cors',
-            cache: 'default'
-        };
-        const response = await fetch("http://localhost:8500/games/" + gameName, requestConfigs) //add gameName to url later
-            .then((rsp) => {
-                if (rsp.ok) {
-                    return rsp.json();
-                } else {
-                    //avisa o user que deu merda
-                    //throw new Error();
-                }
-            })
-            .catch((err) => {
-                //send error message
-            })
+        const response = await gamesModel.searchGamesByName(gameName);
         let games = response.payload;
         let rows = "";
         for (let i = 0; i < games.length; i++) {
@@ -196,6 +172,19 @@ function group(data, routeManager) {
             routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
         }
     }
+
+    const removeGameToGroupButtons = document.getElementsByName("removeGameFromGroup");
+    removeGameToGroupButtons.forEach(b => {
+        b.addEventListener('click', handleRemoveGameToGroupButton);
+    });
+
+    function handleRemoveGameToGroupButton(e) {
+        const gameIds = document.getElementsByName("gameId");
+        const gameId = gameIds[e.toElement.attributes[0].value].innerText;
+        const groupId = document.querySelector("#groupId").value;
+        routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
+    }
+
 }
 
 function updateGroup(data, routesManager) {
@@ -206,6 +195,6 @@ function addGameToGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
 }
 
-function removeGamefromGroup(data, routesManager) {
+function removeGameFromGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
 }
