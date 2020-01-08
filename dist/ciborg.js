@@ -5676,34 +5676,38 @@ module.exports = {
 
     group: async function(args) {
         if (args == null) {
-            //dia ao utilizador que tem de por id
+            throw new Error("To access a group the id must be provided.");
         }
         let id = args;
         return await groups.getGroup(id);
     },
 
     updateGroup: async function(args) {
-        if (args == null) {
-            //dia ao utilizador que tem de por id
+        if (args == undefined) {
+            console.log("No args on updateGroup");
+        } else {
+            let group = args;
+            return await groups.updateGroup(group);
         }
-        let group = args;
-        return await groups.updateGroup(group);
+
     },
 
     addGameToGroup: async function(args) {
-        if (args == null) {
-            //dia ao utilizador que tem de por id
+        if (args == undefined) {
+            console.log("No args on addGameToGroup");
+        } else {
+            let data = args;
+            return await groups.addGameToGroup(data.groupId, data.gameId);
         }
-        let data = args;
-        return await groups.addGameToGroup(data.groupId, data.gameId);
     },
 
     removeGameFromGroup: async function(args) {
         if (args == null) {
-            //dia ao utilizador que tem de por id
+            console.log("No args on removeGameFromGroup");
+        } else {
+            let data = args;
+            return await groups.removeGameFromGroup(data.groupId, data.gameId);
         }
-        let data = args;
-        return await groups.removeGameFromGroup(data.groupId, data.gameId);
     },
 
     header: async function() {
@@ -5712,6 +5716,109 @@ module.exports = {
         return menuOptions.filter(e => e.login == isLoggedIn);
     }
 }
+
+/***/ }),
+
+/***/ "./spa/controllers/groupView.js":
+/*!**************************************!*\
+  !*** ./spa/controllers/groupView.js ***!
+  \**************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const templates = __webpack_require__(/*! ../templateManager */ "./spa/templateManager.js");
+const gamesModel = __webpack_require__(/*! ../model/games */ "./spa/model/games.js");
+
+function group(data, routeManager) {
+    routeManager.setMainContent(templates.group(data));
+
+    const backToGroupsButton = document.querySelector("#backToGroups");
+    backToGroupsButton.addEventListener('click', handleClickBackToGroupsButton);
+
+    function handleClickBackToGroupsButton(e) {
+        routeManager.changeRoute('groups');
+    }
+
+    const updateGroupButton = document.querySelector("#updateGroup");
+    updateGroupButton.addEventListener('click', handleClickUpdateGroupButton);
+
+    function handleClickUpdateGroupButton(e) {
+        let group = {
+            id: document.querySelector("#groupId").value,
+            name: document.querySelector("#groupName").value,
+            description: document.querySelector("#groupDescription").value,
+            games: []
+        };
+
+        let gameIds = document.getElementsByName("gameId");
+        let gameNames = document.getElementsByName("gameName");
+        let gameMins = document.getElementsByName("gameMin");
+        let gameMaxs = document.getElementsByName("gameMax");
+
+        for (let i = 0; i < gameIds.length; i++) {
+            let game = {
+                id: gameIds[i].innerText,
+                name: gameNames[i].innerText,
+                min_playtime: Number(gameMins[i].innerText),
+                max_playtime: Number(gameMaxs[i].innerText)
+            };
+            group.games.push(game);
+        }
+        routeManager.changeRoute('updateGroup', group);
+    }
+
+    const searchGameForm = document.querySelector("#searchGameForm");
+    searchGameForm.addEventListener('submit', handleSubmitSearchGameForm);
+
+    async function handleSubmitSearchGameForm(e) {
+        try {
+            e.preventDefault();
+
+            const gameName = document.querySelector("#searchGameName").value;
+
+            const response = await gamesModel.searchGamesByName(gameName);
+            let games = response.payload;
+            let rows = "";
+            for (let i = 0; i < games.length; i++) {
+                let game = games[i];
+                let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn btn-primary">Add game to group</button>`;
+                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td> <td>${addGameToGroupButton}</td> </tr>`;
+                rows += row;
+            }
+            let tableBody = document.querySelector("#searchResults");
+            tableBody.innerHTML = rows;
+
+            const addGameToGroupButtons = document.getElementsByName("addGameToGroup");
+            addGameToGroupButtons.forEach(b => {
+                b.addEventListener('click', handleAddGameToGroupButton);
+            });
+
+            function handleAddGameToGroupButton(e) {
+                const searchGameIds = document.getElementsByName("searchGameId");
+                const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
+                const groupId = document.querySelector("#groupId").value
+                routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
+            }
+        } catch (e) {
+            routeManager.showAlert(e.message, 3);
+        }
+    }
+
+    const removeGameToGroupButtons = document.getElementsByName("removeGameFromGroup");
+    removeGameToGroupButtons.forEach(b => {
+        b.addEventListener('click', handleRemoveGameToGroupButton);
+    });
+
+    function handleRemoveGameToGroupButton(e) {
+        const gameIds = document.getElementsByName("gameId");
+        const gameId = gameIds[e.toElement.attributes[0].value].innerText;
+        const groupId = document.querySelector("#groupId").value;
+        routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
+    }
+
+}
+
+module.exports = group;
 
 /***/ }),
 
@@ -6401,7 +6508,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container login-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"loginForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"Login\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container login-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"loginForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"Login\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -6425,7 +6532,8 @@ __webpack_require__(/*! ../spa/stylesheets/groups.css */ "./spa/stylesheets/grou
 
 //models
 const authenticationModel = __webpack_require__(/*! ./model/authentication */ "./spa/model/authentication.js");
-const gamesModel = __webpack_require__(/*! ./model/games */ "./spa/model/games.js");
+
+const groupView = __webpack_require__(/*! ./controllers/groupView */ "./spa/controllers/groupView.js");
 
 const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
 
@@ -6437,7 +6545,7 @@ module.exports = {
     searchGamesByName: searchGamesByName,
     groups: groups,
     createGroup: createGroup,
-    group: group,
+    group: groupView,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
     removeGameFromGroup: removeGameFromGroup,
@@ -6515,91 +6623,6 @@ function groups(data, routesManager) {
 
 function createGroup(data, routesManager) {
     routesManager.changeRoute('groups');
-}
-
-function group(data, routeManager) {
-    routeManager.setMainContent(templates.group(data));
-
-    const backToGroupsButton = document.querySelector("#backToGroups");
-    backToGroupsButton.addEventListener('click', handleClickBackToGroupsButton);
-
-    function handleClickBackToGroupsButton(e) {
-        routeManager.changeRoute('groups');
-    }
-
-    const updateGroupButton = document.querySelector("#updateGroup");
-    updateGroupButton.addEventListener('click', handleClickUpdateGroupButton);
-
-    function handleClickUpdateGroupButton(e) {
-        let group = {
-            id: document.querySelector("#groupId").value,
-            name: document.querySelector("#groupName").value,
-            description: document.querySelector("#groupDescription").value,
-            games: []
-        };
-
-        let gameIds = document.getElementsByName("gameId");
-        let gameNames = document.getElementsByName("gameName");
-        let gameMins = document.getElementsByName("gameMin");
-        let gameMaxs = document.getElementsByName("gameMax");
-
-        for (let i = 0; i < gameIds.length; i++) {
-            let game = {
-                id: gameIds[i].innerText,
-                name: gameNames[i].innerText,
-                min_playtime: Number(gameMins[i].innerText),
-                max_playtime: Number(gameMaxs[i].innerText)
-            };
-            group.games.push(game);
-        }
-        routeManager.changeRoute('updateGroup', group);
-    }
-
-    const searchGameForm = document.querySelector("#searchGameForm");
-    searchGameForm.addEventListener('submit', handleSubmitSearchGameForm);
-
-    async function handleSubmitSearchGameForm(e) {
-        e.preventDefault();
-
-        const gameName = document.querySelector("#searchGameName").value;
-
-        const response = await gamesModel.searchGamesByName(gameName);
-        let games = response.payload;
-        let rows = "";
-        for (let i = 0; i < games.length; i++) {
-            let game = games[i];
-            let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn btn-primary">Add game to group</button>`;
-            let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td> <td>${addGameToGroupButton}</td> </tr>`;
-            rows += row;
-        }
-        let tableBody = document.querySelector("#searchResults");
-        tableBody.innerHTML = rows;
-
-        const addGameToGroupButtons = document.getElementsByName("addGameToGroup");
-        addGameToGroupButtons.forEach(b => {
-            b.addEventListener('click', handleAddGameToGroupButton);
-        });
-
-        function handleAddGameToGroupButton(e) {
-            const searchGameIds = document.getElementsByName("searchGameId");
-            const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
-            const groupId = document.querySelector("#groupId").value
-            routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
-        }
-    }
-
-    const removeGameToGroupButtons = document.getElementsByName("removeGameFromGroup");
-    removeGameToGroupButtons.forEach(b => {
-        b.addEventListener('click', handleRemoveGameToGroupButton);
-    });
-
-    function handleRemoveGameToGroupButton(e) {
-        const gameIds = document.getElementsByName("gameId");
-        const gameId = gameIds[e.toElement.attributes[0].value].innerText;
-        const groupId = document.querySelector("#groupId").value;
-        routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
-    }
-
 }
 
 function updateGroup(data, routesManager) {

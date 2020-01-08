@@ -21,7 +21,7 @@ const ciborgValidator = require('./libs/CIBORG/validators/ciborg-validator')(cib
 const gamesService = require('./libs/CIBORG/dal/board-games-data')(props, gamesDto, gamesDtoMapper, httpCall, ciborgError);
 const groupService = require('./libs/CIBORG/dal/ciborg-db')(props, httpCall, gamesService, ciborgError);
 const userService = require('./libs/CIBORG/dal/ciborg-users')(props, httpCall, ciborgError);
-const services = require('./libs/CIBORG/services/ciborg-services')(gamesService, groupService, userService);
+const services = require('./libs/CIBORG/services/ciborg-services')(ciborgError, gamesService, groupService, userService);
 passportInitialize(passport, userService.getUserById);
 const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, ciborgError, ciborgValidator, passport);
 

@@ -39,34 +39,38 @@ module.exports = {
 
     group: async function(args) {
         if (args == null) {
-            //dia ao utilizador que tem de por id
+            throw new Error("To access a group the id must be provided.");
         }
         let id = args;
         return await groups.getGroup(id);
     },
 
     updateGroup: async function(args) {
-        if (args == null) {
-            //dia ao utilizador que tem de por id
+        if (args == undefined) {
+            console.log("No args on updateGroup");
+        } else {
+            let group = args;
+            return await groups.updateGroup(group);
         }
-        let group = args;
-        return await groups.updateGroup(group);
+
     },
 
     addGameToGroup: async function(args) {
-        if (args == null) {
-            //dia ao utilizador que tem de por id
+        if (args == undefined) {
+            console.log("No args on addGameToGroup");
+        } else {
+            let data = args;
+            return await groups.addGameToGroup(data.groupId, data.gameId);
         }
-        let data = args;
-        return await groups.addGameToGroup(data.groupId, data.gameId);
     },
 
     removeGameFromGroup: async function(args) {
         if (args == null) {
-            //dia ao utilizador que tem de por id
+            console.log("No args on removeGameFromGroup");
+        } else {
+            let data = args;
+            return await groups.removeGameFromGroup(data.groupId, data.gameId);
         }
-        let data = args;
-        return await groups.removeGameFromGroup(data.groupId, data.gameId);
     },
 
     header: async function() {

@@ -10,7 +10,7 @@ class CiborgError extends Error {
         this.statusCode = statusCode;
 
         //Creates a stack for this error
-        if(err) {
+        if (err) {
             this.stack = err.stack;
         } else {
             Error.captureStackTrace(this, this.constructor);
@@ -18,22 +18,23 @@ class CiborgError extends Error {
     }
 
     resolveErrorResponse(rsp) {
-        console.log(this.statusCode);
         rsp.statusCode = this.statusCode;
-        let errorResponsePayload = { payload : {
-             clientErrorMessage : this.clientErrorMessage,
-             apiErrorMessage : this.apiErrorMessage
-        } };
+        let errorResponsePayload = {
+            payload: {
+                clientErrorMessage: this.clientErrorMessage,
+                apiErrorMessage: this.apiErrorMessage
+            }
+        };
         rsp.end(JSON.stringify(errorResponsePayload));
     }
 
     toString() {
         return JSON.stringify({
-            apiErrorMessage : this.apiErrorMessage,
-            clientErrorMessage : this.clientErrorMessage,
-            statusCode : this.statusCode
+            apiErrorMessage: this.apiErrorMessage,
+            clientErrorMessage: this.clientErrorMessage,
+            statusCode: this.statusCode
         });
     }
 }
 
-module.exports =  CiborgError;
+module.exports = CiborgError;

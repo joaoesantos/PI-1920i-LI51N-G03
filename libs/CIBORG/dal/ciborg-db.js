@@ -52,7 +52,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     };
                 } else {
                     throw new CiborgError(null,
-                        'Error in service: groupt with id ' + groupId + ' not found.',
+                        'Error in service: group with id ' + groupId + ' not found.',
                         'Unable to get group.',
                         '404' // Internal Server Error
                     );
@@ -153,7 +153,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             try {
                 debug.extend('addGameToGroup')('Handling getGroupById: ' + groupId + ' & Handling getGamesByID: ' + gameId);
                 let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGamesByID([gameId])]);
-                
+
                 // payload from getGroupById promise
                 let groupPayload = promisses[0];
                 let group = groupPayload.body;
@@ -198,7 +198,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             try {
                 debug.extend('removeGameFromGroup')('Handling getGroupById: ' + groupId + ' & Handling getGamesByID: ' + gameId);
                 let promisses = await Promise.all([this.getGroupById(groupId), GameServices.getGamesByID([gameId])]);
-                
+
                 // payload from getGroupById promise
                 let groupPayload = promisses[0];
                 let group = groupPayload.body;
@@ -248,7 +248,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
         }
     };
     return GroupServiceObject;
-    
+
 };
 
 module.exports = GroupService;

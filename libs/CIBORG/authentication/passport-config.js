@@ -3,12 +3,10 @@ let passportInitializer = (bcrypt, localStrategy, CiborgError) => {
     function initialize(passport, getUserById) {
         const authenticateUser = async(userId, password, done) => {
             try {
-                console.log('auth');
                 const user = (await getUserById(userId)).body;
                 let isMatch = await bcrypt.compare(password, user.password);
 
                 if (isMatch) {
-                    console.log('logged in');
                     return done(null, user);
                 } else {
                     return done(null, false, { message: "Password Incorrect." });

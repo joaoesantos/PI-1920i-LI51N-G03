@@ -276,11 +276,11 @@
 													"variable": [
 														{
 															"key": "groupId",
-															"value": "2K4uvG4BfdQ9tDM4HmBa"
+															"value": "ahHyhm8B91a__-_SwTrr"
 														},
 														{
 															"key": "gameId",
-															"value": "kPDxpJZ8PD"
+															"value": "Xk4morwHjN"
 														}
 													]
 												},
@@ -452,11 +452,11 @@
 													"variable": [
 														{
 															"key": "groupId",
-															"value": ""
+															"value": "ahHyhm8B91a__-_SwTrr"
 														},
 														{
 															"key": "gameId",
-															"value": ""
+															"value": "IheMG6GoOg"
 														}
 													]
 												},
@@ -616,7 +616,7 @@
 											"variable": [
 												{
 													"key": "id",
-													"value": "RCvZqW4BQD7Q-f4nD3j9",
+													"value": "ahHyhm8B91a__-_SwTrr",
 													"description": "String representing the id of the group"
 												}
 											]
@@ -772,7 +772,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "RCvZqW4BQD7Q-f4nD3j9",
+											"value": "3hcvd28B2y1t5qr2s9aq",
 											"description": "String representing the id"
 										}
 									]
@@ -935,7 +935,7 @@
 									"variable": [
 										{
 											"key": "id",
-											"value": "2K4uvG4BfdQ9tDM4HmBa"
+											"value": "axHzhm8B91a__-_SMjqV"
 										}
 									]
 								},
@@ -1164,7 +1164,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"name\": \"Group 12\",\r\n\t\"description\": \"This grou of the best players.\",\r\n\t\"games\": []\r\n}",
+							"raw": "{\r\n\t\"name\": \"Group 12\",\r\n\t\"description\": \"This grou of the best players.\",\r\n\t\"games\": [],\r\n\t\"owner\": \"mog\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

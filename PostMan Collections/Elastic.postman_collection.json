@@ -92,7 +92,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\t\"description\" : \"Group of wild gamers 3\",\n\t\"games\": []\n}"
+							"raw": "{\n\t\"name\": \"Group 12\",\n\t\"description\" : \"Group of wild gamers 3\",\n\t\"games\": [],\n\t\"owner\": \"mog\"\n}"
 						},
 						"url": {
 							"raw": "{{elasticBaseUrl}}/groups/groups",
@@ -138,7 +138,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "G8lrV24BWT9pWYbrr4qm",
+									"value": "3hcvd28B2y1t5qr2s9aq",
 									"type": "string"
 								}
 							]
@@ -159,7 +159,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n\t\"name\": \"Test Group 3rf34ff\",\r\n\t\"description\": \"Group for testing creation 4 44 4fffffffffffffffffff\"\r\n}"
+							"raw": "{\r\n\t\"name\": \"Test Group 3rf34ff\",\r\n\t\"description\": \"Group for testing creation 4 44 4fffffffffffffffffff\",\r\n\t\"games\": [],\r\n\t\"owner\": \"mog\"\r\n}"
 						},
 						"url": {
 							"raw": "{{elasticBaseUrl}}/groups/_doc/:id",
