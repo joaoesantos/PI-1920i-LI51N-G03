@@ -4,7 +4,8 @@ const clientSideConfigs = require("../clientSideConfigs");
 
 module.exports = {
     login: login,
-    logout: logout
+    logout: logout,
+    isLoggedIn: isLoggedIn
 };
 
 function AuthenticationApiUris() {
@@ -27,7 +28,6 @@ function login(userId, password) {
     };
     return fetch(Uris.loginUri(), options)
         .then(async(rsp) => {
-            console.log(rsp)
             if (rsp.ok) {
                 return rsp.json();
             } else {
@@ -52,4 +52,14 @@ function logout() {
                 throw new Error(response.payload.clientErrorMessage);
             }
         })
+};
+
+function isLoggedIn() {
+    const options = {
+        method: "POST",
+        headers: clientSideConfigs.defaultHeaders,
+        body: JSON.stringify({ userId: "", password: "" })
+    };
+    return fetch(Uris.loginUri(), options)
+        .then(async(rsp) => rsp.status === 403);
 };

@@ -9,6 +9,7 @@ function loadHandler() {
     hashChangeHandler();
     const mainContent = document.querySelector("#mainContent");
     const alertContent = document.querySelector("#alertContent");
+    const headerContent = document.querySelector("#header");
 
     let routeData = null;
 
@@ -27,6 +28,12 @@ function loadHandler() {
         clearAlert: clearAlert
     }
 
+    const headerManager = {
+        setHeaderContent: function(html) {
+            headerContent.innerHTML = html;
+        }
+    }
+
     function addRouteData(args) {
         args.push(routeData);
         resetRouteData();
@@ -42,7 +49,7 @@ function loadHandler() {
 
         let route = routes[state];
 
-        if (!route) {
+        if (!route || hash === "header") {
             window.location.hash = "home";
             return;
         }
@@ -56,9 +63,12 @@ function loadHandler() {
                 resetRouteData();
             })
             .catch(e => showAlert(e.message, 3));
+
+        let headerRoute = routes.header;
+        headerRoute.controller().then(data => headerRoute.view(data, headerManager));
     }
 
-    //alertLevel: 1 - sucess, 2 - warning, 3 - error, default - indo
+    //alertLevel: 1 - sucess, 2 - warning, 3 - error, default - info
     function showAlert(alertMessage, alertLevel) {
         let html = `<div class="alert alert-info" role="alert"> ${alertMessage} </div>`;
         if (alertLevel === 1) {

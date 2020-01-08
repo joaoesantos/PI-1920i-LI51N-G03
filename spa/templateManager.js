@@ -8,6 +8,7 @@ const gameList = require("./templates/gameList.hbs").default;
 const searchGamesByName = require("./templates/gameSearch.hbs").default;
 const groups = require("./templates/groups.hbs").default;
 const group = require("./templates/groupDetail.hbs").default;
+const header = require("./templates/header.hbs").default;
 
 module.exports = {
     home: Handlebars.compile(home),
@@ -15,5 +16,6 @@ module.exports = {
     games: Handlebars.compile(gameList),
     searchGamesByName: Handlebars.compile(searchGamesByName),
     groups: Handlebars.compile(groups),
-    group: Handlebars.compile(group)
+    group: Handlebars.compile(group),
+    header: Handlebars.compile(header)
 };

@@ -5587,9 +5587,42 @@ let defaultHeaders = new Headers();
 defaultHeaders.append("Content-Type", "application/json");
 defaultHeaders.append("Accept", "application/json");
 
+const menuOptions = [{
+        label: "Home",
+        hash: "home",
+        login: true
+    },
+    {
+        label: "Login",
+        hash: "login",
+        login: false
+    },
+    {
+        label: "Logout",
+        hash: "logout",
+        login: true
+    },
+    {
+        label: "Games",
+        hash: "games",
+        login: true
+    },
+    {
+        label: "Search Games",
+        hash: "searchGames",
+        login: true
+    },
+    {
+        label: "Groups",
+        hash: "groups",
+        login: true
+    }
+];
+
 module.exports = {
     defaultHeaders: defaultHeaders,
-    apiBaseUrl: "http://localhost:8500"
+    apiBaseUrl: "http://localhost:8500",
+    menuOptions: menuOptions
 };
 
 /***/ }),
@@ -5607,6 +5640,7 @@ module.exports = {
 const authentication = __webpack_require__(/*! ./model/authentication */ "./spa/model/authentication.js")
 const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
 const games = __webpack_require__(/*! ./model/games */ "./spa/model/games.js");
+const clientSideConfigs = __webpack_require__(/*! ./clientSideConfigs */ "./spa/clientSideConfigs.js");
 
 module.exports = {
     home: async function() {
@@ -5670,8 +5704,13 @@ module.exports = {
         }
         let data = args;
         return await groups.removeGameFromGroup(data.groupId, data.gameId);
-    }
+    },
 
+    header: async function() {
+        const menuOptions = clientSideConfigs.menuOptions;
+        let isLoggedIn = await authentication.isLoggedIn();
+        return menuOptions.filter(e => e.login == isLoggedIn);
+    }
 }
 
 /***/ }),
@@ -5707,6 +5746,7 @@ function loadHandler() {
     hashChangeHandler();
     const mainContent = document.querySelector("#mainContent");
     const alertContent = document.querySelector("#alertContent");
+    const headerContent = document.querySelector("#header");
 
     let routeData = null;
 
@@ -5725,6 +5765,12 @@ function loadHandler() {
         clearAlert: clearAlert
     }
 
+    const headerManager = {
+        setHeaderContent: function(html) {
+            headerContent.innerHTML = html;
+        }
+    }
+
     function addRouteData(args) {
         args.push(routeData);
         resetRouteData();
@@ -5740,7 +5786,7 @@ function loadHandler() {
 
         let route = routes[state];
 
-        if (!route) {
+        if (!route || hash === "header") {
             window.location.hash = "home";
             return;
         }
@@ -5754,9 +5800,12 @@ function loadHandler() {
                 resetRouteData();
             })
             .catch(e => showAlert(e.message, 3));
+
+        let headerRoute = routes.header;
+        headerRoute.controller().then(data => headerRoute.view(data, headerManager));
     }
 
-    //alertLevel: 1 - sucess, 2 - warning, 3 - error, default - indo
+    //alertLevel: 1 - sucess, 2 - warning, 3 - error, default - info
     function showAlert(alertMessage, alertLevel) {
         let html = `<div class="alert alert-info" role="alert"> ${alertMessage} </div>`;
         if (alertLevel === 1) {
@@ -5790,7 +5839,8 @@ const clientSideConfigs = __webpack_require__(/*! ../clientSideConfigs */ "./spa
 
 module.exports = {
     login: login,
-    logout: logout
+    logout: logout,
+    isLoggedIn: isLoggedIn
 };
 
 function AuthenticationApiUris() {
@@ -5813,7 +5863,6 @@ function login(userId, password) {
     };
     return fetch(Uris.loginUri(), options)
         .then(async(rsp) => {
-            console.log(rsp)
             if (rsp.ok) {
                 return rsp.json();
             } else {
@@ -5838,6 +5887,16 @@ function logout() {
                 throw new Error(response.payload.clientErrorMessage);
             }
         })
+};
+
+function isLoggedIn() {
+    const options = {
+        method: "POST",
+        headers: clientSideConfigs.defaultHeaders,
+        body: JSON.stringify({ userId: "", password: "" })
+    };
+    return fetch(Uris.loginUri(), options)
+        .then(async(rsp) => rsp.status === 403);
 };
 
 /***/ }),
@@ -6132,6 +6191,11 @@ module.exports = {
     removeGameFromGroup: {
         controller: controller.removeGameFromGroup,
         view: views.removeGameFromGroup
+    },
+
+    header: {
+        controller: controller.header,
+        view: views.header
     }
 }
 
@@ -6236,6 +6300,7 @@ const gameList = __webpack_require__(/*! ./templates/gameList.hbs */ "./spa/temp
 const searchGamesByName = __webpack_require__(/*! ./templates/gameSearch.hbs */ "./spa/templates/gameSearch.hbs").default;
 const groups = __webpack_require__(/*! ./templates/groups.hbs */ "./spa/templates/groups.hbs").default;
 const group = __webpack_require__(/*! ./templates/groupDetail.hbs */ "./spa/templates/groupDetail.hbs").default;
+const header = __webpack_require__(/*! ./templates/header.hbs */ "./spa/templates/header.hbs").default;
 
 module.exports = {
     home: Handlebars.compile(home),
@@ -6243,7 +6308,8 @@ module.exports = {
     games: Handlebars.compile(gameList),
     searchGamesByName: Handlebars.compile(searchGamesByName),
     groups: Handlebars.compile(groups),
-    group: Handlebars.compile(group)
+    group: Handlebars.compile(group),
+    header: Handlebars.compile(header)
 };
 
 /***/ }),
@@ -6297,6 +6363,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ("<h1 class=\"title\">List of all owned groups</h1>\r\n \r\n <div class=\"allGroupsBox\">\r\n    <table class=\"table\">\r\n        <tr class=\"thead-dark\">\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr>\r\n                <td><a href=\"#group/{{id}}\">{{name}}</a></td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n</div>\r\n\r\n<div class=\"createGroupBox\">\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n        <label>Name</label>\r\n        <input type=\"text\" id=\"formName\" >\r\n        <label>Description</label>\r\n        <input type=\"text\" id=\"formDescription\" >\r\n        <input type=\"submit\" >\r\n    </form>\r\n</div>");
+
+/***/ }),
+
+/***/ "./spa/templates/header.hbs":
+/*!**********************************!*\
+  !*** ./spa/templates/header.hbs ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("{{#each this}}\r\n    <a href=\"#{{hash}}\">{{label}}</a>\r\n{{/each}}");
 
 /***/ }),
 
@@ -6361,7 +6440,8 @@ module.exports = {
     group: group,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
-    removeGameFromGroup: removeGameFromGroup
+    removeGameFromGroup: removeGameFromGroup,
+    header: header
 }
 
 function home(data, routesManager) {
@@ -6532,6 +6612,10 @@ function addGameToGroup(data, routesManager) {
 
 function removeGameFromGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
+}
+
+function header(data, headerManager) {
+    headerManager.setHeaderContent(templates.header(data));
 }
 
 /***/ })

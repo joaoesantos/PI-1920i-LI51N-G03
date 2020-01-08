@@ -26,7 +26,8 @@ module.exports = {
     group: group,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
-    removeGameFromGroup: removeGameFromGroup
+    removeGameFromGroup: removeGameFromGroup,
+    header: header
 }
 
 function home(data, routesManager) {
@@ -197,4 +198,8 @@ function addGameToGroup(data, routesManager) {
 
 function removeGameFromGroup(data, routesManager) {
     routesManager.changeRoute(`group/${data}`);
+}
+
+function header(data, headerManager) {
+    headerManager.setHeaderContent(templates.header(data));
 }

@@ -3,6 +3,7 @@
 const authentication = require('./model/authentication')
 const groups = require('./model/groups');
 const games = require('./model/games');
+const clientSideConfigs = require('./clientSideConfigs');
 
 module.exports = {
     home: async function() {
@@ -66,6 +67,11 @@ module.exports = {
         }
         let data = args;
         return await groups.removeGameFromGroup(data.groupId, data.gameId);
-    }
+    },
 
+    header: async function() {
+        const menuOptions = clientSideConfigs.menuOptions;
+        let isLoggedIn = await authentication.isLoggedIn();
+        return menuOptions.filter(e => e.login == isLoggedIn);
+    }
 }

@@ -58,5 +58,10 @@ module.exports = {
     removeGameFromGroup: {
         controller: controller.removeGameFromGroup,
         view: views.removeGameFromGroup
+    },
+
+    header: {
+        controller: controller.header,
+        view: views.header
     }
 }
