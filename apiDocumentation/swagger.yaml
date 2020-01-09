@@ -1,14 +1,8 @@
 openapi: 3.0.0
-# Added by API Auto Mocking Plugin
-servers:
-  - description: SwaggerHub API Auto Mocking
-    url: https://virtserver.swaggerhub.com/mogarrio9/trabalhoPI/1.0.0
 info:
-  description: This is a simple API
-  version: "1.0.0"
-  title: CIBORG Api
-  contact:
-    email: you@your-company.com
+  description: This is the CIBORG API
+  version: "3.0.0"
+  title: CIBORG API
   license:
     name: Apache 2.0
     url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
@@ -357,6 +351,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Unauthorized access.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Forbidden.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Cannot access this group, because user is not the owner.
         '404':
           description: Resource not found
           content:
@@ -402,12 +414,12 @@ paths:
         Updates a group.
 
       requestBody:
-        description: Group body with no games
+        description: Group body
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/group'
+              $ref: '#/components/schemas/groupWithNoId'
 
       parameters:
         - in: path
@@ -463,6 +475,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Unauthorized access.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Forbidden.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Cannot access this group, because user is not the owner.
         '404':
           description: Resource not found
           content:
@@ -568,6 +598,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Unauthorized access.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Forbidden.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Cannot access this group, because user is not the owner.
         '404':
           description: Resource not found
           content:
@@ -668,6 +716,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Unauthorized access.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Forbidden.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Cannot access this group, because user is not the owner.
         '404':
           description: Resource not found
           content:
@@ -767,6 +833,24 @@ paths:
                         type: string
                         description: Error message to present on application.
                         example: Unauthorized access.
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  payload:
+                    type: object
+                    properties:
+                      apiErrorMessage:
+                        type: string
+                        description: Technical error message.
+                        example: Error accessing resource, Forbidden.
+                      applicationErrorMessage:
+                        type: string
+                        description: Error message to present on application.
+                        example: Cannot access this group, because user is not the owner.
         '404':
           description: Resource not found
           content:
@@ -812,6 +896,23 @@ paths:
       description: |
         Attemps to login a given user with userId and password.
             
+      requestBody:
+        description: Credentials necessary for login
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  description: UserId of user to login.
+                  example: mog
+                password:
+                  type: string
+                  description: Password of user to login.
+                  example: pass123
+
       responses:
         '200':
           description: Login success.
@@ -945,9 +1046,11 @@ components:
         min_playtime:
           type: integer
           example: 90
+          description: minutes
         max_playtime:
           type: integer
           example: 120
+          description: minutes
     group:
       type: object
       required:
