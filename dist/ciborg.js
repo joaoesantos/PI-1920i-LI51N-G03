@@ -5648,7 +5648,12 @@ module.exports = {
         return img;
     },
 
-    login: async function() {},
+    login: async function() {
+        let isLoggedIn = await authentication.isLoggedIn();
+        if (isLoggedIn) {
+            throw new Error("Logged in user cannot access login page.");
+        }
+    },
 
     logout: async function() {
         return await authentication.logout();
