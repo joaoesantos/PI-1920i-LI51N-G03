@@ -13,16 +13,19 @@
     </div>
 </div>
 
+  <div class="table-container">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          {{#each header as |column|}}
+            <th scope="col" class="test-class">{{column}}</th>
+          {{/each}} 
+        </tr>
+      </thead>
+      <tbody id="gamesSearched">
+      </tbody>
+    </table>
+  </div>
+
 </div>
-<table class="table">
-    <thead class="thead-dark">
-      <tr>
-        {{#each header as |column|}}
-          <th scope="col" class="test-class">{{column}}</th>
-        {{/each}} 
-      </tr>
-    </thead>
-    <tbody id="gamesSearched">
-    </tbody>
-  </table>
-</div>
+
