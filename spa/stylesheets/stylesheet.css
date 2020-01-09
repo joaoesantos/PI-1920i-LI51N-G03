@@ -21,3 +21,12 @@
     height: 50%;
     width: 50%;
 }
+
+.table-container {
+   padding: 1% 5% 1% 5%;
+   text-align: center;
+}
+
+.thead-dark{
+    background-color: #0D0A0B;
+}
