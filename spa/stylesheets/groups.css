@@ -1,9 +1,9 @@
 .createGroupBox{
-    color: rgb(152, 248, 42);
-    background-color: #d11bb3;
+    color: #0D0A0B;
+    background-color: #fff;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
 }
 
 .formTitle {
-    color: blue;
+    color: #0D0A0B;
 }

@@ -1,0 +1,31 @@
+<div class="container">
+    <div class="form-container">
+    <div class="col-md-6">
+        <h3>Search Games</h3>
+        <form id="searchGamesForm">
+            <div class="form-group">
+                <input type="text" id="gameName" name="gameName" class="form-control" placeholder="Game's name" value="" />
+            </div>
+            <div class="form-group">
+                 <button id="searchButton" class="submitBtn" type="button">Search</button> 
+            </div>
+        </form>
+    </div>
+</div>
+
+  <div class="table-container table-responsive">
+    <table class="table table-striped table-dark table-hover">
+      <thead class="thead-dark">
+        <tr>
+          {{#each header as |column|}}
+            <th scope="col" class="test-class">{{column}}</th>
+          {{/each}} 
+        </tr>
+      </thead>
+      <tbody id="gamesSearched">
+      </tbody>
+    </table>
+  </div>
+
+</div>
+

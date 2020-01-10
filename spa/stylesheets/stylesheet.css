@@ -21,3 +21,28 @@
     height: 50%;
     width: 50%;
 }
+
+.table-container {
+   padding: 1% 5% 1% 5%;
+   text-align: center;
+}
+
+.thead-dark{
+    background-color: #0D0A0B;
+}
+
+.clickable-row{
+    cursor: pointer;
+}
+
+body{
+    background-color: #F3EFF5;
+}
+
+.table{
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
+
+.form-control {
+    border: 1px solid #0062cc;
+}
