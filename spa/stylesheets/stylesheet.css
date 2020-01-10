@@ -30,3 +30,15 @@
 .thead-dark{
     background-color: #0D0A0B;
 }
+
+.clickable-row{
+    cursor: pointer;
+}
+
+body{
+    background-color: #F3EFF5;
+}
+
+.table{
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+}
