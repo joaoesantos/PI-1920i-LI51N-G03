@@ -6,7 +6,6 @@ window.addEventListener('load', loadHandler)
 
 function loadHandler() {
     window.addEventListener('hashchange', hashChangeHandler);
-    hashChangeHandler();
     const mainContent = document.querySelector("#mainContent");
     const alertContent = document.querySelector("#alertContent");
     const headerContent = document.querySelector("#header");
@@ -84,4 +83,6 @@ function loadHandler() {
     function clearAlert() {
         alertContent.innerHTML = "<div></div>";
     }
+
+    hashChangeHandler();
 }

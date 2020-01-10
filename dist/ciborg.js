@@ -5656,7 +5656,6 @@ module.exports = {
 
     games: async function(name) {
         let fromServer;
-        console.log("GAMES")
         if (name) {
             fromServer = await games.searchGamesByName(name);
         } else {
@@ -5855,7 +5854,6 @@ window.addEventListener('load', loadHandler)
 
 function loadHandler() {
     window.addEventListener('hashchange', hashChangeHandler);
-    hashChangeHandler();
     const mainContent = document.querySelector("#mainContent");
     const alertContent = document.querySelector("#alertContent");
     const headerContent = document.querySelector("#header");
@@ -5933,6 +5931,8 @@ function loadHandler() {
     function clearAlert() {
         alertContent.innerHTML = "<div></div>";
     }
+
+    hashChangeHandler();
 }
 
 /***/ }),
