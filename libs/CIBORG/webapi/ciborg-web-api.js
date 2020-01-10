@@ -58,25 +58,36 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
                     err.resolveErrorResponse(rsp);
                 } else {
                     req.logIn(user, function(err) {
-                        if (err) {
-                            err = new CiborgError(err,
-                                'Error in service: login request.',
-                                'Unable to login.',
-                                '500' // Internal Server Error
-                            );
+                        try {
+                            if (err) {
+                                err = new CiborgError(err,
+                                    'Error in service: login request.',
+                                    'Unable to login.',
+                                    '500' // Internal Server Error
+                                );
+                                debug.extend('login')(err);
+                                err.resolveErrorResponse(rsp);
+                            } else {
+                                resolveServiceResponse({
+                                    statusCode: 200,
+                                    body: {
+                                        message: "User logged in.",
+                                        user: user
+                                    }
+                                }, rsp);
+                            }
+                        } catch (err) {
+                            if (!(err instanceof CiborgError)) {
+                                err = new CiborgError(err,
+                                    'Error in service: login.',
+                                    'Unable to login.',
+                                    '500' // Internal Server Error
+                                );
+                            }
                             debug.extend('login')(err);
                             err.resolveErrorResponse(rsp);
-                        } else {
-                            resolveServiceResponse({
-                                statusCode: 200,
-                                body: {
-                                    message: "User logged in.",
-                                    user: user
-                                }
-                            }, rsp);
                         }
                     });
-
                 }
             })(req, rsp, next);
         } catch (err) {

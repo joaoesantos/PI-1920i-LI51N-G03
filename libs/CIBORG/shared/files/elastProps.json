@@ -16,5 +16,6 @@
         "doc": {
             "url": "_doc"
         }
-    }
+    },
+    "pageSize": 10
 }

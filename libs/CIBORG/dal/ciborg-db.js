@@ -7,19 +7,30 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
     let GroupServiceObject = {
         getAllGroups: async() => {
             try {
-                let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.search.url;
-                let opts = { url: fullUrl, json: true };
-                debug.extend('getAllGroups')('Handling HTTP GET.');
-                let payload = await HttpCall.get(opts);
-                let groupsList = payload.body.hits.hits.map(e => {
-                    let group = e._source;
-                    group.id = e._id;
-                    return group;
-                });
+                let pageSize = Props.elastProps.pageSize;
+                let fullGroupList = [];
+                let index = 0;
+                let payload;
+
+                do {
+                    let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.search.url +
+                        "?" + `from=${index}&size=${pageSize}`;
+                    let opts = { url: fullUrl, json: true };
+                    debug.extend('getAllGroups')('Handling HTTP GET.');
+                    payload = await HttpCall.get(opts);
+                    let groupsList = payload.body.hits.hits.map(e => {
+                        let group = e._source;
+                        group.id = e._id;
+                        return group;
+                    });
+                    fullGroupList = fullGroupList.concat(groupsList);
+                    index += pageSize;
+                } while (payload.body.hits.total.value > index);
+
                 debug.extend('getAllGroups')('All groups were retrieved with success.');
                 return {
                     statusCode: payload.statusCode,
-                    body: groupsList
+                    body: fullGroupList
                 };
             } catch (err) {
                 debug.extend('getAllGroups')(err);
@@ -32,7 +43,6 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                         '500' // Internal Server Error
                     );
                 }
-
             }
         },
 
