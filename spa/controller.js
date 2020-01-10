@@ -22,16 +22,18 @@ module.exports = {
         return await authentication.logout();
     },
 
-    games: async function() {
-        let fromServer = await games.getMostPopularGames();
-        return fromServer.payload;
-    },
-
-    searchGamesByName: async function(name) {
-        let table = {
-            header: ["ID", "Name", "Min Playtime", "Max Playtime"]
-        };
-        return table;
+    games: async function(name) {
+        let fromServer;
+        if (name) {
+            fromServer = await games.searchGamesByName(name);
+        } else {
+            fromServer = await games.getMostPopularGames();
+        }
+        let gameTable = {
+            header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
+            elements: fromServer.payload
+        }
+        return gameTable;
     },
 
     groups: async function() {
@@ -43,15 +45,17 @@ module.exports = {
     },
 
     group: async function(args) {
-        if (args == null) {
+        if (!args) {
             throw new Error("To access a group the id must be provided.");
         }
         let id = args;
-        return await groups.getGroup(id);
+        let group = await groups.getGroup(id);
+        group.header = ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"]
+        return group;
     },
 
     updateGroup: async function(args) {
-        if (args == undefined) {
+        if (!args) {
             console.log("No args on updateGroup");
         } else {
             let group = args;
@@ -61,7 +65,7 @@ module.exports = {
     },
 
     addGameToGroup: async function(args) {
-        if (args == undefined) {
+        if (!args) {
             console.log("No args on addGameToGroup");
         } else {
             let data = args;
@@ -70,7 +74,7 @@ module.exports = {
     },
 
     removeGameFromGroup: async function(args) {
-        if (args == null) {
+        if (!args) {
             console.log("No args on removeGameFromGroup");
         } else {
             let data = args;

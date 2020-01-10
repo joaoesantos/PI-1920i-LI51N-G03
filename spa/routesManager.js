@@ -25,11 +25,6 @@ module.exports = {
         view: views.games
     },
 
-    searchGames: {
-        controller: controller.searchGamesByName,
-        view: views.searchGamesByName
-    },
-
     groups: {
         controller: controller.groups,
         view: views.groups

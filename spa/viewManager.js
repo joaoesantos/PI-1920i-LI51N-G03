@@ -11,6 +11,7 @@ require('../spa/stylesheets/groups.css');
 
 //models
 const authenticationModel = require("./model/authentication");
+const gamesModel = require("./model/games");
 
 const groupView = require("./controllers/groupView");
 
@@ -21,7 +22,6 @@ module.exports = {
     login: login,
     logout: logout,
     games: games,
-    searchGamesByName: searchGamesByName,
     groups: groups,
     createGroup: createGroup,
     group: groupView,
@@ -57,33 +57,14 @@ function logout(data, routesManager) {
 
 function games(data, routeManager) {
     routeManager.setMainContent(templates.games(data));
-}
 
-function searchGamesByName(data, routeManager) {
-    routeManager.setMainContent(templates.searchGamesByName(data));
-
-    const searchButton = document.querySelector("#searchButton")
-    searchButton.addEventListener('click', handleClick)
+    const searchButton = document.querySelector("#searchButton");
+    searchButton.addEventListener('click', handleClick);
 
     async function handleClick(e) {
-        const gameName = document.querySelector("#gameName");
-        let fromServer = await fetch(`/games/${gameName.value}`, {
-                method: 'GET',
-            }).then(function(response) {
-                return response.json();
-            })
-            .catch(function(error) {
-                alert(error);
-            });
-        let games = fromServer.payload;
-        let rows = "";
-        for (let i = 0; i < games.length; i++) {
-            let game = games[i];
-            let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td></tr>`;
-            rows += row;
-        }
-        let target = document.querySelector("#gamesSearched");
-        target.innerHTML = rows;
+        const gameName = document.querySelector("#gameName").value;
+        const gameNamePath = gameName ? "/" + gameName : "";
+        routeManager.changeRoute(`#games${gameNamePath}`);
     }
 }
 

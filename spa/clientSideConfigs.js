@@ -25,11 +25,6 @@ const menuOptions = [{
         login: true
     },
     {
-        label: "Search Games",
-        hash: "searchGames",
-        login: true
-    },
-    {
         label: "Groups",
         hash: "groups",
         login: true

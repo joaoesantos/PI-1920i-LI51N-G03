@@ -1,12 +1,36 @@
-<div id="GameList">
-    <div class="row gamecontainer">
-     {{#each this}}
-                <div class="col-md-3 game-item">
-                    <h2>{{name}}</h2>
-                    <p>Minimum playtime:{{min_playtime}} min</p>
-                    <p>Maximum playtime:{{max_playtime}} min</p>
-                </div>
-        {{/each}}
+<div class="container">
+  <div class="form-container">
+    <div class="col-md-6">
+        <h3>Search Games</h3>
+        <form id="searchGamesForm">
+            <div class="form-group">
+                <input type="text" id="gameName" name="gameName" class="form-control" placeholder="Game's name" value="" />
+            </div>
+            <div class="form-group">
+                  <button id="searchButton" class="submitBtn" type="button">Search</button> 
+            </div>
+        </form>
     </div>
+  </div>
+</div>
 
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        {{#each header as |column|}}
+          <th scope="col" class="test-class">{{column}}</th>
+        {{/each}} 
+      </tr>
+    </thead>
+    <tbody>
+        {{#each elements as |row|}}
+        <tr>
+          <td name="gameId">{{row.id}}</td>
+          <td name="gameName">{{row.name}}</td>
+          <td name="gameMin">{{row.min_playtime}}</td>
+          <td name="gameMax">{{row.max_playtime}}</td>
+        </tr>
+      {{/each}} 
+    </tbody>
+  </table>
 </div>

@@ -81,7 +81,6 @@ function getGroup(id) {
                 groupId: rsp.payload.id,
                 groupName: rsp.payload.name,
                 groupDescription: rsp.payload.description,
-                header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
                 elements: rsp.payload.games
             };
             return group;

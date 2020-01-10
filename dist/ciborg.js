@@ -5608,11 +5608,6 @@ const menuOptions = [{
         login: true
     },
     {
-        label: "Search Games",
-        hash: "searchGames",
-        login: true
-    },
-    {
         label: "Groups",
         hash: "groups",
         login: true
@@ -5659,16 +5654,19 @@ module.exports = {
         return await authentication.logout();
     },
 
-    games: async function() {
-        let fromServer = await games.getMostPopularGames();
-        return fromServer.payload;
-    },
-
-    searchGamesByName: async function(name) {
-        let table = {
-            header: ["ID", "Name", "Min Playtime", "Max Playtime"]
-        };
-        return table;
+    games: async function(name) {
+        let fromServer;
+        console.log("GAMES")
+        if (name) {
+            fromServer = await games.searchGamesByName(name);
+        } else {
+            fromServer = await games.getMostPopularGames();
+        }
+        let gameTable = {
+            header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
+            elements: fromServer.payload
+        }
+        return gameTable;
     },
 
     groups: async function() {
@@ -5680,15 +5678,17 @@ module.exports = {
     },
 
     group: async function(args) {
-        if (args == null) {
+        if (!args) {
             throw new Error("To access a group the id must be provided.");
         }
         let id = args;
-        return await groups.getGroup(id);
+        let group = await groups.getGroup(id);
+        group.header = ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"]
+        return group;
     },
 
     updateGroup: async function(args) {
-        if (args == undefined) {
+        if (!args) {
             console.log("No args on updateGroup");
         } else {
             let group = args;
@@ -5698,7 +5698,7 @@ module.exports = {
     },
 
     addGameToGroup: async function(args) {
-        if (args == undefined) {
+        if (!args) {
             console.log("No args on addGameToGroup");
         } else {
             let data = args;
@@ -5707,7 +5707,7 @@ module.exports = {
     },
 
     removeGameFromGroup: async function(args) {
-        if (args == null) {
+        if (!args) {
             console.log("No args on removeGameFromGroup");
         } else {
             let data = args;
@@ -6166,7 +6166,6 @@ function getGroup(id) {
                 groupId: rsp.payload.id,
                 groupName: rsp.payload.name,
                 groupDescription: rsp.payload.description,
-                header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
                 elements: rsp.payload.games
             };
             return group;
@@ -6268,11 +6267,6 @@ module.exports = {
     games: {
         controller: controller.games,
         view: views.games
-    },
-
-    searchGames: {
-        controller: controller.searchGamesByName,
-        view: views.searchGamesByName
     },
 
     groups: {
@@ -6409,7 +6403,6 @@ const Handlebars = __webpack_require__(/*! ../node_modules/handlebars/dist/handl
 const home = __webpack_require__(/*! ./templates/home.hbs */ "./spa/templates/home.hbs").default;
 const login = __webpack_require__(/*! ./templates/login.hbs */ "./spa/templates/login.hbs").default;
 const gameList = __webpack_require__(/*! ./templates/gameList.hbs */ "./spa/templates/gameList.hbs").default;
-const searchGamesByName = __webpack_require__(/*! ./templates/gameSearch.hbs */ "./spa/templates/gameSearch.hbs").default;
 const groups = __webpack_require__(/*! ./templates/groups.hbs */ "./spa/templates/groups.hbs").default;
 const group = __webpack_require__(/*! ./templates/groupDetail.hbs */ "./spa/templates/groupDetail.hbs").default;
 const header = __webpack_require__(/*! ./templates/header.hbs */ "./spa/templates/header.hbs").default;
@@ -6418,7 +6411,6 @@ module.exports = {
     home: Handlebars.compile(home),
     login: Handlebars.compile(login),
     games: Handlebars.compile(gameList),
-    searchGamesByName: Handlebars.compile(searchGamesByName),
     groups: Handlebars.compile(groups),
     group: Handlebars.compile(group),
     header: Handlebars.compile(header)
@@ -6435,20 +6427,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div id=\"GameList\">\r\n    <div class=\"row gamecontainer\">\r\n     {{#each this}}\r\n                <div class=\"col-md-3 game-item\">\r\n                    <h2>{{name}}</h2>\r\n                    <p>Minimum playtime:{{min_playtime}} min</p>\r\n                    <p>Maximum playtime:{{max_playtime}} min</p>\r\n                </div>\r\n        {{/each}}\r\n    </div>\r\n\r\n</div>\r\n");
-
-/***/ }),
-
-/***/ "./spa/templates/gameSearch.hbs":
-/*!**************************************!*\
-  !*** ./spa/templates/gameSearch.hbs ***!
-  \**************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                 <button id=\"searchButton\" class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>\r\n\r\n</div>\r\n<table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"gamesSearched\">\r\n    </tbody>\r\n  </table>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n  <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                  <button id=\"searchButton\" class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n  </div>\r\n</div>\r\n\r\n<table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n        {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n</div>\r\n");
 
 /***/ }),
 
@@ -6537,6 +6516,7 @@ __webpack_require__(/*! ../spa/stylesheets/groups.css */ "./spa/stylesheets/grou
 
 //models
 const authenticationModel = __webpack_require__(/*! ./model/authentication */ "./spa/model/authentication.js");
+const gamesModel = __webpack_require__(/*! ./model/games */ "./spa/model/games.js");
 
 const groupView = __webpack_require__(/*! ./controllers/groupView */ "./spa/controllers/groupView.js");
 
@@ -6547,7 +6527,6 @@ module.exports = {
     login: login,
     logout: logout,
     games: games,
-    searchGamesByName: searchGamesByName,
     groups: groups,
     createGroup: createGroup,
     group: groupView,
@@ -6583,33 +6562,14 @@ function logout(data, routesManager) {
 
 function games(data, routeManager) {
     routeManager.setMainContent(templates.games(data));
-}
 
-function searchGamesByName(data, routeManager) {
-    routeManager.setMainContent(templates.searchGamesByName(data));
-
-    const searchButton = document.querySelector("#searchButton")
-    searchButton.addEventListener('click', handleClick)
+    const searchButton = document.querySelector("#searchButton");
+    searchButton.addEventListener('click', handleClick);
 
     async function handleClick(e) {
-        const gameName = document.querySelector("#gameName");
-        let fromServer = await fetch(`/games/${gameName.value}`, {
-                method: 'GET',
-            }).then(function(response) {
-                return response.json();
-            })
-            .catch(function(error) {
-                alert(error);
-            });
-        let games = fromServer.payload;
-        let rows = "";
-        for (let i = 0; i < games.length; i++) {
-            let game = games[i];
-            let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td></tr>`;
-            rows += row;
-        }
-        let target = document.querySelector("#gamesSearched");
-        target.innerHTML = rows;
+        const gameName = document.querySelector("#gameName").value;
+        const gameNamePath = gameName ? "/" + gameName : "";
+        routeManager.changeRoute(`#games${gameNamePath}`);
     }
 }
 
