@@ -6703,7 +6703,6 @@ __webpack_require__(/*! ../node_modules/bootstrap/dist/css/bootstrap.min.css */ 
 __webpack_require__(/*! ../spa/stylesheets/stylesheet.css */ "./spa/stylesheets/stylesheet.css");
 // authentication
 __webpack_require__(/*! ../spa/stylesheets/login.css */ "./spa/stylesheets/login.css");
-// games
 // groups
 __webpack_require__(/*! ../spa/stylesheets/groups.css */ "./spa/stylesheets/groups.css");
 
@@ -6749,12 +6748,8 @@ function signIn(data, routesManager) {
             if(password.value === repassword.value) {
                 await authenticationModel.signIn(userId.value, name.value, password.value);
                 let alertmsg = {message: 'Account created with success.'};
-                alertmsg.redirect = {
-                    hash: "login",
-                    data: undefined
-                };
+                alertmsg.redirect = { hash: "login", data: undefined };
                 routesManager.redirectAndShowAlert(alertmsg, 1);
-                //routesManager.changeRoute('login');
             } else {
                 routesManager.showAlert('Passwords do not match.', 3);
             }
@@ -6765,20 +6760,20 @@ function signIn(data, routesManager) {
 }
 
 function login(data, routesManager) {
-    try {
-        routesManager.setMainContent(templates.login(data));
-        const formLogin = document.querySelector("#loginForm")
-        formLogin.addEventListener('submit', handleSubmit)
+    routesManager.setMainContent(templates.login(data));
+    const formLogin = document.querySelector("#loginForm")
+    formLogin.addEventListener('submit', handleSubmit)
 
-        async function handleSubmit(e) {
+    async function handleSubmit(e) {
+        try {
             e.preventDefault()
             const userId = document.querySelector("#userId");
             const password = document.querySelector("#password");
             let response = await authenticationModel.login(userId.value, password.value);
             routesManager.changeRoute('home', response);
+        } catch (err) {
+            routesManager.showAlert(err.message, 3);
         }
-    } catch (err) {
-        routesManager.showAlert(err.message, 3);
     }
 }
 
