@@ -141,12 +141,20 @@ let validator = function(CiborgError) {
                 'Failed to create group, it does not have a "games" field.',
                 '400' // Bad Request
             );
+        } 
+        if(!data.hasOwnProperty('owner')) {
+            debug.extend('validateGroupWithNoIdFormat')('Validation Error: group does not have a "owner" field.');
+            throw new CiborgError(null,
+                'Validation Error: group does not have a "owner" field.',
+                'Failed to create group, it does not have a "owner" field.',
+                '400' // Bad Request
+            ); 
         } else {
             data.games.forEach(game => {
                 validateGameFormat(game);
             });
         };
-        if (Object.keys(data).length != 3) {
+        if (Object.keys(data).length != 4) {
             debug.extend('validateGroupWithNoIdFormat')('Validation Error: invalid number of fields for post service.');
             throw new CiborgError(null,
                 'Validation Error: invalid number of fields for post service.',

@@ -34,6 +34,17 @@ let ciborgServices = function(CiborgError, gamesService, groupsService, userServ
                         '403' // Forbidden
                     );
                 }
+
+                let userExists = await userService.userExists(group.owner);
+                
+                if(!userExists.body){
+                    throw new CiborgError(
+                        null,
+                        'Validation Error: Bad Request, User: ' + userExists.body + ' doesnt exist.',
+                        'Bad Request, failed to update group',
+                        '404' // Forbidden
+                    );
+                }
                 return await groupsService.updateGroup(group);
             },
 
