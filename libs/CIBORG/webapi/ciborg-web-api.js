@@ -33,16 +33,17 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, securityUti
             // ciborg validator
             CiborgValidator.validateSignInFormat(req.body);
             // hash password
-            req.body.password = await securityUtils.hashPassword(password);
+            req.body.password = await securityUtils.hashPassword(req.body.password);
             // service call
             debug.extend('signIn')('Handling user service signIn.');
             let data = await services.users.signIn(req.body);
             debug.extend('signIn')('Service signIn executed with sucess.');
             resolveServiceResponse(data, rsp);
         } catch (err) {
+            console.log(err);
             if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
-                    'Error in service: signIn.',
+                    'Error in service: sign in.',
                     'Unable to sign in.',
                     '500' // Internal Server Error
                 );

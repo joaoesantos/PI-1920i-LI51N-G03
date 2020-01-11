@@ -11,6 +11,7 @@ let passportInitializer = (bcrypt, localStrategy, CiborgError) => {
                 if (isMatch) {
                     return done(null, user);
                 } else {
+                    console.log('pass-conf',password, user.password)
                     return done(null, false, { message: "Password Incorrect." });
                 }
             } catch (err) {

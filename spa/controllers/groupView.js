@@ -1,14 +1,14 @@
 const templates = require("../templateManager");
 const gamesModel = require("../model/games");
 
-function group(data, routeManager) {
-    routeManager.setMainContent(templates.group(data));
+function group(data, routesManager) {
+    routesManager.setMainContent(templates.group(data));
 
     const backToGroupsButton = document.querySelector("#backToGroups");
     backToGroupsButton.addEventListener('click', handleClickBackToGroupsButton);
 
     function handleClickBackToGroupsButton(e) {
-        routeManager.changeRoute('groups');
+        routesManager.changeRoute('groups');
     }
 
     const updateGroupButton = document.querySelector("#updateGroup");
@@ -36,7 +36,7 @@ function group(data, routeManager) {
             };
             group.games.push(game);
         }
-        routeManager.changeRoute('updateGroup', group);
+        routesManager.changeRoute('updateGroup', group);
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
@@ -71,10 +71,10 @@ function group(data, routeManager) {
                 const searchGameIds = document.getElementsByName("searchGameId");
                 const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
                 const groupId = document.querySelector("#groupId").value
-                routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
+                routesManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
             }
         } catch (e) {
-            routeManager.showAlert(e.message, 3);
+            routesManager.showAlert(e.message, 3);
         }
     }
 

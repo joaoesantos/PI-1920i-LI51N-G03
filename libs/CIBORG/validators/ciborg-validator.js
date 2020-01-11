@@ -234,15 +234,7 @@ let validator = function(CiborgError) {
                 '400' // Bad Request
             );
         };
-        if (!data.hasOwnProperty('repassword')) {
-            debug.extend('validateSignInFormat')('Validation Error: login does not have a "repassword" field.');
-            throw new CiborgError(null,
-                'Validation Error: login does not have "repassword" field.',
-                'Sign in does not have "repassword" field.',
-                '400' // Bad Request
-            );
-        };
-        if (Object.keys(data).length != 4) {
+        if (Object.keys(data).length != 3) {
             debug.extend('validateSignInFormat')('Validation Error: invalid number of fields for put service ' + data.id + '.');
             throw new CiborgError(null,
                 'Validation Error: Sign in has invalid number of fields for post service in sign in',
@@ -251,14 +243,6 @@ let validator = function(CiborgError) {
             );
         };
         validateAlfanumeric(data.userId);
-        if (data.passowrd !== data.repassword) {
-            debug.extend('validateSignIn')('Validation Error: passwords does not match with re-password.');
-            throw new CiborgError(null,
-                'Validation Error: passwords does not match with re-password.',
-                'Failed to sign in, passwords does not match with re-password.',
-                '400' // Bad Request
-            );
-        };
      };
 
     // Validates if login data is in right format for put command

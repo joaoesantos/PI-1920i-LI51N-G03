@@ -13,6 +13,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                 let payload;
 
                 do {
+                    // Setting URL and headers for request
                     let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.search.url +
                         "?" + `from=${index}&size=${pageSize}`;
                     let opts = { url: fullUrl, json: true };
@@ -48,6 +49,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
         getGroupById: async(groupId) => {
             try {
+                // Setting URL and headers for request
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                 let opts = { url: fullUrl, json: true };
                 debug.extend('getGroupById')('Handling HTTP GET.');
@@ -83,6 +85,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
 
         createGroup: async(group) => {
             try {
+                // Setting URL and headers for request
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex;
                 let opts = { url: fullUrl, json: true, body: group };
                 debug.extend('createGroup')('Handling HTTP POST.');
@@ -111,6 +114,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
             try {
                 let groupId = group.id;
                 delete group.id;
+                // Setting URL and headers for request
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.ops.doc.url + "/" + groupId;
                 let opts = { url: fullUrl, json: true, body: group };
                 debug.extend('updateGroup')('Handling HTTP PUT');

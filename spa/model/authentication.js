@@ -19,15 +19,14 @@ function AuthenticationApiUris() {
 
 const Uris = new AuthenticationApiUris();
 
-function signIn(userId, name, password, repassword) {
+function signIn(userId, name, password) {
     const options = {
         method: "POST",
         headers: clientSideConfigs.defaultHeaders,
         body: JSON.stringify({
             userId: userId,
             name: name,
-            password: password,
-            repassword: repassword
+            password: password
         })
     };
     return fetch(Uris.signInUri(), options)
