@@ -6,12 +6,19 @@
             <th>Name</th>
             <th>Description</th>
         </tr>
-        {{#each payload}}
+        {{#if payload}}
+            {{#each payload}}
             <tr id="gameid_{{id}}"class="clickable-row" data-href="#group/{{id}}">
                 <td>{{name}}</a></td>
                 <td>{{description}}</td>
             </tr>
-        {{/each}}
+            {{/each}}
+        {{else}}
+            <tr>
+                <td colspan="2" class="no-records">No records found!</td>
+            </tr>
+        {{/if}}
+        
     </table>    
     </div>
 
@@ -29,7 +36,7 @@
         </div> 
         </br>
         <div class="input-group">
-            <input type="submit" class="submitBtn" value="Create Group" >
+            <input type="submit" class="btn submitBtn" value="Create Group" >
         </div> 
 
     </form>
