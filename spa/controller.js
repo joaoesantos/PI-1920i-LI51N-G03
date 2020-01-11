@@ -31,7 +31,11 @@ module.exports = {
         }
         let gameTable = {
             header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
-            elements: fromServer.payload
+            elements: fromServer.payload.map(e => {
+                e.min_playtime = e.min_playtime ? e.min_playtime : "-";
+                e.max_playtime = e.max_playtime ? e.max_playtime : "-";
+                return e;
+            })
         }
         return gameTable;
     },
@@ -50,6 +54,13 @@ module.exports = {
         }
         let id = args;
         let group = await groups.getGroup(id);
+        console.log()
+        group.elements = group.games.map(e => {
+            e.min_playtime = e.min_playtime ? e.min_playtime : "-";
+            e.max_playtime = e.max_playtime ? e.max_playtime : "-";
+            return e;
+        });
+        delete group.games;
         group.header = ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"]
         return group;
     },

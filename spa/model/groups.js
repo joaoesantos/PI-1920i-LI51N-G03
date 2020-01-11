@@ -81,7 +81,7 @@ function getGroup(id) {
                 groupId: rsp.payload.id,
                 groupName: rsp.payload.name,
                 groupDescription: rsp.payload.description,
-                elements: rsp.payload.games
+                games: rsp.payload.games
             };
             return group;
         });
