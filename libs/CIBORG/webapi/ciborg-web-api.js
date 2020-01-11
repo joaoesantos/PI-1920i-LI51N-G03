@@ -247,7 +247,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, securityUti
             let userId = req.session.passport.user;
             let group = req.body;
             group.id = req.params.id;
-            group.owner = userId;
             let data = await services.groups.updateGroup(userId, group);
             debug.extend('updateGroup')('Service updateGroup executed with sucess.');
             resolveServiceResponse(data, rsp);

@@ -98,6 +98,11 @@ module.exports = {
                     hash: "home",
                     data: undefined
                 };
+            } else {
+                err.redirect = {
+                    hash: `groups`,
+                    data: undefined
+                };
             }
             throw err;
         }
@@ -143,6 +148,11 @@ module.exports = {
                     hash: "home",
                     data: undefined
                 };
+            } else {
+                err.redirect = {
+                    hash: `group/${args.id}`,
+                    data: undefined
+                };
             }
             throw err;
         }
@@ -162,6 +172,11 @@ module.exports = {
                     hash: "home",
                     data: undefined
                 };
+            } else {
+                err.redirect = {
+                    hash: `group/${args.groupId}`,
+                    data: undefined
+                };
             }
             throw err;
         }
@@ -179,6 +194,11 @@ module.exports = {
             if(err.statusCode == 401) {
                 err.redirect = {
                     hash: "home",
+                    data: undefined
+                };
+            } else {
+                err.redirect = {
+                    hash: `group/${args.groupId}`,
                     data: undefined
                 };
             }

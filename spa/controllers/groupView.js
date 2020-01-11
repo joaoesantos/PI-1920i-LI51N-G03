@@ -19,7 +19,8 @@ function group(data, routesManager) {
             id: document.querySelector("#groupId").value,
             name: document.querySelector("#groupName").value,
             description: document.querySelector("#groupDescription").value,
-            games: []
+            games: [],
+            owner: document.querySelector("#groupOwner").value,
         };
 
         let gameIds = document.getElementsByName("gameId");
