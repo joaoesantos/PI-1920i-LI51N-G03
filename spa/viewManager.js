@@ -4,7 +4,7 @@
 require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 require('../spa/stylesheets/stylesheet.css');
 // authentication
-require('../spa/stylesheets/login.css');
+//require('../spa/stylesheets/login.css');
 // games
 // groups
 require('../spa/stylesheets/groups.css');
@@ -78,6 +78,13 @@ function groups(data, routesManager) {
         const formName = document.querySelector("#formName");
         const formDescription = document.querySelector("#formDescription");
         routesManager.changeRoute('createGroup', { name: formName.value, description: formDescription.value });
+    }
+
+    const rows = document.querySelector(".clickable-row");
+    rows.addEventListener('click', handleRowClick);
+
+    function handleRowClick(e){
+        window.location = this.getAttribute("data-href"); 
     }
 }
 

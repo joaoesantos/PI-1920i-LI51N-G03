@@ -46,3 +46,25 @@ body{
 .form-control {
     border: 1px solid #0062cc;
 }
+
+.submitBtn
+{
+    width: 20%;
+    border-radius: 5rem;
+    padding: 1.5%;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: #fff;
+    background-color: #0062cc;
+}
+
+.form-container{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+.ciborg-form{
+    padding: 5%;
+    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
+    background-color: #fff;
+}

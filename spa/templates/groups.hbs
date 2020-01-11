@@ -7,22 +7,24 @@
             <th class="thead-dark">Description</th>
         </tr>
         {{#each payload}}
-            <tr class="clickable-row">
-                <td><a href="#group/{{id}}">{{name}}</a></td>
+            <tr class="clickable-row" data-href="#group/{{id}}">
+                <td>{{name}}</a></td>
                 <td>{{description}}</td>
             </tr>
         {{/each}}
     </table>    
     </div>
 
-    <div class="createGroupBox">
+    <div>
     <h4 class="formTitle">Add new group</h4>
     <form id="createGroup" action="/groups" method="POST">
-        <label>Name</label>
-        <input type="text" id="formName" >
-        <label>Description</label>
-        <input type="text" id="formDescription" >
-        <input type="submit" >
+        <div class="input-group">
+            <label for="formName">Name</label>
+            <input type="text" id="formName" class="form-control" >
+            <label for="formDescription">Description</label>
+            <input type="text" id="formDescription" class="form-control" >
+            <input type="submit" class="submitBtn" >
+        </div>
     </form>
     </div>
 </div>    
