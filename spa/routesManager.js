@@ -5,9 +5,19 @@ const views = require('./viewManager');
 
 module.exports = {
 
+    header: {
+        controller: controller.header,
+        view: views.header
+    },
+
     home: {
         controller: controller.home,
         view: views.home
+    },
+
+    signIn: {
+        controller: controller.signIn,
+        view: views.signIn
     },
 
     login: {
@@ -53,10 +63,5 @@ module.exports = {
     removeGameFromGroup: {
         controller: controller.removeGameFromGroup,
         view: views.removeGameFromGroup
-    },
-
-    header: {
-        controller: controller.header,
-        view: views.header
     }
 }

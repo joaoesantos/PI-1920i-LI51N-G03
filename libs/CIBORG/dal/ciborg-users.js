@@ -6,7 +6,33 @@ let UserService = (Props, HttpCall, CiborgError) => {
 
     let UserServiceObject = {
 
-        //internal service to get user from database
+        // internal service to create user
+        signIn: async(user) => {
+            try {
+                let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex;
+                let opts = { url: fullUrl, json: true, body: user };
+                debug.extend('signIn')('Handling HTTP POST.');
+                let payload = await HttpCall.post(opts);
+                debug.extend('signIn')('User ' + user.userId + ' created.');
+                return {
+                    statusCode: payload.statusCode,
+                    body: user
+                };
+            } catch (err) {
+                debug.extend('signIn')(err);
+                if (err instanceof CiborgError) {
+                    throw err;
+                } else {
+                    throw new CiborgError(err,
+                        'Error in service: signIn.',
+                        'Unable to create new account.',
+                        '500' // Internal Server Error
+                    );
+                }
+            }
+        },
+
+        // internal service to get user from database
         getUserById: async(userId) => {
             try {
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.userIndex + "/" + Props.elastProps.ops.search.url;

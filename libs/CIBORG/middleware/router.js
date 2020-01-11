@@ -1,6 +1,7 @@
 'use strict';
 
 let router = function(router, services, authentication) {
+    router.post('/signIn', authentication.notAllowAuthenticatedRequests, services.signIn);
     router.post('/login', authentication.notAllowAuthenticatedRequests, services.login);
     router.delete('/logout', authentication.allowAuthenticatedRequests, services.logout);
     router.get('/games/', authentication.allowAuthenticatedRequests, services.getMostPopularGames);

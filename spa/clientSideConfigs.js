@@ -10,6 +10,11 @@ const menuOptions = [{
         login: true
     },
     {
+        label: "Sign in",
+        hash: "signIn",
+        login: false
+    },
+    {
         label: "Login",
         hash: "login",
         login: false

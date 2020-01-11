@@ -141,20 +141,6 @@ exports.push([module.i, ".createGroupBox{\r\n    color: #0D0A0B;\r\n    backgrou
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/login.css":
-/*!*************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/login.css ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
-// Module
-exports.push([module.i, ".submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius: 5rem;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #0062cc;\r\n}\r\n\r\n.login-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.login-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n    background-color: #fff;\r\n}\r\n", ""]);
-
-
-/***/ }),
-
 /***/ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/stylesheet.css":
 /*!******************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/stylesheet.css ***!
@@ -164,7 +150,7 @@ exports.push([module.i, ".submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "*{\r\n    font-family: 'Montserrat', sans-serif;\r\n}\r\n\r\n.test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 20%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}\r\n\r\n.table-container {\r\n   padding: 1% 5% 1% 5%;\r\n   text-align: center;\r\n}\r\n\r\n.thead-dark{\r\n    background-color: #aaaaaa !important;\r\n}\r\n\r\n.clickable-row{\r\n    cursor: pointer;\r\n}\r\n\r\nbody{\r\n    background-color: #F3EFF5;\r\n}\r\n\r\n.table{\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.form-control {\r\n    border: 1px solid #0062cc;\r\n}\r\n\r\n.submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius: 5rem;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #0062cc;\r\n}\r\n\r\n.form-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.ciborg-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n    background-color: #fff;\r\n    width:100%;\r\n}\r\n\r\n.input-block label { \r\n    display: block;\r\n    text-align: left;\r\n}\r\n", ""]);
+exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 20%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}\r\n\r\n.table-container {\r\n   padding: 1% 5% 1% 5%;\r\n   text-align: center;\r\n}\r\n\r\n.thead-dark{\r\n    background-color: #0D0A0B;\r\n}\r\n\r\n.clickable-row{\r\n    cursor: pointer;\r\n}\r\n\r\nbody{\r\n    background-color: #F3EFF5;\r\n}\r\n\r\n.table{\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.form-control {\r\n    border: 1px solid #0062cc;\r\n}\r\n\r\n.submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius: 5rem;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #0062cc;\r\n}\r\n\r\n.form-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.ciborg-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n    background-color: #fff;\r\n}", ""]);
 
 
 /***/ }),
@@ -5593,6 +5579,11 @@ const menuOptions = [{
         login: true
     },
     {
+        label: "Sign in",
+        hash: "signIn",
+        login: false
+    },
+    {
         label: "Login",
         hash: "login",
         login: false
@@ -5633,14 +5624,28 @@ module.exports = {
 
 
 const authentication = __webpack_require__(/*! ./model/authentication */ "./spa/model/authentication.js")
-const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
 const games = __webpack_require__(/*! ./model/games */ "./spa/model/games.js");
+const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
 const clientSideConfigs = __webpack_require__(/*! ./clientSideConfigs */ "./spa/clientSideConfigs.js");
 
 module.exports = {
+
+    header: async function() {
+        const menuOptions = clientSideConfigs.menuOptions;
+        let isLoggedIn = await authentication.isLoggedIn();
+        return menuOptions.filter(e => e.login == isLoggedIn);
+    },
+
     home: async function() {
         const img = __webpack_require__(/*! ./images/ciborgChess.jpeg */ "./spa/images/ciborgChess.jpeg").default;
         return img;
+    },
+
+    signIn: async function() {
+        let isLoggedIn = await authentication.isLoggedIn();
+        if (isLoggedIn) {
+            throw new Error("Logged in user cannot access login page.");
+        }
     },
 
     login: async function() {
@@ -5712,12 +5717,6 @@ module.exports = {
             let data = args;
             return await groups.removeGameFromGroup(data.groupId, data.gameId);
         }
-    },
-
-    header: async function() {
-        const menuOptions = clientSideConfigs.menuOptions;
-        let isLoggedIn = await authentication.isLoggedIn();
-        return menuOptions.filter(e => e.login == isLoggedIn);
     }
 }
 
@@ -5950,19 +5949,43 @@ function loadHandler() {
 const clientSideConfigs = __webpack_require__(/*! ../clientSideConfigs */ "./spa/clientSideConfigs.js");
 
 module.exports = {
+    signIn: signIn,
     login: login,
-    logout: logout,
-    isLoggedIn: isLoggedIn
+    isLoggedIn: isLoggedIn,
+    logout: logout
 };
 
 function AuthenticationApiUris() {
     const baseUri = clientSideConfigs.apiBaseUrl;
 
+    this.signInUri = () => `${baseUri}/signIn`;
     this.loginUri = () => `${baseUri}/login`;
     this.logoutUri = () => `${baseUri}/logout`;
 };
 
 const Uris = new AuthenticationApiUris();
+
+function signIn(userId, name, password, repassword) {
+    const options = {
+        method: "POST",
+        headers: clientSideConfigs.defaultHeaders,
+        body: JSON.stringify({
+            userId: userId,
+            name: name,
+            password: password,
+            repassword: repassword
+        })
+    };
+    return fetch(Uris.signInUri(), options)
+        .then(async(rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
+            }
+        });
+};
 
 function login(userId, password) {
     const options = {
@@ -5982,7 +6005,16 @@ function login(userId, password) {
                 throw new Error(response.payload.clientErrorMessage);
             }
         });
+};
 
+function isLoggedIn() {
+    const options = {
+        method: "POST",
+        headers: clientSideConfigs.defaultHeaders,
+        body: JSON.stringify({ userId: "", password: "" })
+    };
+    return fetch(Uris.loginUri(), options)
+        .then(async(rsp) => rsp.status === 403);
 };
 
 function logout() {
@@ -5999,16 +6031,6 @@ function logout() {
                 throw new Error(response.payload.clientErrorMessage);
             }
         })
-};
-
-function isLoggedIn() {
-    const options = {
-        method: "POST",
-        headers: clientSideConfigs.defaultHeaders,
-        body: JSON.stringify({ userId: "", password: "" })
-    };
-    return fetch(Uris.loginUri(), options)
-        .then(async(rsp) => rsp.status === 403);
 };
 
 /***/ }),
@@ -6249,9 +6271,19 @@ const views = __webpack_require__(/*! ./viewManager */ "./spa/viewManager.js");
 
 module.exports = {
 
+    header: {
+        controller: controller.header,
+        view: views.header
+    },
+
     home: {
         controller: controller.home,
         view: views.home
+    },
+
+    signIn: {
+        controller: controller.signIn,
+        view: views.signIn
     },
 
     login: {
@@ -6297,11 +6329,6 @@ module.exports = {
     removeGameFromGroup: {
         controller: controller.removeGameFromGroup,
         view: views.removeGameFromGroup
-    },
-
-    header: {
-        controller: controller.header,
-        view: views.header
     }
 }
 
@@ -6315,33 +6342,6 @@ module.exports = {
 /***/ (function(module, exports, __webpack_require__) {
 
 var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!./groups.css */ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/groups.css");
-
-if (typeof content === 'string') {
-  content = [[module.i, content, '']];
-}
-
-var options = {}
-
-options.insert = "head";
-options.singleton = false;
-
-var update = __webpack_require__(/*! ../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js")(content, options);
-
-if (content.locals) {
-  module.exports = content.locals;
-}
-
-
-/***/ }),
-
-/***/ "./spa/stylesheets/login.css":
-/*!***********************************!*\
-  !*** ./spa/stylesheets/login.css ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!./login.css */ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/login.css");
 
 if (typeof content === 'string') {
   content = [[module.i, content, '']];
@@ -6400,20 +6400,22 @@ if (content.locals) {
 
 const Handlebars = __webpack_require__(/*! ../node_modules/handlebars/dist/handlebars */ "./node_modules/handlebars/dist/handlebars.js");
 
+const header = __webpack_require__(/*! ./templates/header.hbs */ "./spa/templates/header.hbs").default;
 const home = __webpack_require__(/*! ./templates/home.hbs */ "./spa/templates/home.hbs").default;
+const signIn = __webpack_require__(/*! ./templates/signIn.hbs */ "./spa/templates/signIn.hbs").default;
 const login = __webpack_require__(/*! ./templates/login.hbs */ "./spa/templates/login.hbs").default;
 const gameList = __webpack_require__(/*! ./templates/gameList.hbs */ "./spa/templates/gameList.hbs").default;
 const groups = __webpack_require__(/*! ./templates/groups.hbs */ "./spa/templates/groups.hbs").default;
 const group = __webpack_require__(/*! ./templates/groupDetail.hbs */ "./spa/templates/groupDetail.hbs").default;
-const header = __webpack_require__(/*! ./templates/header.hbs */ "./spa/templates/header.hbs").default;
 
 module.exports = {
+    header: Handlebars.compile(header),
     home: Handlebars.compile(home),
+    signIn: Handlebars.compile(signIn),
     login: Handlebars.compile(login),
     games: Handlebars.compile(gameList),
     groups: Handlebars.compile(groups),
-    group: Handlebars.compile(group),
-    header: Handlebars.compile(header)
+    group: Handlebars.compile(group)
 };
 
 /***/ }),
@@ -6427,7 +6429,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n  <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                  <button id=\"searchButton\" class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"table-container\">\r\n    <table class=\"table table-striped table-dark table-hover\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n        {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  </div>\r\n</div>\r\n\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n  <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                  <button id=\"searchButton\" class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"table-container\">\r\n    <table class=\"table table-striped table-dark table-hover\">\r\n    <thead class=\"thead-dark\">\r\n      <tr class=\"thead-dark\">\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n        {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  </div>\r\n</div>\r\n\r\n");
 
 /***/ }),
 
@@ -6440,7 +6442,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <div>\r\n    <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n  </div>\r\n  <br>\r\n  <div>\r\n    <form class=\"ciborg-form\">\r\n      <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n      <div class=\"input-block\">\r\n        <label for=\"groupName\">Name:</label>\r\n        <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n      </div>\r\n      <div class=\"input-block\">\r\n        <label for=\"groupDescription\">Description:</label>\r\n        <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n      </div>\r\n      <div>\r\n      <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update Group Details</button>\r\n      </div>\r\n       </br>\r\n        <table class=\"table table-striped table-dark table-hover\">\r\n      <h5>Games:</h5>\r\n      <thead class=\"thead-dark\">\r\n        <tr>\r\n          {{#each header as |column|}}\r\n            <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n          {{/each}} \r\n          <th scope=\"col\" class=\"test-class\"> </th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        {{#each elements as |row|}}\r\n          <tr>\r\n            <td name=\"gameId\">{{row.id}}</td>\r\n            <td name=\"gameName\">{{row.name}}</td>\r\n            <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n            <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n            <td> <button id=\"{{@index}}\" name=\"removeGameFromGroup\" type=\"button\" class=\"btn btn-primary\">Remove game from group</button> </td>\r\n          </tr>\r\n        {{/each}} \r\n      </tbody>\r\n    </table>\r\n    </form>\r\n   \r\n  \r\n  </div>\r\n  <div>\r\n    \r\n    \r\n    <br/>\r\n    \r\n    <form id=\"searchGameForm\" class=\"ciborg-form\">\r\n      <h2>Search Game by name:</h2>\r\n      <div class=\"form-group\">\r\n        <label for=\"searchGameName\">Game name:</label>\r\n        <input type=\"text\" id=\"searchGameName\" name=\"searchGameName\" value=\"\" placeholder=\"insert name to search\" required>\r\n      </div>\r\n      <button type=\"submit\" class=\"btn btn-secondary\">Procurar</button>\r\n    </form>\r\n    </br>\r\n    <table class=\"table table-striped table-dark table-hover\">\r\n      <thead class=\"thead-dark\">\r\n        <tr>\r\n          {{#each header as |column|}}\r\n            <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n          {{/each}} \r\n          <th scope=\"col\" class=\"test-class\"> </th>\r\n        </tr>\r\n      </thead>\r\n      <tbody id=\"searchResults\">\r\n      </tbody>\r\n    </table>\r\n    </div>\r\n</div>\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n  <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n</div>\r\n<div>\r\n  <form>\r\n    <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Name:</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"groupDescription\">Description:</label>\r\n      <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n    </div>\r\n  </form>\r\n  <div>\r\n    <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update Group Details</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <label>Games:</label>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n          <td> <button id=\"{{@index}}\" name=\"removeGameFromGroup\" type=\"button\" class=\"btn btn-primary\">Remove game from group</button> </td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  <br/>\r\n  <h2>Searh Game by name:</h2>\r\n  <form id=\"searchGameForm\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"searchGameName\">Game name:</label>\r\n      <input type=\"text\" id=\"searchGameName\" name=\"searchGameName\" value=\"\" placeholder=\"insert name to search\" required>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-secondary\">Procurar</button>\r\n  </form>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"searchResults\">\r\n    </tbody>\r\n  </table>\r\n</div>");
 
 /***/ }),
 
@@ -6453,7 +6455,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <h1 class=\"title\">List of all owned groups</h1>\r\n    <div >\r\n        <table class=\"table table-striped table-dark table-hover\">\r\n        <tr class=\"thead-dark\">\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr id=\"gameid_{{id}}\"class=\"clickable-row\" data-href=\"#group/{{id}}\">\r\n                <td>{{name}}</a></td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n    </div>\r\n\r\n    <div>\r\n    \r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\" class=\"ciborg-form\">\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n        <div class=\"input-block\">\r\n            <label for=\"formName\">Name</label>\r\n            <input type=\"text\" id=\"formName\" class=\"form-control\" >\r\n        </div> \r\n        <div class=\"input-block\">\r\n            <label for=\"formDescription\">Description</label>\r\n            <textarea name=\"formDescription\" id=\"formDescription\" cols=\"97\" rows=\"10\" class=\"form-control\"></textarea>\r\n        </div> \r\n        </br>\r\n        <div class=\"input-group\">\r\n            <input type=\"submit\" class=\"submitBtn\" value=\"Create Group\" >\r\n        </div> \r\n\r\n    </form>\r\n    </div>\r\n</div>    \r\n\r\n \r\n\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <h1 class=\"title\">List of all owned groups</h1>\r\n    <div table-container table-responsive allGroupsBox>\r\n        <table class=\"table table-striped table-dark table-hover\">\r\n        <tr class=\"thead-dark\">\r\n            <th class=\"thead-dark\">Name</th>\r\n            <th class=\"thead-dark\">Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr class=\"clickable-row\" data-href=\"#group/{{id}}\">\r\n                <td>{{name}}</a></td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n    </div>\r\n\r\n    <div>\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n        <div class=\"input-group\">\r\n            <label for=\"formName\">Name</label>\r\n            <input type=\"text\" id=\"formName\" class=\"form-control\" >\r\n            <label for=\"formDescription\">Description</label>\r\n            <input type=\"text\" id=\"formDescription\" class=\"form-control\" >\r\n            <input type=\"submit\" class=\"submitBtn\" >\r\n        </div>\r\n    </form>\r\n    </div>\r\n</div>    \r\n\r\n \r\n\r\n");
 
 /***/ }),
 
@@ -6466,7 +6468,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("\r\n\r\n\r\n<nav class=\"navbar navbar-expand-md navbar-dark bg-dark\">\r\n    <div class=\"navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2\">\r\n        <ul class=\"navbar-nav mr-auto\">\r\n            <li class=\"nav-item\">\r\n                <span class=\"navbar-brand mx-auto\">Ciborg</span>\r\n            </li>\r\n            {{#each this}}\r\n                <li class=\"nav-item\">\r\n\r\n                </li>\r\n                <a class=\"nav-link\" href=\"#{{hash}}\">{{label}}</a>\r\n            {{/each}}\r\n        </ul>\r\n    </div>\r\n</nav>\r\n\r\n{{!-- <nav class=\"navbar navbar-expand-md navbar-dark bg-dark\">\r\n    <div class=\"navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2\">\r\n        <ul class=\"navbar-nav mr-auto\">\r\n            <li class=\"nav-item active\">\r\n                <a class=\"nav-link\" href=\"#\">Left</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"//codeply.com\">Codeply</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <div class=\"mx-auto order-0\">\r\n        <a class=\"navbar-brand mx-auto\" href=\"#\">Navbar 2</a>\r\n        <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\".dual-collapse2\">\r\n            <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n    </div>\r\n    <div class=\"navbar-collapse collapse w-100 order-3 dual-collapse2\">\r\n        <ul class=\"navbar-nav ml-auto\">\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Right</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</nav> --}}");
+/* harmony default export */ __webpack_exports__["default"] = ("{{#each this}}\r\n    <a href=\"#{{hash}}\">{{label}}</a>\r\n{{/each}}");
 
 /***/ }),
 
@@ -6496,6 +6498,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./spa/templates/signIn.hbs":
+/*!**********************************!*\
+  !*** ./spa/templates/signIn.hbs ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container signIn-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"signInForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Your Name *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"repassword\" id=\"repassword\" name=\"repassword\" class=\"form-control\" placeholder=\"Re-renter Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"SignIn\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
+
+/***/ }),
+
 /***/ "./spa/viewManager.js":
 /*!****************************!*\
   !*** ./spa/viewManager.js ***!
@@ -6509,7 +6524,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ../node_modules/bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
 __webpack_require__(/*! ../spa/stylesheets/stylesheet.css */ "./spa/stylesheets/stylesheet.css");
 // authentication
-__webpack_require__(/*! ../spa/stylesheets/login.css */ "./spa/stylesheets/login.css");
+//require('../spa/stylesheets/login.css');
 // games
 // groups
 __webpack_require__(/*! ../spa/stylesheets/groups.css */ "./spa/stylesheets/groups.css");
@@ -6523,7 +6538,9 @@ const groupView = __webpack_require__(/*! ./controllers/groupView */ "./spa/cont
 const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
 
 module.exports = {
+    header: header,
     home: home,
+    signIn: signIn,
     login: login,
     logout: logout,
     games: games,
@@ -6532,16 +6549,32 @@ module.exports = {
     group: groupView,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
-    removeGameFromGroup: removeGameFromGroup,
-    header: header
+    removeGameFromGroup: removeGameFromGroup
 }
 
 function home(data, routesManager) {
     routesManager.setMainContent(templates.home(data));
 }
 
-function login(data, routeManager) {
-    routeManager.setMainContent(templates.login(data));
+function signIn(data, routesManager) {
+    routesManager.setMainContent(templates.signIn(data));
+    const formSignIn = document.querySelector("#signInForm")
+    formSignIn.addEventListener('submit', handleSubmit)
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+        const userId = document.querySelector("#userId");
+        const name = document.querySelector("#name");
+        const password = document.querySelector("#password");
+        const repassword = document.querySelector("#repassword");
+        await authenticationModel.signIn(userId.value, name.value, password.value, repassword.value);
+        await authenticationModel.login(userId.value, password.value);
+        routesManager.changeRoute('home', response);
+    }
+}
+
+function login(data, routesManager) {
+    routesManager.setMainContent(templates.login(data));
     const formLogin = document.querySelector("#loginForm")
     formLogin.addEventListener('submit', handleSubmit)
 
@@ -6549,10 +6582,8 @@ function login(data, routeManager) {
         e.preventDefault()
         const userId = document.querySelector("#userId");
         const password = document.querySelector("#password");
-
         let response = await authenticationModel.login(userId.value, password.value);
-
-        routeManager.changeRoute('home', response);
+        routesManager.changeRoute('home', response);
     }
 }
 
@@ -6560,8 +6591,8 @@ function logout(data, routesManager) {
     routesManager.changeRoute('home');
 }
 
-function games(data, routeManager) {
-    routeManager.setMainContent(templates.games(data));
+function games(data, routesManager) {
+    routesManager.setMainContent(templates.games(data));
 
     const searchButton = document.querySelector("#searchButton");
     searchButton.addEventListener('click', handleClick);
@@ -6569,7 +6600,7 @@ function games(data, routeManager) {
     async function handleClick(e) {
         const gameName = document.querySelector("#gameName").value;
         const gameNamePath = gameName ? "/" + gameName : "";
-        routeManager.changeRoute(`#games${gameNamePath}`);
+        routesManager.changeRoute(`#games${gameNamePath}`);
     }
 }
 
@@ -6585,11 +6616,8 @@ function groups(data, routesManager) {
         routesManager.changeRoute('createGroup', { name: formName.value, description: formDescription.value });
     }
 
-    const rows = document.querySelectorAll("[id*=gameid_]");
-
-    rows.forEach(row => {
-        row.addEventListener('click', handleRowClick);
-    });
+    const rows = document.querySelector(".clickable-row");
+    rows.addEventListener('click', handleRowClick);
 
     function handleRowClick(e){
         window.location = this.getAttribute("data-href"); 

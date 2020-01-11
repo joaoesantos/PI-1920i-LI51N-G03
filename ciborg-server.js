@@ -4,6 +4,7 @@ const express = require('express');
 const passport = require("passport");
 const session = require("express-session");
 const bcrypt = require("bcrypt");
+const securityUtils = require('./libs/CIBORG/authentication/security-utils')(bcrypt);
 const localStrategy = require("passport-local").Strategy;
 
 const server = express();
@@ -23,7 +24,7 @@ const groupService = require('./libs/CIBORG/dal/ciborg-db')(props, httpCall, gam
 const userService = require('./libs/CIBORG/dal/ciborg-users')(props, httpCall, ciborgError);
 const services = require('./libs/CIBORG/services/ciborg-services')(ciborgError, gamesService, groupService, userService);
 passportInitialize(passport, userService.getUserById);
-const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, ciborgError, ciborgValidator, passport);
+const webapi = require('./libs/CIBORG/webapi/ciborg-web-api')(props, services, ciborgError, ciborgValidator, securityUtils, passport);
 
 const router = require('./libs/CIBORG/middleware/router')(express.Router(), webapi, authentication);
 
