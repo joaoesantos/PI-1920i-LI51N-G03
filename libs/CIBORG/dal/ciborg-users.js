@@ -6,35 +6,10 @@ let UserService = (Props, HttpCall, CiborgError) => {
 
     let UserServiceObject = {
 
-        // internal service to create user
-        signIn: async(user) => {
-            try {
-                let fullUrl = Props.elastProps.host + "/" + Props.elastProps.userIndex + "/" + Props.elastProps.userIndex;
-                let opts = { url: fullUrl, json: true, body: user };
-                debug.extend('signIn')('Handling HTTP POST.');
-                let payload = await HttpCall.post(opts);
-                debug.extend('signIn')('User ' + user.userId + ' created.');
-                return {
-                    statusCode: payload.statusCode,
-                    body: user
-                };
-            } catch (err) {
-                debug.extend('signIn')(err);
-                if (err instanceof CiborgError) {
-                    throw err;
-                } else {
-                    throw new CiborgError(err,
-                        'Error in service: signIn.',
-                        'Unable to create new account.',
-                        '500' // Internal Server Error
-                    );
-                }
-            }
-        },
-
         // internal service to get user from database
         getUserById: async(userId) => {
             try {
+                // Setting URL and headers for request
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.userIndex + "/" + Props.elastProps.ops.search.url;
                 let queryBody = Props.elastProps.ops.search.body;
                 queryBody.query.term = { userId: { value: userId } };
@@ -69,6 +44,82 @@ let UserService = (Props, HttpCall, CiborgError) => {
                     throw new CiborgError(err,
                         'Error in service: getUserById.',
                         'Unable to get user.',
+                        '500' // Internal Server Error
+                    );
+                }
+            }
+        },
+
+        // internal service to check if user exists in database
+        userExists: async(userId) => {
+            try {
+                // Setting URL and headers for request
+                let fullUrl = Props.elastProps.host + "/" + Props.elastProps.userIndex + "/" + Props.elastProps.ops.search.url;
+                let queryBody = Props.elastProps.ops.search.body;
+                queryBody.query.term = { userId: { value: userId } };
+                let opts = { url: fullUrl, json: true, body: queryBody };
+                debug.extend('getUserById')('Handling HTTP GET.');
+                let payload = await HttpCall.get(opts);
+                if(payload.body.hits.total.value === 0) {
+                    debug.extend('getUserById')('User ' + userId + ' does not exist.');
+                    return {
+                        statusCode: payload.statusCode,
+                        body: false
+                    };
+                }
+                else {
+                    debug.extend('getUserById')('User ' + userId + ' already exists.');
+                    return {
+                        statusCode: payload.statusCode,
+                        body: true
+                    };
+                }
+            } catch (err) {
+                debug.extend('getUserById')(err);
+                if (err instanceof CiborgError) {
+                    throw err;
+                } else {
+                    throw new CiborgError(err,
+                        'Error in service: getUserById.',
+                        'Unable to get user.',
+                        '500' // Internal Server Error
+                    );
+                }
+            }
+        },
+
+        // internal service to create user
+        signIn: async function(user) {
+            debug.extend('signIn')('Handling signIn of user: ' + user.userId);
+            // avaliates if user already exists
+            try {
+                // users doesn't exist, so its possible to perfom signIn
+                if(!(await this.userExists(user.userId)).body) {
+                    // Setting URL and headers for request
+                    let fullUrl = Props.elastProps.host + "/" + Props.elastProps.userIndex + "/" + Props.elastProps.userIndex;
+                    let opts = { url: fullUrl, json: true, body: user };
+                    debug.extend('signIn')('Handling HTTP POST.');
+                    let payload = await HttpCall.post(opts);
+                    debug.extend('signIn')('User ' + user.userId + ' created.');
+                    return {
+                        statusCode: payload.statusCode,
+                        body: user
+                    };
+                } else {
+                    throw new CiborgError(null,
+                        'Error in service: signIn.',
+                        'User already exists.',
+                        '500' // Internal Server Error
+                    );
+                }
+            } catch(err) {
+                debug.extend('signIn')(err);
+                if (err instanceof CiborgError) {
+                    throw err;
+                } else {
+                    throw new CiborgError(err,
+                        'Error in service: signIn.',
+                        'Unable to create new account.',
                         '500' // Internal Server Error
                     );
                 }

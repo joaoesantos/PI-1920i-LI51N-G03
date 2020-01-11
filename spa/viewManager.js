@@ -37,33 +37,45 @@ function home(data, routesManager) {
 }
 
 function signIn(data, routesManager) {
-    routesManager.setMainContent(templates.signIn(data));
-    const formSignIn = document.querySelector("#signInForm")
-    formSignIn.addEventListener('submit', handleSubmit)
+    try {
+        routesManager.setMainContent(templates.signIn(data));
+        const formSignIn = document.querySelector("#signInForm")
+        formSignIn.addEventListener('submit', handleSubmit)
 
-    async function handleSubmit(e) {
-        e.preventDefault()
-        const userId = document.querySelector("#userId");
-        const name = document.querySelector("#name");
-        const password = document.querySelector("#password");
-        const repassword = document.querySelector("#repassword");
-        await authenticationModel.signIn(userId.value, name.value, password.value);
-        await authenticationModel.login(userId.value, password.value);
-        routesManager.changeRoute('home', response);
+        async function handleSubmit(e) {
+            e.preventDefault()
+            const userId = document.querySelector("#userId");
+            const name = document.querySelector("#name");
+            const password = document.querySelector("#password");
+            const repassword = document.querySelector("#repassword");
+            if(password.value === repassword.value) {
+                await authenticationModel.signIn(userId.value, name.value, password.value);
+                routesManager.showAlert('Account created with success.', 0);
+                routesManager.changeRoute('login');
+            } else {
+                routesManager.showAlert('Passwords do not match.', 3);
+            }
+        }
+    } catch (err) {
+        routesManager.showAlert(err.message, 3);
     }
 }
 
 function login(data, routesManager) {
-    routesManager.setMainContent(templates.login(data));
-    const formLogin = document.querySelector("#loginForm")
-    formLogin.addEventListener('submit', handleSubmit)
+    try {
+        routesManager.setMainContent(templates.login(data));
+        const formLogin = document.querySelector("#loginForm")
+        formLogin.addEventListener('submit', handleSubmit)
 
-    async function handleSubmit(e) {
-        e.preventDefault()
-        const userId = document.querySelector("#userId");
-        const password = document.querySelector("#password");
-        let response = await authenticationModel.login(userId.value, password.value);
-        routesManager.changeRoute('home', response);
+        async function handleSubmit(e) {
+            e.preventDefault()
+            const userId = document.querySelector("#userId");
+            const password = document.querySelector("#password");
+            let response = await authenticationModel.login(userId.value, password.value);
+            routesManager.changeRoute('home', response);
+        }
+    } catch (err) {
+        routesManager.showAlert(err.message, 3);
     }
 }
 

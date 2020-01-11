@@ -164,7 +164,7 @@ exports.push([module.i, ".submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "*{\r\n    font-family: 'Montserrat', sans-serif;\r\n}\r\n\r\n.test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 20%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}\r\n\r\n.table-container {\r\n   padding: 1% 5% 1% 5%;\r\n   text-align: center;\r\n}\r\n\r\n.thead-dark{\r\n    background-color: #aaaaaa !important;\r\n}\r\n\r\n.clickable-row{\r\n    cursor: pointer;\r\n}\r\n\r\nbody{\r\n    background-color: #F3EFF5;\r\n}\r\n\r\n.table{\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.form-control {\r\n    border: 1px solid #0062cc;\r\n}\r\n\r\n.submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius: 5rem;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #0062cc;\r\n}\r\n\r\n.form-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.ciborg-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n    background-color: #fff;\r\n    width:100%;\r\n}\r\n\r\n.input-block label { \r\n    display: block;\r\n    text-align: left;\r\n}\r\n\r\n.navbar .container-fluid>.navbar-header {\r\n    float: left;\r\n    margin-right: 10px;\r\n  }\r\n  .navbar .navbar-nav {\r\n    float: left;\r\n    margin: 5px;\r\n  }\r\n  .nav>li {\r\n    float: left;\r\n  }", ""]);
+exports.push([module.i, "*{\r\n    font-family: 'Montserrat', sans-serif;\r\n}\r\n\r\n.test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 20%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}\r\n\r\n.table-container {\r\n   padding: 1% 5% 1% 5%;\r\n   text-align: center;\r\n}\r\n\r\n.thead-dark{\r\n    background-color: #aaaaaa !important;\r\n}\r\n\r\n.clickable-row{\r\n    cursor: pointer;\r\n}\r\n\r\nbody{\r\n    background-color: #F3EFF5;\r\n}\r\n\r\n.table{\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.form-control {\r\n    border: 1px solid #0062cc;\r\n}\r\n\r\n.submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius: 5rem;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #0062cc;\r\n}\r\n\r\n.form-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.ciborg-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n    background-color: #fff;\r\n    width:100%;\r\n}\r\n\r\n.input-block label { \r\n    display: block;\r\n    text-align: left;\r\n}\r\n", ""]);
 
 
 /***/ }),
@@ -5682,7 +5682,11 @@ module.exports = {
         }
         let gameTable = {
             header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
-            elements: fromServer.payload
+            elements: fromServer.payload.map(e => {
+                e.min_playtime = e.min_playtime ? e.min_playtime : "-";
+                e.max_playtime = e.max_playtime ? e.max_playtime : "-";
+                return e;
+            })
         }
         return gameTable;
     },
@@ -5701,6 +5705,13 @@ module.exports = {
         }
         let id = args;
         let group = await groups.getGroup(id);
+        console.log()
+        group.elements = group.games.map(e => {
+            e.min_playtime = e.min_playtime ? e.min_playtime : "-";
+            e.max_playtime = e.max_playtime ? e.max_playtime : "-";
+            return e;
+        });
+        delete group.games;
         group.header = ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"]
         return group;
     },
@@ -5746,14 +5757,14 @@ module.exports = {
 const templates = __webpack_require__(/*! ../templateManager */ "./spa/templateManager.js");
 const gamesModel = __webpack_require__(/*! ../model/games */ "./spa/model/games.js");
 
-function group(data, routeManager) {
-    routeManager.setMainContent(templates.group(data));
+function group(data, routesManager) {
+    routesManager.setMainContent(templates.group(data));
 
     const backToGroupsButton = document.querySelector("#backToGroups");
     backToGroupsButton.addEventListener('click', handleClickBackToGroupsButton);
 
     function handleClickBackToGroupsButton(e) {
-        routeManager.changeRoute('groups');
+        routesManager.changeRoute('groups');
     }
 
     const updateGroupButton = document.querySelector("#updateGroup");
@@ -5773,15 +5784,16 @@ function group(data, routeManager) {
         let gameMaxs = document.getElementsByName("gameMax");
 
         for (let i = 0; i < gameIds.length; i++) {
+            console.log(gameMins[i].innerText)
             let game = {
                 id: gameIds[i].innerText,
                 name: gameNames[i].innerText,
-                min_playtime: Number(gameMins[i].innerText),
-                max_playtime: Number(gameMaxs[i].innerText)
+                min_playtime: (gameMins[i].innerText === "-") ? null : Number(gameMins[i].innerText),
+                max_playtime: (gameMaxs[i].innerText === "-") ? null : Number(gameMaxs[i].innerText)
             };
             group.games.push(game);
         }
-        routeManager.changeRoute('updateGroup', group);
+        routesManager.changeRoute('updateGroup', group);
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
@@ -5798,8 +5810,10 @@ function group(data, routeManager) {
             let rows = "";
             for (let i = 0; i < games.length; i++) {
                 let game = games[i];
+                let minPlayTime = game.min_playtime ? game.min_playtime : "-";
+                let maxPlayTime = game.max_playtime ? game.max_playtime : "-";
                 let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn btn-primary">Add game to group</button>`;
-                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td> <td>${addGameToGroupButton}</td> </tr>`;
+                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${minPlayTime}</td> <td>${maxPlayTime}</td> <td>${addGameToGroupButton}</td> </tr>`;
                 rows += row;
             }
             let tableBody = document.querySelector("#searchResults");
@@ -5814,10 +5828,10 @@ function group(data, routeManager) {
                 const searchGameIds = document.getElementsByName("searchGameId");
                 const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
                 const groupId = document.querySelector("#groupId").value
-                routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
+                routesManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
             }
         } catch (e) {
-            routeManager.showAlert(e.message, 3);
+            routesManager.showAlert(e.message, 3);
         }
     }
 
@@ -5832,7 +5846,6 @@ function group(data, routeManager) {
         const groupId = document.querySelector("#groupId").value;
         routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
     }
-
 }
 
 module.exports = group;
@@ -6201,7 +6214,7 @@ function getGroup(id) {
                 groupId: rsp.payload.id,
                 groupName: rsp.payload.name,
                 groupDescription: rsp.payload.description,
-                elements: rsp.payload.games
+                games: rsp.payload.games
             };
             return group;
         });
@@ -6508,7 +6521,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<nav class=\"navbar navbar-inverse\">\r\n    <div class=\"container-fluid\">\r\n        <div class=\"navbar-header\">\r\n        <a class=\"navbar-brand\">Ciborg</a>\r\n        </div>\r\n        <ul class=\"navbar-nav\">\r\n            <li class=\"nav-item\">\r\n                {{#each this}}\r\n                    <a class=\"nav-link\" href=\"#{{hash}}\">{{label}}</a>\r\n                {{/each}}\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</nav>\r\n\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("\r\n\r\n\r\n<nav class=\"navbar navbar-expand-md navbar-dark bg-dark\">\r\n    <div class=\"navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2\">\r\n        <ul class=\"navbar-nav mr-auto\">\r\n            <li class=\"nav-item\">\r\n                <span class=\"navbar-brand mx-auto\">Ciborg</span>\r\n            </li>\r\n            {{#each this}}\r\n                <li class=\"nav-item\">\r\n\r\n                </li>\r\n                <a class=\"nav-link\" href=\"#{{hash}}\">{{label}}</a>\r\n            {{/each}}\r\n        </ul>\r\n    </div>\r\n</nav>\r\n\r\n{{!-- <nav class=\"navbar navbar-expand-md navbar-dark bg-dark\">\r\n    <div class=\"navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2\">\r\n        <ul class=\"navbar-nav mr-auto\">\r\n            <li class=\"nav-item active\">\r\n                <a class=\"nav-link\" href=\"#\">Left</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"//codeply.com\">Codeply</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <div class=\"mx-auto order-0\">\r\n        <a class=\"navbar-brand mx-auto\" href=\"#\">Navbar 2</a>\r\n        <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\".dual-collapse2\">\r\n            <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n    </div>\r\n    <div class=\"navbar-collapse collapse w-100 order-3 dual-collapse2\">\r\n        <ul class=\"navbar-nav ml-auto\">\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Right</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</nav> --}}");
 
 /***/ }),
 
@@ -6547,7 +6560,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container signIn-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"signInForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Your Name *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"repassword\" name=\"repassword\" class=\"form-control\" placeholder=\"Re-renter Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"SignIn\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container signIn-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Sign in</h3>\r\n        <form id=\"signInForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Your Name *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"repassword\" name=\"repassword\" class=\"form-control\" placeholder=\"Re-renter Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"Sign In\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -6597,33 +6610,45 @@ function home(data, routesManager) {
 }
 
 function signIn(data, routesManager) {
-    routesManager.setMainContent(templates.signIn(data));
-    const formSignIn = document.querySelector("#signInForm")
-    formSignIn.addEventListener('submit', handleSubmit)
+    try {
+        routesManager.setMainContent(templates.signIn(data));
+        const formSignIn = document.querySelector("#signInForm")
+        formSignIn.addEventListener('submit', handleSubmit)
 
-    async function handleSubmit(e) {
-        e.preventDefault()
-        const userId = document.querySelector("#userId");
-        const name = document.querySelector("#name");
-        const password = document.querySelector("#password");
-        const repassword = document.querySelector("#repassword");
-        await authenticationModel.signIn(userId.value, name.value, password.value);
-        await authenticationModel.login(userId.value, password.value);
-        routesManager.changeRoute('home', response);
+        async function handleSubmit(e) {
+            e.preventDefault()
+            const userId = document.querySelector("#userId");
+            const name = document.querySelector("#name");
+            const password = document.querySelector("#password");
+            const repassword = document.querySelector("#repassword");
+            if(password.value === repassword.value) {
+                await authenticationModel.signIn(userId.value, name.value, password.value);
+                routesManager.showAlert('Account created with success.', 0);
+                routesManager.changeRoute('login');
+            } else {
+                routesManager.showAlert('Passwords do not match.', 3);
+            }
+        }
+    } catch (err) {
+        routesManager.showAlert(err.message, 3);
     }
 }
 
 function login(data, routesManager) {
-    routesManager.setMainContent(templates.login(data));
-    const formLogin = document.querySelector("#loginForm")
-    formLogin.addEventListener('submit', handleSubmit)
+    try {
+        routesManager.setMainContent(templates.login(data));
+        const formLogin = document.querySelector("#loginForm")
+        formLogin.addEventListener('submit', handleSubmit)
 
-    async function handleSubmit(e) {
-        e.preventDefault()
-        const userId = document.querySelector("#userId");
-        const password = document.querySelector("#password");
-        let response = await authenticationModel.login(userId.value, password.value);
-        routesManager.changeRoute('home', response);
+        async function handleSubmit(e) {
+            e.preventDefault()
+            const userId = document.querySelector("#userId");
+            const password = document.querySelector("#password");
+            let response = await authenticationModel.login(userId.value, password.value);
+            routesManager.changeRoute('home', response);
+        }
+    } catch (err) {
+        routesManager.showAlert(err.message, 3);
     }
 }
 
