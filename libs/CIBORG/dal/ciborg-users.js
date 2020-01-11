@@ -9,7 +9,7 @@ let UserService = (Props, HttpCall, CiborgError) => {
         // internal service to create user
         signIn: async(user) => {
             try {
-                let fullUrl = Props.elastProps.host + "/" + Props.elastProps.groupIndex + "/" + Props.elastProps.groupIndex;
+                let fullUrl = Props.elastProps.host + "/" + Props.elastProps.userIndex + "/" + Props.elastProps.userIndex;
                 let opts = { url: fullUrl, json: true, body: user };
                 debug.extend('signIn')('Handling HTTP POST.');
                 let payload = await HttpCall.post(opts);

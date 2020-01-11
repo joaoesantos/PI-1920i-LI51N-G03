@@ -47,7 +47,7 @@ function signIn(data, routesManager) {
         const name = document.querySelector("#name");
         const password = document.querySelector("#password");
         const repassword = document.querySelector("#repassword");
-        await authenticationModel.signIn(userId.value, name.value, password.value, repassword.value);
+        await authenticationModel.signIn(userId.value, name.value, password.value);
         await authenticationModel.login(userId.value, password.value);
         routesManager.changeRoute('home', response);
     }
