@@ -75,6 +75,7 @@ let ciborgServices = function(CiborgError, gamesService, groupsService, userServ
         },
 
         users: userService
+        
     };
     return services;
 };

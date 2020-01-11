@@ -1,9 +1,10 @@
 "use strict";
 const debug = require('debug')('ciborg-web-api');
 
-let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
+let webApi = function(Props, services, CiborgError, CiborgValidator, securityUtils, passport) {
 
     return {
+        signIn: signIn,
         login: login,
         logout: logout,
         getMostPopularGames: getMostPopularGames,
@@ -25,10 +26,37 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, passport) {
         let payload = { payload: data.body };
         rsp.json(payload);
     }
+    
+    //sign in new user
+    async function signIn(req, rsp) {
+        try {
+            // ciborg validator
+            CiborgValidator.validateSignInFormat(req.body);
+            // hash password
+            req.body.password = await securityUtils.hashPassword(password);
+            // service call
+            debug.extend('signIn')('Handling user service signIn.');
+            let data = await services.users.signIn(req.body);
+            debug.extend('signIn')('Service signIn executed with sucess.');
+            resolveServiceResponse(data, rsp);
+        } catch (err) {
+            if (!(err instanceof CiborgError)) {
+                err = new CiborgError(err,
+                    'Error in service: signIn.',
+                    'Unable to sign in.',
+                    '500' // Internal Server Error
+                );
+            }
+            debug.extend('signIn')(err);
+            err.resolveErrorResponse(rsp);
+        }
+    }
 
     //login user
     async function login(req, rsp, next) {
         try {
+            // ciborg validator
+            CiborgValidator.validateLoginFormat(req.body);
             debug.extend('login')('Logging in.');
             passport.authenticate("local", function(err, user, info) {
                 if (!user) {

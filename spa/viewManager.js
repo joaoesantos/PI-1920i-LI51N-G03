@@ -18,7 +18,9 @@ const groupView = require("./controllers/groupView");
 const templates = require('./templateManager');
 
 module.exports = {
+    header: header,
     home: home,
+    signIn: signIn,
     login: login,
     logout: logout,
     games: games,
@@ -27,16 +29,32 @@ module.exports = {
     group: groupView,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
-    removeGameFromGroup: removeGameFromGroup,
-    header: header
+    removeGameFromGroup: removeGameFromGroup
 }
 
 function home(data, routesManager) {
     routesManager.setMainContent(templates.home(data));
 }
 
-function login(data, routeManager) {
-    routeManager.setMainContent(templates.login(data));
+function signIn(data, routesManager) {
+    routesManager.setMainContent(templates.signIn(data));
+    const formSignIn = document.querySelector("#signInForm")
+    formSignIn.addEventListener('submit', handleSubmit)
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+        const userId = document.querySelector("#userId");
+        const name = document.querySelector("#name");
+        const password = document.querySelector("#password");
+        const repassword = document.querySelector("#repassword");
+        await authenticationModel.signIn(userId.value, name.value, password.value, repassword.value);
+        await authenticationModel.login(userId.value, password.value);
+        routesManager.changeRoute('home', response);
+    }
+}
+
+function login(data, routesManager) {
+    routesManager.setMainContent(templates.login(data));
     const formLogin = document.querySelector("#loginForm")
     formLogin.addEventListener('submit', handleSubmit)
 
@@ -44,10 +62,8 @@ function login(data, routeManager) {
         e.preventDefault()
         const userId = document.querySelector("#userId");
         const password = document.querySelector("#password");
-
         let response = await authenticationModel.login(userId.value, password.value);
-
-        routeManager.changeRoute('home', response);
+        routesManager.changeRoute('home', response);
     }
 }
 
@@ -55,8 +71,8 @@ function logout(data, routesManager) {
     routesManager.changeRoute('home');
 }
 
-function games(data, routeManager) {
-    routeManager.setMainContent(templates.games(data));
+function games(data, routesManager) {
+    routesManager.setMainContent(templates.games(data));
 
     const searchButton = document.querySelector("#searchButton");
     searchButton.addEventListener('click', handleClick);
@@ -64,7 +80,7 @@ function games(data, routeManager) {
     async function handleClick(e) {
         const gameName = document.querySelector("#gameName").value;
         const gameNamePath = gameName ? "/" + gameName : "";
-        routeManager.changeRoute(`#games${gameNamePath}`);
+        routesManager.changeRoute(`#games${gameNamePath}`);
     }
 }
 

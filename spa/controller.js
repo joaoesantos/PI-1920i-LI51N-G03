@@ -1,14 +1,28 @@
 "use strict";
 
 const authentication = require('./model/authentication')
-const groups = require('./model/groups');
 const games = require('./model/games');
+const groups = require('./model/groups');
 const clientSideConfigs = require('./clientSideConfigs');
 
 module.exports = {
+
+    header: async function() {
+        const menuOptions = clientSideConfigs.menuOptions;
+        let isLoggedIn = await authentication.isLoggedIn();
+        return menuOptions.filter(e => e.login == isLoggedIn);
+    },
+
     home: async function() {
         const img = require('./images/ciborgChess.jpeg').default;
         return img;
+    },
+
+    signIn: async function() {
+        let isLoggedIn = await authentication.isLoggedIn();
+        if (isLoggedIn) {
+            throw new Error("Logged in user cannot access login page.");
+        }
     },
 
     login: async function() {
@@ -91,11 +105,5 @@ module.exports = {
             let data = args;
             return await groups.removeGameFromGroup(data.groupId, data.gameId);
         }
-    },
-
-    header: async function() {
-        const menuOptions = clientSideConfigs.menuOptions;
-        let isLoggedIn = await authentication.isLoggedIn();
-        return menuOptions.filter(e => e.login == isLoggedIn);
     }
 }

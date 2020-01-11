@@ -5,6 +5,8 @@ const debug = require('debug')('validator');
 let validator = function(CiborgError) {
 
     return {
+        validateSignInFormat: validateSignInFormat,
+        validateLoginFormat: validateLoginFormat,
         validateNumeric: validateNumeric,
         validateAlfanumeric: validateAlfanumeric,
         validateJson: validateJson,
@@ -204,6 +206,90 @@ let validator = function(CiborgError) {
         };
         debug.extend('validateGroupFormat')('Validation OK.');
     };
+
+     // Validates if user data is in right format for post command
+     function validateSignInFormat(data) {
+        debug.extend('validateSignInFormat')('Validating...');
+        if (!data.hasOwnProperty('userId')) {
+            debug.extend('validateLoginFormat')('Validation Error: login does not have a "userId" field.');
+            throw new CiborgError(null,
+                'Validation Error: Login does not have "userId" field.',
+                'Sign in does not have "userId" field.',
+                '400' // Bad Request
+            );
+        };
+        if (!data.hasOwnProperty('name')) {
+            debug.extend('validateSignInFormat')('Validation Error: login does not have a "name" field.');
+            throw new CiborgError(null,
+                'Validation Error: login does not have "name" field.',
+                'Sign in does not have "name" field.',
+                '400' // Bad Request
+            );
+        };
+        if (!data.hasOwnProperty('password')) {
+            debug.extend('validateSignInFormat')('Validation Error: login does not have a "password" field.');
+            throw new CiborgError(null,
+                'Validation Error: login does not have "password" field.',
+                'Sign in does not have "password" field.',
+                '400' // Bad Request
+            );
+        };
+        if (!data.hasOwnProperty('repassword')) {
+            debug.extend('validateSignInFormat')('Validation Error: login does not have a "repassword" field.');
+            throw new CiborgError(null,
+                'Validation Error: login does not have "repassword" field.',
+                'Sign in does not have "repassword" field.',
+                '400' // Bad Request
+            );
+        };
+        if (Object.keys(data).length != 4) {
+            debug.extend('validateSignInFormat')('Validation Error: invalid number of fields for put service ' + data.id + '.');
+            throw new CiborgError(null,
+                'Validation Error: Sign in has invalid number of fields for post service in sign in',
+                'Sign in is not in correct format.',
+                '400' // Bad Request
+            );
+        };
+        validateAlfanumeric(data.userId);
+        if (data.passowrd !== data.repassword) {
+            debug.extend('validateSignIn')('Validation Error: passwords does not match with re-password.');
+            throw new CiborgError(null,
+                'Validation Error: passwords does not match with re-password.',
+                'Failed to sign in, passwords does not match with re-password.',
+                '400' // Bad Request
+            );
+        };
+     };
+
+    // Validates if login data is in right format for put command
+    function validateLoginFormat(data) {
+        debug.extend('validateLoginFormat')('Validating...');
+        if (!data.hasOwnProperty('userId')) {
+            debug.extend('validateLoginFormat')('Validation Error: login does not have a "userId" field.');
+            throw new CiborgError(null,
+                'Validation Error: Login does not have "userId" field.',
+                'User id field is missing.',
+                '400' // Bad Request
+            );
+        };
+        if (!data.hasOwnProperty('password')) {
+            debug.extend('validateLoginFormat')('Validation Error: login does not have a "password" field.');
+            throw new CiborgError(null,
+                'Validation Error: login does not have "password" field.',
+                'Password is field missing.',
+                '400' // Bad Request
+            );
+        };
+        if (Object.keys(data).length != 2) {
+            debug.extend('validateLoginFormat')('Validation Error: invalid number of fields for put service ' + data.id + '.');
+            throw new CiborgError(null,
+                'Validation Error: Login has invalid number of fields for put service in login',
+                'Login is not in correct format.',
+                '400' // Bad Request
+            );
+        };
+    };
+
 }
 
 module.exports = validator;
