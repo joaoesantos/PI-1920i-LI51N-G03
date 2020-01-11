@@ -114,8 +114,8 @@ function groups(data, routesManager) {
         row.addEventListener('click', handleRowClick);
     });
 
-    function handleRowClick(e){
-        window.location = this.getAttribute("data-href"); 
+    function handleRowClick(e) {
+        routesManager.changeRoute(this.getAttribute("data-href"));
     }
 }
 
