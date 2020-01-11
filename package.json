@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --config webpack.config.js",
-    "start": "node ciborg-server.js"
+    "start": "set DEBUG=* & node ciborg-server.js"
   },
   "repository": {
     "type": "git",

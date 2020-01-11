@@ -36,7 +36,7 @@ let validator = function(CiborgError) {
             debug.extend('validateAlfanumeric')('Validation Error: ' + data + ' is not alphanumeric.');
             throw new CiborgError(null,
                 'Validation Error: ' + data + ' is not alphanumeric.',
-                'Parameter is not alphanumeric',
+                data + 'parameter is not alphanumeric',
                 '400' // Bad Request
             );
         } else {

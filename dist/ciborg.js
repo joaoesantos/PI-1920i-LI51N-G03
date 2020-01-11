@@ -5772,13 +5772,11 @@ module.exports = {
     },
 
     updateGroup: async function(args) {
-        let groupId;
         try {
             if (!args) {
                 console.log("No args on updateGroup");
             } else {
                 let group = args;
-                groupId = group.id;
                 return await groups.updateGroup(group);
             }
         } catch (err) {
@@ -5789,7 +5787,7 @@ module.exports = {
                 };
             } else {
                 err.redirect = {
-                    hash: `group/${groupId}`,
+                    hash: `group/${args.id}`,
                     data: undefined
                 };
             }
@@ -5872,7 +5870,6 @@ function group(data, routesManager) {
     updateGroupButton.addEventListener('click', handleClickUpdateGroupButton);
 
     function handleClickUpdateGroupButton(e) {
-        e.preventDefault();
         let group = {
             id: document.querySelector("#groupId").value,
             name: document.querySelector("#groupName").value,
@@ -5880,7 +5877,6 @@ function group(data, routesManager) {
             games: [],
             owner: document.querySelector("#groupOwner").value,
         };
-
 
         let gameIds = document.getElementsByName("gameId");
         let gameNames = document.getElementsByName("gameName");
@@ -5896,8 +5892,10 @@ function group(data, routesManager) {
             };
             group.games.push(game);
         }
-
-        routesManager.changeRoute('updateGroup', group);
+        let alertmsg = {message: 'Group updated with success.'};
+        alertmsg.redirect = { hash: 'updateGroup', data: group };
+        routesManager.redirectAndShowAlert(alertmsg, 1);
+ 
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
@@ -5937,7 +5935,9 @@ function group(data, routesManager) {
                 const searchGameIds = document.getElementsByName("searchGameId");
                 const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
                 const groupId = document.querySelector("#groupId").value
-                routesManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
+                let alertmsg = {message: 'Game ' + gameId + ' added with success.'};
+                alertmsg.redirect = { hash: 'addGameToGroup', data: { groupId: groupId, gameId: gameId } };
+                routesManager.redirectAndShowAlert(alertmsg, 1);
             }
         } catch (e) {
             routesManager.showAlert(e.message, 3);
@@ -5953,7 +5953,9 @@ function group(data, routesManager) {
         const gameIds = document.getElementsByName("gameId");
         const gameId = gameIds[e.toElement.attributes[0].value].innerText;
         const groupId = document.querySelector("#groupId").value;
-        routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
+        let alertmsg = {message: 'Game ' + gameId + ' removed with success.'};
+        alertmsg.redirect = { hash: 'removeGameFromGroup', data: { groupId: groupId, gameId: gameId } };
+        routesManager.redirectAndShowAlert(alertmsg, 1);
     }
 }
 
@@ -6369,8 +6371,7 @@ function getGroup(id) {
                 groupId: rsp.payload.id,
                 groupName: rsp.payload.name,
                 groupDescription: rsp.payload.description,
-                games: rsp.payload.games,
-                groupOwner: rsp.payload.owner,
+                games: rsp.payload.games
             };
             return group;
         });
@@ -6766,6 +6767,10 @@ module.exports = {
     removeGameFromGroup: removeGameFromGroup
 }
 
+function header(data, headerManager) {
+    headerManager.setHeaderContent(templates.header(data));
+}
+
 function home(data, routesManager) {
     routesManager.setMainContent(templates.home(data));
 }
@@ -6855,23 +6860,31 @@ function groups(data, routesManager) {
 }
 
 function createGroup(data, routesManager) {
-    routesManager.changeRoute('groups');
+    let alertmsg = {message: 'Group created with success.'};
+    alertmsg.redirect = { hash: 'groups', data: undefined };
+    routesManager.redirectAndShowAlert(alertmsg, 1);
+    //routesManager.changeRoute('groups');
 }
 
 function updateGroup(data, routesManager) {
-    routesManager.changeRoute(`group/${data}`);
+    let alertmsg = {message: 'Group updated with success.'};
+    alertmsg.redirect = { hash: `group/${data}`, data: undefined };
+    routesManager.redirectAndShowAlert(alertmsg, 1);
+    //routesManager.changeRoute(`group/${data}`);
 }
 
 function addGameToGroup(data, routesManager) {
-    routesManager.changeRoute(`group/${data}`);
+    let alertmsg = {message: 'Game added with success.'};
+    alertmsg.redirect = { hash: `group/${data}`, data: undefined };
+    routesManager.redirectAndShowAlert(alertmsg, 1);
+    //routesManager.changeRoute(`group/${data}`);
 }
 
 function removeGameFromGroup(data, routesManager) {
-    routesManager.changeRoute(`group/${data}`);
-}
-
-function header(data, headerManager) {
-    headerManager.setHeaderContent(templates.header(data));
+    let alertmsg = {message: 'Game removed with success.'};
+    alertmsg.redirect = { hash: `group/${data}`, data: undefined };
+    routesManager.redirectAndShowAlert(alertmsg, 1);
+    //routesManager.changeRoute(`group/${data}`);
 }
 
 /***/ })

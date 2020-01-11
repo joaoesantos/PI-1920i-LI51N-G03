@@ -31,6 +31,10 @@ module.exports = {
     removeGameFromGroup: removeGameFromGroup
 }
 
+function header(data, headerManager) {
+    headerManager.setHeaderContent(templates.header(data));
+}
+
 function home(data, routesManager) {
     routesManager.setMainContent(templates.home(data));
 }
@@ -120,21 +124,29 @@ function groups(data, routesManager) {
 }
 
 function createGroup(data, routesManager) {
-    routesManager.changeRoute('groups');
+    let alertmsg = {message: 'Group created with success.'};
+    alertmsg.redirect = { hash: 'groups', data: undefined };
+    routesManager.redirectAndShowAlert(alertmsg, 1);
+    //routesManager.changeRoute('groups');
 }
 
 function updateGroup(data, routesManager) {
-    routesManager.changeRoute(`group/${data}`);
+    let alertmsg = {message: 'Group updated with success.'};
+    alertmsg.redirect = { hash: `group/${data}`, data: undefined };
+    routesManager.redirectAndShowAlert(alertmsg, 1);
+    //routesManager.changeRoute(`group/${data}`);
 }
 
 function addGameToGroup(data, routesManager) {
-    routesManager.changeRoute(`group/${data}`);
+    let alertmsg = {message: 'Game added with success.'};
+    alertmsg.redirect = { hash: `group/${data}`, data: undefined };
+    routesManager.redirectAndShowAlert(alertmsg, 1);
+    //routesManager.changeRoute(`group/${data}`);
 }
 
 function removeGameFromGroup(data, routesManager) {
-    routesManager.changeRoute(`group/${data}`);
-}
-
-function header(data, headerManager) {
-    headerManager.setHeaderContent(templates.header(data));
+    let alertmsg = {message: 'Game removed with success.'};
+    alertmsg.redirect = { hash: `group/${data}`, data: undefined };
+    routesManager.redirectAndShowAlert(alertmsg, 1);
+    //routesManager.changeRoute(`group/${data}`);
 }
