@@ -1,3 +1,15 @@
-{{#each this}}
-    <a href="#{{hash}}">{{label}}</a>
-{{/each}}
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+        <div class="navbar-header">
+        <a class="navbar-brand">Ciborg</a>
+        </div>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                {{#each this}}
+                    <a class="nav-link" href="#{{hash}}">{{label}}</a>
+                {{/each}}
+            </li>
+        </ul>
+    </div>
+</nav>
+
