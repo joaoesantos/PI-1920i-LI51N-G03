@@ -5670,66 +5670,156 @@ module.exports = {
     },
 
     logout: async function() {
-        return await authentication.logout();
+        try {
+            return await authentication.logout();
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
+        }
+        
     },
 
     games: async function(name) {
-        let fromServer;
-        if (name) {
-            fromServer = await games.searchGamesByName(name);
-        } else {
-            fromServer = await games.getMostPopularGames();
+        try {
+            let fromServer;
+            if (name) {
+                fromServer = await games.searchGamesByName(name);
+            } else {
+                fromServer = await games.getMostPopularGames();
+            }
+            let gameTable = {
+                header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
+                elements: fromServer.payload.map(e => {
+                    e.min_playtime = e.min_playtime ? e.min_playtime : "-";
+                    e.max_playtime = e.max_playtime ? e.max_playtime : "-";
+                    return e;
+                })
+            }
+            return gameTable;
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
-        let gameTable = {
-            header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
-            elements: fromServer.payload
-        }
-        return gameTable;
     },
 
     groups: async function() {
-        return await groups.getGroups();
+        try {
+            return await groups.getGroups();
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
+        }
     },
 
     createGroup: async function(data) {
-        return await groups.createGroup(data.name, data.description);
+        try {
+            return await groups.createGroup(data.name, data.description);
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
+        }
     },
 
     group: async function(args) {
-        if (!args) {
-            throw new Error("To access a group the id must be provided.");
-        }
-        let id = args;
-        let group = await groups.getGroup(id);
-        group.header = ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"]
-        return group;
+        try {
+            if (!args) {
+                throw new Error("To access a group the id must be provided.");
+            }
+            let id = args;
+            let group = await groups.getGroup(id);
+            group.elements = group.games.map(e => {
+                e.min_playtime = e.min_playtime ? e.min_playtime : "-";
+                e.max_playtime = e.max_playtime ? e.max_playtime : "-";
+                return e;
+            });
+            delete group.games;
+            group.header = ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"]
+            return group;
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+        throw err;
+    }
     },
 
     updateGroup: async function(args) {
-        if (!args) {
-            console.log("No args on updateGroup");
-        } else {
-            let group = args;
-            return await groups.updateGroup(group);
+        try {
+            if (!args) {
+                console.log("No args on updateGroup");
+            } else {
+                let group = args;
+                return await groups.updateGroup(group);
+            }
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
-
     },
 
     addGameToGroup: async function(args) {
-        if (!args) {
-            console.log("No args on addGameToGroup");
-        } else {
-            let data = args;
-            return await groups.addGameToGroup(data.groupId, data.gameId);
+        try {
+            if (!args) {
+                console.log("No args on addGameToGroup");
+            } else {
+                let data = args;
+                return await groups.addGameToGroup(data.groupId, data.gameId);
+            }
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
     },
 
     removeGameFromGroup: async function(args) {
-        if (!args) {
-            console.log("No args on removeGameFromGroup");
-        } else {
-            let data = args;
-            return await groups.removeGameFromGroup(data.groupId, data.gameId);
+        try {
+            if (!args) {
+                console.log("No args on removeGameFromGroup");
+            } else {
+                let data = args;
+                return await groups.removeGameFromGroup(data.groupId, data.gameId);
+            }
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
     }
 }
@@ -5746,14 +5836,14 @@ module.exports = {
 const templates = __webpack_require__(/*! ../templateManager */ "./spa/templateManager.js");
 const gamesModel = __webpack_require__(/*! ../model/games */ "./spa/model/games.js");
 
-function group(data, routeManager) {
-    routeManager.setMainContent(templates.group(data));
+function group(data, routesManager) {
+    routesManager.setMainContent(templates.group(data));
 
     const backToGroupsButton = document.querySelector("#backToGroups");
     backToGroupsButton.addEventListener('click', handleClickBackToGroupsButton);
 
     function handleClickBackToGroupsButton(e) {
-        routeManager.changeRoute('groups');
+        routesManager.changeRoute('groups');
     }
 
     const updateGroupButton = document.querySelector("#updateGroup");
@@ -5776,12 +5866,12 @@ function group(data, routeManager) {
             let game = {
                 id: gameIds[i].innerText,
                 name: gameNames[i].innerText,
-                min_playtime: Number(gameMins[i].innerText),
-                max_playtime: Number(gameMaxs[i].innerText)
+                min_playtime: (gameMins[i].innerText === "-") ? null : Number(gameMins[i].innerText),
+                max_playtime: (gameMaxs[i].innerText === "-") ? null : Number(gameMaxs[i].innerText)
             };
             group.games.push(game);
         }
-        routeManager.changeRoute('updateGroup', group);
+        routesManager.changeRoute('updateGroup', group);
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
@@ -5800,8 +5890,12 @@ function group(data, routeManager) {
                     rows = "";
                 }
                 let game = games[i];
+
+                let minPlayTime = game.min_playtime ? game.min_playtime : "-";
+                let maxPlayTime = game.max_playtime ? game.max_playtime : "-";
+                
                 let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn submitBtn">Add to group</button>`;
-                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td> <td>${addGameToGroupButton}</td> </tr>`;
+                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${minPlayTime}</td> <td>${maxPlayTime}</td> <td>${addGameToGroupButton}</td> </tr>`;
                 rows += row;
             }
             document.getElementById('gamesSearchedTable').style.visibility = 'visible';
@@ -5817,10 +5911,10 @@ function group(data, routeManager) {
                 const searchGameIds = document.getElementsByName("searchGameId");
                 const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
                 const groupId = document.querySelector("#groupId").value
-                routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
+                routesManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
             }
         } catch (e) {
-            routeManager.showAlert(e.message, 3);
+            routesManager.showAlert(e.message, 3);
         }
     }
 
@@ -5835,7 +5929,6 @@ function group(data, routeManager) {
         const groupId = document.querySelector("#groupId").value;
         routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
     }
-
 }
 
 module.exports = group;
@@ -5888,7 +5981,9 @@ function loadHandler() {
 
         showAlert: showAlert,
 
-        clearAlert: clearAlert
+        clearAlert: clearAlert,
+
+        loadingAction: []
     }
 
     const headerManager = {
@@ -5921,11 +6016,19 @@ function loadHandler() {
         route
             .controller.apply(null, args)
             .then(data => {
-                route.view(data, routesManager);
                 clearAlert();
+                executeLoadingActions();
+                route.view(data, routesManager);
                 resetRouteData();
             })
-            .catch(e => showAlert(e.message, 3));
+            .catch(e => {
+                let level = 3;
+                if (e.redirect) {
+                    redirectAndShowAlert(e, level);
+                } else {
+                    showAlert(e.message, level);
+                }
+            });
 
         let headerRoute = routes.header;
         headerRoute.controller().then(data => headerRoute.view(data, headerManager));
@@ -5942,6 +6045,12 @@ function loadHandler() {
             html = `<div class="alert alert-danger" role="alert"> ${alertMessage} </div>`;
         }
         alertContent.innerHTML = html;
+        headerContent.scrollIntoView();
+    }
+
+    function redirectAndShowAlert(error, level) {
+        routesManager.changeRoute(error.redirect.hash, error.redirect.data);
+        routesManager.loadingAction.push({function: showAlert, args: [error.message, level]});
     }
 
     function clearAlert() {
@@ -5952,6 +6061,13 @@ function loadHandler() {
         alert("XORA NO MEU PAU");
     });
     console.log('footer length:', footer.length);
+
+    function executeLoadingActions() {
+        routesManager.loadingAction.forEach(e => {
+            e.function.apply(null, e.args);
+        });
+        routesManager.loadingAction = [];
+    }
 
     hashChangeHandler();
 }
@@ -5987,15 +6103,14 @@ function AuthenticationApiUris() {
 
 const Uris = new AuthenticationApiUris();
 
-function signIn(userId, name, password, repassword) {
+function signIn(userId, name, password) {
     const options = {
         method: "POST",
         headers: clientSideConfigs.defaultHeaders,
         body: JSON.stringify({
             userId: userId,
             name: name,
-            password: password,
-            repassword: repassword
+            password: password
         })
     };
     return fetch(Uris.signInUri(), options)
@@ -6004,7 +6119,9 @@ function signIn(userId, name, password, repassword) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
 };
@@ -6024,7 +6141,9 @@ function login(userId, password) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
 };
@@ -6050,7 +6169,9 @@ function logout() {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
 };
@@ -6094,7 +6215,9 @@ function getMostPopularGames() {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
 }
@@ -6110,7 +6233,9 @@ function searchGamesByName(name) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
 
@@ -6164,7 +6289,9 @@ function getGroups() {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
 }
@@ -6186,7 +6313,9 @@ function createGroup(name, description) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
 }
@@ -6202,7 +6331,9 @@ function getGroup(id) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -6210,7 +6341,7 @@ function getGroup(id) {
                 groupId: rsp.payload.id,
                 groupName: rsp.payload.name,
                 groupDescription: rsp.payload.description,
-                elements: rsp.payload.games
+                games: rsp.payload.games
             };
             return group;
         });
@@ -6230,7 +6361,9 @@ function updateGroup(group) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -6249,7 +6382,9 @@ function addGameToGroup(groupId, gameId) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -6268,7 +6403,9 @@ function removeGameFromGroup(groupId, gameId) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -6556,7 +6693,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container signIn-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"signInForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Your Name *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"repassword\" name=\"repassword\" class=\"form-control\" placeholder=\"Re-renter Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"btn submitBtn\" value=\"SignIn\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container signIn-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Sign in</h3>\r\n        <form id=\"signInForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Your Name *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"repassword\" name=\"repassword\" class=\"form-control\" placeholder=\"Re-renter Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"btn submitBtn\" value=\"Sign In\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -6606,33 +6743,45 @@ function home(data, routesManager) {
 }
 
 function signIn(data, routesManager) {
-    routesManager.setMainContent(templates.signIn(data));
-    const formSignIn = document.querySelector("#signInForm")
-    formSignIn.addEventListener('submit', handleSubmit)
+    try {
+        routesManager.setMainContent(templates.signIn(data));
+        const formSignIn = document.querySelector("#signInForm")
+        formSignIn.addEventListener('submit', handleSubmit)
 
-    async function handleSubmit(e) {
-        e.preventDefault()
-        const userId = document.querySelector("#userId");
-        const name = document.querySelector("#name");
-        const password = document.querySelector("#password");
-        const repassword = document.querySelector("#repassword");
-        await authenticationModel.signIn(userId.value, name.value, password.value, repassword.value);
-        await authenticationModel.login(userId.value, password.value);
-        routesManager.changeRoute('home', response);
+        async function handleSubmit(e) {
+            e.preventDefault()
+            const userId = document.querySelector("#userId");
+            const name = document.querySelector("#name");
+            const password = document.querySelector("#password");
+            const repassword = document.querySelector("#repassword");
+            if(password.value === repassword.value) {
+                await authenticationModel.signIn(userId.value, name.value, password.value);
+                routesManager.showAlert('Account created with success.', 0);
+                routesManager.changeRoute('login');
+            } else {
+                routesManager.showAlert('Passwords do not match.', 3);
+            }
+        }
+    } catch (err) {
+        routesManager.showAlert(err.message, 3);
     }
 }
 
 function login(data, routesManager) {
-    routesManager.setMainContent(templates.login(data));
-    const formLogin = document.querySelector("#loginForm")
-    formLogin.addEventListener('submit', handleSubmit)
+    try {
+        routesManager.setMainContent(templates.login(data));
+        const formLogin = document.querySelector("#loginForm")
+        formLogin.addEventListener('submit', handleSubmit)
 
-    async function handleSubmit(e) {
-        e.preventDefault()
-        const userId = document.querySelector("#userId");
-        const password = document.querySelector("#password");
-        let response = await authenticationModel.login(userId.value, password.value);
-        routesManager.changeRoute('home', response);
+        async function handleSubmit(e) {
+            e.preventDefault()
+            const userId = document.querySelector("#userId");
+            const password = document.querySelector("#password");
+            let response = await authenticationModel.login(userId.value, password.value);
+            routesManager.changeRoute('home', response);
+        }
+    } catch (err) {
+        routesManager.showAlert(err.message, 3);
     }
 }
 
