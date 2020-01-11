@@ -58,29 +58,29 @@ let UserService = (Props, HttpCall, CiborgError) => {
                 let queryBody = Props.elastProps.ops.search.body;
                 queryBody.query.term = { userId: { value: userId.toLowerCase() } }; // lowerCase for elastic search
                 let opts = { url: fullUrl, json: true, body: queryBody };
-                debug.extend('getUserById')('Handling HTTP GET.');
+                debug.extend('userExists')('Handling HTTP GET.');
                 let payload = await HttpCall.get(opts);
                 if(payload.body.hits.total.value === 0) {
-                    debug.extend('getUserById')('User ' + userId + ' does not exist.');
+                    debug.extend('userExists')('User ' + userId + ' does not exist.');
                     return {
                         statusCode: payload.statusCode,
                         body: false
                     };
                 }
                 else {
-                    debug.extend('getUserById')('User ' + userId + ' already exists.');
+                    debug.extend('userExists')('User ' + userId + ' already exists.');
                     return {
                         statusCode: payload.statusCode,
                         body: true
                     };
                 }
             } catch (err) {
-                debug.extend('getUserById')(err);
+                debug.extend('userExists')(err);
                 if (err instanceof CiborgError) {
                     throw err;
                 } else {
                     throw new CiborgError(err,
-                        'Error in service: getUserById.',
+                        'Error in service: userExists.',
                         'Unable to get user.',
                         '500' // Internal Server Error
                     );

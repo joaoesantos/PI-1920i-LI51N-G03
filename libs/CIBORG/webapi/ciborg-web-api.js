@@ -40,7 +40,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, securityUti
             debug.extend('signIn')('Service signIn executed with sucess.');
             resolveServiceResponse(data, rsp);
         } catch (err) {
-            console.log(err);
             if (!(err instanceof CiborgError)) {
                 err = new CiborgError(err,
                     'Error in service: sign in.',
@@ -85,7 +84,6 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, securityUti
                     debug.extend('login')(err);
                     err.resolveErrorResponse(rsp);
                 } else {
-                    console.log('erro', err)
                     req.logIn(user, function(err) {
                         try {
                             if (err) {
