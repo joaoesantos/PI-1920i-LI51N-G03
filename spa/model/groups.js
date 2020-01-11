@@ -35,7 +35,9 @@ function getGroups() {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
 }
@@ -57,7 +59,9 @@ function createGroup(name, description) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
 }
@@ -73,7 +77,9 @@ function getGroup(id) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -81,7 +87,7 @@ function getGroup(id) {
                 groupId: rsp.payload.id,
                 groupName: rsp.payload.name,
                 groupDescription: rsp.payload.description,
-                elements: rsp.payload.games
+                games: rsp.payload.games
             };
             return group;
         });
@@ -101,7 +107,9 @@ function updateGroup(group) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -120,7 +128,9 @@ function addGameToGroup(groupId, gameId) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -139,7 +149,9 @@ function removeGameFromGroup(groupId, gameId) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {

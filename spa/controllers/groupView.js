@@ -1,14 +1,14 @@
 const templates = require("../templateManager");
 const gamesModel = require("../model/games");
 
-function group(data, routeManager) {
-    routeManager.setMainContent(templates.group(data));
+function group(data, routesManager) {
+    routesManager.setMainContent(templates.group(data));
 
     const backToGroupsButton = document.querySelector("#backToGroups");
     backToGroupsButton.addEventListener('click', handleClickBackToGroupsButton);
 
     function handleClickBackToGroupsButton(e) {
-        routeManager.changeRoute('groups');
+        routesManager.changeRoute('groups');
     }
 
     const updateGroupButton = document.querySelector("#updateGroup");
@@ -31,12 +31,12 @@ function group(data, routeManager) {
             let game = {
                 id: gameIds[i].innerText,
                 name: gameNames[i].innerText,
-                min_playtime: Number(gameMins[i].innerText),
-                max_playtime: Number(gameMaxs[i].innerText)
+                min_playtime: (gameMins[i].innerText === "-") ? null : Number(gameMins[i].innerText),
+                max_playtime: (gameMaxs[i].innerText === "-") ? null : Number(gameMaxs[i].innerText)
             };
             group.games.push(game);
         }
-        routeManager.changeRoute('updateGroup', group);
+        routesManager.changeRoute('updateGroup', group);
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
@@ -55,8 +55,12 @@ function group(data, routeManager) {
                     rows = "";
                 }
                 let game = games[i];
+
+                let minPlayTime = game.min_playtime ? game.min_playtime : "-";
+                let maxPlayTime = game.max_playtime ? game.max_playtime : "-";
+                
                 let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn submitBtn">Add to group</button>`;
-                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td> <td>${addGameToGroupButton}</td> </tr>`;
+                let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${minPlayTime}</td> <td>${maxPlayTime}</td> <td>${addGameToGroupButton}</td> </tr>`;
                 rows += row;
             }
             document.getElementById('gamesSearchedTable').style.visibility = 'visible';
@@ -72,10 +76,10 @@ function group(data, routeManager) {
                 const searchGameIds = document.getElementsByName("searchGameId");
                 const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
                 const groupId = document.querySelector("#groupId").value
-                routeManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
+                routesManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
             }
         } catch (e) {
-            routeManager.showAlert(e.message, 3);
+            routesManager.showAlert(e.message, 3);
         }
     }
 
@@ -90,7 +94,6 @@ function group(data, routeManager) {
         const groupId = document.querySelector("#groupId").value;
         routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
     }
-
 }
 
 module.exports = group;

@@ -33,66 +33,156 @@ module.exports = {
     },
 
     logout: async function() {
-        return await authentication.logout();
+        try {
+            return await authentication.logout();
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
+        }
+        
     },
 
     games: async function(name) {
-        let fromServer;
-        if (name) {
-            fromServer = await games.searchGamesByName(name);
-        } else {
-            fromServer = await games.getMostPopularGames();
+        try {
+            let fromServer;
+            if (name) {
+                fromServer = await games.searchGamesByName(name);
+            } else {
+                fromServer = await games.getMostPopularGames();
+            }
+            let gameTable = {
+                header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
+                elements: fromServer.payload.map(e => {
+                    e.min_playtime = e.min_playtime ? e.min_playtime : "-";
+                    e.max_playtime = e.max_playtime ? e.max_playtime : "-";
+                    return e;
+                })
+            }
+            return gameTable;
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
-        let gameTable = {
-            header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
-            elements: fromServer.payload
-        }
-        return gameTable;
     },
 
     groups: async function() {
-        return await groups.getGroups();
+        try {
+            return await groups.getGroups();
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
+        }
     },
 
     createGroup: async function(data) {
-        return await groups.createGroup(data.name, data.description);
+        try {
+            return await groups.createGroup(data.name, data.description);
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
+        }
     },
 
     group: async function(args) {
-        if (!args) {
-            throw new Error("To access a group the id must be provided.");
-        }
-        let id = args;
-        let group = await groups.getGroup(id);
-        group.header = ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"]
-        return group;
+        try {
+            if (!args) {
+                throw new Error("To access a group the id must be provided.");
+            }
+            let id = args;
+            let group = await groups.getGroup(id);
+            group.elements = group.games.map(e => {
+                e.min_playtime = e.min_playtime ? e.min_playtime : "-";
+                e.max_playtime = e.max_playtime ? e.max_playtime : "-";
+                return e;
+            });
+            delete group.games;
+            group.header = ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"]
+            return group;
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+        throw err;
+    }
     },
 
     updateGroup: async function(args) {
-        if (!args) {
-            console.log("No args on updateGroup");
-        } else {
-            let group = args;
-            return await groups.updateGroup(group);
+        try {
+            if (!args) {
+                console.log("No args on updateGroup");
+            } else {
+                let group = args;
+                return await groups.updateGroup(group);
+            }
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
-
     },
 
     addGameToGroup: async function(args) {
-        if (!args) {
-            console.log("No args on addGameToGroup");
-        } else {
-            let data = args;
-            return await groups.addGameToGroup(data.groupId, data.gameId);
+        try {
+            if (!args) {
+                console.log("No args on addGameToGroup");
+            } else {
+                let data = args;
+                return await groups.addGameToGroup(data.groupId, data.gameId);
+            }
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
     },
 
     removeGameFromGroup: async function(args) {
-        if (!args) {
-            console.log("No args on removeGameFromGroup");
-        } else {
-            let data = args;
-            return await groups.removeGameFromGroup(data.groupId, data.gameId);
+        try {
+            if (!args) {
+                console.log("No args on removeGameFromGroup");
+            } else {
+                let data = args;
+                return await groups.removeGameFromGroup(data.groupId, data.gameId);
+            }
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
     }
 }
