@@ -26,6 +26,8 @@ function loadHandler() {
 
         clearAlert: clearAlert,
 
+        redirectAndShowAlert: redirectAndShowAlert,
+
         loadingAction: []
     }
 
