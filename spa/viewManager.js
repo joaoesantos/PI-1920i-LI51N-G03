@@ -4,7 +4,7 @@
 require('../node_modules/bootstrap/dist/css/bootstrap.min.css');
 require('../spa/stylesheets/stylesheet.css');
 // authentication
-//require('../spa/stylesheets/login.css');
+require('../spa/stylesheets/login.css');
 // games
 // groups
 require('../spa/stylesheets/groups.css');
@@ -80,8 +80,11 @@ function groups(data, routesManager) {
         routesManager.changeRoute('createGroup', { name: formName.value, description: formDescription.value });
     }
 
-    const rows = document.querySelector(".clickable-row");
-    rows.addEventListener('click', handleRowClick);
+    const rows = document.querySelectorAll("[id*=gameid_]");
+
+    rows.forEach(row => {
+        row.addEventListener('click', handleRowClick);
+    });
 
     function handleRowClick(e){
         window.location = this.getAttribute("data-href"); 

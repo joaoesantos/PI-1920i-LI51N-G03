@@ -1,3 +1,7 @@
+*{
+    font-family: 'Montserrat', sans-serif;
+}
+
 .test-class {
     background-color : blue;
 }
@@ -28,7 +32,7 @@
 }
 
 .thead-dark{
-    background-color: #0D0A0B;
+    background-color: #aaaaaa !important;
 }
 
 .clickable-row{
@@ -67,4 +71,22 @@ body{
     padding: 5%;
     box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);
     background-color: #fff;
+    width:100%;
 }
+
+.input-block label { 
+    display: block;
+    text-align: left;
+}
+
+.navbar .container-fluid>.navbar-header {
+    float: left;
+    margin-right: 10px;
+  }
+  .navbar .navbar-nav {
+    float: left;
+    margin: 5px;
+  }
+  .nav>li {
+    float: left;
+  }
