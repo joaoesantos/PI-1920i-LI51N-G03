@@ -12,7 +12,7 @@ let UserService = (Props, HttpCall, CiborgError) => {
                 // Setting URL and headers for request
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.userIndex + "/" + Props.elastProps.ops.search.url;
                 let queryBody = Props.elastProps.ops.search.body;
-                queryBody.query.term = { userId: { value: userId } };
+                queryBody.query.term = { userId: { value: userId.toLowerCase() } }; // lowerCase for elastic search
                 let opts = { url: fullUrl, json: true, body: queryBody };
                 debug.extend('getUserById')('Handling HTTP GET.');
                 let payload = await HttpCall.get(opts);
@@ -56,7 +56,7 @@ let UserService = (Props, HttpCall, CiborgError) => {
                 // Setting URL and headers for request
                 let fullUrl = Props.elastProps.host + "/" + Props.elastProps.userIndex + "/" + Props.elastProps.ops.search.url;
                 let queryBody = Props.elastProps.ops.search.body;
-                queryBody.query.term = { userId: { value: userId } };
+                queryBody.query.term = { userId: { value: userId.toLowerCase() } }; // lowerCase for elastic search
                 let opts = { url: fullUrl, json: true, body: queryBody };
                 debug.extend('getUserById')('Handling HTTP GET.');
                 let payload = await HttpCall.get(opts);
@@ -94,7 +94,7 @@ let UserService = (Props, HttpCall, CiborgError) => {
             // avaliates if user already exists
             try {
                 // users doesn't exist, so its possible to perfom signIn
-                if(!(await this.userExists(user.userId)).body) {
+                if(!(await this.userExists(user.userId.toLowerCase())).body) { // lowerCase for elastic search
                     // Setting URL and headers for request
                     let fullUrl = Props.elastProps.host + "/" + Props.elastProps.userIndex + "/" + Props.elastProps.userIndex;
                     let opts = { url: fullUrl, json: true, body: user };
