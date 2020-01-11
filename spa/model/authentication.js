@@ -3,19 +3,43 @@
 const clientSideConfigs = require("../clientSideConfigs");
 
 module.exports = {
+    signIn: signIn,
     login: login,
-    logout: logout,
-    isLoggedIn: isLoggedIn
+    isLoggedIn: isLoggedIn,
+    logout: logout
 };
 
 function AuthenticationApiUris() {
     const baseUri = clientSideConfigs.apiBaseUrl;
 
+    this.signInUri = () => `${baseUri}/signIn`;
     this.loginUri = () => `${baseUri}/login`;
     this.logoutUri = () => `${baseUri}/logout`;
 };
 
 const Uris = new AuthenticationApiUris();
+
+function signIn(userId, name, password, repassword) {
+    const options = {
+        method: "POST",
+        headers: clientSideConfigs.defaultHeaders,
+        body: JSON.stringify({
+            userId: userId,
+            name: name,
+            password: password,
+            repassword: repassword
+        })
+    };
+    return fetch(Uris.signInUri(), options)
+        .then(async(rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                let response = await rsp.json();
+                throw new Error(response.payload.clientErrorMessage);
+            }
+        });
+};
 
 function login(userId, password) {
     const options = {
@@ -35,7 +59,16 @@ function login(userId, password) {
                 throw new Error(response.payload.clientErrorMessage);
             }
         });
+};
 
+function isLoggedIn() {
+    const options = {
+        method: "POST",
+        headers: clientSideConfigs.defaultHeaders,
+        body: JSON.stringify({ userId: "", password: "" })
+    };
+    return fetch(Uris.loginUri(), options)
+        .then(async(rsp) => rsp.status === 403);
 };
 
 function logout() {
@@ -52,14 +85,4 @@ function logout() {
                 throw new Error(response.payload.clientErrorMessage);
             }
         })
-};
-
-function isLoggedIn() {
-    const options = {
-        method: "POST",
-        headers: clientSideConfigs.defaultHeaders,
-        body: JSON.stringify({ userId: "", password: "" })
-    };
-    return fetch(Uris.loginUri(), options)
-        .then(async(rsp) => rsp.status === 403);
 };

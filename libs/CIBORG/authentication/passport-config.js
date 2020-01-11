@@ -1,3 +1,5 @@
+'use strict';
+
 let passportInitializer = (bcrypt, localStrategy, CiborgError) => {
 
     function initialize(passport, getUserById) {
