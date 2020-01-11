@@ -2,15 +2,6 @@
     font-family: 'Montserrat', sans-serif;
 }
 
-.test-class {
-    background-color : blue;
-}
-
-.parent {
-    display: flex;
-    flex-wrap: wrap;
-  }
-
 .game-item {
     background-color: #4a708b;
     opacity: 0.6;
@@ -53,19 +44,19 @@ body{
 
 .submitBtn
 {
-    width: 20%;
-    border-radius: 5rem;
+    /* width: 20%; */
+    border-radius: 15px;
     padding: 1.5%;
     border: none;
     cursor: pointer;
     font-weight: 600;
     color: #fff;
-    background-color: #0062cc;
+    background-color: #c68196;
 }
 
 .form-container{
     margin-top: 5%;
-    margin-bottom: 5%;
+    /*-bottom: 5%;*/
 }
 .ciborg-form{
     padding: 5%;
@@ -77,4 +68,21 @@ body{
 .input-block label { 
     display: block;
     text-align: left;
+}
+
+.no-records {
+    text-align: center;
+    color:#fff ;
+}
+
+#gamesSearchedTable{
+    visibility : hidden;
+}
+
+.submitBtn:hover{
+    color: #343a40;
+}
+
+footer{
+    cursor:auto;
 }

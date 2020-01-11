@@ -83,6 +83,11 @@ function loadHandler() {
     function clearAlert() {
         alertContent.innerHTML = "<div></div>";
     }
+    let footer = document.getElementsByTagName('footer');
+    footer[0].addEventListener('click', function(){
+        alert("XORA NO MEU PAU");
+    });
+    console.log('footer length:', footer.length);
 
     hashChangeHandler();
 }

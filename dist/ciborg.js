@@ -141,6 +141,20 @@ exports.push([module.i, ".createGroupBox{\r\n    color: #0D0A0B;\r\n    backgrou
 
 /***/ }),
 
+/***/ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/login.css":
+/*!*************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/login.css ***!
+  \*************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
+// Module
+exports.push([module.i, ".login-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.login-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n    background-color: #fff;\r\n}\r\n", ""]);
+
+
+/***/ }),
+
 /***/ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/stylesheet.css":
 /*!******************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/stylesheet.css ***!
@@ -150,7 +164,7 @@ exports.push([module.i, ".createGroupBox{\r\n    color: #0D0A0B;\r\n    backgrou
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, ".test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 20%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}\r\n\r\n.table-container {\r\n   padding: 1% 5% 1% 5%;\r\n   text-align: center;\r\n}\r\n\r\n.thead-dark{\r\n    background-color: #0D0A0B;\r\n}\r\n\r\n.clickable-row{\r\n    cursor: pointer;\r\n}\r\n\r\nbody{\r\n    background-color: #F3EFF5;\r\n}\r\n\r\n.table{\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.form-control {\r\n    border: 1px solid #0062cc;\r\n}\r\n\r\n.submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius: 5rem;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #0062cc;\r\n}\r\n\r\n.form-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.ciborg-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n    background-color: #fff;\r\n}", ""]);
+exports.push([module.i, "*{\r\n    font-family: 'Montserrat', sans-serif;\r\n}\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 20%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}\r\n\r\n.table-container {\r\n   padding: 1% 5% 1% 5%;\r\n   text-align: center;\r\n}\r\n\r\n.thead-dark{\r\n    background-color: #aaaaaa !important;\r\n}\r\n\r\n.clickable-row{\r\n    cursor: pointer;\r\n}\r\n\r\nbody{\r\n    background-color: #F3EFF5;\r\n}\r\n\r\n.table{\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.form-control {\r\n    border: 1px solid #0062cc;\r\n}\r\n\r\n.submitBtn\r\n{\r\n    /* width: 20%; */\r\n    border-radius: 15px;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #c68196;\r\n}\r\n\r\n.form-container{\r\n    margin-top: 5%;\r\n    /*-bottom: 5%;*/\r\n}\r\n.ciborg-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n    background-color: #fff;\r\n    width:100%;\r\n}\r\n\r\n.input-block label { \r\n    display: block;\r\n    text-align: left;\r\n}\r\n\r\n.no-records {\r\n    text-align: center;\r\n    color:#fff ;\r\n}\r\n\r\n#gamesSearchedTable{\r\n    visibility : hidden;\r\n}\r\n\r\n.submitBtn:hover{\r\n    color: #343a40;\r\n}\r\n\r\nfooter{\r\n    cursor:auto;\r\n}\r\n", ""]);
 
 
 /***/ }),
@@ -5776,18 +5790,21 @@ function group(data, routeManager) {
     async function handleSubmitSearchGameForm(e) {
         try {
             e.preventDefault();
-
             const gameName = document.querySelector("#searchGameName").value;
 
             const response = await gamesModel.searchGamesByName(gameName);
             let games = response.payload;
-            let rows = "";
+            let rows = "<td colspan='4' class='no-records'>No records found!</td>";
             for (let i = 0; i < games.length; i++) {
+                if(i == 0){
+                    rows = "";
+                }
                 let game = games[i];
-                let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn btn-primary">Add game to group</button>`;
+                let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn submitBtn">Add to group</button>`;
                 let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td> <td>${addGameToGroupButton}</td> </tr>`;
                 rows += row;
             }
+            document.getElementById('gamesSearchedTable').style.visibility = 'visible';
             let tableBody = document.querySelector("#searchResults");
             tableBody.innerHTML = rows;
 
@@ -5930,6 +5947,11 @@ function loadHandler() {
     function clearAlert() {
         alertContent.innerHTML = "<div></div>";
     }
+    let footer = document.getElementsByTagName('footer');
+    footer[0].addEventListener('click', function(){
+        alert("XORA NO MEU PAU");
+    });
+    console.log('footer length:', footer.length);
 
     hashChangeHandler();
 }
@@ -6361,6 +6383,33 @@ if (content.locals) {
 
 /***/ }),
 
+/***/ "./spa/stylesheets/login.css":
+/*!***********************************!*\
+  !*** ./spa/stylesheets/login.css ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+var content = __webpack_require__(/*! !../../node_modules/css-loader/dist/cjs.js!./login.css */ "./node_modules/css-loader/dist/cjs.js!./spa/stylesheets/login.css");
+
+if (typeof content === 'string') {
+  content = [[module.i, content, '']];
+}
+
+var options = {}
+
+options.insert = "head";
+options.singleton = false;
+
+var update = __webpack_require__(/*! ../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js")(content, options);
+
+if (content.locals) {
+  module.exports = content.locals;
+}
+
+
+/***/ }),
+
 /***/ "./spa/stylesheets/stylesheet.css":
 /*!****************************************!*\
   !*** ./spa/stylesheets/stylesheet.css ***!
@@ -6429,7 +6478,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n  <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                  <button id=\"searchButton\" class=\"submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"table-container\">\r\n    <table class=\"table table-striped table-dark table-hover\">\r\n    <thead class=\"thead-dark\">\r\n      <tr class=\"thead-dark\">\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n        {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  </div>\r\n</div>\r\n\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n  <div class=\"form-container\">\r\n    <div class=\"col-md-6\">\r\n        <h3>Search Games</h3>\r\n        <form id=\"searchGamesForm\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"gameName\" name=\"gameName\" class=\"form-control\" placeholder=\"Game's name\" value=\"\" />\r\n            </div>\r\n            <div class=\"form-group\">\r\n                  <button id=\"searchButton\" class=\"btn submitBtn\" type=\"button\">Search</button> \r\n            </div>\r\n        </form>\r\n    </div>\r\n  </div>\r\n\r\n  <div class=\"table-container\">\r\n    <table class=\"table table-striped table-dark table-hover\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\">{{column}}</th>\r\n        {{/each}} \r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n        {{#if elements}}\r\n          {{#each elements as |row|}}\r\n          <tr>\r\n            <td name=\"gameId\">{{row.id}}</td>\r\n            <td name=\"gameName\">{{row.name}}</td>\r\n            <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n            <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n          </tr>\r\n          {{/each}} \r\n        {{else}}\r\n            <tr>\r\n                <td colspan=\"{{header.length}}\" class=\"no-records\">No records found!</td>\r\n            </tr>\r\n        {{/if}}\r\n    </tbody>\r\n  </table>\r\n  </div>\r\n</div>\r\n\r\n");
 
 /***/ }),
 
@@ -6442,7 +6491,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div>\r\n  <button id=\"backToGroups\" type=\"button\" class=\"btn btn-primary\">Groups</button>\r\n</div>\r\n<div>\r\n  <form>\r\n    <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n    <div class=\"form-group\">\r\n      <label for=\"groupName\">Name:</label>\r\n      <input type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n    </div>\r\n    <div class=\"form-group\">\r\n      <label for=\"groupDescription\">Description:</label>\r\n      <textarea id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n    </div>\r\n  </form>\r\n  <div>\r\n    <button id=\"updateGroup\" type=\"button\" class=\"btn btn-primary\">Update Group Details</button>\r\n  </div>\r\n</div>\r\n<div>\r\n  <label>Games:</label>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody>\r\n      {{#each elements as |row|}}\r\n        <tr>\r\n          <td name=\"gameId\">{{row.id}}</td>\r\n          <td name=\"gameName\">{{row.name}}</td>\r\n          <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n          <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n          <td> <button id=\"{{@index}}\" name=\"removeGameFromGroup\" type=\"button\" class=\"btn btn-primary\">Remove game from group</button> </td>\r\n        </tr>\r\n      {{/each}} \r\n    </tbody>\r\n  </table>\r\n  <br/>\r\n  <h2>Searh Game by name:</h2>\r\n  <form id=\"searchGameForm\" class=\"form-inline\">\r\n    <div class=\"form-group\">\r\n      <label for=\"searchGameName\">Game name:</label>\r\n      <input type=\"text\" id=\"searchGameName\" name=\"searchGameName\" value=\"\" placeholder=\"insert name to search\" required>\r\n    </div>\r\n    <button type=\"submit\" class=\"btn btn-secondary\">Procurar</button>\r\n  </form>\r\n  <table class=\"table\">\r\n    <thead class=\"thead-dark\">\r\n      <tr>\r\n        {{#each header as |column|}}\r\n          <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n        {{/each}} \r\n        <th scope=\"col\" class=\"test-class\"> </th>\r\n      </tr>\r\n    </thead>\r\n    <tbody id=\"searchResults\">\r\n    </tbody>\r\n  </table>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    </br>\r\n    <div>\r\n    <button id=\"backToGroups\" type=\"button\" class=\"btn submitBtn\">Groups</button>\r\n  </div>\r\n  <br>\r\n  <div>\r\n    <form class=\"ciborg-form\">\r\n      <input type=\"hidden\" id=\"groupId\" name=\"groupId\" value=\"{{groupId}}\">\r\n      <div class=\"input-block\">\r\n        <label for=\"groupName\">Name:</label>\r\n        <input class=\"form-control\" type=\"text\" id=\"groupName\" name=\"groupName\" value=\"{{groupName}}\">\r\n      </div>\r\n      </br>\r\n      <div class=\"input-block\">\r\n        <label for=\"groupDescription\">Description:</label>\r\n        <textarea class=\"form-control\" id=\"groupDescription\" name=\"groupDescription\" cols=\"70\" rows=\"10\">{{groupDescription}}</textarea>\r\n      </div>\r\n      </br>\r\n      <div>\r\n      <button id=\"updateGroup\" type=\"button\" class=\"btn submitBtn\">Update Group Details</button>\r\n      </div>\r\n       </br>\r\n        <table class=\"table table-striped table-dark table-hover\">\r\n      <h5>Games:</h5>\r\n      <thead class=\"thead-dark\">\r\n        <tr>\r\n          {{#each header as |column|}}\r\n            <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n          {{/each}} \r\n          <th scope=\"col\" class=\"test-class\"> </th>\r\n        </tr>\r\n      </thead>\r\n      <tbody>\r\n        {{#if elements}}\r\n          {{#each elements as |row|}}\r\n            <tr>\r\n              <td name=\"gameId\">{{row.id}}</td>\r\n              <td name=\"gameName\">{{row.name}}</td>\r\n              <td name=\"gameMin\">{{row.min_playtime}}</td>\r\n              <td name=\"gameMax\">{{row.max_playtime}}</td>\r\n              <td> <button id=\"{{@index}}\" name=\"removeGameFromGroup\" type=\"button\" class=\"btn submitBtn\">Remove game from group</button> </td>\r\n            </tr>\r\n          {{/each}}\r\n        {{else}}\r\n          <tr>\r\n                <td colspan=\"5\" class=\"no-records\">No records found!</td>\r\n            </tr>\r\n        {{/if}}\r\n        \r\n      </tbody>\r\n    </table>\r\n    </form>\r\n   \r\n  \r\n  </div>\r\n  <div>\r\n    \r\n    \r\n    <br/>\r\n    \r\n    <form id=\"searchGameForm\" class=\"ciborg-form\">\r\n      <h2>Search Game by name:</h2>\r\n      <div class=\"form-group\">\r\n        <label for=\"searchGameName\">Game name:</label>\r\n        <input type=\"text\" id=\"searchGameName\" name=\"searchGameName\" value=\"\" placeholder=\"insert name to search\" required>\r\n      </div>\r\n      <button type=\"submit\" class=\"btn submitBtn\">Search</button>\r\n    </form>\r\n    </br>\r\n    <table class=\"table table-striped table-dark table-hover\" id=\"gamesSearchedTable\">\r\n      <thead class=\"thead-dark\">\r\n        <tr>\r\n          {{#each header as |column|}}\r\n            <th scope=\"col\" class=\"test-class\">{{column}}</th>\r\n          {{/each}} \r\n          <th scope=\"col\" class=\"test-class\"> </th>\r\n        </tr>\r\n      </thead>\r\n      <tbody id=\"searchResults\">\r\n      </tbody>\r\n    </table>\r\n    </div>\r\n</div>\r\n");
 
 /***/ }),
 
@@ -6455,7 +6504,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <h1 class=\"title\">List of all owned groups</h1>\r\n    <div table-container table-responsive allGroupsBox>\r\n        <table class=\"table table-striped table-dark table-hover\">\r\n        <tr class=\"thead-dark\">\r\n            <th class=\"thead-dark\">Name</th>\r\n            <th class=\"thead-dark\">Description</th>\r\n        </tr>\r\n        {{#each payload}}\r\n            <tr class=\"clickable-row\" data-href=\"#group/{{id}}\">\r\n                <td>{{name}}</a></td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n        {{/each}}\r\n    </table>    \r\n    </div>\r\n\r\n    <div>\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\">\r\n        <div class=\"input-group\">\r\n            <label for=\"formName\">Name</label>\r\n            <input type=\"text\" id=\"formName\" class=\"form-control\" >\r\n            <label for=\"formDescription\">Description</label>\r\n            <input type=\"text\" id=\"formDescription\" class=\"form-control\" >\r\n            <input type=\"submit\" class=\"submitBtn\" >\r\n        </div>\r\n    </form>\r\n    </div>\r\n</div>    \r\n\r\n \r\n\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container\">\r\n    <h1 class=\"title\">List of all owned groups</h1>\r\n    <div >\r\n        <table class=\"table table-striped table-dark table-hover\">\r\n        <tr class=\"thead-dark\">\r\n            <th>Name</th>\r\n            <th>Description</th>\r\n        </tr>\r\n        {{#if payload}}\r\n            {{#each payload}}\r\n            <tr id=\"gameid_{{id}}\"class=\"clickable-row\" data-href=\"#group/{{id}}\">\r\n                <td>{{name}}</a></td>\r\n                <td>{{description}}</td>\r\n            </tr>\r\n            {{/each}}\r\n        {{else}}\r\n            <tr>\r\n                <td colspan=\"2\" class=\"no-records\">No records found!</td>\r\n            </tr>\r\n        {{/if}}\r\n        \r\n    </table>    \r\n    </div>\r\n\r\n    <div>\r\n    \r\n    <form id=\"createGroup\" action=\"/groups\" method=\"POST\" class=\"ciborg-form\">\r\n    <h4 class=\"formTitle\">Add new group</h4>\r\n        <div class=\"input-block\">\r\n            <label for=\"formName\">Name</label>\r\n            <input type=\"text\" id=\"formName\" class=\"form-control\" >\r\n        </div> \r\n        <div class=\"input-block\">\r\n            <label for=\"formDescription\">Description</label>\r\n            <textarea name=\"formDescription\" id=\"formDescription\" cols=\"97\" rows=\"10\" class=\"form-control\"></textarea>\r\n        </div> \r\n        </br>\r\n        <div class=\"input-group\">\r\n            <input type=\"submit\" class=\"btn submitBtn\" value=\"Create Group\" >\r\n        </div> \r\n\r\n    </form>\r\n    </div>\r\n</div>    \r\n\r\n \r\n\r\n");
 
 /***/ }),
 
@@ -6468,7 +6517,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("{{#each this}}\r\n    <a href=\"#{{hash}}\">{{label}}</a>\r\n{{/each}}");
+/* harmony default export */ __webpack_exports__["default"] = ("\r\n\r\n\r\n<nav class=\"navbar navbar-expand-md navbar-dark bg-dark\">\r\n    <div class=\"navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2\">\r\n        <ul class=\"navbar-nav mr-auto\">\r\n            <li class=\"nav-item\">\r\n                <span class=\"navbar-brand mx-auto\">Ciborg</span>\r\n            </li>\r\n            {{#each this}}\r\n                <li class=\"nav-item\">\r\n\r\n                </li>\r\n                <a class=\"nav-link\" href=\"#{{hash}}\">{{label}}</a>\r\n            {{/each}}\r\n        </ul>\r\n    </div>\r\n</nav>");
 
 /***/ }),
 
@@ -6494,7 +6543,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container login-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"loginForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"Login\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container login-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"loginForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"btn submitBtn\" value=\"Login\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -6507,7 +6556,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container signIn-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"signInForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Your Name *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"repassword\" id=\"repassword\" name=\"repassword\" class=\"form-control\" placeholder=\"Re-renter Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"SignIn\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container signIn-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"signInForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Your Name *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"repassword\" name=\"repassword\" class=\"form-control\" placeholder=\"Re-renter Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"btn submitBtn\" value=\"SignIn\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -6524,7 +6573,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__(/*! ../node_modules/bootstrap/dist/css/bootstrap.min.css */ "./node_modules/bootstrap/dist/css/bootstrap.min.css");
 __webpack_require__(/*! ../spa/stylesheets/stylesheet.css */ "./spa/stylesheets/stylesheet.css");
 // authentication
-//require('../spa/stylesheets/login.css');
+__webpack_require__(/*! ../spa/stylesheets/login.css */ "./spa/stylesheets/login.css");
 // games
 // groups
 __webpack_require__(/*! ../spa/stylesheets/groups.css */ "./spa/stylesheets/groups.css");
@@ -6616,8 +6665,11 @@ function groups(data, routesManager) {
         routesManager.changeRoute('createGroup', { name: formName.value, description: formDescription.value });
     }
 
-    const rows = document.querySelector(".clickable-row");
-    rows.addEventListener('click', handleRowClick);
+    const rows = document.querySelectorAll("[id*=gameid_]");
+
+    rows.forEach(row => {
+        row.addEventListener('click', handleRowClick);
+    });
 
     function handleRowClick(e){
         window.location = this.getAttribute("data-href"); 

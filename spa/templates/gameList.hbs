@@ -7,7 +7,7 @@
                 <input type="text" id="gameName" name="gameName" class="form-control" placeholder="Game's name" value="" />
             </div>
             <div class="form-group">
-                  <button id="searchButton" class="submitBtn" type="button">Search</button> 
+                  <button id="searchButton" class="btn submitBtn" type="button">Search</button> 
             </div>
         </form>
     </div>
@@ -23,14 +23,20 @@
       </tr>
     </thead>
     <tbody>
-        {{#each elements as |row|}}
-        <tr>
-          <td name="gameId">{{row.id}}</td>
-          <td name="gameName">{{row.name}}</td>
-          <td name="gameMin">{{row.min_playtime}}</td>
-          <td name="gameMax">{{row.max_playtime}}</td>
-        </tr>
-      {{/each}} 
+        {{#if elements}}
+          {{#each elements as |row|}}
+          <tr>
+            <td name="gameId">{{row.id}}</td>
+            <td name="gameName">{{row.name}}</td>
+            <td name="gameMin">{{row.min_playtime}}</td>
+            <td name="gameMax">{{row.max_playtime}}</td>
+          </tr>
+          {{/each}} 
+        {{else}}
+            <tr>
+                <td colspan="{{header.length}}" class="no-records">No records found!</td>
+            </tr>
+        {{/if}}
     </tbody>
   </table>
   </div>

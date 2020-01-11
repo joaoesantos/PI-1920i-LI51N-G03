@@ -45,18 +45,21 @@ function group(data, routeManager) {
     async function handleSubmitSearchGameForm(e) {
         try {
             e.preventDefault();
-
             const gameName = document.querySelector("#searchGameName").value;
 
             const response = await gamesModel.searchGamesByName(gameName);
             let games = response.payload;
-            let rows = "";
+            let rows = "<td colspan='4' class='no-records'>No records found!</td>";
             for (let i = 0; i < games.length; i++) {
+                if(i == 0){
+                    rows = "";
+                }
                 let game = games[i];
-                let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn btn-primary">Add game to group</button>`;
+                let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn submitBtn">Add to group</button>`;
                 let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${game.min_playtime}</td> <td>${game.max_playtime}</td> <td>${addGameToGroupButton}</td> </tr>`;
                 rows += row;
             }
+            document.getElementById('gamesSearchedTable').style.visibility = 'visible';
             let tableBody = document.querySelector("#searchResults");
             tableBody.innerHTML = rows;
 
