@@ -15,6 +15,7 @@ function group(data, routesManager) {
     updateGroupButton.addEventListener('click', handleClickUpdateGroupButton);
 
     function handleClickUpdateGroupButton(e) {
+        e.preventDefault();
         let group = {
             id: document.querySelector("#groupId").value,
             name: document.querySelector("#groupName").value,
@@ -22,6 +23,7 @@ function group(data, routesManager) {
             games: [],
             owner: document.querySelector("#groupOwner").value,
         };
+
 
         let gameIds = document.getElementsByName("gameId");
         let gameNames = document.getElementsByName("gameName");
@@ -37,6 +39,7 @@ function group(data, routesManager) {
             };
             group.games.push(game);
         }
+
         routesManager.changeRoute('updateGroup', group);
     }
 

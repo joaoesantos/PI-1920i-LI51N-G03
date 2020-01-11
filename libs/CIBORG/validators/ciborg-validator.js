@@ -141,20 +141,12 @@ let validator = function(CiborgError) {
                 'Failed to create group, it does not have a "games" field.',
                 '400' // Bad Request
             );
-        } 
-        if(!data.hasOwnProperty('owner')) {
-            debug.extend('validateGroupWithNoIdFormat')('Validation Error: group does not have a "owner" field.');
-            throw new CiborgError(null,
-                'Validation Error: group does not have a "owner" field.',
-                'Failed to create group, it does not have a "owner" field.',
-                '400' // Bad Request
-            ); 
         } else {
             data.games.forEach(game => {
                 validateGameFormat(game);
             });
         };
-        if (Object.keys(data).length != 4) {
+        if (Object.keys(data).length != 3) {
             debug.extend('validateGroupWithNoIdFormat')('Validation Error: invalid number of fields for post service.');
             throw new CiborgError(null,
                 'Validation Error: invalid number of fields for post service.',
@@ -199,12 +191,21 @@ let validator = function(CiborgError) {
                 'Failed to create group, it does not have a "games" field.',
                 '400' // Bad Request
             );
+        }
+        
+        if(!data.hasOwnProperty('owner')) {
+            debug.extend('validateGroupFormat')('Validation Error: group does not have a "owner" field.');
+            throw new CiborgError(null,
+                'Validation Error: group does not have a "owner" field.',
+                'Failed to create group, it does not have a "owner" field.',
+                '400' // Bad Request
+            ); 
         } else {
             data.games.forEach(game => {
                 validateGameFormat(game);
             });
         };
-        if (Object.keys(data).length != 4) {
+        if (Object.keys(data).length != 5) {
             debug.extend('validateGroupFormat')('Validation Error: Group ' + data.id + ' has invalid number of fields for put service.');
             throw new CiborgError(null,
                 'Validation Error: Group ' + data.id + ' has invalid number of fields for put service.',

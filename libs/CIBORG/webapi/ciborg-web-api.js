@@ -240,13 +240,15 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, securityUti
     // edit group
     async function updateGroup(req, rsp) {
         try {
-            // ciborg validator
-            CiborgValidator.validateGroupWithNoIdFormat(req.body);
-            // service call
-            debug.extend('updateGroup')('Handling group service updateGroup.');
             let userId = req.session.passport.user;
             let group = req.body;
             group.id = req.params.id;
+            // ciborg validator
+            CiborgValidator.validateGroupFormat(req.body);
+
+            // service call
+            debug.extend('updateGroup')('Handling group service updateGroup.');
+
             let data = await services.groups.updateGroup(userId, group);
             debug.extend('updateGroup')('Service updateGroup executed with sucess.');
             resolveServiceResponse(data, rsp);

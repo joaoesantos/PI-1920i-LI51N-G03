@@ -26,7 +26,9 @@ let ciborgServices = function(CiborgError, gamesService, groupsService, userServ
             createGroup: groupsService.createGroup,
 
             updateGroup: async(userId, group) => {
+
                 let data = await groupsService.getGroupById(group.id);
+
                 if (userId !== data.body.owner) {
                     throw new CiborgError(null,
                         'Validation Error: Forbidden access ' + userId + ' is not the group owner.',
@@ -36,7 +38,7 @@ let ciborgServices = function(CiborgError, gamesService, groupsService, userServ
                 }
 
                 let userExists = await userService.userExists(group.owner);
-                
+
                 if(!userExists.body){
                     throw new CiborgError(
                         null,

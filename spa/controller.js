@@ -135,11 +135,13 @@ module.exports = {
     },
 
     updateGroup: async function(args) {
+        let groupId;
         try {
             if (!args) {
                 console.log("No args on updateGroup");
             } else {
                 let group = args;
+                groupId = group.id;
                 return await groups.updateGroup(group);
             }
         } catch (err) {
@@ -150,7 +152,7 @@ module.exports = {
                 };
             } else {
                 err.redirect = {
-                    hash: `group/${args.id}`,
+                    hash: `group/${groupId}`,
                     data: undefined
                 };
             }
