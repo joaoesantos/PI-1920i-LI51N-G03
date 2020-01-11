@@ -27,7 +27,9 @@ function getMostPopularGames() {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
 }
@@ -43,7 +45,9 @@ function searchGamesByName(name) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
 

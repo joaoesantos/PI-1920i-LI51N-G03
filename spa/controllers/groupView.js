@@ -28,7 +28,6 @@ function group(data, routeManager) {
         let gameMaxs = document.getElementsByName("gameMax");
 
         for (let i = 0; i < gameIds.length; i++) {
-            console.log(gameMins[i].innerText)
             let game = {
                 id: gameIds[i].innerText,
                 name: gameNames[i].innerText,

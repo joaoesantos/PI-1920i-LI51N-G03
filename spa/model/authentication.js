@@ -36,7 +36,9 @@ function signIn(userId, name, password, repassword) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
 };
@@ -56,7 +58,9 @@ function login(userId, password) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
 };
@@ -82,7 +86,9 @@ function logout() {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
 };

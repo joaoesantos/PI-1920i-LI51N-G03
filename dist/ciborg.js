@@ -164,7 +164,7 @@ exports.push([module.i, ".submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius
 
 exports = module.exports = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/api.js */ "./node_modules/css-loader/dist/runtime/api.js")(false);
 // Module
-exports.push([module.i, "*{\r\n    font-family: 'Montserrat', sans-serif;\r\n}\r\n\r\n.test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 20%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}\r\n\r\n.table-container {\r\n   padding: 1% 5% 1% 5%;\r\n   text-align: center;\r\n}\r\n\r\n.thead-dark{\r\n    background-color: #aaaaaa !important;\r\n}\r\n\r\n.clickable-row{\r\n    cursor: pointer;\r\n}\r\n\r\nbody{\r\n    background-color: #F3EFF5;\r\n}\r\n\r\n.table{\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.form-control {\r\n    border: 1px solid #0062cc;\r\n}\r\n\r\n.submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius: 5rem;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #0062cc;\r\n}\r\n\r\n.form-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.ciborg-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n    background-color: #fff;\r\n    width:100%;\r\n}\r\n\r\n.input-block label { \r\n    display: block;\r\n    text-align: left;\r\n}\r\n\r\n.navbar .container-fluid>.navbar-header {\r\n    float: left;\r\n    margin-right: 10px;\r\n  }\r\n  .navbar .navbar-nav {\r\n    float: left;\r\n    margin: 5px;\r\n  }\r\n  .nav>li {\r\n    float: left;\r\n  }", ""]);
+exports.push([module.i, "*{\r\n    font-family: 'Montserrat', sans-serif;\r\n}\r\n\r\n.test-class {\r\n    background-color : blue;\r\n}\r\n\r\n.parent {\r\n    display: flex;\r\n    flex-wrap: wrap;\r\n  }\r\n\r\n.game-item {\r\n    background-color: #4a708b;\r\n    opacity: 0.6;\r\n    color: white;\r\n    padding: 2%;\r\n    flex: 1 0 20%; \r\n    height: 200px;\r\n    margin:5px;\r\n}\r\n\r\n.img-home{\r\n    height: 50%;\r\n    width: 50%;\r\n}\r\n\r\n.table-container {\r\n   padding: 1% 5% 1% 5%;\r\n   text-align: center;\r\n}\r\n\r\n.thead-dark{\r\n    background-color: #aaaaaa !important;\r\n}\r\n\r\n.clickable-row{\r\n    cursor: pointer;\r\n}\r\n\r\nbody{\r\n    background-color: #F3EFF5;\r\n}\r\n\r\n.table{\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n}\r\n\r\n.form-control {\r\n    border: 1px solid #0062cc;\r\n}\r\n\r\n.submitBtn\r\n{\r\n    width: 20%;\r\n    border-radius: 5rem;\r\n    padding: 1.5%;\r\n    border: none;\r\n    cursor: pointer;\r\n    font-weight: 600;\r\n    color: #fff;\r\n    background-color: #0062cc;\r\n}\r\n\r\n.form-container{\r\n    margin-top: 5%;\r\n    margin-bottom: 5%;\r\n}\r\n.ciborg-form{\r\n    padding: 5%;\r\n    box-shadow: 0 5px 8px 0 rgba(0, 0, 0, 0.2), 0 9px 26px 0 rgba(0, 0, 0, 0.19);\r\n    background-color: #fff;\r\n    width:100%;\r\n}\r\n\r\n.input-block label { \r\n    display: block;\r\n    text-align: left;\r\n}\r\n", ""]);
 
 
 /***/ }),
@@ -5593,6 +5593,11 @@ const menuOptions = [{
         login: true
     },
     {
+        label: "Sign in",
+        hash: "signIn",
+        login: false
+    },
+    {
         label: "Login",
         hash: "login",
         login: false
@@ -5633,14 +5638,28 @@ module.exports = {
 
 
 const authentication = __webpack_require__(/*! ./model/authentication */ "./spa/model/authentication.js")
-const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
 const games = __webpack_require__(/*! ./model/games */ "./spa/model/games.js");
+const groups = __webpack_require__(/*! ./model/groups */ "./spa/model/groups.js");
 const clientSideConfigs = __webpack_require__(/*! ./clientSideConfigs */ "./spa/clientSideConfigs.js");
 
 module.exports = {
+
+    header: async function() {
+        const menuOptions = clientSideConfigs.menuOptions;
+        let isLoggedIn = await authentication.isLoggedIn();
+        return menuOptions.filter(e => e.login == isLoggedIn);
+    },
+
     home: async function() {
         const img = __webpack_require__(/*! ./images/ciborgChess.jpeg */ "./spa/images/ciborgChess.jpeg").default;
         return img;
+    },
+
+    signIn: async function() {
+        let isLoggedIn = await authentication.isLoggedIn();
+        if (isLoggedIn) {
+            throw new Error("Logged in user cannot access login page.");
+        }
     },
 
     login: async function() {
@@ -5651,84 +5670,157 @@ module.exports = {
     },
 
     logout: async function() {
-        return await authentication.logout();
+        try {
+            return await authentication.logout();
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
+        }
+        
     },
 
     games: async function(name) {
-        let fromServer;
-        if (name) {
-            fromServer = await games.searchGamesByName(name);
-        } else {
-            fromServer = await games.getMostPopularGames();
+        try {
+            let fromServer;
+            if (name) {
+                fromServer = await games.searchGamesByName(name);
+            } else {
+                fromServer = await games.getMostPopularGames();
+            }
+            let gameTable = {
+                header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
+                elements: fromServer.payload.map(e => {
+                    e.min_playtime = e.min_playtime ? e.min_playtime : "-";
+                    e.max_playtime = e.max_playtime ? e.max_playtime : "-";
+                    return e;
+                })
+            }
+            return gameTable;
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
-        let gameTable = {
-            header: ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"],
-            elements: fromServer.payload.map(e => {
-                e.min_playtime = e.min_playtime ? e.min_playtime : "-";
-                e.max_playtime = e.max_playtime ? e.max_playtime : "-";
-                return e;
-            })
-        }
-        return gameTable;
     },
 
     groups: async function() {
-        return await groups.getGroups();
+        try {
+            return await groups.getGroups();
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
+        }
     },
 
     createGroup: async function(data) {
-        return await groups.createGroup(data.name, data.description);
+        try {
+            return await groups.createGroup(data.name, data.description);
+        } catch (err) {
+            if(err.statusCode === 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
+        }
     },
 
     group: async function(args) {
-        if (!args) {
-            throw new Error("To access a group the id must be provided.");
-        }
-        let id = args;
-        let group = await groups.getGroup(id);
-        console.log()
-        group.elements = group.games.map(e => {
-            e.min_playtime = e.min_playtime ? e.min_playtime : "-";
-            e.max_playtime = e.max_playtime ? e.max_playtime : "-";
-            return e;
-        });
-        delete group.games;
-        group.header = ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"]
-        return group;
+        try {
+            if (!args) {
+                throw new Error("To access a group the id must be provided.");
+            }
+            let id = args;
+            let group = await groups.getGroup(id);
+            group.elements = group.games.map(e => {
+                e.min_playtime = e.min_playtime ? e.min_playtime : "-";
+                e.max_playtime = e.max_playtime ? e.max_playtime : "-";
+                return e;
+            });
+            delete group.games;
+            group.header = ["ID", "Name", "Min Playtime (mins)", "Max Playtime (mins)"]
+            return group;
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+        throw err;
+    }
     },
 
     updateGroup: async function(args) {
-        if (!args) {
-            console.log("No args on updateGroup");
-        } else {
-            let group = args;
-            return await groups.updateGroup(group);
+        try {
+            if (!args) {
+                console.log("No args on updateGroup");
+            } else {
+                let group = args;
+                return await groups.updateGroup(group);
+            }
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
-
     },
 
     addGameToGroup: async function(args) {
-        if (!args) {
-            console.log("No args on addGameToGroup");
-        } else {
-            let data = args;
-            return await groups.addGameToGroup(data.groupId, data.gameId);
+        try {
+            if (!args) {
+                console.log("No args on addGameToGroup");
+            } else {
+                let data = args;
+                return await groups.addGameToGroup(data.groupId, data.gameId);
+            }
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
     },
 
     removeGameFromGroup: async function(args) {
-        if (!args) {
-            console.log("No args on removeGameFromGroup");
-        } else {
-            let data = args;
-            return await groups.removeGameFromGroup(data.groupId, data.gameId);
+        try {
+            if (!args) {
+                console.log("No args on removeGameFromGroup");
+            } else {
+                let data = args;
+                return await groups.removeGameFromGroup(data.groupId, data.gameId);
+            }
+        } catch (err) {
+            if(err.statusCode == 401) {
+                err.redirect = {
+                    hash: "home",
+                    data: undefined
+                };
+            }
+            throw err;
         }
-    },
-
-    header: async function() {
-        const menuOptions = clientSideConfigs.menuOptions;
-        let isLoggedIn = await authentication.isLoggedIn();
-        return menuOptions.filter(e => e.login == isLoggedIn);
     }
 }
 
@@ -5771,7 +5863,6 @@ function group(data, routeManager) {
         let gameMaxs = document.getElementsByName("gameMax");
 
         for (let i = 0; i < gameIds.length; i++) {
-            console.log(gameMins[i].innerText)
             let game = {
                 id: gameIds[i].innerText,
                 name: gameNames[i].innerText,
@@ -5885,7 +5976,9 @@ function loadHandler() {
 
         showAlert: showAlert,
 
-        clearAlert: clearAlert
+        clearAlert: clearAlert,
+
+        loadingAction: []
     }
 
     const headerManager = {
@@ -5918,11 +6011,19 @@ function loadHandler() {
         route
             .controller.apply(null, args)
             .then(data => {
-                route.view(data, routesManager);
                 clearAlert();
+                executeLoadingActions();
+                route.view(data, routesManager);
                 resetRouteData();
             })
-            .catch(e => showAlert(e.message, 3));
+            .catch(e => {
+                let level = 3;
+                if (e.redirect) {
+                    redirectAndShowAlert(e, level);
+                } else {
+                    showAlert(e.message, level);
+                }
+            });
 
         let headerRoute = routes.header;
         headerRoute.controller().then(data => headerRoute.view(data, headerManager));
@@ -5939,10 +6040,23 @@ function loadHandler() {
             html = `<div class="alert alert-danger" role="alert"> ${alertMessage} </div>`;
         }
         alertContent.innerHTML = html;
+        headerContent.scrollIntoView();
+    }
+
+    function redirectAndShowAlert(error, level) {
+        routesManager.changeRoute(error.redirect.hash, error.redirect.data);
+        routesManager.loadingAction.push({function: showAlert, args: [error.message, level]});
     }
 
     function clearAlert() {
         alertContent.innerHTML = "<div></div>";
+    }
+
+    function executeLoadingActions() {
+        routesManager.loadingAction.forEach(e => {
+            e.function.apply(null, e.args);
+        });
+        routesManager.loadingAction = [];
     }
 
     hashChangeHandler();
@@ -5963,19 +6077,45 @@ function loadHandler() {
 const clientSideConfigs = __webpack_require__(/*! ../clientSideConfigs */ "./spa/clientSideConfigs.js");
 
 module.exports = {
+    signIn: signIn,
     login: login,
-    logout: logout,
-    isLoggedIn: isLoggedIn
+    isLoggedIn: isLoggedIn,
+    logout: logout
 };
 
 function AuthenticationApiUris() {
     const baseUri = clientSideConfigs.apiBaseUrl;
 
+    this.signInUri = () => `${baseUri}/signIn`;
     this.loginUri = () => `${baseUri}/login`;
     this.logoutUri = () => `${baseUri}/logout`;
 };
 
 const Uris = new AuthenticationApiUris();
+
+function signIn(userId, name, password, repassword) {
+    const options = {
+        method: "POST",
+        headers: clientSideConfigs.defaultHeaders,
+        body: JSON.stringify({
+            userId: userId,
+            name: name,
+            password: password,
+            repassword: repassword
+        })
+    };
+    return fetch(Uris.signInUri(), options)
+        .then(async(rsp) => {
+            if (rsp.ok) {
+                return rsp.json();
+            } else {
+                let response = await rsp.json();
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
+            }
+        });
+};
 
 function login(userId, password) {
     const options = {
@@ -5992,10 +6132,21 @@ function login(userId, password) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
+};
 
+function isLoggedIn() {
+    const options = {
+        method: "POST",
+        headers: clientSideConfigs.defaultHeaders,
+        body: JSON.stringify({ userId: "", password: "" })
+    };
+    return fetch(Uris.loginUri(), options)
+        .then(async(rsp) => rsp.status === 403);
 };
 
 function logout() {
@@ -6009,19 +6160,11 @@ function logout() {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
-};
-
-function isLoggedIn() {
-    const options = {
-        method: "POST",
-        headers: clientSideConfigs.defaultHeaders,
-        body: JSON.stringify({ userId: "", password: "" })
-    };
-    return fetch(Uris.loginUri(), options)
-        .then(async(rsp) => rsp.status === 403);
 };
 
 /***/ }),
@@ -6063,7 +6206,9 @@ function getMostPopularGames() {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
 }
@@ -6079,7 +6224,9 @@ function searchGamesByName(name) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
 
@@ -6133,7 +6280,9 @@ function getGroups() {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
 }
@@ -6155,7 +6304,9 @@ function createGroup(name, description) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         });
 }
@@ -6171,7 +6322,9 @@ function getGroup(id) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -6199,7 +6352,9 @@ function updateGroup(group) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -6218,7 +6373,9 @@ function addGameToGroup(groupId, gameId) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -6237,7 +6394,9 @@ function removeGameFromGroup(groupId, gameId) {
                 return rsp.json();
             } else {
                 let response = await rsp.json();
-                throw new Error(response.payload.clientErrorMessage);
+                let err = new Error(response.payload.clientErrorMessage);
+                err.statusCode = rsp.status;
+                throw err;
             }
         })
         .then((rsp) => {
@@ -6262,9 +6421,19 @@ const views = __webpack_require__(/*! ./viewManager */ "./spa/viewManager.js");
 
 module.exports = {
 
+    header: {
+        controller: controller.header,
+        view: views.header
+    },
+
     home: {
         controller: controller.home,
         view: views.home
+    },
+
+    signIn: {
+        controller: controller.signIn,
+        view: views.signIn
     },
 
     login: {
@@ -6310,11 +6479,6 @@ module.exports = {
     removeGameFromGroup: {
         controller: controller.removeGameFromGroup,
         view: views.removeGameFromGroup
-    },
-
-    header: {
-        controller: controller.header,
-        view: views.header
     }
 }
 
@@ -6413,20 +6577,22 @@ if (content.locals) {
 
 const Handlebars = __webpack_require__(/*! ../node_modules/handlebars/dist/handlebars */ "./node_modules/handlebars/dist/handlebars.js");
 
+const header = __webpack_require__(/*! ./templates/header.hbs */ "./spa/templates/header.hbs").default;
 const home = __webpack_require__(/*! ./templates/home.hbs */ "./spa/templates/home.hbs").default;
+const signIn = __webpack_require__(/*! ./templates/signIn.hbs */ "./spa/templates/signIn.hbs").default;
 const login = __webpack_require__(/*! ./templates/login.hbs */ "./spa/templates/login.hbs").default;
 const gameList = __webpack_require__(/*! ./templates/gameList.hbs */ "./spa/templates/gameList.hbs").default;
 const groups = __webpack_require__(/*! ./templates/groups.hbs */ "./spa/templates/groups.hbs").default;
 const group = __webpack_require__(/*! ./templates/groupDetail.hbs */ "./spa/templates/groupDetail.hbs").default;
-const header = __webpack_require__(/*! ./templates/header.hbs */ "./spa/templates/header.hbs").default;
 
 module.exports = {
+    header: Handlebars.compile(header),
     home: Handlebars.compile(home),
+    signIn: Handlebars.compile(signIn),
     login: Handlebars.compile(login),
     games: Handlebars.compile(gameList),
     groups: Handlebars.compile(groups),
-    group: Handlebars.compile(group),
-    header: Handlebars.compile(header)
+    group: Handlebars.compile(group)
 };
 
 /***/ }),
@@ -6479,7 +6645,7 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = ("<nav class=\"navbar navbar-inverse\">\r\n    <div class=\"container-fluid\">\r\n        <div class=\"navbar-header\">\r\n        <a class=\"navbar-brand\">Ciborg</a>\r\n        </div>\r\n        <ul class=\"navbar-nav\">\r\n            <li class=\"nav-item\">\r\n                {{#each this}}\r\n                    <a class=\"nav-link\" href=\"#{{hash}}\">{{label}}</a>\r\n                {{/each}}\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</nav>\r\n\r\n");
+/* harmony default export */ __webpack_exports__["default"] = ("\r\n\r\n\r\n<nav class=\"navbar navbar-expand-md navbar-dark bg-dark\">\r\n    <div class=\"navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2\">\r\n        <ul class=\"navbar-nav mr-auto\">\r\n            <li class=\"nav-item\">\r\n                <span class=\"navbar-brand mx-auto\">Ciborg</span>\r\n            </li>\r\n            {{#each this}}\r\n                <li class=\"nav-item\">\r\n\r\n                </li>\r\n                <a class=\"nav-link\" href=\"#{{hash}}\">{{label}}</a>\r\n            {{/each}}\r\n        </ul>\r\n    </div>\r\n</nav>\r\n\r\n{{!-- <nav class=\"navbar navbar-expand-md navbar-dark bg-dark\">\r\n    <div class=\"navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2\">\r\n        <ul class=\"navbar-nav mr-auto\">\r\n            <li class=\"nav-item active\">\r\n                <a class=\"nav-link\" href=\"#\">Left</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"//codeply.com\">Codeply</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n    <div class=\"mx-auto order-0\">\r\n        <a class=\"navbar-brand mx-auto\" href=\"#\">Navbar 2</a>\r\n        <button class=\"navbar-toggler\" type=\"button\" data-toggle=\"collapse\" data-target=\".dual-collapse2\">\r\n            <span class=\"navbar-toggler-icon\"></span>\r\n        </button>\r\n    </div>\r\n    <div class=\"navbar-collapse collapse w-100 order-3 dual-collapse2\">\r\n        <ul class=\"navbar-nav ml-auto\">\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Right</a>\r\n            </li>\r\n            <li class=\"nav-item\">\r\n                <a class=\"nav-link\" href=\"#\">Link</a>\r\n            </li>\r\n        </ul>\r\n    </div>\r\n</nav> --}}");
 
 /***/ }),
 
@@ -6506,6 +6672,19 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container login-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"loginForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"Login\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
+
+/***/ }),
+
+/***/ "./spa/templates/signIn.hbs":
+/*!**********************************!*\
+  !*** ./spa/templates/signIn.hbs ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony default export */ __webpack_exports__["default"] = ("<div class=\"container signIn-container\">\r\n    <div class=\"col-md-6 login-form\">\r\n        <h3>Login</h3>\r\n        <form id=\"signInForm\" class=\".ciborg-form\">\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"userId\" name=\"userId\" class=\"form-control\" placeholder=\"Your UserId *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"text\" id=\"name\" name=\"name\" class=\"form-control\" placeholder=\"Your Name *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"password\" name=\"password\" class=\"form-control\" placeholder=\"Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"password\" id=\"repassword\" name=\"repassword\" class=\"form-control\" placeholder=\"Re-renter Your Password *\" value=\"\" required/>\r\n            </div>\r\n            <div class=\"form-group\">\r\n                <input type=\"submit\" class=\"submitBtn\" value=\"SignIn\" />\r\n            </div>\r\n        </form>\r\n    </div>\r\n</div>");
 
 /***/ }),
 
@@ -6536,7 +6715,9 @@ const groupView = __webpack_require__(/*! ./controllers/groupView */ "./spa/cont
 const templates = __webpack_require__(/*! ./templateManager */ "./spa/templateManager.js");
 
 module.exports = {
+    header: header,
     home: home,
+    signIn: signIn,
     login: login,
     logout: logout,
     games: games,
@@ -6545,16 +6726,32 @@ module.exports = {
     group: groupView,
     updateGroup: updateGroup,
     addGameToGroup: addGameToGroup,
-    removeGameFromGroup: removeGameFromGroup,
-    header: header
+    removeGameFromGroup: removeGameFromGroup
 }
 
 function home(data, routesManager) {
     routesManager.setMainContent(templates.home(data));
 }
 
-function login(data, routeManager) {
-    routeManager.setMainContent(templates.login(data));
+function signIn(data, routesManager) {
+    routesManager.setMainContent(templates.signIn(data));
+    const formSignIn = document.querySelector("#signInForm")
+    formSignIn.addEventListener('submit', handleSubmit)
+
+    async function handleSubmit(e) {
+        e.preventDefault()
+        const userId = document.querySelector("#userId");
+        const name = document.querySelector("#name");
+        const password = document.querySelector("#password");
+        const repassword = document.querySelector("#repassword");
+        await authenticationModel.signIn(userId.value, name.value, password.value, repassword.value);
+        await authenticationModel.login(userId.value, password.value);
+        routesManager.changeRoute('home', response);
+    }
+}
+
+function login(data, routesManager) {
+    routesManager.setMainContent(templates.login(data));
     const formLogin = document.querySelector("#loginForm")
     formLogin.addEventListener('submit', handleSubmit)
 
@@ -6562,10 +6759,8 @@ function login(data, routeManager) {
         e.preventDefault()
         const userId = document.querySelector("#userId");
         const password = document.querySelector("#password");
-
         let response = await authenticationModel.login(userId.value, password.value);
-
-        routeManager.changeRoute('home', response);
+        routesManager.changeRoute('home', response);
     }
 }
 
@@ -6573,8 +6768,8 @@ function logout(data, routesManager) {
     routesManager.changeRoute('home');
 }
 
-function games(data, routeManager) {
-    routeManager.setMainContent(templates.games(data));
+function games(data, routesManager) {
+    routesManager.setMainContent(templates.games(data));
 
     const searchButton = document.querySelector("#searchButton");
     searchButton.addEventListener('click', handleClick);
@@ -6582,7 +6777,7 @@ function games(data, routeManager) {
     async function handleClick(e) {
         const gameName = document.querySelector("#gameName").value;
         const gameNamePath = gameName ? "/" + gameName : "";
-        routeManager.changeRoute(`#games${gameNamePath}`);
+        routesManager.changeRoute(`#games${gameNamePath}`);
     }
 }
 

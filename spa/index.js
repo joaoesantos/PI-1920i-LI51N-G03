@@ -24,7 +24,9 @@ function loadHandler() {
 
         showAlert: showAlert,
 
-        clearAlert: clearAlert
+        clearAlert: clearAlert,
+
+        loadingAction: []
     }
 
     const headerManager = {
@@ -57,11 +59,19 @@ function loadHandler() {
         route
             .controller.apply(null, args)
             .then(data => {
-                route.view(data, routesManager);
                 clearAlert();
+                executeLoadingActions();
+                route.view(data, routesManager);
                 resetRouteData();
             })
-            .catch(e => showAlert(e.message, 3));
+            .catch(e => {
+                let level = 3;
+                if (e.redirect) {
+                    redirectAndShowAlert(e, level);
+                } else {
+                    showAlert(e.message, level);
+                }
+            });
 
         let headerRoute = routes.header;
         headerRoute.controller().then(data => headerRoute.view(data, headerManager));
@@ -78,10 +88,23 @@ function loadHandler() {
             html = `<div class="alert alert-danger" role="alert"> ${alertMessage} </div>`;
         }
         alertContent.innerHTML = html;
+        headerContent.scrollIntoView();
+    }
+
+    function redirectAndShowAlert(error, level) {
+        routesManager.changeRoute(error.redirect.hash, error.redirect.data);
+        routesManager.loadingAction.push({function: showAlert, args: [error.message, level]});
     }
 
     function clearAlert() {
         alertContent.innerHTML = "<div></div>";
+    }
+
+    function executeLoadingActions() {
+        routesManager.loadingAction.forEach(e => {
+            e.function.apply(null, e.args);
+        });
+        routesManager.loadingAction = [];
     }
 
     hashChangeHandler();
