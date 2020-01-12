@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "5bb7a075-48e7-43dd-a27f-685847506e05",
+		"_postman_id": "d9fa6340-89c3-4b20-985c-921b3655efe4",
 		"name": "Elastic",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -9,9 +9,9 @@
 			"name": "group",
 			"item": [
 				{
-					"name": "Create Group Index",
+					"name": "Delete Group Index",
 					"request": {
-						"method": "PUT",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -32,9 +32,9 @@
 					"response": []
 				},
 				{
-					"name": "Delete Group Index",
+					"name": "Create Group Index",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -138,8 +138,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "3hcvd28B2y1t5qr2s9aq",
-									"type": "string"
+									"value": "3hcvd28B2y1t5qr2s9aq"
 								}
 							]
 						}
@@ -174,8 +173,7 @@
 							"variable": [
 								{
 									"key": "id",
-									"value": "GcnsVW4BWT9pWYbr3YrF",
-									"type": "string"
+									"value": "GcnsVW4BWT9pWYbr3YrF"
 								}
 							]
 						}
@@ -189,9 +187,9 @@
 			"name": "user",
 			"item": [
 				{
-					"name": "Create User Index",
+					"name": "Delete User Index",
 					"request": {
-						"method": "PUT",
+						"method": "DELETE",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -212,9 +210,9 @@
 					"response": []
 				},
 				{
-					"name": "Delete User Index",
+					"name": "Create User Index",
 					"request": {
-						"method": "DELETE",
+						"method": "PUT",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -346,7 +344,6 @@
 							"variable": [
 								{
 									"key": "id",
-									"type": "string",
 									"value": "kaIcYm8BfSebHa12aAcr"
 								}
 							]

@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "503cac7f-c7c4-4c47-8952-58c43b79c5cb",
+		"_postman_id": "d2981b3b-cd16-4de8-8c31-63cf7414d723",
 		"name": "CIBORG Api",
 		"description": "This is a simple API\n\nContact Support:\n Email: you@your-company.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
@@ -161,34 +161,6 @@
 							"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
 						},
 						{
-							"name": "Server error",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/games/<string>",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"games",
-										"<string>"
-									]
-								}
-							},
-							"status": "Internal Server Error",
-							"code": 500,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
-						},
-						{
 							"name": "Returns a game",
 							"originalRequest": {
 								"method": "GET",
@@ -215,6 +187,34 @@
 							],
 							"cookie": [],
 							"body": "{\n \"payload\": {\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"min_playtime\": \"<integer>\",\n  \"max_playtime\": \"<integer>\"\n }\n}"
+						},
+						{
+							"name": "Server error",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/games/<string>",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"games",
+										"<string>"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
 						}
 					]
 				}
@@ -288,36 +288,6 @@
 											},
 											"response": [
 												{
-													"name": "search results matching criteria",
-													"originalRequest": {
-														"method": "PUT",
-														"header": [],
-														"url": {
-															"raw": "{{baseUrl}}/groups/<string>/games/<string>",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"groups",
-																"<string>",
-																"games",
-																"<string>"
-															]
-														}
-													},
-													"status": "OK",
-													"code": 200,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n \"payload\": {\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"min_playtime\": \"<integer>\",\n  \"max_playtime\": \"<integer>\"\n }\n}"
-												},
-												{
 													"name": "Bad request",
 													"originalRequest": {
 														"method": "PUT",
@@ -348,36 +318,6 @@
 													"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
 												},
 												{
-													"name": "Resource not found",
-													"originalRequest": {
-														"method": "PUT",
-														"header": [],
-														"url": {
-															"raw": "{{baseUrl}}/groups/<string>/games/<string>",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"groups",
-																"<string>",
-																"games",
-																"<string>"
-															]
-														}
-													},
-													"status": "Not Found",
-													"code": 404,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
-												},
-												{
 													"name": "Server error",
 													"originalRequest": {
 														"method": "PUT",
@@ -397,6 +337,66 @@
 													},
 													"status": "Internal Server Error",
 													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
+												},
+												{
+													"name": "search results matching criteria",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/groups/<string>/games/<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"groups",
+																"<string>",
+																"games",
+																"<string>"
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"payload\": {\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"min_playtime\": \"<integer>\",\n  \"max_playtime\": \"<integer>\"\n }\n}"
+												},
+												{
+													"name": "Resource not found",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/groups/<string>/games/<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"groups",
+																"<string>",
+																"games",
+																"<string>"
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
 													"_postman_previewlanguage": "json",
 													"header": [
 														{
@@ -463,6 +463,36 @@
 												"description": "Removes a game from a group.\n"
 											},
 											"response": [
+												{
+													"name": "Bad request",
+													"originalRequest": {
+														"method": "DELETE",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/groups/<string>/games/<string>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"groups",
+																"<string>",
+																"games",
+																"<string>"
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
+												},
 												{
 													"name": "search results matching criteria",
 													"originalRequest": {
@@ -552,36 +582,6 @@
 													],
 													"cookie": [],
 													"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
-												},
-												{
-													"name": "Bad request",
-													"originalRequest": {
-														"method": "DELETE",
-														"header": [],
-														"url": {
-															"raw": "{{baseUrl}}/groups/<string>/games/<string>",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"groups",
-																"<string>",
-																"games",
-																"<string>"
-															]
-														}
-													},
-													"status": "Bad Request",
-													"code": 400,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
 												}
 											]
 										}
@@ -625,7 +625,7 @@
 									},
 									"response": [
 										{
-											"name": "Resource not found",
+											"name": "Server error",
 											"originalRequest": {
 												"method": "GET",
 												"header": [],
@@ -641,8 +641,37 @@
 													]
 												}
 											},
-											"status": "Not Found",
-											"code": 404,
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
+										},
+										{
+											"name": "Bad request",
+											"originalRequest": {
+												"method": "GET",
+												"header": [],
+												"url": {
+													"raw": "{{baseUrl}}/groups/<string>/games",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"groups",
+														"<string>",
+														"games"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
 											"_postman_previewlanguage": "json",
 											"header": [
 												{
@@ -683,7 +712,7 @@
 											"body": "{\n \"payload\": [\n  {\n   \"id\": \"<string>\",\n   \"name\": \"<string>\",\n   \"min_playtime\": \"<integer>\",\n   \"max_playtime\": \"<integer>\"\n  },\n  {\n   \"id\": \"<string>\",\n   \"name\": \"<string>\",\n   \"min_playtime\": \"<integer>\",\n   \"max_playtime\": \"<integer>\"\n  }\n ]\n}"
 										},
 										{
-											"name": "Bad request",
+											"name": "Resource not found",
 											"originalRequest": {
 												"method": "GET",
 												"header": [],
@@ -699,37 +728,8 @@
 													]
 												}
 											},
-											"status": "Bad Request",
-											"code": 400,
-											"_postman_previewlanguage": "json",
-											"header": [
-												{
-													"key": "Content-Type",
-													"value": "application/json"
-												}
-											],
-											"cookie": [],
-											"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
-										},
-										{
-											"name": "Server error",
-											"originalRequest": {
-												"method": "GET",
-												"header": [],
-												"url": {
-													"raw": "{{baseUrl}}/groups/<string>/games",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"groups",
-														"<string>",
-														"games"
-													]
-												}
-											},
-											"status": "Internal Server Error",
-											"code": 500,
+											"status": "Not Found",
+											"code": 404,
 											"_postman_previewlanguage": "json",
 											"header": [
 												{
@@ -781,34 +781,6 @@
 							},
 							"response": [
 								{
-									"name": "Bad request",
-									"originalRequest": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/groups/<string>",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"groups",
-												"<string>"
-											]
-										}
-									},
-									"status": "Bad Request",
-									"code": 400,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
-								},
-								{
 									"name": "search results matching criteria",
 									"originalRequest": {
 										"method": "GET",
@@ -837,7 +809,7 @@
 									"body": "{\n \"payload\": {\n  \"id\": \"<string>\",\n  \"name\": \"<string>\",\n  \"description\": \"<string>\",\n  \"games\": [\n   {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"min_playtime\": \"<integer>\",\n    \"max_playtime\": \"<integer>\"\n   },\n   {\n    \"id\": \"<string>\",\n    \"name\": \"<string>\",\n    \"min_playtime\": \"<integer>\",\n    \"max_playtime\": \"<integer>\"\n   }\n  ]\n }\n}"
 								},
 								{
-									"name": "Resource not found",
+									"name": "Bad request",
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
@@ -852,8 +824,8 @@
 											]
 										}
 									},
-									"status": "Not Found",
-									"code": 404,
+									"status": "Bad Request",
+									"code": 400,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -882,6 +854,34 @@
 									},
 									"status": "Internal Server Error",
 									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
+								},
+								{
+									"name": "Resource not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/groups/<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"groups",
+												"<string>"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -943,7 +943,7 @@
 							},
 							"response": [
 								{
-									"name": "Server error",
+									"name": "search results matching criteria",
 									"originalRequest": {
 										"method": "PUT",
 										"header": [],
@@ -958,8 +958,8 @@
 											]
 										}
 									},
-									"status": "Internal Server Error",
-									"code": 500,
+									"status": "OK",
+									"code": 200,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -968,7 +968,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
+									"body": "{\n \"payload\": {\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n }\n}"
 								},
 								{
 									"name": "bad input parameter",
@@ -999,34 +999,6 @@
 									"body": ""
 								},
 								{
-									"name": "search results matching criteria",
-									"originalRequest": {
-										"method": "PUT",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/groups/<string>",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"groups",
-												"<string>"
-											]
-										}
-									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "json",
-									"header": [
-										{
-											"key": "Content-Type",
-											"value": "application/json"
-										}
-									],
-									"cookie": [],
-									"body": "{\n \"payload\": {\n  \"name\": \"<string>\",\n  \"description\": \"<string>\"\n }\n}"
-								},
-								{
 									"name": "Resource not found",
 									"originalRequest": {
 										"method": "PUT",
@@ -1044,6 +1016,34 @@
 									},
 									"status": "Not Found",
 									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
+								},
+								{
+									"name": "Server error",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/groups/<string>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"groups",
+												"<string>"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
 									"_postman_previewlanguage": "json",
 									"header": [
 										{
@@ -1087,33 +1087,6 @@
 					},
 					"response": [
 						{
-							"name": "search results matching criteria",
-							"originalRequest": {
-								"method": "GET",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/groups",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"groups"
-									]
-								}
-							},
-							"status": "OK",
-							"code": 200,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n \"payload\": [\n  {\n   \"id\": \"<string>\",\n   \"name\": \"<string>\",\n   \"description\": \"<string>\",\n   \"games\": [\n    {\n     \"id\": \"<string>\",\n     \"name\": \"<string>\",\n     \"min_playtime\": \"<integer>\",\n     \"max_playtime\": \"<integer>\"\n    },\n    {\n     \"id\": \"<string>\",\n     \"name\": \"<string>\",\n     \"min_playtime\": \"<integer>\",\n     \"max_playtime\": \"<integer>\"\n    }\n   ]\n  },\n  {\n   \"id\": \"<string>\",\n   \"name\": \"<string>\",\n   \"description\": \"<string>\",\n   \"games\": [\n    {\n     \"id\": \"<string>\",\n     \"name\": \"<string>\",\n     \"min_playtime\": \"<integer>\",\n     \"max_playtime\": \"<integer>\"\n    },\n    {\n     \"id\": \"<string>\",\n     \"name\": \"<string>\",\n     \"min_playtime\": \"<integer>\",\n     \"max_playtime\": \"<integer>\"\n    }\n   ]\n  }\n ]\n}"
-						},
-						{
 							"name": "Server error",
 							"originalRequest": {
 								"method": "GET",
@@ -1139,6 +1112,33 @@
 							],
 							"cookie": [],
 							"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
+						},
+						{
+							"name": "search results matching criteria",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"payload\": [\n  {\n   \"id\": \"<string>\",\n   \"name\": \"<string>\",\n   \"description\": \"<string>\",\n   \"games\": [\n    {\n     \"id\": \"<string>\",\n     \"name\": \"<string>\",\n     \"min_playtime\": \"<integer>\",\n     \"max_playtime\": \"<integer>\"\n    },\n    {\n     \"id\": \"<string>\",\n     \"name\": \"<string>\",\n     \"min_playtime\": \"<integer>\",\n     \"max_playtime\": \"<integer>\"\n    }\n   ]\n  },\n  {\n   \"id\": \"<string>\",\n   \"name\": \"<string>\",\n   \"description\": \"<string>\",\n   \"games\": [\n    {\n     \"id\": \"<string>\",\n     \"name\": \"<string>\",\n     \"min_playtime\": \"<integer>\",\n     \"max_playtime\": \"<integer>\"\n    },\n    {\n     \"id\": \"<string>\",\n     \"name\": \"<string>\",\n     \"min_playtime\": \"<integer>\",\n     \"max_playtime\": \"<integer>\"\n    }\n   ]\n  }\n ]\n}"
 						}
 					]
 				},
@@ -1184,33 +1184,6 @@
 					},
 					"response": [
 						{
-							"name": "Bad request",
-							"originalRequest": {
-								"method": "POST",
-								"header": [],
-								"url": {
-									"raw": "{{baseUrl}}/groups",
-									"host": [
-										"{{baseUrl}}"
-									],
-									"path": [
-										"groups"
-									]
-								}
-							},
-							"status": "Bad Request",
-							"code": 400,
-							"_postman_previewlanguage": "json",
-							"header": [
-								{
-									"key": "Content-Type",
-									"value": "application/json"
-								}
-							],
-							"cookie": [],
-							"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
-						},
-						{
 							"name": "Server error",
 							"originalRequest": {
 								"method": "POST",
@@ -1227,6 +1200,33 @@
 							},
 							"status": "Internal Server Error",
 							"code": 500,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								}
+							],
+							"cookie": [],
+							"body": "{\n \"payload\": {\n  \"apiErrorMessage\": \"<string>\",\n  \"applicationErrorMessage\": \"<string>\",\n  \"errorCode\": \"<integer>\"\n }\n}"
+						},
+						{
+							"name": "Bad request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/groups",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"groups"
+									]
+								}
+							},
+							"status": "Bad Request",
+							"code": 400,
 							"_postman_previewlanguage": "json",
 							"header": [
 								{
@@ -1272,6 +1272,39 @@
 		{
 			"name": "authentication",
 			"item": [
+				{
+					"name": "Sign in",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \n\t\"userId\" : \"Q\",\n\t\"name\" : \"Quintela\",\n\t\"password\" : \"1234\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{CiborgBaseUrl}}/signIn",
+							"host": [
+								"{{CiborgBaseUrl}}"
+							],
+							"path": [
+								"signIn"
+							]
+						}
+					},
+					"response": []
+				},
 				{
 					"name": "Login",
 					"request": {
