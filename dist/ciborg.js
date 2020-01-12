@@ -5772,11 +5772,13 @@ module.exports = {
     },
 
     updateGroup: async function(args) {
+        let groupId;
         try {
             if (!args) {
                 console.log("No args on updateGroup");
             } else {
                 let group = args;
+                groupId = group.id;
                 return await groups.updateGroup(group);
             }
         } catch (err) {
@@ -5787,7 +5789,7 @@ module.exports = {
                 };
             } else {
                 err.redirect = {
-                    hash: `group/${args.id}`,
+                    hash: `group/${groupId}`,
                     data: undefined
                 };
             }
@@ -5892,10 +5894,7 @@ function group(data, routesManager) {
             };
             group.games.push(game);
         }
-        let alertmsg = {message: 'Group updated with success.'};
-        alertmsg.redirect = { hash: 'updateGroup', data: group };
-        routesManager.redirectAndShowAlert(alertmsg, 1);
- 
+        routesManager.changeRoute('updateGroup', group);
     }
 
     const searchGameForm = document.querySelector("#searchGameForm");
@@ -5935,9 +5934,7 @@ function group(data, routesManager) {
                 const searchGameIds = document.getElementsByName("searchGameId");
                 const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
                 const groupId = document.querySelector("#groupId").value
-                let alertmsg = {message: 'Game ' + gameId + ' added with success.'};
-                alertmsg.redirect = { hash: 'addGameToGroup', data: { groupId: groupId, gameId: gameId } };
-                routesManager.redirectAndShowAlert(alertmsg, 1);
+                routesManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
             }
         } catch (e) {
             routesManager.showAlert(e.message, 3);
@@ -5953,9 +5950,7 @@ function group(data, routesManager) {
         const gameIds = document.getElementsByName("gameId");
         const gameId = gameIds[e.toElement.attributes[0].value].innerText;
         const groupId = document.querySelector("#groupId").value;
-        let alertmsg = {message: 'Game ' + gameId + ' removed with success.'};
-        alertmsg.redirect = { hash: 'removeGameFromGroup', data: { groupId: groupId, gameId: gameId } };
-        routesManager.redirectAndShowAlert(alertmsg, 1);
+        routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
     }
 }
 
@@ -6371,7 +6366,8 @@ function getGroup(id) {
                 groupId: rsp.payload.id,
                 groupName: rsp.payload.name,
                 groupDescription: rsp.payload.description,
-                games: rsp.payload.games
+                games: rsp.payload.games,
+                groupOwner: rsp.payload.owner,
             };
             return group;
         });
@@ -6863,28 +6859,24 @@ function createGroup(data, routesManager) {
     let alertmsg = {message: 'Group created with success.'};
     alertmsg.redirect = { hash: 'groups', data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
-    //routesManager.changeRoute('groups');
 }
 
 function updateGroup(data, routesManager) {
     let alertmsg = {message: 'Group updated with success.'};
     alertmsg.redirect = { hash: `group/${data}`, data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
-    //routesManager.changeRoute(`group/${data}`);
 }
 
 function addGameToGroup(data, routesManager) {
     let alertmsg = {message: 'Game added with success.'};
     alertmsg.redirect = { hash: `group/${data}`, data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
-    //routesManager.changeRoute(`group/${data}`);
 }
 
 function removeGameFromGroup(data, routesManager) {
     let alertmsg = {message: 'Game removed with success.'};
     alertmsg.redirect = { hash: `group/${data}`, data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
-    //routesManager.changeRoute(`group/${data}`);
 }
 
 /***/ })
