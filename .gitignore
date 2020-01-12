@@ -1,5 +1,5 @@
 .env
-#dist/*
+dist/*
 
 # do not ignore
 !.gitkeep
