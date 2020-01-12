@@ -52,14 +52,14 @@ function group(data, routesManager) {
             let games = response.payload;
             let rows = "<td colspan='4' class='no-records'>No records found!</td>";
             for (let i = 0; i < games.length; i++) {
-                if(i == 0){
+                if (i == 0) {
                     rows = "";
                 }
                 let game = games[i];
 
                 let minPlayTime = game.min_playtime ? game.min_playtime : "-";
                 let maxPlayTime = game.max_playtime ? game.max_playtime : "-";
-                
+
                 let addGameToGroupButton = `<button id="${i}" name="addGameToGroup" type="button" class="btn submitBtn">Add to group</button>`;
                 let row = `<tr> <td name="searchGameId">${game.id}</td> <td>${game.name}</td> <td>${minPlayTime}</td> <td>${maxPlayTime}</td> <td>${addGameToGroupButton}</td> </tr>`;
                 rows += row;
@@ -93,7 +93,7 @@ function group(data, routesManager) {
         const gameIds = document.getElementsByName("gameId");
         const gameId = gameIds[e.toElement.attributes[0].value].innerText;
         const groupId = document.querySelector("#groupId").value;
-        routeManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
+        routesManager.changeRoute('removeGameFromGroup', { groupId: groupId, gameId: gameId });
     }
 }
 
