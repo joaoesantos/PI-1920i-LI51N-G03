@@ -75,7 +75,7 @@ function group(data, routesManager) {
 
             function handleAddGameToGroupButton(e) {
                 const searchGameIds = document.getElementsByName("searchGameId");
-                const gameId = searchGameIds[e.toElement.attributes[0].value].innerText;
+                const gameId = searchGameIds[e.target.attributes[0].value].innerText;
                 const groupId = document.querySelector("#groupId").value
                 routesManager.changeRoute('addGameToGroup', { groupId: groupId, gameId: gameId });
             }
