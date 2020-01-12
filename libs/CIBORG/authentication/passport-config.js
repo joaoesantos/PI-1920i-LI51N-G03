@@ -5,24 +5,29 @@ let passportInitializer = (bcrypt, localStrategy, CiborgError) => {
     function initialize(passport, getUserById) {
         const authenticateUser = async(userId, password, done) => {
             try {
-                const user = (await getUserById(userId)).body;
+                const userData = await getUserById(userId);
+                const user = userData.body;
                 let isMatch = await bcrypt.compare(password, user.password);
 
                 if (isMatch) {
                     return done(null, user);
                 } else {
-                    return done(null, false, { message: "Password Incorrect." });
+                    throw new CiborgError(null,
+                        'Error in passport initializer.',
+                        'Password Incorrect.',
+                        '500' // Internal Server Error
+                    );
                 }
             } catch (err) {
-                if (err instanceof CiborgError) {
-                    throw err;
-                } else {
-                    throw new CiborgError(err,
+                if (!(err instanceof CiborgError)) {
+                    err = new CiborgError(err,
                         'Error in passport initializer.',
                         'Unable to login.',
                         '500' // Internal Server Error
                     );
                 }
+                console.log(err)
+                done(err);
             }
         };
 
@@ -32,9 +37,7 @@ let passportInitializer = (bcrypt, localStrategy, CiborgError) => {
         }, authenticateUser));
 
         passport.serializeUser((user, done) => done(null, user.userId));
-        //passport.deserializeUser((id, done) => done(null, getUserById(id)).body));
         passport.deserializeUser((id, done) => done(null, id));
-
     }
     return initialize;
 }

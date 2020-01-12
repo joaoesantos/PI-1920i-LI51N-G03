@@ -47,7 +47,7 @@ let validator = function(CiborgError) {
     function validateEmpty(...args) {
         debug.extend('validateEmpty')('Validating...');
         args.forEach((arg) => {
-            if(!arg) {
+            if (!arg) {
                 debug.extend('validateEmpty')('Validation Error: data is empty/undefined/null.');
                 throw new CiborgError(null,
                     'Validation Error: data is empty/undefined/null.',
@@ -57,23 +57,6 @@ let validator = function(CiborgError) {
             }
         });
         debug.extend('validateEmpty')('Validation OK.');
-    };
-
-    // Validates if data is in json format
-    function validateJson(data) {
-        debug.extend('validateJson')('Validating...');
-        try {
-            JSON.parse(data);
-        } catch (e) {
-            debug.extend('validateNumeric')('Validation Error: ' + data + ' is not in json format.');
-            throw new CiborgError(null,
-                'Validation Error: ' + data + ' is not in json format.',
-                'Data is not in json format',
-                '400' // Bad Request
-            );
-
-        }
-        debug.extend('validateJson')('Validation OK.');
     };
 
     // Validates if game data is in right format for put command
@@ -128,7 +111,6 @@ let validator = function(CiborgError) {
             );
         };
         validateEmpty(data.id, data.name)
-        validateJson(data);
         debug.extend('validateGameFormat')('Validation OK.');
     };
 
@@ -172,7 +154,6 @@ let validator = function(CiborgError) {
             );
         };
         validateEmpty(data.name)
-        validateJson(data);
         debug.extend('validateGroupWithNoIdFormat')('Validation OK.');
     };
 
@@ -211,14 +192,14 @@ let validator = function(CiborgError) {
                 '400' // Bad Request
             );
         }
-        
-        if(!data.hasOwnProperty('owner')) {
+
+        if (!data.hasOwnProperty('owner')) {
             debug.extend('validateGroupFormat')('Validation Error: group does not have a "owner" field.');
             throw new CiborgError(null,
                 'Validation Error: group does not have a "owner" field.',
                 'Failed to create group, it does not have a "owner" field.',
                 '400' // Bad Request
-            ); 
+            );
         } else {
             data.games.forEach(game => {
                 validateGameFormat(game);
@@ -233,12 +214,11 @@ let validator = function(CiborgError) {
             );
         };
         validateEmpty(data.id, data.name, data.owner)
-        validateJson(data);
         debug.extend('validateGroupFormat')('Validation OK.');
     };
 
-     // Validates if user data is in right format for post command
-     function validateSignInFormat(data) {
+    // Validates if user data is in right format for post command
+    function validateSignInFormat(data) {
         debug.extend('validateSignInFormat')('Validating...');
         if (!data.hasOwnProperty('userId')) {
             debug.extend('validateLoginFormat')('Validation Error: login does not have a "userId" field.');
@@ -274,8 +254,7 @@ let validator = function(CiborgError) {
         };
         validateEmpty(data.userId, data.name, data.password);
         validateAlfanumeric(data.userId);
-        validateJson(data);
-     };
+    };
 
     // Validates if login data is in right format for put command
     function validateLoginFormat(data) {
@@ -305,7 +284,6 @@ let validator = function(CiborgError) {
             );
         };
         validateEmpty(data.userId, data.password);
-        validateJson(data);
     };
 
 }

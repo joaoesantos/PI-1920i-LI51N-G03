@@ -26,7 +26,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, securityUti
         let payload = { payload: data.body };
         rsp.json(payload);
     }
-    
+
     //sign in new user
     async function signIn(req, rsp) {
         try {
@@ -59,62 +59,58 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, securityUti
             CiborgValidator.validateLoginFormat(req.body);
             debug.extend('login')('Logging in.');
             passport.authenticate("local", function(err, user, info) {
-                if (!user) {
-                    err = new CiborgError(err,
-                        'Error in service: login.',
-                        'No user with that username was found.',
-                        '404'
-                    );
-                }
-                if (!user && !err) {
-                    err = new CiborgError(err,
-                        'Error in service: login.',
-                        'Wrong username or credentials.',
-                        '401' // Unauthorized
-                    );
-                }
-                if (err) {
+                try {
+                    if (err) {
+                        throw err;
+                    } else if (!user) {
+                        throw new CiborgError(err,
+                            'Error in service: login.',
+                            'No user with that username was found.',
+                            '404'
+                        );
+                    } else {
+                        req.logIn(user, function(err) {
+                            try {
+                                if (err) {
+                                    err = new CiborgError(err,
+                                        'Error in service: login request.',
+                                        'Unable to login.',
+                                        '500' // Internal Server Error
+                                    );
+                                    debug.extend('login')(err);
+                                    err.resolveErrorResponse(rsp);
+                                } else {
+                                    resolveServiceResponse({
+                                        statusCode: 200,
+                                        body: {
+                                            message: "User logged in.",
+                                            user: user
+                                        }
+                                    }, rsp);
+                                }
+                            } catch (err) {
+                                if (!(err instanceof CiborgError)) {
+                                    err = new CiborgError(err,
+                                        'Error in service: login.',
+                                        'Unable to login.',
+                                        '500' // Internal Server Error
+                                    );
+                                }
+                                debug.extend('login')(err);
+                                err.resolveErrorResponse(rsp);
+                            }
+                        });
+                    }
+                } catch (err) {
                     if (!(err instanceof CiborgError)) {
                         err = new CiborgError(err,
-                            'Error in service: login.',
-                            'Unable to login.',
+                            'Error in passport authenticate.',
+                            'Error while authenticating.',
                             '500' // Internal Server Error
                         );
                     }
                     debug.extend('login')(err);
                     err.resolveErrorResponse(rsp);
-                } else {
-                    req.logIn(user, function(err) {
-                        try {
-                            if (err) {
-                                err = new CiborgError(err,
-                                    'Error in service: login request.',
-                                    'Unable to login.',
-                                    '500' // Internal Server Error
-                                );
-                                debug.extend('login')(err);
-                                err.resolveErrorResponse(rsp);
-                            } else {
-                                resolveServiceResponse({
-                                    statusCode: 200,
-                                    body: {
-                                        message: "User logged in.",
-                                        user: user
-                                    }
-                                }, rsp);
-                            }
-                        } catch (err) {
-                            if (!(err instanceof CiborgError)) {
-                                err = new CiborgError(err,
-                                    'Error in service: login.',
-                                    'Unable to login.',
-                                    '500' // Internal Server Error
-                                );
-                            }
-                            debug.extend('login')(err);
-                            err.resolveErrorResponse(rsp);
-                        }
-                    });
                 }
             })(req, rsp, next);
         } catch (err) {
