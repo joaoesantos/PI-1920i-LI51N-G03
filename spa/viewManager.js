@@ -51,13 +51,15 @@ function signIn(data, routesManager) {
             const name = document.querySelector("#name");
             const password = document.querySelector("#password");
             const repassword = document.querySelector("#repassword");
-            if(password.value === repassword.value) {
+            if (password.value === repassword.value) {
                 await authenticationModel.signIn(userId.value, name.value, password.value);
-                let alertmsg = {message: 'Account created with success.'};
+                let alertmsg = { message: 'Account created with success.' };
                 alertmsg.redirect = { hash: "login", data: undefined };
                 routesManager.redirectAndShowAlert(alertmsg, 1);
             } else {
-                routesManager.showAlert('Passwords do not match.', 3);
+                password.value = "";
+                repassword.value = "";
+                routesManager.showAlert('Passwords do not match, insert matching passowrds.', 3);
             }
         } catch (err) {
             routesManager.showAlert(err.message, 3);
@@ -124,25 +126,25 @@ function groups(data, routesManager) {
 }
 
 function createGroup(data, routesManager) {
-    let alertmsg = {message: 'Group created with success.'};
+    let alertmsg = { message: 'Group created with success.' };
     alertmsg.redirect = { hash: 'groups', data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
 }
 
 function updateGroup(data, routesManager) {
-    let alertmsg = {message: 'Group updated with success.'};
+    let alertmsg = { message: 'Group updated with success.' };
     alertmsg.redirect = { hash: `group/${data}`, data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
 }
 
 function addGameToGroup(data, routesManager) {
-    let alertmsg = {message: 'Game added with success.'};
+    let alertmsg = { message: 'Game added with success.' };
     alertmsg.redirect = { hash: `group/${data}`, data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
 }
 
 function removeGameFromGroup(data, routesManager) {
-    let alertmsg = {message: 'Game removed with success.'};
+    let alertmsg = { message: 'Game removed with success.' };
     alertmsg.redirect = { hash: `group/${data}`, data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
 }
