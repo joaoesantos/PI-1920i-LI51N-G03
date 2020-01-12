@@ -127,26 +127,22 @@ function createGroup(data, routesManager) {
     let alertmsg = {message: 'Group created with success.'};
     alertmsg.redirect = { hash: 'groups', data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
-    //routesManager.changeRoute('groups');
 }
 
 function updateGroup(data, routesManager) {
     let alertmsg = {message: 'Group updated with success.'};
     alertmsg.redirect = { hash: `group/${data}`, data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
-    //routesManager.changeRoute(`group/${data}`);
 }
 
 function addGameToGroup(data, routesManager) {
     let alertmsg = {message: 'Game added with success.'};
     alertmsg.redirect = { hash: `group/${data}`, data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
-    //routesManager.changeRoute(`group/${data}`);
 }
 
 function removeGameFromGroup(data, routesManager) {
     let alertmsg = {message: 'Game removed with success.'};
     alertmsg.redirect = { hash: `group/${data}`, data: undefined };
     routesManager.redirectAndShowAlert(alertmsg, 1);
-    //routesManager.changeRoute(`group/${data}`);
 }
