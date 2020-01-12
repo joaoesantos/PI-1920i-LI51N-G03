@@ -9,7 +9,6 @@ let validator = function(CiborgError) {
         validateLoginFormat: validateLoginFormat,
         validateNumeric: validateNumeric,
         validateAlfanumeric: validateAlfanumeric,
-        validateJson: validateJson,
         validateGroupWithNoIdFormat: validateGroupWithNoIdFormat,
         validateGroupFormat: validateGroupFormat
     };
@@ -42,6 +41,22 @@ let validator = function(CiborgError) {
         } else {
             debug.extend('validateAlfanumeric')('Validation OK.');
         }
+    };
+
+    // Validates if args are empty, undifened or null
+    function validateEmpty(...args) {
+        debug.extend('validateEmpty')('Validating...');
+        args.forEach((arg) => {
+            if(!arg) {
+                debug.extend('validateEmpty')('Validation Error: data is empty/undefined/null.');
+                throw new CiborgError(null,
+                    'Validation Error: data is empty/undefined/null.',
+                    'Data is empty/undefined/null',
+                    '400' // Bad Request
+                );
+            }
+        });
+        debug.extend('validateEmpty')('Validation OK.');
     };
 
     // Validates if data is in json format
@@ -112,6 +127,8 @@ let validator = function(CiborgError) {
                 '400' // Bad Request
             );
         };
+        validateEmpty(data.id, data.name)
+        validateJson(data);
         debug.extend('validateGameFormat')('Validation OK.');
     };
 
@@ -154,6 +171,8 @@ let validator = function(CiborgError) {
                 '400' // Bad Request
             );
         };
+        validateEmpty(data.name)
+        validateJson(data);
         debug.extend('validateGroupWithNoIdFormat')('Validation OK.');
     };
 
@@ -213,6 +232,8 @@ let validator = function(CiborgError) {
                 '400' // Bad Request
             );
         };
+        validateEmpty(data.id, data.name, data.owner)
+        validateJson(data);
         debug.extend('validateGroupFormat')('Validation OK.');
     };
 
@@ -251,7 +272,9 @@ let validator = function(CiborgError) {
                 '400' // Bad Request
             );
         };
+        validateEmpty(data.userId, data.name, data.password);
         validateAlfanumeric(data.userId);
+        validateJson(data);
      };
 
     // Validates if login data is in right format for put command
@@ -281,6 +304,8 @@ let validator = function(CiborgError) {
                 '400' // Bad Request
             );
         };
+        validateEmpty(data.userId, data.password);
+        validateJson(data);
     };
 
 }
