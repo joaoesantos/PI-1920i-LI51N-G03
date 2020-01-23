@@ -145,9 +145,7 @@ let webApi = function(Props, services, CiborgError, CiborgValidator, securityUti
                 } else {
                     resolveServiceResponse({
                         statusCode: 204,
-                        body: {
-                            message: "User logged out."
-                        }
+                        body: {}
                     }, rsp);
                 }
             });
