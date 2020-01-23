@@ -242,7 +242,7 @@ let GroupService = (Props, HttpCall, GameServices, CiborgError) => {
                     await this.updateGroup(group);
                     debug.extend('addGameToGroup')('Game ' + gameId + 'removed from group ' + groupId);
                     return {
-                        statusCode: 202,
+                        statusCode: 204,
                         body: {}
                     };
 

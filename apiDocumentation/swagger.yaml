@@ -674,7 +674,7 @@ paths:
           schema:
             type: string
       responses:
-        '202':
+        '204':
           description: search results matching criteria
           content:
             application/json:
@@ -968,7 +968,7 @@ paths:
         Attemps to logout a given user with a session id.
             
       responses:
-        '200':
+        '204':
           description: Logout success.
           content:
             application/json:
