@@ -974,14 +974,6 @@ paths:
             application/json:
               schema:
                 type: object
-                properties:
-                  payload:
-                    type: object
-                    properties:
-                      message:
-                        type: string
-                        description: Technical message.
-                        example: user logged out
         '401':
           description: Unauthorized
           content:
